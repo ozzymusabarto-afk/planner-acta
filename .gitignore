@@ -1,0 +1,31 @@
+# Dependências e caches
+node_modules/
+package-lock.json
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Variáveis de ambiente, senhas e credenciais
+.env
+.env.*
+*.key
+*.pem
+*.token
+credentials*
+id_rsa*
+
+# Arquivos temporários e logs
+*.log
+*.tmp
+*.temp
+
+# Ferramentas de IA / Antigravity / Scratch
+.gemini/
+.system_generated/
+scratch/
+
+# Configurações de IDEs
+.vscode/
+.idea/

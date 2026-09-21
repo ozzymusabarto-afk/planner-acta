@@ -1,0 +1,324 @@
+/* PLANNER ACTA — Identidade Visual Editorial "Caderno Inteligente da Família" */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-title: 'Playfair Display', Georgia, serif;
+  --font-script: 'Caveat', cursive, handwriting;
+
+  /* Tema padrão da referência: 🌿 Natureza (Tons terrosos, verde floresta e marfim suave) */
+  --bg-page: #FAF7F0;
+  --bg-sidebar: #FAF7F0;
+  --bg-surface: #FFFFFF;
+  --bg-surface-soft: #F4EFE6;
+  --bg-card-hover: #F8F4EC;
+  --text-main: #28302A;
+  --text-muted: #667267;
+  --text-light: #8E9A8F;
+  --border-color: #E8E2D5;
+  --border-light: #F0ECE4;
+  
+  --primary: #2F5233;
+  --primary-hover: #223D26;
+  --primary-light: #EBF3ED;
+  --primary-text: #FFFFFF;
+
+  --terracotta: #A95337;
+  --terracotta-hover: #8D4129;
+  --terracotta-light: #FAECE7;
+
+  --slate-blue: #325B6C;
+  --slate-blue-hover: #264654;
+  --slate-blue-light: #E8F1F5;
+
+  --amber-soft: #D97706;
+  --amber-light: #FEF3C7;
+  
+  --card-radius: 1.125rem;
+  --shadow-soft: 0 2px 10px rgba(40, 48, 42, 0.04), 0 1px 3px rgba(40, 48, 42, 0.02);
+  --shadow-md: 0 6px 18px rgba(40, 48, 42, 0.06), 0 2px 6px rgba(40, 48, 42, 0.03);
+}
+
+/* 📜 Clássico */
+[data-theme="classico"] {
+  --bg-page: #F7F3EB;
+  --bg-sidebar: #F7F3EB;
+  --bg-surface: #FFFFFF;
+  --bg-surface-soft: #EDE5D8;
+  --bg-card-hover: #F4ECE0;
+  --text-main: #242220;
+  --text-muted: #6E6861;
+  --border-color: #E2D8CA;
+  --primary: #1E3A5F;
+  --primary-hover: #142842;
+  --primary-light: #E9EFF6;
+  --primary-text: #FFFFFF;
+  --terracotta: #8C472E;
+  --slate-blue: #2E516B;
+}
+
+/* ☀️ Alegre */
+[data-theme="alegre"] {
+  --bg-page: #FFFDF5;
+  --bg-sidebar: #FFFDF5;
+  --bg-surface: #FFFFFF;
+  --bg-surface-soft: #FDF4D4;
+  --bg-card-hover: #FCF7E6;
+  --text-main: #332612;
+  --text-muted: #786542;
+  --border-color: #F8E5B8;
+  --primary: #2F5233;
+  --primary-hover: #223D26;
+  --primary-light: #EBF3ED;
+  --primary-text: #FFFFFF;
+  --terracotta: #D97706;
+  --slate-blue: #0284C7;
+}
+
+/* ✨ Elegante */
+[data-theme="elegante"] {
+  --bg-page: #F8FAFC;
+  --bg-sidebar: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-soft: #EFF3F8;
+  --bg-card-hover: #F1F5F9;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --border-color: #E2E8F0;
+  --primary: #1E293B;
+  --primary-hover: #0F172A;
+  --primary-light: #E2E8F0;
+  --primary-text: #FFFFFF;
+  --terracotta: #B45309;
+  --slate-blue: #475569;
+}
+
+/* 🎨 Criativo */
+[data-theme="criativo"] {
+  --bg-page: #FAF5FF;
+  --bg-sidebar: #FAF5FF;
+  --bg-surface: #FFFFFF;
+  --bg-surface-soft: #F3E8FF;
+  --bg-card-hover: #F5EEFD;
+  --text-main: #2E1065;
+  --text-muted: #6B4F97;
+  --border-color: #E9D5FF;
+  --primary: #6D28D9;
+  --primary-hover: #5B21B6;
+  --primary-light: #EDE9FE;
+  --primary-text: #FFFFFF;
+  --terracotta: #A855F7;
+  --slate-blue: #0D9488;
+}
+
+/* Estilos de Tipografia e Base */
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
+  min-height: 100vh;
+}
+
+.font-editorial-title {
+  font-family: var(--font-title);
+  letter-spacing: -0.01em;
+}
+
+.font-editorial-serif {
+  font-family: var(--font-serif);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+/* Cartões do Caderno Inteligente */
+.acta-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.acta-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Itens da Barra Lateral (Menu da Esquerda) */
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.18s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.sidebar-nav-item:hover {
+  background-color: var(--bg-surface-soft);
+  color: var(--text-main);
+}
+
+.sidebar-nav-item.active {
+  background-color: var(--primary);
+  color: #FFFFFF !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(47, 82, 51, 0.2);
+}
+
+.sidebar-nav-item.active i {
+  color: #FFFFFF !important;
+}
+
+/* 3 Botões de Ação Hero da "Minha Casa" */
+.hero-btn-green {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.hero-btn-green:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.hero-btn-terracotta {
+  background-color: var(--terracotta);
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.hero-btn-terracotta:hover {
+  background-color: var(--terracotta-hover);
+  transform: translateY(-1px);
+}
+
+.hero-btn-slate {
+  background-color: var(--slate-blue);
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.hero-btn-slate:hover {
+  background-color: var(--slate-blue-hover);
+  transform: translateY(-1px);
+}
+
+/* Capas de Livro Realistas para "Minha Biblioteca" */
+.book-cover {
+  position: relative;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(40, 48, 42, 0.12), 0 2px 5px rgba(40, 48, 42, 0.08);
+  aspect-ratio: 3/4;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.book-cover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(40, 48, 42, 0.18), 0 4px 8px rgba(40, 48, 42, 0.1);
+}
+
+.book-cover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(255,255,255,0.15) 50%, rgba(0,0,0,0.2) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Status Pills Humanas e Suaves */
+.status-pill-compreendeu {
+  background-color: #D9F0E1;
+  color: #1E5631;
+  border: 1px solid #C3E6CF;
+}
+
+.status-pill-desenvolvendo {
+  background-color: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.status-pill-retomar {
+  background-color: #E0F2FE;
+  color: #0369A1;
+  border: 1px solid #BAE6FD;
+}
+
+/* Folha de Dossiê A4 Elegante */
+.dossie-paper {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(40, 48, 42, 0.05);
+  border-radius: 1.25rem;
+  position: relative;
+}
+
+/* Animações e Transições de Tela */
+.tab-pane {
+  animation: fadeInSoft 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Impressão em PDF Limpa e Editorial */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 10.5pt !important;
+  }
+
+  .no-print,
+  #sidebarNav,
+  #mobileHeader,
+  #modalOverlay,
+  .print-hide {
+    display: none !important;
+  }
+
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  #tab-dossie,
+  #printableDossieArea {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .dossie-paper {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .print-avoid-break {
+    page-break-inside: avoid;
+  }
+}
