@@ -14,18 +14,18 @@
   <!-- Estilos e Temas do Planner ACTA -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#FAF7F0] text-[#28302A] font-sans antialiased min-h-screen flex flex-col md:flex-row">
+<body class="font-sans antialiased min-h-screen flex flex-col md:flex-row">
 
   <!-- ================================================================= -->
   <!-- BARRA LATERAL FIXA / MENU DA ESQUERDA (DESKTOP)                   -->
   <!-- ================================================================= -->
-  <aside id="sidebarNav" class="w-full md:w-60 lg:w-64 bg-[#FAF7F0] border-r border-[#E8E2D5] flex-shrink-0 flex flex-col justify-between p-5 print-hide md:sticky md:top-0 md:h-screen z-30">
+  <aside id="sidebarNav" class="w-full md:w-60 lg:w-64 border-r flex-shrink-0 flex flex-col justify-between p-5 print-hide md:sticky md:top-0 md:h-screen z-30">
     
     <!-- Topo da Sidebar: Logo e Marca -->
     <div class="space-y-6">
       <div class="flex items-center gap-2.5 cursor-pointer" onclick="ActaApp.switchTab('casa')">
-        <div class="w-9 h-9 rounded-full bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center text-lg shrink-0">
-          <i class="fa-solid fa-leaf"></i>
+        <div class="w-9 h-9 rounded-2xl bg-white/80 border border-[#E8E2D5] flex items-center justify-center shrink-0 shadow-xs">
+          <span class="theme-title-badge w-6 h-6"></span>
         </div>
         <div>
           <h1 class="font-editorial-serif text-lg font-bold text-[#28302A] leading-tight tracking-tight">ACTA</h1>
@@ -33,11 +33,11 @@
         </div>
       </div>
 
-      <!-- Menu Principal de Navegação Lateral -->
+      <!-- Menu Principal de Navegação Lateral (14 Módulos da Família) -->
       <nav class="space-y-1">
         <button data-nav-target="casa" class="sidebar-nav-item active">
           <i class="fa-solid fa-house-chimney w-4 text-center text-sm"></i>
-          <span>Minha Casa</span>
+          <span>Home</span>
         </button>
 
         <button data-nav-target="criancas" class="sidebar-nav-item">
@@ -45,14 +45,34 @@
           <span>Crianças</span>
         </button>
 
+        <button data-nav-target="avaliacoes" class="sidebar-nav-item">
+          <i class="fa-solid fa-clipboard-check w-4 text-center text-sm"></i>
+          <span>Avaliações</span>
+        </button>
+
         <button data-nav-target="biblioteca" class="sidebar-nav-item">
           <i class="fa-solid fa-book-bookmark w-4 text-center text-sm"></i>
           <span>Biblioteca</span>
         </button>
 
+        <button data-nav-target="leituras" class="sidebar-nav-item">
+          <i class="fa-solid fa-book-open-reader w-4 text-center text-sm"></i>
+          <span>Leituras & Literatura</span>
+        </button>
+
+        <button data-nav-target="filmes" class="sidebar-nav-item">
+          <i class="fa-solid fa-film w-4 text-center text-sm"></i>
+          <span>Filmes & Cultura</span>
+        </button>
+
+        <button data-nav-target="calendario" class="sidebar-nav-item">
+          <i class="fa-solid fa-calendar-days w-4 text-center text-sm"></i>
+          <span>Calendário</span>
+        </button>
+
         <button data-nav-target="semana" class="sidebar-nav-item">
           <i class="fa-solid fa-calendar-week w-4 text-center text-sm"></i>
-          <span>Semana</span>
+          <span>Planejamento</span>
         </button>
 
         <button data-nav-target="registros" class="sidebar-nav-item">
@@ -60,14 +80,24 @@
           <span>Registros</span>
         </button>
 
+        <button data-nav-target="passeios" class="sidebar-nav-item">
+          <i class="fa-solid fa-compass w-4 text-center text-sm"></i>
+          <span>Passeios & Extras</span>
+        </button>
+
         <button data-nav-target="caminhada" class="sidebar-nav-item">
           <i class="fa-solid fa-chart-simple w-4 text-center text-sm"></i>
-          <span>Caminhada</span>
+          <span>Acompanhamento</span>
+        </button>
+
+        <button data-nav-target="linhadotempo" class="sidebar-nav-item">
+          <i class="fa-solid fa-timeline w-4 text-center text-sm"></i>
+          <span>Linha do Tempo</span>
         </button>
 
         <button data-nav-target="dossie" class="sidebar-nav-item">
           <i class="fa-solid fa-file-invoice w-4 text-center text-sm"></i>
-          <span>Dossiê</span>
+          <span>Dossiês & Relatórios</span>
         </button>
 
         <button data-nav-target="configuracoes" class="sidebar-nav-item">
@@ -104,6 +134,11 @@
           <option value="criativo">🎨 Criativo</option>
         </select>
       </div>
+
+      <!-- Decoração Temática da Base da Barra Lateral (Exclusiva da Identidade ACTA) -->
+      <div class="pt-2 flex justify-center overflow-hidden rounded-2xl">
+        <img id="sidebarDecorImg" src="assets/sidebar-decor-natureza.png" alt="Decoração do tema" class="w-full max-h-32 object-contain drop-shadow-xs transition-all duration-500">
+      </div>
     </div>
 
   </aside>
@@ -116,47 +151,69 @@
     <!-- ------------------------------------------------------------- -->
     <!-- TELA 1: MINHA CASA (PAINEL PRINCIPAL)                         -->
     <!-- ------------------------------------------------------------- -->
-    <div id="tab-casa" class="tab-pane space-y-8">
+    <div id="tab-casa" class="tab-pane space-y-7">
       
-      <!-- Cabeçalho Central com Marca e Ilustração de Livros -->
-      <div class="relative pt-4 pb-2 flex items-center justify-between">
-        <div class="space-y-1 mx-auto text-center">
-          <h2 class="font-editorial-serif text-3xl sm:text-4xl font-bold tracking-tight text-[#28302A]">
-            ACTA
-          </h2>
-          <p class="text-xs sm:text-sm text-[#667267] font-medium tracking-wide">
-            Planeje. Registre. Acompanhe.
-          </p>
-          <p class="font-script text-2xl sm:text-3xl text-[#2F5233] pt-1">
-            O que vamos fazer hoje?
-          </p>
+      <!-- 1. BANNER SUPERIOR ILUSTRADO DO MOCKUP (CAPA DE PLANNER DIGITAL PREMIUM) -->
+      <div id="heroBannerContainer" class="relative w-full rounded-3xl overflow-hidden border border-[#E8E2D5] shadow-xs hero-illustrated-banner min-h-[220px] sm:min-h-[250px] md:min-h-[270px] flex items-center justify-center bg-cover bg-center transition-all duration-500" style="background-image: url('assets/banner-natureza.jpg');">
+        <!-- Overlay sutil transparente (para não esconder a arte ilustrada nas laterais) -->
+        <div id="heroBannerOverlay" class="absolute inset-0 z-0 transition-all duration-500 pointer-events-none" style="background: transparent;"></div>
+
+        <!-- Pílula Flutuante no Canto Superior Direito do Banner -->
+        <div class="absolute top-3.5 right-3.5 sm:top-5 sm:right-6 z-20">
+          <div class="bg-white/95 backdrop-blur-xs border border-[#E8E2D5] rounded-full px-3.5 py-1.5 flex items-center gap-2 shadow-xs text-xs font-semibold text-[#28302A] cursor-pointer hover:bg-white transition" onclick="ActaApp.switchTab('criancas')" title="Alternar perfil da família">
+            <img id="bannerUserAvatar" src="assets/avatar-joao.png" class="w-5 h-5 rounded-full object-cover">
+            <span>Olá, família!</span>
+            <i class="fa-solid fa-chevron-down text-[9px] text-[#667267]"></i>
+          </div>
         </div>
 
-        <!-- Ilustração de Livros e Plantinha no Canto Superior Direito -->
-        <div class="hidden sm:flex items-center justify-center opacity-80 shrink-0 w-24 h-24">
-          <div class="text-center">
-            <i class="fa-solid fa-book-journal-whills text-3xl text-[#A95337]"></i>
-            <i class="fa-solid fa-seedling text-lg text-[#2F5233] block -mt-1"></i>
+        <!-- Conteúdo Central Nobre e Perfeitamente Legível (Área Limpa da Ilustração) -->
+        <div class="relative z-10 w-full max-w-xl mx-auto text-center px-4 py-6 sm:py-8 flex flex-col items-center justify-center space-y-1 sm:space-y-1.5">
+          <!-- Logo ACTA com Emblema Botânico Centralizado -->
+          <div class="flex items-center justify-center gap-2.5">
+            <span class="theme-title-badge w-8 h-8 sm:w-9 sm:h-9 shrink-0 shadow-xs inline-block"></span>
+            <h1 class="font-editorial-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#1F3D24]">ACTA</h1>
+          </div>
+
+          <!-- Lema em Caixa Alta Espaçada -->
+          <p class="text-[10px] sm:text-[11px] md:text-xs font-bold tracking-[0.22em] text-[#334235] uppercase">
+            PLANEJE. REGISTRE. ACOMPANHE.
+          </p>
+
+          <!-- Frase Principal em Caligrafia Nobre -->
+          <p class="font-script text-2xl sm:text-3xl md:text-4xl text-[#1F3D24] leading-snug pt-0.5 sm:pt-1">
+            Grandes conquistas nascem de pequenos passos diários.
+          </p>
+
+          <!-- Citação Clássica de Sabedoria Centralizada -->
+          <div class="pt-1 space-y-0.5">
+            <p class="font-editorial-title italic text-xs sm:text-sm text-[#445246] max-w-md mx-auto">
+              “O coração está inquieto enquanto não repousa em Ti.”
+            </p>
+            <p class="text-[10px] sm:text-[11px] font-semibold text-[#667267]">
+              — Santo Agostinho
+            </p>
           </div>
         </div>
       </div>
 
-      <!-- AS 3 GRANDES AÇÕES PRINCIPAIS (PLANEJAR, REGISTRAR, ACOMPANHAR) -->
+      <!-- 2. AS 3 GRANDES AÇÕES PRINCIPAIS (PLANEJAR, REGISTRAR, ACOMPANHAR) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
         
         <!-- Cartão 1: PLANEJAR -->
-        <div class="acta-card p-6 bg-white border border-[#E8E2D5] flex flex-col justify-between items-center text-center space-y-4 hover:border-[#2F5233]/40">
-          <div class="w-14 h-14 rounded-2xl bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center text-2xl shadow-sm">
-            <i class="fa-regular fa-calendar-days"></i>
+        <div class="hero-card-planejar relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between items-center text-center space-y-4 hover:shadow-md transition">
+          <div class="theme-card-corner-motif"></div>
+          <div class="w-24 h-24 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
+            <img id="illusPlanejarImg" src="assets/illus-planejar-natureza.png" alt="Planejar" class="w-full h-full object-contain drop-shadow-xs transition-all duration-500">
           </div>
-          <div>
-            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wide uppercase">PLANEJAR</h3>
+          <div class="relative z-10">
+            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wider uppercase">PLANEJAR</h3>
             <p class="text-xs text-[#667267] mt-1">Organize os próximos dias.</p>
           </div>
           <button 
             type="button" 
             onclick="ActaApp.switchTab('semana')"
-            class="hero-btn-green w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-sm flex items-center justify-center gap-1.5"
+            class="hero-btn-green w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center justify-center gap-1.5 relative z-10"
           >
             <span>Ver semana</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -164,18 +221,19 @@
         </div>
 
         <!-- Cartão 2: REGISTRAR -->
-        <div class="acta-card p-6 bg-white border border-[#E8E2D5] flex flex-col justify-between items-center text-center space-y-4 hover:border-[#A95337]/40">
-          <div class="w-14 h-14 rounded-2xl bg-[#FAECE7] text-[#A95337] flex items-center justify-center text-2xl shadow-sm">
-            <i class="fa-solid fa-pen-nib"></i>
+        <div class="hero-card-registrar relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between items-center text-center space-y-4 hover:shadow-md transition">
+          <div class="theme-card-corner-motif"></div>
+          <div class="w-24 h-24 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
+            <img id="illusRegistrarImg" src="assets/illus-registrar-natureza.png" alt="Registrar" class="w-full h-full object-contain drop-shadow-xs transition-all duration-500">
           </div>
-          <div>
-            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wide uppercase">REGISTRAR</h3>
-            <p class="text-xs text-[#667267] mt-1">Anote o que aconteceu.</p>
+          <div class="relative z-10">
+            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wider uppercase">REGISTRAR</h3>
+            <p class="text-xs text-[#667267] mt-1">Conte o que aconteceu.</p>
           </div>
           <button 
             type="button" 
             onclick="ActaApp.switchTab('registros')"
-            class="hero-btn-terracotta w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-sm flex items-center justify-center gap-1.5"
+            class="hero-btn-terracotta w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center justify-center gap-1.5 relative z-10"
           >
             <span>Novo registro</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -183,18 +241,19 @@
         </div>
 
         <!-- Cartão 3: ACOMPANHAR -->
-        <div class="acta-card p-6 bg-white border border-[#E8E2D5] flex flex-col justify-between items-center text-center space-y-4 hover:border-[#325B6C]/40">
-          <div class="w-14 h-14 rounded-2xl bg-[#E8F1F5] text-[#325B6C] flex items-center justify-center text-2xl shadow-sm">
-            <i class="fa-solid fa-chart-line"></i>
+        <div class="hero-card-acompanhar relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between items-center text-center space-y-4 hover:shadow-md transition">
+          <div class="theme-card-corner-motif"></div>
+          <div class="w-24 h-24 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
+            <img id="illusAcompanharImg" src="assets/illus-acompanhar-natureza.png" alt="Acompanhar" class="w-full h-full object-contain drop-shadow-xs transition-all duration-500">
           </div>
-          <div>
-            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wide uppercase">ACOMPANHAR</h3>
-            <p class="text-xs text-[#667267] mt-1">Veja a caminhada da criança.</p>
+          <div class="relative z-10">
+            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wider uppercase">ACOMPANHAR</h3>
+            <p class="text-xs text-[#667267] mt-1">Veja a caminhada.</p>
           </div>
           <button 
             type="button" 
             onclick="ActaApp.switchTab('caminhada')"
-            class="hero-btn-slate w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-sm flex items-center justify-center gap-1.5"
+            class="hero-btn-slate w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center justify-center gap-1.5 relative z-10"
           >
             <span>Ver progresso</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -203,26 +262,241 @@
 
       </div>
 
-      <!-- Seção: Quem Vamos Acompanhar? + Frase Inspiradora -->
-      <div class="pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-        <div class="space-y-3 w-full sm:w-auto">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A]">
-            Quem vamos acompanhar?
-          </h3>
-          <div id="casaChildrenList" class="flex items-center gap-3 overflow-x-auto pb-1">
-            <!-- Renderizado dinamicamente via ActaApp.renderCasaTab -->
+      <!-- 3. SEÇÃO: QUEM VAMOS ACOMPANHAR? -->
+      <div class="space-y-3 pt-1">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="theme-script-icon opacity-80 shrink-0"></span>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A]">
+              Quem vamos acompanhar?
+            </h3>
+          </div>
+          <button type="button" onclick="ActaApp.switchTab('criancas')" class="text-xs font-semibold text-[#2F5233] hover:underline">
+            Gerenciar crianças →
+          </button>
+        </div>
+        <div id="casaChildrenList" class="flex items-center gap-3 overflow-x-auto pb-2">
+          <!-- Renderizado dinamicamente via ActaApp.renderCasaTab -->
+        </div>
+      </div>
+
+      <!-- Indicador Discreto de Formação Cultural -->
+      <div id="casaCultureSummaryBar" class="p-3.5 bg-white rounded-2xl border border-[#E8E2D5] flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5] flex items-center justify-center text-sm shadow-2xs">
+            🌿
+          </span>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-[#667267] tracking-wider block">Formação Cultural & Imaginário</span>
+            <span id="casaCultureStatsText" class="text-xs font-semibold text-[#28302A]">Carregando leituras e cinema...</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="ActaApp.switchTab('leituras')" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#FAF7F0] border border-[#E8E2D5] text-[#28302A] hover:bg-[#F2ECE1] transition flex items-center gap-1.5 shadow-2xs">
+            <span>📚 Estante de Leituras</span>
+          </button>
+          <button type="button" onclick="ActaApp.switchTab('filmes')" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#FAF7F0] border border-[#E8E2D5] text-[#28302A] hover:bg-[#F2ECE1] transition flex items-center gap-1.5 shadow-2xs">
+            <span>🎬 Cinemateca</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="planner-divider"></div>
+
+      <!-- 4. GRID INFERIOR: TEMA VISUAL + BIBLIOTECA + CARTÕES MOTIVACIONAIS -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-1">
+        
+        <!-- Coluna Principal (2/3 da largura) -->
+        <div class="lg:col-span-2 space-y-6">
+          
+          <!-- Seletor Visual de Temas -->
+          <div class="bg-white p-5 rounded-3xl border border-[#E8E2D5] shadow-xs space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="theme-title-badge w-5 h-5 shrink-0"></span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A]">Tema visual</h3>
+              </div>
+              <span class="text-[11px] text-[#667267]">Escolha o clima visual do seu caderno</span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
+              <!-- Natureza -->
+              <div 
+                onclick="ActaApp.applyTheme('natureza')"
+                data-theme-name="natureza"
+                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233] transition flex flex-col items-center text-center gap-2 group"
+              >
+                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
+                  <img src="assets/theme-natureza.png" alt="Natureza" class="w-full h-full object-cover">
+                </div>
+                <span class="text-xs font-bold text-[#28302A]">Natureza</span>
+                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#2F5233] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </div>
+
+              <!-- Clássico -->
+              <div 
+                onclick="ActaApp.applyTheme('classico')"
+                data-theme-name="classico"
+                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#1E3A5F] transition flex flex-col items-center text-center gap-2 group"
+              >
+                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
+                  <img src="assets/theme-classico.png" alt="Clássico" class="w-full h-full object-cover">
+                </div>
+                <span class="text-xs font-bold text-[#28302A]">Clássico</span>
+                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#1E3A5F] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </div>
+
+              <!-- Alegre -->
+              <div 
+                onclick="ActaApp.applyTheme('alegre')"
+                data-theme-name="alegre"
+                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#D97706] transition flex flex-col items-center text-center gap-2 group"
+              >
+                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
+                  <img src="assets/theme-alegre.png" alt="Alegre" class="w-full h-full object-cover">
+                </div>
+                <span class="text-xs font-bold text-[#28302A]">Alegre</span>
+                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#D97706] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </div>
+
+              <!-- Elegante -->
+              <div 
+                onclick="ActaApp.applyTheme('elegante')"
+                data-theme-name="elegante"
+                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#1E293B] transition flex flex-col items-center text-center gap-2 group"
+              >
+                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
+                  <img src="assets/theme-elegante.png" alt="Elegante" class="w-full h-full object-cover">
+                </div>
+                <span class="text-xs font-bold text-[#28302A]">Elegante</span>
+                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#1E293B] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </div>
+
+              <!-- Criativo -->
+              <div 
+                onclick="ActaApp.applyTheme('criativo')"
+                data-theme-name="criativo"
+                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#7C3AED] transition flex flex-col items-center text-center gap-2 group"
+              >
+                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
+                  <img src="assets/theme-criativo.png" alt="Criativo" class="w-full h-full object-cover">
+                </div>
+                <span class="text-xs font-bold text-[#28302A]">Criativo</span>
+                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#7C3AED] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </div>
+
+              <!-- Romântico -->
+              <div 
+                onclick="ActaApp.applyTheme('romantico')"
+                data-theme-name="romantico"
+                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#BE123C] transition flex flex-col items-center text-center gap-2 group"
+              >
+                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-[#FFE4E8] flex items-center justify-center">
+                  <span class="text-2xl">🌹</span>
+                </div>
+                <span class="text-xs font-bold text-[#28302A]">Romântico</span>
+                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#BE123C] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção: Últimos livros da biblioteca -->
+          <div class="bg-white p-5 rounded-3xl border border-[#E8E2D5] shadow-xs space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="theme-script-icon opacity-80 shrink-0"></span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A]">Últimos livros da biblioteca</h3>
+              </div>
+              <button onclick="ActaApp.switchTab('biblioteca')" class="text-xs font-semibold text-[#2F5233] hover:underline flex items-center gap-1">
+                <span>Ver biblioteca</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- Livro 1 -->
+              <div onclick="ActaApp.switchTab('biblioteca')" class="p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] hover:border-[#2F5233]/40 cursor-pointer transition flex flex-col justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-14 h-20 shrink-0 rounded-lg overflow-hidden shadow-xs book-cover">
+                    <img src="assets/book-20mil.png" alt="20.000 Léguas Submarinas" class="w-full h-full object-cover">
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-[#A95337] font-bold uppercase block">Literatura</span>
+                    <h4 class="text-xs font-bold text-[#28302A] leading-tight line-clamp-2">20.000 Léguas Submarinas</h4>
+                    <span class="text-[10px] text-[#667267] block mt-1">Júlio Verne</span>
+                  </div>
+                </div>
+                <div class="mt-3 pt-2 border-t border-[#E8E2D5]/60 flex items-center justify-between text-[10px] text-[#667267]">
+                  <span>Leitura em andamento</span>
+                  <i class="fa-solid fa-circle-check text-[#2F5233]"></i>
+                </div>
+              </div>
+
+              <!-- Livro 2 -->
+              <div onclick="ActaApp.switchTab('biblioteca')" class="p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] hover:border-[#2F5233]/40 cursor-pointer transition flex flex-col justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-14 h-20 shrink-0 rounded-lg overflow-hidden shadow-xs book-cover">
+                    <img src="assets/book-jardim.png" alt="O Jardim Secreto" class="w-full h-full object-cover">
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-[#2F5233] font-bold uppercase block">Contos</span>
+                    <h4 class="text-xs font-bold text-[#28302A] leading-tight line-clamp-2">O Jardim Secreto</h4>
+                    <span class="text-[10px] text-[#667267] block mt-1">Frances Burnett</span>
+                  </div>
+                </div>
+                <div class="mt-3 pt-2 border-t border-[#E8E2D5]/60 flex items-center justify-between text-[10px] text-[#667267]">
+                  <span>Leitura em andamento</span>
+                  <i class="fa-solid fa-circle-check text-[#2F5233]"></i>
+                </div>
+              </div>
+
+              <!-- Livro 3 -->
+              <div onclick="ActaApp.switchTab('biblioteca')" class="p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] hover:border-[#2F5233]/40 cursor-pointer transition flex flex-col justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-14 h-20 shrink-0 rounded-lg overflow-hidden shadow-xs book-cover">
+                    <img src="assets/book-alice.png" alt="Alice no País das Maravilhas" class="w-full h-full object-cover">
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-[#325B6C] font-bold uppercase block">Fantasia</span>
+                    <h4 class="text-xs font-bold text-[#28302A] leading-tight line-clamp-2">Alice no País das Maravilhas</h4>
+                    <span class="text-[10px] text-[#667267] block mt-1">Lewis Carroll</span>
+                  </div>
+                </div>
+                <div class="mt-3 pt-2 border-t border-[#E8E2D5]/60 flex items-center justify-between text-[10px] text-[#667267]">
+                  <span>Leitura concluída</span>
+                  <i class="fa-solid fa-circle-check text-[#2F5233]"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Coluna da Direita: Cartões Motivacionais do Mockup (1/3 da largura) -->
+        <div class="space-y-4">
+          <!-- Cartão 1: Pequenos registros, grandes histórias -->
+          <div class="rounded-3xl overflow-hidden border border-[#E8E2D5] shadow-xs bg-white hover:shadow-sm transition">
+            <img id="homeMotivationalCardImg" src="assets/card-pequenos-natureza.jpg" alt="Pequenos registros, grandes histórias" class="w-full h-auto object-cover transition-all duration-500">
+          </div>
+
+          <!-- Cartão 2: Sonhe / Planeje / Conquiste -->
+          <div class="rounded-3xl overflow-hidden border border-[#E8E2D5] shadow-xs bg-white hover:shadow-sm transition">
+            <img src="assets/card-sonhe.jpg" alt="Sonhe Planeje Conquiste" class="w-full h-auto object-cover">
           </div>
         </div>
 
-        <!-- Frase Poética do Mockup -->
-        <div class="text-right sm:max-w-xs self-end sm:self-center">
-          <p class="font-script text-xl sm:text-2xl text-[#667267] leading-tight">
-            Grandes conquistas nascem de pequenos passos diários.
-          </p>
-          <div class="text-[#2F5233] text-sm mt-1">
-            <i class="fa-solid fa-leaf"></i>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -234,7 +508,11 @@
       
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A]">Crianças da Família</h2>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Crianças da Família</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
           <p class="text-xs text-[#667267]">Acompanhe o ritmo individual de cada criança com leveza e naturalidade.</p>
         </div>
         <button 
@@ -247,6 +525,8 @@
         </button>
       </div>
 
+      <div class="planner-divider"></div>
+
       <div id="criancasCardsContainer" class="space-y-3">
         <!-- Renderizado dinamicamente via ActaApp.renderCriancasTab -->
       </div>
@@ -254,14 +534,60 @@
     </div>
 
     <!-- ------------------------------------------------------------- -->
-    <!-- TELA 3: MINHA BIBLIOTECA (ESTANTE DIGITAL)                    -->
+    <!-- TELA 3: AVALIAÇÕES / AVALIAÇÃO DIAGNÓSTICA                    -->
+    <!-- ------------------------------------------------------------- -->
+    <div id="tab-avaliacoes" class="tab-pane hidden space-y-6">
+      
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Avaliações & Diagnóstico Pedagógico</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
+          <p class="text-xs text-[#667267]">Base Clássica: acompanhe o domínio real em Linguagem e Matemática sem burocracia escolar.</p>
+        </div>
+        
+        <button 
+          type="button" 
+          onclick="ActaApp.openModal('modalDiagnosticEval')"
+          class="hero-btn-green text-xs font-semibold px-4 py-2 rounded-full shadow-sm flex items-center gap-1.5 shrink-0"
+        >
+          <i class="fa-solid fa-plus text-[10px]"></i>
+          <span>Nova Avaliação Diagnóstica</span>
+        </button>
+      </div>
+
+      <!-- Filtro por Criança -->
+      <div class="flex items-center gap-3">
+        <label for="evalChildFilter" class="text-xs font-bold text-[#28302A]">Criança:</label>
+        <select id="evalChildFilter" onchange="ActaApp.renderAvaliacoesTab()" class="text-xs font-medium p-2 border border-[#E8E2D5] rounded-xl bg-white text-[#28302A]">
+          <!-- Preenchido dinamicamente -->
+        </select>
+      </div>
+
+      <div class="planner-divider"></div>
+
+      <!-- Lista de Avaliações Arquivadas -->
+      <div id="evaluationsListContainer" class="space-y-4">
+        <!-- Renderizado dinamicamente via ActaDiagnostic.renderEvaluationsListHTML -->
+      </div>
+
+    </div>
+
+    <!-- ------------------------------------------------------------- -->
+    <!-- TELA 4: MINHA BIBLIOTECA (ESTANTE DIGITAL)                    -->
     <!-- ------------------------------------------------------------- -->
     <div id="tab-biblioteca" class="tab-pane hidden space-y-6">
       
       <!-- Cabeçalho da Biblioteca e Busca -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A]">Minha Biblioteca</h2>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Minha Biblioteca</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
           <p class="text-xs text-[#667267]">Livros, apostilas e materiais com sumários organizados automaticamente.</p>
         </div>
         
@@ -331,7 +657,177 @@
     </div>
 
     <!-- ------------------------------------------------------------- -->
-    <!-- TELA 4: SEMANA (PLANEJAMENTO SEMANAL ORGANIZADO)              -->
+    <!-- TELA 5: LEITURAS & LITERATURA (BIBLIOTECA DIGITAL)           -->
+    <!-- ------------------------------------------------------------- -->
+    <div id="tab-leituras" class="tab-pane hidden space-y-6">
+      
+      <!-- Cabeçalho -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Leituras & Literatura</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
+          <p class="text-xs text-[#667267]">Estante viva de literatura, contos, aventuras e biografias. O cultivo do imaginário e das virtudes.</p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button type="button" onclick="ActaCulture.openNewReadingModal()" class="hero-btn-green py-2 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center gap-1.5">
+            <i class="fa-solid fa-plus text-[10px]"></i>
+            <span>Nova Leitura</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros e Busca de Leituras -->
+      <div class="p-4 bg-white rounded-2xl border border-[#E8E2D5] shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-semibold text-[#667267]">Filtrar por:</span>
+          <select id="readingFilterChildSelect" onchange="ActaApp.onReadingFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
+            <!-- Crianças dinamicamente -->
+          </select>
+          <select id="readingFilterCatSelect" onchange="ActaApp.onReadingFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
+            <option value="all">Todas as categorias</option>
+            <option value="Ficção">Ficção</option>
+            <option value="Aventura">Aventura</option>
+            <option value="Fantasia">Fantasia</option>
+            <option value="Fábulas">Fábulas</option>
+            <option value="Contos">Contos</option>
+            <option value="Romance">Romance</option>
+            <option value="Clássicos">Clássicos</option>
+            <option value="Poesia">Poesia</option>
+            <option value="Biografia">Biografia</option>
+            <option value="História">História</option>
+            <option value="Mistério">Mistério</option>
+            <option value="Viagem/Exploração">Viagem / Exploração</option>
+            <option value="Natureza">Natureza</option>
+            <option value="Outros">Outros</option>
+          </select>
+          <select id="readingFilterStatusSelect" onchange="ActaApp.onReadingFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
+            <option value="all">Todos os status</option>
+            <option value="em_andamento">Lendo agora</option>
+            <option value="concluido">Concluídos</option>
+            <option value="quero_ler">Quero ler</option>
+          </select>
+        </div>
+
+        <div class="text-xs text-[#667267]">
+          <span class="text-[#2F5233] font-bold"><i class="fa-solid fa-book-open text-xs"></i> Biblioteca Viva</span>
+        </div>
+      </div>
+
+      <!-- Container Dinâmico da Estante -->
+      <div id="readingsShelfContainer">
+        <!-- Renderizado dinamicamente via ActaCulture.renderBookshelfHTML -->
+      </div>
+
+    </div>
+
+    <!-- ------------------------------------------------------------- -->
+    <!-- TELA 6: FILMES & CULTURA (CINEMATECA EM FAMÍLIA)              -->
+    <!-- ------------------------------------------------------------- -->
+    <div id="tab-filmes" class="tab-pane hidden space-y-6">
+      
+      <!-- Cabeçalho -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Filmes & Cultura</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
+          <p class="text-xs text-[#667267]">Cinemateca familiar de clássicos, animações marcantes e documentários para reflexão e conversa.</p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button type="button" onclick="ActaCulture.openNewMovieModal()" class="hero-btn-slate py-2 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center gap-1.5">
+            <i class="fa-solid fa-plus text-[10px]"></i>
+            <span>Novo Filme</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros e Busca de Filmes -->
+      <div class="p-4 bg-white rounded-2xl border border-[#E8E2D5] shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-semibold text-[#667267]">Filtrar por:</span>
+          <select id="movieFilterChildSelect" onchange="ActaApp.onMovieFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
+            <!-- Crianças dinamicamente -->
+          </select>
+          <select id="movieFilterCatSelect" onchange="ActaApp.onMovieFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
+            <option value="all">Todas as categorias</option>
+            <option value="Animação">Animação</option>
+            <option value="Aventura">Aventura</option>
+            <option value="Fantasia">Fantasia</option>
+            <option value="História">História</option>
+            <option value="Biografia">Biografia</option>
+            <option value="Natureza">Natureza / Documentário</option>
+            <option value="Ficção">Ficção</option>
+            <option value="Comédia">Comédia</option>
+            <option value="Drama">Drama</option>
+            <option value="Clássico">Clássico</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+
+        <div class="text-xs text-[#667267]">
+          <span id="moviesCountBadge" class="font-bold text-[#28302A]">0</span> filmes catalogados
+        </div>
+      </div>
+
+      <!-- Container Dinâmico da Cinemateca -->
+      <div id="moviesCinematecaContainer">
+        <!-- Renderizado dinamicamente via ActaCulture.renderCinematecaHTML -->
+      </div>
+
+    </div>
+
+    <!-- ------------------------------------------------------------- -->
+    <!-- TELA 7: CALENDÁRIO FAMILIAR                                   -->
+    <!-- ------------------------------------------------------------- -->
+    <div id="tab-calendario" class="tab-pane hidden space-y-6">
+      
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Calendário da Família</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
+          <p class="text-xs text-[#667267]">Organização flexível de descansos, viagens, recessos e rotina familiar. Sem imposição de dias letivos.</p>
+        </div>
+
+        <button 
+          type="button" 
+          onclick="ActaApp.openModal('modalCalendarPeriod')"
+          class="hero-btn-green text-xs font-semibold px-4 py-2 rounded-full shadow-sm flex items-center gap-1.5 shrink-0"
+        >
+          <i class="fa-solid fa-plus text-[10px]"></i>
+          <span>Marcar Período / Evento</span>
+        </button>
+      </div>
+
+      <!-- Grade Mensal do Calendário -->
+      <div id="familyCalendarGridContainer" class="space-y-4">
+        <!-- Renderizado dinamicamente via ActaCalendar.renderCalendarHTML -->
+      </div>
+
+      <!-- Eventos e Períodos Marcados -->
+      <div class="planner-card p-5 bg-white border border-[#E8E2D5] rounded-2xl space-y-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A] flex items-center gap-2">
+          <span class="planner-bullet"></span>
+          <span>Períodos e Datas Especiais Cadastrados</span>
+        </h3>
+        <div id="familyCalendarEventsList" class="space-y-2">
+          <!-- Populado dinamicamente -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ------------------------------------------------------------- -->
+    <!-- TELA 6: SEMANA (PLANEJAMENTO SEMANAL ORGANIZADO)              -->
     <!-- ------------------------------------------------------------- -->
     <div id="tab-semana" class="tab-pane hidden space-y-6">
       
@@ -370,6 +866,8 @@
         </button>
       </div>
 
+      <div class="planner-divider"></div>
+
       <!-- Blocos dos Dias da Semana com [Ver conteúdo] e [Registrar] -->
       <div id="semanaScheduleContainer" class="space-y-4">
         <!-- Renderizado dinamicamente via ActaPlanner.renderWeekScheduleHTML -->
@@ -382,12 +880,18 @@
     <!-- ------------------------------------------------------------- -->
     <div id="tab-registros" class="tab-pane hidden space-y-6">
       
-      <div class="acta-card p-6 sm:p-8 bg-white border border-[#E8E2D5] max-w-2xl mx-auto space-y-6">
+      <div class="planner-card p-6 sm:p-8 bg-white border border-[#E8E2D5] max-w-2xl mx-auto space-y-6 shadow-xs">
         <div>
           <span class="text-[10px] uppercase font-bold tracking-widest text-[#2F5233] block">Registro Simples</span>
-          <h2 class="font-editorial-title text-2xl font-bold text-[#28302A] mt-1">O que aconteceu hoje?</h2>
+          <h2 class="font-editorial-title text-2xl font-bold text-[#28302A] mt-1 flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>O que aconteceu hoje?</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
           <p class="text-xs text-[#667267]">Anote o aprendizado com naturalidade. O sistema organiza todo o histórico.</p>
         </div>
+
+        <div class="planner-divider"></div>
 
         <form id="novoRegistroForm" onsubmit="event.preventDefault(); ActaApp.saveDailyRecord();" class="space-y-5">
           
@@ -507,7 +1011,58 @@
     </div>
 
     <!-- ------------------------------------------------------------- -->
-    <!-- TELA 6: CAMINHADA (ACOMPANHAMENTO VISUAL E HUMANO)            -->
+    <!-- TELA 8: PASSEIOS & EXTRAS (VIVÊNCIAS E APRENDIZADO PRÁTICO)   -->
+    <!-- ------------------------------------------------------------- -->
+    <div id="tab-passeios" class="tab-pane hidden space-y-6">
+      
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Passeios & Experiências Práticas</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
+          <p class="text-xs text-[#667267]">Visitas culturais, museus, experimentos, marcenaria, culinária e aprendizado vivo.</p>
+        </div>
+
+        <button 
+          type="button" 
+          onclick="ActaApp.openModal('modalNewExtra')"
+          class="hero-btn-green text-xs font-semibold px-4 py-2 rounded-full shadow-sm flex items-center gap-1.5 shrink-0"
+        >
+          <i class="fa-solid fa-plus text-[10px]"></i>
+          <span>Nova Experiência / Passeio</span>
+        </button>
+      </div>
+
+      <!-- Filtros: Criança e Tipo de Atividade -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-[#E8E2D5]">
+        <div class="flex items-center gap-2">
+          <label for="extraChildFilter" class="text-xs font-bold text-[#28302A]">Criança:</label>
+          <select id="extraChildFilter" onchange="ActaApp.renderPasseiosTab()" class="text-xs font-medium p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] text-[#28302A]">
+            <!-- Populado dinamicamente -->
+          </select>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="ActaApp.filterExtrasByType('all', this)" class="extra-filter-pill active text-xs font-semibold px-3 py-1.5 rounded-full bg-[#2F5233] text-white">Todos</button>
+          <button onclick="ActaApp.filterExtrasByType('passeio', this)" class="extra-filter-pill text-xs font-medium px-3 py-1.5 rounded-full bg-[#FAF7F0] text-[#28302A] border border-[#E8E2D5]">🏛️ Passeios</button>
+          <button onclick="ActaApp.filterExtrasByType('experimento', this)" class="extra-filter-pill text-xs font-medium px-3 py-1.5 rounded-full bg-[#FAF7F0] text-[#28302A] border border-[#E8E2D5]">🔬 Experimentos</button>
+          <button onclick="ActaApp.filterExtrasByType('culinaria', this)" class="extra-filter-pill text-xs font-medium px-3 py-1.5 rounded-full bg-[#FAF7F0] text-[#28302A] border border-[#E8E2D5]">🍳 Culinária</button>
+          <button onclick="ActaApp.filterExtrasByType('marcenaria', this)" class="extra-filter-pill text-xs font-medium px-3 py-1.5 rounded-full bg-[#FAF7F0] text-[#28302A] border border-[#E8E2D5]">🪵 Marcenaria</button>
+          <button onclick="ActaApp.filterExtrasByType('artesanato', this)" class="extra-filter-pill text-xs font-medium px-3 py-1.5 rounded-full bg-[#FAF7F0] text-[#28302A] border border-[#E8E2D5]">🎨 Artesanato</button>
+        </div>
+      </div>
+
+      <!-- Grade de Passeios e Extras -->
+      <div id="extrasListContainer" class="space-y-4">
+        <!-- Renderizado dinamicamente via ActaExtras.renderExtrasListHTML -->
+      </div>
+
+    </div>
+
+    <!-- ------------------------------------------------------------- -->
+    <!-- TELA 9: ACOMPANHAMENTO (RITMO E INDICADORES HUMANOS)           -->
     <!-- ------------------------------------------------------------- -->
     <div id="tab-caminhada" class="tab-pane hidden space-y-6">
       
@@ -539,11 +1094,13 @@
         </button>
       </div>
 
+      <div class="planner-divider"></div>
+
       <!-- Duas Colunas: Progresso nas Disciplinas + Conquistas Recentes -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         
         <!-- Card 1: Progresso nas Disciplinas (Barras Visuais) -->
-        <div class="acta-card p-5 bg-white border border-[#E8E2D5] space-y-4">
+        <div class="planner-card p-5 bg-white border border-[#E8E2D5] space-y-4 shadow-xs">
           <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A] flex items-center gap-2">
             <i class="fa-solid fa-chart-simple text-[#2F5233]"></i> Progresso nas disciplinas
           </h3>
@@ -596,7 +1153,7 @@
         </div>
 
         <!-- Card 2: Conquistas Recentes -->
-        <div class="acta-card p-5 bg-white border border-[#E8E2D5] space-y-3">
+        <div class="planner-card p-5 bg-white border border-[#E8E2D5] space-y-3 shadow-xs">
           <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A] flex items-center gap-2">
             <i class="fa-solid fa-award text-[#D97706]"></i> Conquistas recentes
           </h3>
@@ -607,11 +1164,14 @@
 
       </div>
 
+      <div class="planner-divider"></div>
+
       <!-- Seção: Linha do Tempo dos Registros da Criança -->
       <div class="space-y-3 pt-2">
         <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A]">
-            História do Aprendizado (Linha do Tempo)
+          <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A] flex items-center gap-2">
+            <span class="planner-bullet"></span>
+            <span>História do Aprendizado (Linha do Tempo)</span>
           </h3>
           <button onclick="ActaApp.switchTab('registros')" class="text-xs text-[#2F5233] font-semibold hover:underline">
             + Novo registro
@@ -625,21 +1185,67 @@
     </div>
 
     <!-- ------------------------------------------------------------- -->
-    <!-- TELA 7: DOSSIÊ DE ACOMPANHAMENTO                              -->
+    <!-- TELA 10: LINHA DO TEMPO PEDAGÓGICA                            -->
+    <!-- ------------------------------------------------------------- -->
+    <div id="tab-linhadotempo" class="tab-pane hidden space-y-6">
+      
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Linha do Tempo Pedagógica</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
+          <p class="text-xs text-[#667267]">A história viva do aprendizado organizada mês a mês com estudos e passeios.</p>
+        </div>
+
+        <!-- Filtro da Criança -->
+        <div class="flex items-center gap-2">
+          <label for="timelineChildFilter" class="text-xs font-bold text-[#28302A]">Criança:</label>
+          <select id="timelineChildFilter" onchange="ActaApp.renderLinhaDoTempoTab()" class="text-xs font-medium p-2 border border-[#E8E2D5] rounded-xl bg-white text-[#28302A]">
+            <!-- Populado dinamicamente -->
+          </select>
+        </div>
+      </div>
+
+      <div class="planner-divider"></div>
+
+      <!-- Container da Linha do Tempo Mês a Mês -->
+      <div id="fullMonthlyTimelineContainer" class="space-y-6">
+        <!-- Renderizado dinamicamente via ActaRecords.renderFullTimelineByMonthHTML -->
+      </div>
+
+    </div>
+
+    <!-- ------------------------------------------------------------- -->
+    <!-- TELA 11: DOSSIÊS & RELATÓRIOS PEDAGÓGICOS                     -->
     <!-- ------------------------------------------------------------- -->
     <div id="tab-dossie" class="tab-pane hidden space-y-6">
       
       <!-- Barra de Ações do Dossiê (Oculta ao Imprimir) -->
-      <div class="acta-card p-4 sm:p-5 bg-white border border-[#E8E2D5] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print-hide">
+      <div class="planner-card p-4 sm:p-5 bg-white border border-[#E8E2D5] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-xs print-hide">
         <div>
-          <h2 class="font-editorial-serif text-xl font-bold text-[#28302A]">Dossiê de Acompanhamento</h2>
-          <p class="text-xs text-[#667267]">Histórico pedagógico da criança organizado em um documento acolhedor.</p>
+          <h2 class="font-editorial-serif text-xl font-bold text-[#28302A] flex items-center gap-2.5">
+            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+            <span>Dossiês & Relatórios Pedagógicos</span>
+          </h2>
+          <div class="planner-title-vignette"></div>
+          <p class="text-xs text-[#667267]">Documentação da caminhada da família sem termos de escola ou burocracia.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2.5">
+          <!-- Tipo de Documento -->
+          <select id="dossieTypeSelect" onchange="ActaApp.renderDossieTab()" class="text-xs font-semibold p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] text-[#28302A]">
+            <option value="resumo">📋 Dossiê Resumido</option>
+            <option value="completo">📖 Dossiê Completo</option>
+            <option value="mes">📅 Relatório Rápido do Mês</option>
+          </select>
+
+          <!-- Seletor de Criança -->
           <select id="dossieChildFilter" onchange="ActaApp.renderDossieTab()" class="text-xs font-medium p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] text-[#28302A]">
             <!-- Populado dinamicamente -->
           </select>
+
           <button 
             type="button" 
             onclick="ActaApp.printCurrentDossie()"
@@ -648,6 +1254,28 @@
             <i class="fa-solid fa-print"></i>
             <span>Gerar PDF / Imprimir</span>
           </button>
+        </div>
+      </div>
+
+      <!-- Filtros de Inclusão no Dossiê (Ocultos ao Imprimir) -->
+      <div class="px-5 py-3 bg-[#FAF7F0] border border-[#E8E2D5] rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs text-[#28302A] print-hide">
+        <div class="flex items-center gap-1 font-bold text-[#667267]">
+          <i class="fa-solid fa-sliders text-xs"></i>
+          <span>Personalizar Seções do Dossiê:</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="checkbox" id="dossieIncReadings" checked onchange="ActaApp.renderDossieTab()" class="rounded text-[#2F5233] focus:ring-0">
+            <span>📚 Incluir Leituras</span>
+          </label>
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="checkbox" id="dossieIncMovies" checked onchange="ActaApp.renderDossieTab()" class="rounded text-[#2F5233] focus:ring-0">
+            <span>🎬 Incluir Filmes</span>
+          </label>
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="checkbox" id="dossieIncExtras" checked onchange="ActaApp.renderDossieTab()" class="rounded text-[#2F5233] focus:ring-0">
+            <span>🏛️ Incluir Passeios & Vivências</span>
+          </label>
         </div>
       </div>
 
@@ -664,14 +1292,20 @@
     <div id="tab-configuracoes" class="tab-pane hidden space-y-6">
       
       <div>
-        <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A]">Temas Visuais</h2>
+        <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
+          <span class="theme-title-badge w-6 h-6 shrink-0"></span>
+          <span>Temas Visuais</span>
+        </h2>
+        <div class="planner-title-vignette"></div>
         <p class="text-xs text-[#667267]">Escolha a atmosfera que melhor acompanha a sua família.</p>
       </div>
+
+      <div class="planner-divider"></div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         <!-- Lista de Temas Selecionáveis -->
         <div class="space-y-3">
-          <div onclick="ActaApp.applyTheme('natureza')" class="acta-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#2F5233] transition">
+          <div onclick="ActaApp.applyTheme('natureza')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#2F5233] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center text-lg">
                 🌿
@@ -684,7 +1318,7 @@
             <i class="fa-solid fa-circle-check text-[#2F5233]"></i>
           </div>
 
-          <div onclick="ActaApp.applyTheme('classico')" class="acta-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E3A5F] transition">
+          <div onclick="ActaApp.applyTheme('classico')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E3A5F] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#E9EFF6] text-[#1E3A5F] flex items-center justify-center text-lg">
                 📜
@@ -696,7 +1330,7 @@
             </div>
           </div>
 
-          <div onclick="ActaApp.applyTheme('alegre')" class="acta-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#D97706] transition">
+          <div onclick="ActaApp.applyTheme('alegre')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#D97706] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center text-lg">
                 ☀️
@@ -708,7 +1342,7 @@
             </div>
           </div>
 
-          <div onclick="ActaApp.applyTheme('elegante')" class="acta-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E293B] transition">
+          <div onclick="ActaApp.applyTheme('elegante')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E293B] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#E2E8F0] text-[#1E293B] flex items-center justify-center text-lg">
                 ✨
@@ -720,7 +1354,7 @@
             </div>
           </div>
 
-          <div onclick="ActaApp.applyTheme('criativo')" class="acta-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#6D28D9] transition">
+          <div onclick="ActaApp.applyTheme('criativo')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#6D28D9] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#EDE9FE] text-[#6D28D9] flex items-center justify-center text-lg">
                 🎨
@@ -731,6 +1365,18 @@
               </div>
             </div>
           </div>
+
+          <div onclick="ActaApp.applyTheme('romantico')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#BE123C] transition shadow-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-[#FFE4E8] text-[#BE123C] flex items-center justify-center text-lg">
+                🌹
+              </div>
+              <div>
+                <span class="text-xs font-bold text-[#28302A] block">Romântico</span>
+                <span class="text-[11px] text-[#667267]">Rosa nobre, pétalas de peônia e guirlandas florais</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Citação Poética do Painel de Temas -->
@@ -738,8 +1384,8 @@
           <p class="font-script text-3xl text-[#667267]">
             Um ambiente bonito também inspira boas idéias.
           </p>
-          <div class="flex justify-center text-[#2F5233] text-2xl">
-            <i class="fa-regular fa-heart"></i>
+          <div class="flex justify-center text-2xl">
+            <span class="theme-title-badge w-12 h-12 inline-block"></span>
           </div>
           <div class="text-xs text-[#8E9A8F]">
             PLANNER ACTA • Caderno Inteligente da Família
@@ -757,7 +1403,7 @@
   <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#FAF7F0]/95 backdrop-blur border-t border-[#E8E2D5] px-3 py-2 flex justify-around items-center z-40 print-hide shadow-lg">
     <button data-nav-target="casa" class="flex flex-col items-center text-[#667267] hover:text-[#2F5233]">
       <i class="fa-solid fa-house-chimney text-base"></i>
-      <span class="text-[9px] mt-0.5 font-medium">Casa</span>
+      <span class="text-[9px] mt-0.5 font-medium">Home</span>
     </button>
 
     <button data-nav-target="semana" class="flex flex-col items-center text-[#667267] hover:text-[#2F5233]">
@@ -866,41 +1512,35 @@
     </div>
 
     <!-- Modal de Nova Criança -->
-    <div id="modalNewPerson" class="hidden bg-white rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
+    <div id="modalNewPerson" class="hidden bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
       <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-2">
-        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Adicionar Criança</h3>
+        <div>
+          <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Adicionar Criança</h3>
+          <p class="text-[11px] text-[#667267]">Cadastre com carinho para acompanhar a caminhada.</p>
+        </div>
         <button onclick="ActaApp.closeModal('modalNewPerson')" class="text-[#8E9A8F] hover:text-[#28302A]">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
 
-      <form onsubmit="event.preventDefault(); ActaApp.saveNewPerson();" class="space-y-3">
+      <form onsubmit="event.preventDefault(); ActaApp.saveNewPerson();" class="space-y-3.5">
         <div>
-          <label for="newPersonName" class="block text-xs font-bold text-[#28302A] mb-1">Nome</label>
-          <input type="text" id="newPersonName" placeholder="Ex: João, Sofia, Clara..." required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          <label for="newPersonName" class="block text-xs font-bold text-[#28302A] mb-1">Nome da Criança</label>
+          <input type="text" id="newPersonName" placeholder="Ex: Lucas, Maya, Clara..." required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          <input type="hidden" id="newPersonInfo" value="">
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label for="newPersonAvatar" class="block text-xs font-bold text-[#28302A] mb-1">Avatar</label>
-            <select id="newPersonAvatar" class="w-full text-base p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
-              <option value="👦">👦 Menino</option>
-              <option value="👧">👧 Menina</option>
-              <option value="🧒">🧒 Criança</option>
-              <option value="🧑">🧑 Jovem</option>
-              <option value="👩">👩 Moça</option>
-              <option value="🌟">🌟 Estrela</option>
-            </select>
+        <div>
+          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Escolha o Personagem Ilustrado</label>
+          <div id="avatarPickerGrid" class="grid grid-cols-5 gap-2.5 p-3 bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5]">
+            <!-- Preenchido dinamicamente via ActaApp.renderAvatarPicker -->
           </div>
-          <div>
-            <label for="newPersonInfo" class="block text-xs font-bold text-[#28302A] mb-1">Identificação / Idade</label>
-            <input type="text" id="newPersonInfo" placeholder="Ex: Explorador • 9 anos" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
-          </div>
+          <input type="hidden" id="newPersonAvatar" value="assets/avatars/avatar-menino-castanho.png">
         </div>
 
         <div>
           <label for="newPersonNotes" class="block text-xs font-bold text-[#28302A] mb-1">Notas com carinho (Opcional)</label>
-          <textarea id="newPersonNotes" rows="2" placeholder="Ex: Gosta de leitura e números..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+          <textarea id="newPersonNotes" rows="2" placeholder="Ex: Tem fascínio por animais, leitura autônoma..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
         </div>
 
         <div class="pt-2 flex justify-end gap-2 border-t border-[#E8E2D5]">
@@ -908,10 +1548,35 @@
             Cancelar
           </button>
           <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
-            Cadastrar
+            Cadastrar Criança
           </button>
         </div>
       </form>
+    </div>
+
+    <!-- Modal: Trocar Avatar Ilustrado da Criança -->
+    <div id="modalEditAvatar" class="hidden bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <div>
+          <h3 class="font-editorial-title text-base font-bold text-[#28302A]">Escolha o Avatar de <span id="editAvatarPersonName" class="text-[#2F5233]"></span></h3>
+          <p class="text-xs text-[#667267] mt-0.5">Selecione o personagem ilustrado</p>
+        </div>
+        <button onclick="ActaApp.closeModal('modalEditAvatar')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2">
+        <div id="editAvatarPickerGrid" class="grid grid-cols-5 gap-2 pt-1.5 p-2.5 bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5]">
+          <!-- Preenchido dinamicamente via ActaApp.openAvatarModalForPerson -->
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end gap-2 border-t border-[#E8E2D5]">
+        <button type="button" onclick="ActaApp.closeModal('modalEditAvatar')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+          Fechar
+        </button>
+      </div>
     </div>
 
     <!-- Modal: Detalhes do Conteúdo -->
@@ -947,6 +1612,600 @@
       </div>
     </div>
 
+    <!-- Modal: Avaliação Diagnóstica Pedagógica -->
+    <div id="modalDiagnosticEval" class="hidden bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-5 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <div>
+          <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Nova Avaliação Diagnóstica</h3>
+          <p class="text-xs text-[#667267]">Diagnóstico qualitativo com base na Educação Clássica.</p>
+        </div>
+        <button onclick="ActaApp.closeModal('modalDiagnosticEval')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); ActaApp.saveDiagnosticEval();" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="diagEvalChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">Criança</label>
+            <select id="diagEvalChildSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Preenchido dinamicamente -->
+            </select>
+          </div>
+          <div>
+            <label for="diagEvalDate" class="block text-xs font-bold text-[#28302A] mb-1">Data da Avaliação</label>
+            <input type="date" id="diagEvalDate" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Seção Português / Linguagem -->
+        <div class="p-3.5 bg-[#FAF7F0] rounded-xl border border-[#E8E2D5] space-y-2">
+          <h4 class="text-xs font-bold text-[#2F5233] uppercase tracking-wider">Linguagem e Expressão (Português)</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Leitura / Fluência</label>
+              <select id="diagPortLeitura" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Compreensão e Interpretação</label>
+              <select id="diagPortCompreensao" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Escrita e Caligrafia</label>
+              <select id="diagPortEscrita" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Vocabulário e Oratória</label>
+              <select id="diagPortVocabulario" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção Matemática -->
+        <div class="p-3.5 bg-[#FAF7F0] rounded-xl border border-[#E8E2D5] space-y-2">
+          <h4 class="text-xs font-bold text-[#28302A] uppercase tracking-wider">Raciocínio Lógico & Cálculo (Matemática)</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Raciocínio Lógico</label>
+              <select id="diagMatRaciocinio" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Operações Fundamentais</label>
+              <select id="diagMatOperacoes" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Resolução de Problemas</label>
+              <select id="diagMatProblemas" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#28302A]">Cálculo Mental</label>
+              <select id="diagMatCalculo" class="w-full text-xs p-1.5 border border-[#E8E2D5] rounded-lg bg-white">
+                <option value="Consolidado">Consolidado</option>
+                <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                <option value="Iniciando / Retomar">Iniciando / Retomar</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Síntese Descritiva -->
+        <div class="space-y-3">
+          <div>
+            <label for="diagStrengths" class="block text-xs font-bold text-[#2F5233] mb-1">Pontos Fortes da Criança</label>
+            <input type="text" id="diagStrengths" placeholder="Ex: Excelente curiosidade, atenção sustentada, gosto por narrativas..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="diagRetomar" class="block text-xs font-bold text-[#A44A3F] mb-1">Conteúdos a Retomar / Atenção</label>
+            <input type="text" id="diagRetomar" placeholder="Ex: Tabuada de multiplicação, organização dos parágrafos..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="diagNotes" class="block text-xs font-bold text-[#28302A] mb-1">Observações do Educador</label>
+            <textarea id="diagNotes" rows="2" placeholder="Ex: Aprende muito bem com exemplos visuais e experimentos práticos..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+          </div>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2 border-t border-[#E8E2D5]">
+          <button type="button" onclick="ActaApp.closeModal('modalDiagnosticEval')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+            Cancelar
+          </button>
+          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+            Salvar Avaliação
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal: Marcar Período no Calendário da Família -->
+    <div id="modalCalendarPeriod" class="hidden bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-2">
+        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Marcar Período / Data Especial</h3>
+        <button onclick="ActaApp.closeModal('modalCalendarPeriod')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); ActaApp.saveCalendarPeriod();" class="space-y-3.5">
+        <div>
+          <label for="calEventTitle" class="block text-xs font-bold text-[#28302A] mb-1">Nome do Evento / Período</label>
+          <input type="text" id="calEventTitle" placeholder="Ex: Férias em Família, Recesso de Páscoa..." required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="calEventType" class="block text-xs font-bold text-[#28302A] mb-1">Tipo</label>
+            <select id="calEventType" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <option value="ferias">🌴 Férias</option>
+              <option value="recesso">☕ Recesso</option>
+              <option value="viagem">🚗 Viagem</option>
+              <option value="especial">⭐ Data Especial</option>
+              <option value="feriado">🇧🇷 Feriado</option>
+            </select>
+          </div>
+          <div>
+            <label for="calEventHighlight" class="block text-xs font-bold text-[#28302A] mb-1">Destacar?</label>
+            <select id="calEventHighlight" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <option value="true">Sim, destacar</option>
+              <option value="false">Normal</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="calEventStart" class="block text-xs font-bold text-[#28302A] mb-1">Data Início</label>
+            <input type="date" id="calEventStart" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="calEventEnd" class="block text-xs font-bold text-[#28302A] mb-1">Data Fim</label>
+            <input type="date" id="calEventEnd" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label for="calEventNotes" class="block text-xs font-bold text-[#28302A] mb-1">Anotações da Família (Opcional)</label>
+          <input type="text" id="calEventNotes" placeholder="Ex: Viagem para casa dos avós, descanso e leitura livre..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 border-t border-[#E8E2D5]">
+          <button type="button" onclick="ActaApp.closeModal('modalCalendarPeriod')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+            Cancelar
+          </button>
+          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+            Salvar no Calendário
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal: Nova Experiência / Passeio / Extra -->
+    <div id="modalNewExtra" class="hidden bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-2">
+        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Nova Vivência / Passeio / Prática</h3>
+        <button onclick="ActaApp.closeModal('modalNewExtra')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); ActaApp.saveNewExtra();" class="space-y-3.5">
+        <div>
+          <label for="extraTitleInput" class="block text-xs font-bold text-[#28302A] mb-1">Título da Atividade / Passeio</label>
+          <input type="text" id="extraTitleInput" placeholder="Ex: Visita ao Museu de História Natural, Receita de Pão..." required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="extraTypeSelect" class="block text-xs font-bold text-[#28302A] mb-1">Tipo de Atividade</label>
+            <select id="extraTypeSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <option value="passeio">🏛️ Passeio Cultural</option>
+              <option value="experimento">🔬 Experimento Científico</option>
+              <option value="culinaria">🍳 Culinária Prática</option>
+              <option value="marcenaria">🪵 Marcenaria</option>
+              <option value="artesanato">🎨 Artesanato / Desenho</option>
+              <option value="espontaneo">🌱 Aprendizado Espontâneo</option>
+            </select>
+          </div>
+          <div>
+            <label for="extraChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">Criança</label>
+            <select id="extraChildSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Preenchido dinamicamente -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="extraDateInput" class="block text-xs font-bold text-[#28302A] mb-1">Data</label>
+            <input type="date" id="extraDateInput" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="extraLocationInput" class="block text-xs font-bold text-[#28302A] mb-1">Local / Contexto</label>
+            <input type="text" id="extraLocationInput" placeholder="Ex: Parque Municipal, Em casa..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label for="extraDescInput" class="block text-xs font-bold text-[#28302A] mb-1">O que foi observado ou aprendido?</label>
+          <textarea id="extraDescInput" rows="2" placeholder="Ex: Observamos insetos e folhas, colhemos amostras para estudo de ciências..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-[#28302A] mb-1">Foto da Vivência (Opcional)</label>
+          <div class="flex items-center gap-3">
+            <label class="w-14 h-14 rounded-xl border-2 border-dashed border-[#E8E2D5] hover:border-[#2F5233] bg-[#FAF7F0] flex flex-col items-center justify-center cursor-pointer text-[#667267] transition">
+              <i class="fa-solid fa-plus text-xs text-[#8E9A8F]"></i>
+              <input type="file" id="extraPhotoInput" accept="image/*" class="hidden">
+            </label>
+            <div id="extraPhotoThumbContainer" class="hidden relative w-14 h-14 rounded-xl overflow-hidden border border-[#E8E2D5]">
+              <img id="extraPhotoThumbImg" src="" alt="Thumbnail" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 border-t border-[#E8E2D5]">
+          <button type="button" onclick="ActaApp.closeModal('modalNewExtra')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+            Cancelar
+          </button>
+          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+            Salvar Vivência
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal: Planejamento Direto (Criança -> Material -> Conteúdo -> Período) -->
+    <div id="modalNewPlan" class="hidden bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-2">
+        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Planejar Estudo Direto</h3>
+        <button onclick="ActaApp.closeModal('modalNewPlan')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); ActaApp.saveDirectPlan();" class="space-y-3.5">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="planChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">1. Criança</label>
+            <select id="planChildSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Preenchido dinamicamente -->
+            </select>
+          </div>
+          <div>
+            <label for="planDaySelect" class="block text-xs font-bold text-[#28302A] mb-1">2. Dia da Semana</label>
+            <select id="planDaySelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <option value="segunda">Segunda-feira</option>
+              <option value="terca">Terça-feira</option>
+              <option value="quarta">Quarta-feira</option>
+              <option value="quinta">Quinta-feira</option>
+              <option value="sexta">Sexta-feira</option>
+              <option value="sabado">Sábado</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="planMaterialSelect" class="block text-xs font-bold text-[#28302A] mb-1">3. Livro / Material da Biblioteca</label>
+          <select id="planMaterialSelect" onchange="ActaApp.onPlanMaterialChange(this.value)" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+            <!-- Preenchido dinamicamente -->
+          </select>
+        </div>
+
+        <div>
+          <label for="planContentSelect" class="block text-xs font-bold text-[#28302A] mb-1">4. Conteúdo / Tópico do Sumário</label>
+          <select id="planContentSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+            <option value="">Selecione um material acima primeiro</option>
+          </select>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 border-t border-[#E8E2D5]">
+          <button type="button" onclick="ActaApp.closeModal('modalNewPlan')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+            Cancelar
+          </button>
+          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+            Adicionar ao Planejamento
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal: Nova Leitura / Obra Literária -->
+    <div id="modalNewReading" class="hidden bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <div>
+          <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Registrar Leitura & Literatura</h3>
+          <p class="text-xs text-[#667267]">Cultivo do imaginário, histórias exemplares e boas conversas.</p>
+        </div>
+        <button onclick="ActaApp.closeModal('modalNewReading')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="formNewReading" onsubmit="event.preventDefault(); ActaCulture.saveNewReading();" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="readingChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">Criança Leitora</label>
+            <select id="readingChildSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Populado via ActaCulture.openNewReadingModal -->
+            </select>
+          </div>
+          <div>
+            <label for="readingCategorySelect" class="block text-xs font-bold text-[#28302A] mb-1">Gênero / Categoria</label>
+            <select id="readingCategorySelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Populado dinamicamente -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="readingTitle" class="block text-xs font-bold text-[#28302A] mb-1">Título da Obra *</label>
+            <input type="text" id="readingTitle" required placeholder="Ex: As Crônicas de Nárnia" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="readingAuthor" class="block text-xs font-bold text-[#28302A] mb-1">Autor(a)</label>
+            <input type="text" id="readingAuthor" placeholder="Ex: C. S. Lewis" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label for="readingStatusSelect" class="block text-xs font-bold text-[#28302A] mb-1">Status</label>
+            <select id="readingStatusSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <option value="concluido">Concluído</option>
+              <option value="em_andamento">Lendo agora</option>
+              <option value="quero_ler">Quero ler</option>
+            </select>
+          </div>
+          <div>
+            <label for="readingStartDate" class="block text-xs font-bold text-[#28302A] mb-1">Data Início</label>
+            <input type="date" id="readingStartDate" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="readingEndDate" class="block text-xs font-bold text-[#28302A] mb-1">Data Conclusão</label>
+            <input type="date" id="readingEndDate" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label for="readingSummary" class="block text-xs font-bold text-[#28302A] mb-1">Breve Resumo da História</label>
+          <textarea id="readingSummary" rows="2" placeholder="Do que fala a história em poucas palavras..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label for="readingFavoritePart" class="block text-xs font-bold text-[#2F5233] mb-1">O que a criança mais gostou / Cenas marcantes</label>
+          <textarea id="readingFavoritePart" rows="2" placeholder="Personagem predileto, passagem emocionante, o que comentou..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label for="readingReflection" class="block text-xs font-bold text-[#1E3A5F] mb-1">Reflexão & Conversas Geradas</label>
+          <textarea id="readingReflection" rows="2" placeholder="O que a história ensinou, perguntas feitas em família..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <!-- Virtudes e Exemplos Morais -->
+        <div>
+          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Virtudes e Bons Exemplos Observados</label>
+          <div id="readingVirtuesPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <!-- Populado dinamicamente -->
+          </div>
+          <input type="text" id="readingCustomVirtue" placeholder="Outras virtudes (separadas por vírgula)..." class="w-full text-xs p-2 mt-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+        </div>
+
+        <!-- Experiência de Leitura -->
+        <div>
+          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Como foi a Experiência de Leitura?</label>
+          <div id="readingExpPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <!-- Populado dinamicamente -->
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div>
+            <label for="readingRatingSelect" class="block text-xs font-bold text-[#28302A] mb-1">Apreço da Criança</label>
+            <select id="readingRatingSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <option value="5">❤️❤️❤️❤️❤️ Encantou profundamente</option>
+              <option value="4">❤️❤️❤️❤️ Gostou muito</option>
+              <option value="3">❤️❤️❤️ Foi bom e proveitoso</option>
+              <option value="2">❤️❤️ Regular</option>
+              <option value="1">❤️ Pouco interesse</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2 border-t border-[#E8E2D5]">
+          <button type="button" onclick="ActaApp.closeModal('modalNewReading')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+            Cancelar
+          </button>
+          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+            Guardar na Estante
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal: Detalhes da Leitura -->
+    <div id="modalViewReading" class="hidden bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Ficha da Obra Literária</h3>
+        <button onclick="ActaApp.closeModal('modalViewReading')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div id="readingDetailsContent">
+        <!-- Renderizado dinamicamente via ActaCulture.openReadingDetails -->
+      </div>
+
+      <div class="pt-3 flex justify-between items-center border-t border-[#E8E2D5]">
+        <button id="btnDeleteReading" type="button" class="text-xs text-rose-600 hover:text-rose-800 font-semibold px-3 py-1.5 rounded-full hover:bg-rose-50 transition">
+          <i class="fa-solid fa-trash-can mr-1"></i> Excluir registro
+        </button>
+        <button type="button" onclick="ActaApp.closeModal('modalViewReading')" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+          Fechar
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal: Novo Filme / Cultura -->
+    <div id="modalNewMovie" class="hidden bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <div>
+          <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Registrar Filme & Cultura</h3>
+          <p class="text-xs text-[#667267]">Cinema em família, narrativas nobres e reflexão formativa.</p>
+        </div>
+        <button onclick="ActaApp.closeModal('modalNewMovie')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="formNewMovie" onsubmit="event.preventDefault(); ActaCulture.saveNewMovie();" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="movieChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">Criança / Família</label>
+            <select id="movieChildSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Populado dinamicamente -->
+            </select>
+          </div>
+          <div>
+            <label for="movieCategorySelect" class="block text-xs font-bold text-[#28302A] mb-1">Categoria</label>
+            <select id="movieCategorySelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Populado dinamicamente -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label for="movieTitle" class="block text-xs font-bold text-[#28302A] mb-1">Título do Filme *</label>
+            <input type="text" id="movieTitle" required placeholder="Ex: Pinóquio, Ben-Hur, O Rei Leão..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="movieYear" class="block text-xs font-bold text-[#28302A] mb-1">Ano / Época</label>
+            <input type="text" id="movieYear" placeholder="Ex: 1940" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="movieDirector" class="block text-xs font-bold text-[#28302A] mb-1">Diretor(a) / Estúdio</label>
+            <input type="text" id="movieDirector" placeholder="Ex: Walt Disney, Hayao Miyazaki..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+          <div>
+            <label for="movieDate" class="block text-xs font-bold text-[#28302A] mb-1">Data em que Assistiram</label>
+            <input type="date" id="movieDate" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label for="movieSummary" class="block text-xs font-bold text-[#28302A] mb-1">Sinopse / Sobre o que é o filme</label>
+          <textarea id="movieSummary" rows="2" placeholder="Resumo simples da história..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label for="movieFavoritePart" class="block text-xs font-bold text-[#A95337] mb-1">O que a criança mais gostou</label>
+          <textarea id="movieFavoritePart" rows="2" placeholder="Cena preferida, personagem que admirou..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label for="movieAttentionPart" class="block text-xs font-bold text-[#667267] mb-1">O que mais chamou atenção</label>
+          <textarea id="movieAttentionPart" rows="2" placeholder="A música, a beleza das imagens, a mensagem..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label for="movieReflection" class="block text-xs font-bold text-[#1E3A5F] mb-1">Reflexão em Família & Conversas</label>
+          <textarea id="movieReflection" rows="2" placeholder="O que este filme ensinou ou fez pensar..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <!-- Virtudes e Valores -->
+        <div>
+          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Virtudes e Valores Presentes</label>
+          <div id="movieVirtuesPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <!-- Populado dinamicamente -->
+          </div>
+          <input type="text" id="movieCustomVirtue" placeholder="Outros valores (separados por vírgula)..." class="w-full text-xs p-2 mt-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+        </div>
+
+        <!-- Como foi a experiência -->
+        <div>
+          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Como foi a Experiência?</label>
+          <div id="movieExpPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <!-- Populado dinamicamente -->
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div>
+            <label for="movieRatingSelect" class="block text-xs font-bold text-[#28302A] mb-1">Avaliação da Família</label>
+            <select id="movieRatingSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <option value="5">❤️❤️❤️❤️❤️ Obra-prima inesquecível</option>
+              <option value="4">❤️❤️❤️❤️ Muito bom, enriquecedor</option>
+              <option value="3">❤️❤️❤️ Bom momento em família</option>
+              <option value="2">❤️❤️ Regular</option>
+              <option value="1">❤️ Não recomendamos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2 border-t border-[#E8E2D5]">
+          <button type="button" onclick="ActaApp.closeModal('modalNewMovie')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+            Cancelar
+          </button>
+          <button type="submit" class="hero-btn-slate text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+            Guardar na Cinemateca
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal: Detalhes do Filme -->
+    <div id="modalViewMovie" class="hidden bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Ficha Cinematográfica</h3>
+        <button onclick="ActaApp.closeModal('modalViewMovie')" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div id="movieDetailsContent">
+        <!-- Renderizado dinamicamente via ActaCulture.openMovieDetails -->
+      </div>
+
+      <div class="pt-3 flex justify-between items-center border-t border-[#E8E2D5]">
+        <button id="btnDeleteMovie" type="button" class="text-xs text-rose-600 hover:text-rose-800 font-semibold px-3 py-1.5 rounded-full hover:bg-rose-50 transition">
+          <i class="fa-solid fa-trash-can mr-1"></i> Excluir registro
+        </button>
+        <button type="button" onclick="ActaApp.closeModal('modalViewMovie')" class="hero-btn-slate text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+          Fechar
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <!-- Toast Notification Flutuante -->
@@ -958,8 +2217,13 @@
   <script src="js/storage.js"></script>
   <script src="js/materials.js"></script>
   <script src="js/planner.js"></script>
+  <script src="js/diagnostic.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/extras.js"></script>
   <script src="js/records.js"></script>
+  <script src="js/culture.js"></script>
   <script src="js/reports.js"></script>
+  <script src="js/quotes.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -18,19 +18,17 @@
       {
         id: 'p1',
         name: 'João',
-        info: 'Explorador • 9 anos',
-        avatar: '👦',
-        role: 'Explorador',
-        age: '9 anos',
+        birthDate: '2016-04-12',
+        info: '9 anos',
+        avatar: 'assets/avatars/avatar-menino-castanho.png',
         notes: 'Curioso com números, raciocínio lógico e experimentos práticos.'
       },
       {
         id: 'p2',
         name: 'Sofia',
-        info: 'Exploradora • 7 anos',
-        avatar: '👧',
-        role: 'Exploradora',
-        age: '7 anos',
+        birthDate: '2018-09-20',
+        info: '7 anos',
+        avatar: 'assets/avatars/avatar-menina-castanho.png',
         notes: 'Explorando leitura autônoma, histórias ilustradas e natureza.'
       }
     ],
@@ -39,7 +37,7 @@
         id: 'm1',
         subject: 'Português',
         title: 'Língua Portuguesa',
-        subtitle: '4º ano',
+        subtitle: 'Gramática e Leitura Viva',
         author: 'Ed. Letras',
         themeColor: '#A95337', // Terracotta
         icon: 'fa-book',
@@ -58,7 +56,7 @@
         id: 'm2',
         subject: 'Matemática',
         title: 'A Matemática no Dia a Dia',
-        subtitle: '4º ano',
+        subtitle: 'Aritmética e Raciocínio',
         author: 'Prof. Silva',
         themeColor: '#1E3A5F', // Azul profundo
         icon: 'fa-calculator',
@@ -81,7 +79,7 @@
         id: 'm3',
         subject: 'Ciências',
         title: 'Natureza e Descobertas',
-        subtitle: '4º ano',
+        subtitle: 'Botânica e Ciências Naturais',
         author: 'Instituto Saber',
         themeColor: '#2F5233', // Verde floresta
         icon: 'fa-seedling',
@@ -189,10 +187,11 @@
         subject: 'Matemática',
         contentTitle: 'Adição com reserva',
         activityType: 'Exercícios',
+        performance: ['sozinho', 'avancou'],
         result: 'compreendeu',
         date: '2025-09-17',
         formattedDate: '17 de setembro',
-        autoSummary: 'Realizou exercícios e demonstrou compreensão.',
+        autoSummary: 'Durante a atividade de Matemática, a criança trabalhou "Adição com reserva", realizando os exercícios com autonomia e demonstrando avanço consistente.',
         notes: 'Fez cálculos com atenção e autonomia no caderno.',
         evidenceImg: 'https://images.unsplash.com/photo-1596495578065-6e0763fa1178?w=500&auto=format&fit=crop&q=80'
       },
@@ -202,12 +201,13 @@
         personName: 'João',
         materialId: 'm1',
         subject: 'Português',
-        contentTitle: 'Substantivos',
+        contentTitle: 'Substantivos próprios e comuns',
         activityType: 'Explicação + Exercícios',
+        performance: ['sozinho', 'interesse'],
         result: 'compreendeu',
         date: '2025-09-16',
         formattedDate: '16 de setembro',
-        autoSummary: 'Classificou palavras e identificou sua função.',
+        autoSummary: 'Durante a atividade de Português, a criança trabalhou "Substantivos próprios e comuns", demonstrando vivo interesse e realizando a fixação com autonomia.',
         notes: 'Diferenciou substantivos comuns e próprios com facilidade.',
         evidenceImg: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop&q=80'
       },
@@ -217,12 +217,13 @@
         personName: 'João',
         materialId: 'm3',
         subject: 'Ciências',
-        contentTitle: 'Capítulo 3 — As plantas',
+        contentTitle: 'Capítulo 3 — As plantas e o solo',
         activityType: 'Atividade prática',
+        performance: ['interesse', 'avancou'],
         result: 'compreendeu',
         date: '2025-09-14',
         formattedDate: '14 de setembro',
-        autoSummary: 'Fez anotações e participou da atividade prática.',
+        autoSummary: 'Em atividade prática de Ciências, a criança trabalhou "Capítulo 3 — As plantas e o solo", explorando o tema com curiosidade científica e registrando observações.',
         notes: 'Observou as folhas de um vaso e desenhou as partes da raiz e caule.',
         evidenceImg: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&auto=format&fit=crop&q=80'
       },
@@ -234,12 +235,231 @@
         subject: 'Português',
         contentTitle: 'Leitura de "O Pequeno Príncipe"',
         activityType: 'Leitura',
+        performance: ['sozinho', 'interesse'],
         result: 'compreendeu',
         date: '2025-09-12',
         formattedDate: '12 de setembro',
-        autoSummary: 'Leitura livre e compartilhamento de impressões.',
+        autoSummary: 'Em leitura livre de Português, a criança leu "O Pequeno Príncipe" de forma autônoma e demonstrou excelente compreensão da narrativa.',
         notes: 'Leu dois capítulos com ótima fluência.',
         evidenceImg: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'
+      }
+    ],
+    // 6. Avaliação Diagnóstica (Ponto de Partida sem notas numéricas)
+    evaluations: [
+      {
+        id: 'eval_1',
+        personId: 'p1',
+        personName: 'João',
+        date: '2025-08-10',
+        formattedDate: '10 de agosto',
+        title: 'Avaliação Diagnóstica Inicial',
+        portugues: {
+          leitura: 'consolidado',
+          compreensao: 'consolidado',
+          interpretacao: 'desenvolvimento',
+          escrita: 'desenvolvimento',
+          vocabulario: 'consolidado',
+          organizacaoPensamento: 'desenvolvimento'
+        },
+        matematica: {
+          raciocinio: 'consolidado',
+          operacoes: 'consolidado',
+          problemas: 'desenvolvimento',
+          compreensao: 'consolidado',
+          calculo: 'consolidado'
+        },
+        pontosFortes: 'Leitura fluente e atenta, excelente memória de vocabulário, facilidade com cálculo mental rápido e interesse investigativo.',
+        pontosAtencao: 'Organização escrita das respostas completas e interpretação de problemas matemáticos de múltiplos passos.',
+        conteudosRetomar: 'Interpretação textual com paráfrase e exercícios com problemas contextualizados de etapas combinadas.',
+        observacoes: 'Ponto de partida muito positivo; ritmo de aprendizado consistente e postura socrática de perguntas inteligentes.'
+      }
+    ],
+    // 8. Calendário Visual Familiar (Sem grade escolar; com feriados, férias e recessos)
+    calendarEvents: [
+      {
+        id: 'cal_1',
+        title: 'Férias de Julho em Família',
+        type: 'ferias',
+        startDate: '2025-07-01',
+        endDate: '2025-07-15',
+        notes: 'Descanso, leitura de histórias e contato com a natureza.'
+      },
+      {
+        id: 'cal_2',
+        title: 'Viagem Histórica e Cultural',
+        type: 'viagem',
+        startDate: '2025-10-10',
+        endDate: '2025-10-14',
+        notes: 'Visita a cidades históricas e monumentos coloniais.'
+      },
+      {
+        id: 'cal_3',
+        title: 'Recesso de Primavera',
+        type: 'recesso',
+        startDate: '2025-09-22',
+        endDate: '2025-09-24',
+        notes: 'Pausa para observação botânica e piquenique.'
+      }
+    ],
+    // 12. Passeios & Atividades Extras
+    extras: [
+      {
+        id: 'ext_1',
+        personId: 'p1',
+        personName: 'João',
+        category: 'passeio',
+        type: 'museu',
+        title: 'Visita ao Museu de História e Ciências Naturais',
+        date: '2025-09-08',
+        formattedDate: '08 de setembro',
+        location: 'Museu Municipal',
+        description: 'Observação de fósseis, rochas, minerais e instrumentos astronômicos antigos.',
+        highlights: 'Demonstrou grande fascínio pelo astrolábio e pela formação dos cristais.',
+        evidenceImg: 'https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?w=500&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'ext_2',
+        personId: 'p1',
+        personName: 'João',
+        category: 'extra',
+        type: 'culinaria',
+        title: 'Culinária em Família: Pão Caseiro e Proporções',
+        date: '2025-09-05',
+        formattedDate: '05 de setembro',
+        location: 'Cozinha de casa',
+        description: 'Prática de proporções matemáticas, pesagem de ingredientes e observação da fermentação biológica.',
+        highlights: 'Entendeu frações e medidas de volume na prática preparando a massa.',
+        evidenceImg: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80'
+      }
+    ],
+    // 9. Planejamento Direto (Criança → Material → Conteúdo → Período)
+    plans: [
+      {
+        id: 'pln_1',
+        personId: 'p1',
+        materialId: 'm2',
+        subject: 'Matemática',
+        contentTitle: 'Adição com reserva',
+        period: 'Semana 12',
+        dayKey: 'segunda',
+        status: 'concluido',
+        notes: 'Prática de cálculo no caderno.'
+      },
+      {
+        id: 'pln_2',
+        personId: 'p1',
+        materialId: 'm1',
+        subject: 'Português',
+        contentTitle: 'Substantivos próprios e comuns',
+        period: 'Semana 12',
+        dayKey: 'terca',
+        status: 'concluido',
+        notes: 'Exercícios de classificação.'
+      },
+      {
+        id: 'pln_3',
+        personId: 'p1',
+        materialId: 'm3',
+        subject: 'Ciências',
+        contentTitle: 'Capítulo 3 — As plantas e o solo',
+        period: 'Semana 12',
+        dayKey: 'quarta',
+        status: 'concluido',
+        notes: 'Observação de folhas e sementes.'
+      }
+    ],
+    // 13. Formação Cultural — Leituras & Literatura
+    readings: [
+      {
+        id: 'read_1',
+        personId: 'p1',
+        personName: 'João',
+        title: 'As Crônicas de Nárnia: O Leão, a Feiticeira e o Guarda-Roupa',
+        author: 'C. S. Lewis',
+        category: 'Fantasia',
+        status: 'concluido',
+        startDate: '2025-08-15',
+        endDate: '2025-09-10',
+        summary: 'Quatro irmãos descobrem um guarda-roupa mágico que dá acesso ao reino encantado de Nárnia, que sofre sob um inverno de cem anos imposto pela Feiticeira Branca.',
+        favoritePart: 'O retorno do grande Leão Aslam e o momento em que a primavera começa a brotar no bosque.',
+        virtues: ['Coragem', 'Lealdade', 'Perdão', 'Amizade'],
+        reflection: 'A criança percebeu como as más escolhas trazem consequências difíceis, mas a lealdade entre os irmãos e o perdão sincero superam qualquer medo.',
+        readingExperience: ['Leu com autonomia', 'Foi muito envolvente', 'Gostaria de ler outro livro parecido'],
+        rating: 4,
+        coverColor: '#2F5233'
+      },
+      {
+        id: 'read_2',
+        personId: 'p1',
+        personName: 'João',
+        title: 'Vinte Mil Léguas Submarinas',
+        author: 'Júlio Verne',
+        category: 'Aventura',
+        status: 'concluido',
+        startDate: '2025-09-01',
+        endDate: '2025-09-18',
+        summary: 'A expedição a bordo do submarino Náutilus comandado pelo misterioso Capitão Nemo, explorando os segredos das profundezas dos oceanos.',
+        favoritePart: 'A descrição da floresta de corais no fundo do mar e as invenções científicas do submarino.',
+        virtues: ['Perseverança', 'Respeito', 'Amor ao próximo'],
+        reflection: 'Despertou profundo interesse por biologia marinha, exploração e invenções humanas, além de reflexão sobre o equilíbrio da natureza.',
+        readingExperience: ['Leu com autonomia', 'Despertou curiosidade', 'Foi muito envolvente'],
+        rating: 4,
+        coverColor: '#1E3A5F'
+      },
+      {
+        id: 'read_3',
+        personId: 'p2',
+        personName: 'Sofia',
+        title: 'Fábulas de Esopo Ilustradas',
+        author: 'Esopo',
+        category: 'Fábulas',
+        status: 'concluido',
+        startDate: '2025-09-05',
+        endDate: '2025-09-15',
+        summary: 'Pequenas histórias clássicas com animais que transmitem sabedoria, discernimento e lições morais eternas.',
+        favoritePart: 'A fábula do Leão e o Ratinho, mostrando que os pequenos também podem salvar os grandes.',
+        virtues: ['Humildade', 'Generosidade', 'Amizade'],
+        reflection: 'Ajudou a criança a compreender que a gentileza nunca é perdida e que todos têm valor, independentemente do tamanho.',
+        readingExperience: ['Leitura compartilhada', 'Foi muito envolvente'],
+        rating: 3,
+        coverColor: '#A95337'
+      }
+    ],
+    // 14. Formação Cultural — Filmes & Cultura
+    movies: [
+      {
+        id: 'mov_1',
+        personId: 'p1',
+        personName: 'João',
+        title: 'O Menino e o Mundo',
+        director: 'Alê Abreu',
+        year: '2013',
+        date: '2025-09-07',
+        category: 'Animação',
+        summary: 'Sofrendo com a falta do pai trabalhador que parte para longe, um menino deixa sua aldeia e descobre um mundo fantástico dominado por máquinas e contrastes sociais.',
+        favoritePart: 'A explosão de música e cores folclóricas com os passarinhos de papel.',
+        attentionPart: 'O contraste visual entre as florestas coloridas da infância e os prédios cinzas das fábricas.',
+        reflection: 'Fez a família conversar sobre a importância do trabalho digno, da preservação das memórias de infância e do valor da união familiar.',
+        virtues: ['Amor à família', 'Esperança', 'Perseverança'],
+        childExperience: ['Gostei muito', 'Despertou curiosidade', 'Foi interessante'],
+        rating: 3
+      },
+      {
+        id: 'mov_2',
+        personId: 'p1',
+        personName: 'João',
+        title: 'A Viagem de Chihiro',
+        director: 'Hayao Miyazaki',
+        year: '2001',
+        date: '2025-09-12',
+        category: 'Fantasia',
+        summary: 'Uma menina mimada se vê presa em um mundo de espíritos e precisa trabalhar com diligência para resgatar seus pais e encontrar sua verdadeira coragem.',
+        favoritePart: 'Quando Chihiro ajuda o espírito do rio e descobre a sua própria força interior.',
+        attentionPart: 'Como a protagonista foi se tornando cada vez mais corajosa e trabalhadora sem reclamar.',
+        reflection: 'Inspirou a criança sobre a importância da responsabilidade, da humildade e de cumprir compromissos mesmo quando tudo é novo.',
+        virtues: ['Coragem', 'Responsabilidade', 'Humildade'],
+        childExperience: ['Gostei muito', 'Quero conhecer mais sobre o assunto', 'Gostaria de assistir novamente'],
+        rating: 3
       }
     ]
   };
@@ -254,11 +474,61 @@
           return JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
         }
         const parsed = JSON.parse(raw);
-        if (!parsed.people || parsed.people.length === 0) parsed.people = DEFAULT_SEED_DATA.people;
+        if (!parsed.people || parsed.people.length === 0) {
+          parsed.people = DEFAULT_SEED_DATA.people;
+        } else {
+          let updated = false;
+          parsed.people.forEach(p => {
+            if (p.avatar === '👦' || p.avatar === 'assets/avatar-joao.png' || (p.name === 'João' && (!p.avatar || p.avatar.includes('👦')))) {
+              p.avatar = 'assets/avatars/avatar-menino-castanho.png';
+              updated = true;
+            } else if (p.avatar === '👧' || p.avatar === 'assets/avatar-sofia.png' || (p.name === 'Sofia' && (!p.avatar || p.avatar.includes('👧')))) {
+              p.avatar = 'assets/avatars/avatar-menina-castanho.png';
+              updated = true;
+            } else if (p.avatar && p.avatar.includes('avatar-lucas')) {
+              p.avatar = 'assets/avatars/avatar-menino-negro.png';
+              updated = true;
+            } else if (p.avatar && p.avatar.includes('avatar-maya')) {
+              p.avatar = 'assets/avatars/avatar-menina-negra.png';
+              updated = true;
+            } else if (p.avatar && p.avatar.includes('avatar-kenji')) {
+              p.avatar = 'assets/avatars/avatar-menino-asiatico.png';
+              updated = true;
+            } else if (p.avatar && p.avatar.includes('avatar-hana')) {
+              p.avatar = 'assets/avatars/avatar-menina-asiatica.png';
+              updated = true;
+            } else if (p.avatar && p.avatar.includes('avatar-theo')) {
+              p.avatar = 'assets/avatars/avatar-menino-loiro.png';
+              updated = true;
+            } else if (p.avatar && p.avatar.includes('avatar-clara')) {
+              p.avatar = 'assets/avatars/avatar-menina-ruiva.png';
+              updated = true;
+            }
+            // Remove menção a explorador/exploradora conforme pedido do usuário
+            if (p.info && /explorad/i.test(p.info)) {
+              p.info = '';
+              updated = true;
+            }
+            if (p.role) {
+              delete p.role;
+              updated = true;
+            }
+          });
+          if (updated) {
+            this.saveData(parsed);
+          }
+        }
         if (!parsed.materials || parsed.materials.length === 0) parsed.materials = DEFAULT_SEED_DATA.materials;
-        if (!parsed.records) parsed.records = [];
+        if (!parsed.materials || parsed.materials.length === 0) parsed.materials = DEFAULT_SEED_DATA.materials;
+        if (!parsed.records || parsed.records.length === 0) parsed.records = DEFAULT_SEED_DATA.records;
         if (!parsed.weekSchedule) parsed.weekSchedule = DEFAULT_SEED_DATA.weekSchedule;
         if (!parsed.achievements) parsed.achievements = DEFAULT_SEED_DATA.achievements;
+        if (!parsed.evaluations || parsed.evaluations.length === 0) parsed.evaluations = DEFAULT_SEED_DATA.evaluations;
+        if (!parsed.calendarEvents || parsed.calendarEvents.length === 0) parsed.calendarEvents = DEFAULT_SEED_DATA.calendarEvents;
+        if (!parsed.extras || parsed.extras.length === 0) parsed.extras = DEFAULT_SEED_DATA.extras;
+        if (!parsed.plans || parsed.plans.length === 0) parsed.plans = DEFAULT_SEED_DATA.plans;
+        if (!parsed.readings || parsed.readings.length === 0) parsed.readings = DEFAULT_SEED_DATA.readings;
+        if (!parsed.movies || parsed.movies.length === 0) parsed.movies = DEFAULT_SEED_DATA.movies;
         return parsed;
       } catch (e) {
         console.error('Erro ao ler localStorage:', e);
@@ -284,6 +554,10 @@
       return this.getData().people || [];
     },
 
+    getPersonById: function(id) {
+      return (this.getData().people || []).find(p => p.id === id) || null;
+    },
+
     getActivePerson: function() {
       const data = this.getData();
       const person = data.people.find(p => p.id === data.activePersonId);
@@ -303,6 +577,163 @@
       if (!data.activePersonId) data.activePersonId = person.id;
       this.saveData(data);
       return person;
+    },
+
+    updatePerson: function(person) {
+      const data = this.getData();
+      const idx = data.people.findIndex(p => p.id === person.id);
+      if (idx >= 0) {
+        data.people[idx] = Object.assign({}, data.people[idx], person);
+        this.saveData(data);
+      }
+      return person;
+    },
+
+    deletePerson: function(id) {
+      const data = this.getData();
+      data.people = data.people.filter(p => p.id !== id);
+      if (data.activePersonId === id) {
+        data.activePersonId = data.people[0] ? data.people[0].id : null;
+      }
+      this.saveData(data);
+    },
+
+    // ==========================================
+    // 6. AVALIAÇÃO DIAGNÓSTICA (Ponto de Partida)
+    // ==========================================
+    getEvaluations: function(personId) {
+      const list = this.getData().evaluations || [];
+      if (personId && personId !== 'all') {
+        return list.filter(e => e.personId === personId);
+      }
+      return list;
+    },
+
+    getEvaluationById: function(id) {
+      return (this.getData().evaluations || []).find(e => e.id === id) || null;
+    },
+
+    saveEvaluation: function(evalData) {
+      const data = this.getData();
+      if (!data.evaluations) data.evaluations = [];
+      if (!evalData.id) evalData.id = 'eval_' + Date.now();
+      if (!evalData.date) evalData.date = new Date().toISOString().split('T')[0];
+      if (!evalData.formattedDate) {
+        const parts = evalData.date.split('-');
+        const monthNames = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+        evalData.formattedDate = `${parseInt(parts[2])} de ${monthNames[parseInt(parts[1]) - 1]}`;
+      }
+
+      const idx = data.evaluations.findIndex(e => e.id === evalData.id);
+      if (idx >= 0) {
+        data.evaluations[idx] = evalData;
+      } else {
+        data.evaluations.unshift(evalData);
+      }
+      this.saveData(data);
+      return evalData;
+    },
+
+    deleteEvaluation: function(id) {
+      const data = this.getData();
+      data.evaluations = (data.evaluations || []).filter(e => e.id !== id);
+      this.saveData(data);
+    },
+
+    // ==========================================
+    // 8. CALENDÁRIO VISUAL FAMILIAR & PERÍODOS
+    // ==========================================
+    getCalendarEvents: function() {
+      return this.getData().calendarEvents || [];
+    },
+
+    saveCalendarEvent: function(eventData) {
+      const data = this.getData();
+      if (!data.calendarEvents) data.calendarEvents = [];
+      if (!eventData.id) eventData.id = 'cal_' + Date.now();
+      const idx = data.calendarEvents.findIndex(ev => ev.id === eventData.id);
+      if (idx >= 0) {
+        data.calendarEvents[idx] = eventData;
+      } else {
+        data.calendarEvents.push(eventData);
+      }
+      this.saveData(data);
+      return eventData;
+    },
+
+    deleteCalendarEvent: function(id) {
+      const data = this.getData();
+      data.calendarEvents = (data.calendarEvents || []).filter(ev => ev.id !== id);
+      this.saveData(data);
+    },
+
+    // ==========================================
+    // 12. PASSEIOS & ATIVIDADES EXTRAS
+    // ==========================================
+    getExtras: function(personId) {
+      const list = this.getData().extras || [];
+      if (personId && personId !== 'all') {
+        return list.filter(x => x.personId === personId);
+      }
+      return list;
+    },
+
+    saveExtra: function(extraData) {
+      const data = this.getData();
+      if (!data.extras) data.extras = [];
+      if (!extraData.id) extraData.id = 'ext_' + Date.now();
+      if (!extraData.date) extraData.date = new Date().toISOString().split('T')[0];
+      if (!extraData.formattedDate) {
+        const parts = extraData.date.split('-');
+        const monthNames = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+        extraData.formattedDate = `${parseInt(parts[2])} de ${monthNames[parseInt(parts[1]) - 1]}`;
+      }
+
+      const idx = data.extras.findIndex(x => x.id === extraData.id);
+      if (idx >= 0) {
+        data.extras[idx] = extraData;
+      } else {
+        data.extras.unshift(extraData);
+      }
+      this.saveData(data);
+      return extraData;
+    },
+
+    deleteExtra: function(id) {
+      const data = this.getData();
+      data.extras = (data.extras || []).filter(x => x.id !== id);
+      this.saveData(data);
+    },
+
+    // ==========================================
+    // 9. PLANEJAMENTO (Criança → Material → Conteúdo → Período)
+    // ==========================================
+    getPlans: function(personId) {
+      const list = this.getData().plans || [];
+      if (personId && personId !== 'all') {
+        return list.filter(p => p.personId === personId);
+      }
+      return list;
+    },
+
+    savePlan: function(planData) {
+      const data = this.getData();
+      if (!data.plans) data.plans = [];
+      if (!planData.id) planData.id = 'pln_' + Date.now();
+      const idx = data.plans.findIndex(p => p.id === planData.id);
+      if (idx >= 0) {
+        data.plans[idx] = planData;
+      } else {
+        data.plans.unshift(planData);
+      }
+      this.saveData(data);
+      return planData;
+    },
+
+    deletePlan: function(id) {
+      const data = this.getData();
+      data.plans = (data.plans || []).filter(p => p.id !== id);
+      this.saveData(data);
     },
 
     // Materiais / Biblioteca
@@ -419,6 +850,105 @@
       const data = this.getData();
       data.activeTheme = theme;
       this.saveData(data);
+    },
+
+    // ==========================================
+    // LEITURAS & LITERATURA
+    // ==========================================
+    getReadings: function() {
+      return this.getData().readings || [];
+    },
+
+    getReadingById: function(id) {
+      return (this.getData().readings || []).find(r => r.id === id) || null;
+    },
+
+    addReading: function(reading) {
+      const data = this.getData();
+      if (!data.readings) data.readings = [];
+      if (!reading.id) reading.id = 'read_' + Date.now();
+      data.readings.unshift(reading);
+      this.saveData(data);
+      return reading;
+    },
+
+    updateReading: function(reading) {
+      const data = this.getData();
+      if (!data.readings) data.readings = [];
+      const idx = data.readings.findIndex(r => r.id === reading.id);
+      if (idx >= 0) {
+        data.readings[idx] = Object.assign({}, data.readings[idx], reading);
+        this.saveData(data);
+      }
+      return reading;
+    },
+
+    deleteReading: function(id) {
+      const data = this.getData();
+      if (!data.readings) return;
+      data.readings = data.readings.filter(r => r.id !== id);
+      this.saveData(data);
+    },
+
+    // ==========================================
+    // FILMES & CULTURA
+    // ==========================================
+    getMovies: function() {
+      return this.getData().movies || [];
+    },
+
+    getMovieById: function(id) {
+      return (this.getData().movies || []).find(m => m.id === id) || null;
+    },
+
+    addMovie: function(movie) {
+      const data = this.getData();
+      if (!data.movies) data.movies = [];
+      if (!movie.id) movie.id = 'mov_' + Date.now();
+      data.movies.unshift(movie);
+      this.saveData(data);
+      return movie;
+    },
+
+    updateMovie: function(movie) {
+      const data = this.getData();
+      if (!data.movies) data.movies = [];
+      const idx = data.movies.findIndex(m => m.id === movie.id);
+      if (idx >= 0) {
+        data.movies[idx] = Object.assign({}, data.movies[idx], movie);
+        this.saveData(data);
+      }
+      return movie;
+    },
+
+    deleteMovie: function(id) {
+      const data = this.getData();
+      if (!data.movies) return;
+      data.movies = data.movies.filter(m => m.id !== id);
+      this.saveData(data);
+    },
+
+    // Avatares Ilustrados Diversificados (5 pares menino/menina)
+    AVATAR_OPTIONS: [
+      { id: 'av-1', src: 'assets/avatars/avatar-menino-negro.png' },
+      { id: 'av-2', src: 'assets/avatars/avatar-menino-castanho.png' },
+      { id: 'av-3', src: 'assets/avatars/avatar-menino-loiro.png' },
+      { id: 'av-4', src: 'assets/avatars/avatar-menino-ruivo.png' },
+      { id: 'av-5', src: 'assets/avatars/avatar-menino-asiatico.png' },
+
+      { id: 'av-6', src: 'assets/avatars/avatar-menina-negra.png' },
+      { id: 'av-7', src: 'assets/avatars/avatar-menina-castanho.png' },
+      { id: 'av-8', src: 'assets/avatars/avatar-menina-loira.png' },
+      { id: 'av-9', src: 'assets/avatars/avatar-menina-ruiva.png' },
+      { id: 'av-10', src: 'assets/avatars/avatar-menina-asiatica.png' }
+    ],
+
+    renderAvatarHTML: function(avatar, className = 'w-full h-full object-cover', alt = 'Avatar') {
+      if (!avatar) avatar = 'assets/avatars/avatar-menino-castanho.png';
+      if (avatar.includes('/') || avatar.endsWith('.png') || avatar.endsWith('.svg') || avatar.endsWith('.jpg')) {
+        return `<img src="${avatar}" alt="${alt}" class="${className} rounded-full" loading="lazy">`;
+      }
+      return `<span class="${className} flex items-center justify-center">${avatar}</span>`;
     }
   };
 
