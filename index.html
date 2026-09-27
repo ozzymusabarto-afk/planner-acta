@@ -20,17 +20,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Estilos e Temas do Planner ACTA -->
-  <link rel="stylesheet" href="css/style.css?v=20260927_4">
+  <link rel="stylesheet" href="css/style.css?v=20260927_8">
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col md:flex-row">
 
   <!-- ================================================================= -->
   <!-- BARRA LATERAL FIXA / MENU DA ESQUERDA (DESKTOP)                   -->
   <!-- ================================================================= -->
-  <aside id="sidebarNav" class="w-full md:w-60 lg:w-64 border-r flex-shrink-0 flex flex-col justify-between p-5 print-hide md:sticky md:top-0 md:h-screen z-30">
+  <aside id="sidebarNav" class="w-full md:w-60 lg:w-64 border-r flex-shrink-0 flex flex-col justify-between p-4 sm:p-5 print-hide md:sticky md:top-0 md:h-screen overflow-y-auto z-30 custom-scrollbar">
     
     <!-- Topo da Sidebar: Logo e Marca -->
-    <div class="space-y-6">
+    <div class="space-y-4">
       <div class="flex items-center gap-2.5 cursor-pointer" onclick="ActaApp.switchTab('casa')">
         <div class="w-9 h-9 rounded-2xl bg-white/80 border border-[#E8E2D5] flex items-center justify-center shrink-0 shadow-xs">
           <span class="theme-title-badge w-6 h-6"></span>
@@ -42,7 +42,7 @@
       </div>
 
       <!-- Menu Principal de Navegação Lateral (14 Módulos da Família) -->
-      <nav class="space-y-1">
+      <nav class="space-y-0.5">
         <button data-nav-target="casa" class="sidebar-nav-item active">
           <i class="fa-solid fa-house-chimney w-4 text-center text-sm"></i>
           <span>Home</span>
@@ -121,7 +121,7 @@
     </div>
 
     <!-- Rodapé da Sidebar: Criança Ativa e Seletor de Tema -->
-    <div class="pt-6 border-t border-[#E8E2D5] space-y-3">
+    <div class="pt-3.5 border-t border-[#E8E2D5] space-y-2 shrink-0">
       <!-- Pílula da Criança Ativa -->
       <div 
         id="sidebarActiveChildPill" 
@@ -985,9 +985,14 @@
               <label for="regChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">
                 Criança
               </label>
-              <select id="regChildSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FDFBF7] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5233]/20">
-                <!-- Populado dinamicamente -->
-              </select>
+              <div class="flex items-center gap-2.5">
+                <div id="regChildAvatarPreview" class="w-9 h-9 rounded-full overflow-hidden border border-[#CCD8CD] bg-white shrink-0 shadow-2xs flex items-center justify-center">
+                  <!-- Avatar dinâmico -->
+                </div>
+                <select id="regChildSelect" onchange="ActaApp.onRegChildChange(this.value)" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FDFBF7] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5233]/20 font-medium text-[#28302A]">
+                  <!-- Populado dinamicamente -->
+                </select>
+              </div>
             </div>
 
             <div>
@@ -2814,23 +2819,23 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
   <!-- Camada de Conexão, Autenticação e Firestore do ACTA -->
-  <script src="js/firebase-config.js?v=20260927_7"></script>
-  <script src="js/firestore-sync.js?v=20260927_7"></script>
-  <script src="js/auth.js?v=20260927_7"></script>
+  <script src="js/firebase-config.js?v=20260927_8"></script>
+  <script src="js/firestore-sync.js?v=20260927_8"></script>
+  <script src="js/auth.js?v=20260927_8"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260927_7"></script>
-  <script src="js/materials.js?v=20260927_7"></script>
-  <script src="js/curriculum.js?v=20260927_7"></script>
-  <script src="js/planner.js?v=20260927_7"></script>
-  <script src="js/diagnostic.js?v=20260927_7"></script>
-  <script src="js/calendar.js?v=20260927_7"></script>
-  <script src="js/extras.js?v=20260927_7"></script>
-  <script src="js/records.js?v=20260927_7"></script>
-  <script src="js/culture.js?v=20260927_7"></script>
-  <script src="js/reports.js?v=20260927_7"></script>
-  <script src="js/quotes.js?v=20260927_7"></script>
-  <script src="js/tutorial.js?v=20260927_7"></script>
-  <script src="js/app.js?v=20260927_7"></script>
+  <script src="js/storage.js?v=20260927_8"></script>
+  <script src="js/materials.js?v=20260927_8"></script>
+  <script src="js/curriculum.js?v=20260927_8"></script>
+  <script src="js/planner.js?v=20260927_8"></script>
+  <script src="js/diagnostic.js?v=20260927_8"></script>
+  <script src="js/calendar.js?v=20260927_8"></script>
+  <script src="js/extras.js?v=20260927_8"></script>
+  <script src="js/records.js?v=20260927_8"></script>
+  <script src="js/culture.js?v=20260927_8"></script>
+  <script src="js/reports.js?v=20260927_8"></script>
+  <script src="js/quotes.js?v=20260927_8"></script>
+  <script src="js/tutorial.js?v=20260927_8"></script>
+  <script src="js/app.js?v=20260927_8"></script>
 </body>
 </html>

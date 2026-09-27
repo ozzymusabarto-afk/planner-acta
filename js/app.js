@@ -437,6 +437,7 @@
       if (tabName === 'filmes') this.renderFilmesTab();
       if (tabName === 'calendario') this.renderCalendarioTab();
       if (tabName === 'semana') this.renderSemanaTab();
+      if (tabName === 'registros') this.updateRegisterDropdowns();
       if (tabName === 'passeios') this.renderPasseiosTab();
       if (tabName === 'caminhada') this.renderCaminhadaTab();
       if (tabName === 'linhadotempo') this.renderLinhaDoTempoTab();
@@ -1132,9 +1133,11 @@
       if (personSelect) {
         personSelect.innerHTML = people.map(p => `
           <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>
-            ${p.avatar || '👦'} ${p.name}
+            ${p.name}
           </option>
         `).join('');
+
+        this.onRegChildChange(personSelect.value);
       }
 
       // Select Disciplina
@@ -1147,6 +1150,17 @@
           <option value="Arte">Arte</option>
           <option value="Outra">Outra disciplina...</option>
         `;
+      }
+    },
+
+    onRegChildChange: function(personId) {
+      const avatarEl = document.getElementById('regChildAvatarPreview');
+      if (!avatarEl) return;
+      const person = ActaStorage.getPersonById(personId) || ActaStorage.getActivePerson();
+      if (person) {
+        avatarEl.innerHTML = ActaStorage.renderAvatarHTML(person.avatar, 'w-full h-full object-cover', person.name);
+      } else {
+        avatarEl.innerHTML = '<span class="text-sm">👦</span>';
       }
     },
 
