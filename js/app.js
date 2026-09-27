@@ -81,7 +81,10 @@
       const savedTheme = ActaStorage.getActiveTheme();
       this.applyTheme(savedTheme);
 
-      // 2. Renderizar componentes iniciais
+      // 2. Inicializar observador de autenticação (Firebase Auth)
+      this.initAuth();
+
+      // 3. Renderizar componentes iniciais
       this.renderSidebar();
       this.renderCasaTab();
       this.renderCriancasTab();
@@ -92,8 +95,232 @@
       this.renderDossieTab();
       this.renderConfiguracoesTab();
 
-      // 3. Setup de navegação e listeners
+      // 4. Setup de navegação e listeners
       this.setupNavigation();
+    },
+
+    // ==========================================
+    // AUTENTICAÇÃO E PORTAL DE ACESSO
+    // ==========================================
+    initAuth: function() {
+      if (window.ActaAuth && typeof window.ActaAuth.onAuthStateChanged === 'function') {
+        window.ActaAuth.onAuthStateChanged(user => {
+          this.handleAuthStateChange(user);
+        });
+      }
+    },
+
+    handleAuthStateChange: function(user) {
+      const portal = document.getElementById('actaAuthPortal');
+      const userNameEl = document.getElementById('sidebarUserName');
+      const userBadgeEl = document.getElementById('sidebarUserBadge');
+      const userInitialEl = document.getElementById('sidebarUserInitial');
+
+      if (user) {
+        if (portal) portal.classList.add('hidden');
+        if (userNameEl) {
+          userNameEl.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Minha Família');
+        }
+        if (userBadgeEl) {
+          const profile = window.ActaAuth.getUserProfile();
+          userBadgeEl.textContent = (profile && profile.plan === 'premium') ? 'Premium' : 'Free';
+        }
+        if (userInitialEl) {
+          const name = user.displayName || user.email || 'A';
+          userInitialEl.textContent = name.charAt(0).toUpperCase();
+        }
+        this.refreshAllTabs();
+        if (window.ActaTutorial && typeof window.ActaTutorial.checkAutoStart === 'function') {
+          window.ActaTutorial.checkAutoStart(user.uid);
+        }
+      } else {
+        if (portal) portal.classList.remove('hidden');
+        if (userNameEl) userNameEl.textContent = 'Minha Família';
+        if (userBadgeEl) userBadgeEl.textContent = 'Visitante';
+        if (userInitialEl) userInitialEl.innerHTML = '<i class="fa-solid fa-user"></i>';
+        this.clearPrivateViews();
+      }
+    },
+
+    clearPrivateViews: function() {
+      const containerIds = [
+        'peopleGrid', 'sidebarActiveChildPill', 'timelineFeed',
+        'recordsTableBody', 'materialsGrid', 'bookshelfContainer',
+        'cinematecaGrid', 'calendarGrid', 'evaluationsList', 'extrasGrid'
+      ];
+      containerIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '';
+      });
+    },
+
+    switchAuthTab: function(tab) {
+      const btnIn = document.getElementById('authTabBtnSignIn');
+      const btnUp = document.getElementById('authTabBtnSignUp');
+      const formIn = document.getElementById('authFormSignIn');
+      const formUp = document.getElementById('authFormSignUp');
+      const formReset = document.getElementById('authFormResetPassword');
+      const alertEl = document.getElementById('authAlertMessage');
+
+      if (alertEl) alertEl.classList.add('hidden');
+      if (formReset) formReset.classList.add('hidden');
+
+      if (tab === 'signup') {
+        if (btnUp) {
+          btnUp.className = 'flex-1 py-2.5 text-center border-b-2 border-[#2F5233] text-[#2F5233]';
+        }
+        if (btnIn) {
+          btnIn.className = 'flex-1 py-2.5 text-center text-[#8E9A8F] hover:text-[#28302A] border-b-2 border-transparent';
+        }
+        if (formIn) formIn.classList.add('hidden');
+        if (formUp) formUp.classList.remove('hidden');
+      } else {
+        if (btnIn) {
+          btnIn.className = 'flex-1 py-2.5 text-center border-b-2 border-[#2F5233] text-[#2F5233]';
+        }
+        if (btnUp) {
+          btnUp.className = 'flex-1 py-2.5 text-center text-[#8E9A8F] hover:text-[#28302A] border-b-2 border-transparent';
+        }
+        if (formIn) formIn.classList.remove('hidden');
+        if (formUp) formUp.classList.add('hidden');
+      }
+    },
+
+    showResetPasswordView: function() {
+      const formIn = document.getElementById('authFormSignIn');
+      const formUp = document.getElementById('authFormSignUp');
+      const formReset = document.getElementById('authFormResetPassword');
+      const alertEl = document.getElementById('authAlertMessage');
+
+      if (alertEl) alertEl.classList.add('hidden');
+      if (formIn) formIn.classList.add('hidden');
+      if (formUp) formUp.classList.add('hidden');
+      if (formReset) formReset.classList.remove('hidden');
+    },
+
+    showAuthAlert: function(message, type) {
+      const alertEl = document.getElementById('authAlertMessage');
+      if (!alertEl) return;
+      alertEl.textContent = message;
+      alertEl.classList.remove('hidden', 'bg-rose-50', 'border-rose-200', 'text-rose-700', 'bg-emerald-50', 'border-emerald-200', 'text-emerald-700');
+      if (type === 'error') {
+        alertEl.classList.add('bg-rose-50', 'border-rose-200', 'text-rose-700');
+      } else {
+        alertEl.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-700');
+      }
+    },
+
+    handleSignInSubmit: async function() {
+      const email = document.getElementById('authSignInEmail')?.value;
+      const pass = document.getElementById('authSignInPassword')?.value;
+      const btn = document.getElementById('btnAuthSignInSubmit');
+      if (!btn) return;
+
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Acessando...';
+
+      try {
+        await window.ActaAuth.signIn(email, pass);
+        this.showToast('Login realizado com sucesso! Bem-vindo(a) ao ACTA.');
+      } catch (err) {
+        this.showAuthAlert(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    },
+
+    handleSignUpSubmit: async function() {
+      const name = document.getElementById('authSignUpName')?.value;
+      const email = document.getElementById('authSignUpEmail')?.value;
+      const pass = document.getElementById('authSignUpPassword')?.value;
+      const confirmPass = document.getElementById('authSignUpConfirmPassword')?.value;
+      const btn = document.getElementById('btnAuthSignUpSubmit');
+      if (!btn) return;
+
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Criando conta...';
+
+      try {
+        await window.ActaAuth.signUp(name, email, pass, confirmPass);
+        this.showToast('Conta criada com sucesso! Seu espaço individual foi preparado.');
+      } catch (err) {
+        this.showAuthAlert(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    },
+
+    handleResetPasswordSubmit: async function() {
+      const email = document.getElementById('authResetEmail')?.value;
+      const btn = document.getElementById('btnAuthResetSubmit');
+      if (!btn) return;
+
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Enviando...';
+
+      try {
+        const msg = await window.ActaAuth.resetPassword(email);
+        this.showAuthAlert(msg, 'success');
+      } catch (err) {
+        this.showAuthAlert(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    },
+
+    handleSignOut: async function() {
+      if (confirm('Deseja realmente sair da sua conta? Seus dados salvos continuam seguros na nuvem.')) {
+        await window.ActaAuth.signOut();
+        this.showToast('Sessão encerrada com segurança.');
+      }
+    },
+
+    openAuthModal: function(tab) {
+      const portal = document.getElementById('actaAuthPortal');
+      if (portal) {
+        portal.classList.remove('hidden');
+        this.switchAuthTab(tab || 'signin');
+      }
+    },
+
+    closeAuthModal: function() {
+      const portal = document.getElementById('actaAuthPortal');
+      if (portal) {
+        portal.classList.add('hidden');
+      }
+    },
+
+    refreshAllTabs: function() {
+      this.renderSidebar();
+      this.renderCasaTab();
+      this.renderCriancasTab();
+      this.renderMaterialsTab();
+      this.renderSemanaTab();
+      this.renderCaminhadaTab();
+      this.renderDossieTab();
+      this.renderConfiguracoesTab();
+      if (window.ActaCulture) {
+        if (typeof window.ActaCulture.renderBookshelf === 'function') window.ActaCulture.renderBookshelf();
+        if (typeof window.ActaCulture.renderCinemateca === 'function') window.ActaCulture.renderCinemateca();
+      }
+      if (window.ActaCalendar && typeof window.ActaCalendar.render === 'function') {
+        window.ActaCalendar.render();
+      }
+      if (window.ActaDiagnostic && typeof window.ActaDiagnostic.render === 'function') {
+        window.ActaDiagnostic.render();
+      }
+      if (window.ActaExtras && typeof window.ActaExtras.render === 'function') {
+        window.ActaExtras.render();
+      }
+      if (window.ActaRecords && typeof window.ActaRecords.renderTimelineTab === 'function') {
+        window.ActaRecords.renderTimelineTab();
+      }
     },
 
     // ==========================================

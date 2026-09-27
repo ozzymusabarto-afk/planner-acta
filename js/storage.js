@@ -7,9 +7,50 @@
 (function(window) {
   'use strict';
 
-  const STORAGE_KEY = 'ACTA_PLANNER_STORAGE_V2';
+  const BASE_STORAGE_KEY = 'ACTA_PLANNER_STORAGE_V2';
+  let activeUserMemoryData = null;
 
-  // Dados iniciais enriquecidos inspirados diretamente no mockup
+  function getCurrentUserUid() {
+    if (window.ActaAuth && typeof window.ActaAuth.getUserUid === 'function') {
+      return window.ActaAuth.getUserUid();
+    }
+    return null;
+  }
+
+  function getStorageKey() {
+    const uid = getCurrentUserUid();
+    return uid ? `ACTA_USER_DATA_${uid}` : BASE_STORAGE_KEY;
+  }
+
+  const EMPTY_WEEK_SCHEDULE = [
+    { dayKey: 'segunda', dayTitle: 'Segunda-feira', dateLabel: '', items: [] },
+    { dayKey: 'terca', dayTitle: 'Terça-feira', dateLabel: '', items: [] },
+    { dayKey: 'quarta', dayTitle: 'Quarta-feira', dateLabel: '', items: [] },
+    { dayKey: 'quinta', dayTitle: 'Quinta-feira', dateLabel: '', items: [] },
+    { dayKey: 'sexta', dayTitle: 'Sexta-feira', dateLabel: '', items: [] },
+    { dayKey: 'sabado', dayTitle: 'Sábado', dateLabel: '', items: [] }
+  ];
+
+  // Estrutura inicial limpa para novos usuários reais cadastrados (sem poluição com dados de teste)
+  const EMPTY_REAL_USER_DATA = {
+    schemaVersion: 1,
+    contextMode: 'Minha família',
+    activeTheme: 'natureza',
+    activePersonId: null,
+    people: [],
+    materials: [],
+    records: [],
+    weekSchedule: EMPTY_WEEK_SCHEDULE,
+    achievements: [],
+    evaluations: [],
+    calendarEvents: [],
+    extras: [],
+    plans: [],
+    readings: [],
+    movies: []
+  };
+
+  // Dados iniciais enriquecidos para modo visitante / prévia demonstrativa
   const DEFAULT_SEED_DATA = {
     contextMode: 'Minha família',
     activeTheme: 'natureza',
@@ -466,14 +507,50 @@
 
   const ActaStorage = {
     getData: function() {
+      const uid = getCurrentUserUid();
+      
+      // Retorna cache de memória sincronizado para o usuário atual, se disponível
+      if (uid && activeUserMemoryData) {
+        return activeUserMemoryData;
+      }
+
+      const key = getStorageKey();
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(key);
         if (!raw) {
-          // Migração limpa ou primeira carga
+          // Se for usuário autenticado real, inicializa com template limpo
+          if (uid) {
+            const fresh = JSON.parse(JSON.stringify(EMPTY_REAL_USER_DATA));
+            this.saveData(fresh);
+            activeUserMemoryData = fresh;
+            return fresh;
+          }
+          // Modo visitante / prévia demonstrativa
           this.saveData(DEFAULT_SEED_DATA);
           return JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
         }
+
         const parsed = JSON.parse(raw);
+        parsed.schemaVersion = parsed.schemaVersion || 1;
+
+        if (uid) {
+          // Garante listas vazias caso inexistentes para contas reais (sem injetar demo)
+          if (!Array.isArray(parsed.people)) parsed.people = [];
+          if (!Array.isArray(parsed.materials)) parsed.materials = [];
+          if (!Array.isArray(parsed.records)) parsed.records = [];
+          if (!parsed.weekSchedule || !Array.isArray(parsed.weekSchedule)) parsed.weekSchedule = JSON.parse(JSON.stringify(EMPTY_WEEK_SCHEDULE));
+          if (!Array.isArray(parsed.achievements)) parsed.achievements = [];
+          if (!Array.isArray(parsed.evaluations)) parsed.evaluations = [];
+          if (!Array.isArray(parsed.calendarEvents)) parsed.calendarEvents = [];
+          if (!Array.isArray(parsed.extras)) parsed.extras = [];
+          if (!Array.isArray(parsed.plans)) parsed.plans = [];
+          if (!Array.isArray(parsed.readings)) parsed.readings = [];
+          if (!Array.isArray(parsed.movies)) parsed.movies = [];
+          activeUserMemoryData = parsed;
+          return parsed;
+        }
+
+        // Modo demonstrativo visitante (caso offline ou sem login)
         if (!parsed.people || parsed.people.length === 0) {
           parsed.people = DEFAULT_SEED_DATA.people;
         } else {
@@ -504,7 +581,6 @@
               p.avatar = 'assets/avatars/avatar-menina-ruiva.png';
               updated = true;
             }
-            // Remove menção a explorador/exploradora conforme pedido do usuário
             if (p.info && /explorad/i.test(p.info)) {
               p.info = '';
               updated = true;
@@ -519,7 +595,6 @@
           }
         }
         if (!parsed.materials || parsed.materials.length === 0) parsed.materials = DEFAULT_SEED_DATA.materials;
-        if (!parsed.materials || parsed.materials.length === 0) parsed.materials = DEFAULT_SEED_DATA.materials;
         if (!parsed.records || parsed.records.length === 0) parsed.records = DEFAULT_SEED_DATA.records;
         if (!parsed.weekSchedule) parsed.weekSchedule = DEFAULT_SEED_DATA.weekSchedule;
         if (!parsed.achievements) parsed.achievements = DEFAULT_SEED_DATA.achievements;
@@ -531,16 +606,45 @@
         if (!parsed.movies || parsed.movies.length === 0) parsed.movies = DEFAULT_SEED_DATA.movies;
         return parsed;
       } catch (e) {
-        console.error('Erro ao ler localStorage:', e);
-        return JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
+        console.error('Erro ao ler armazenamento:', e);
+        return uid ? JSON.parse(JSON.stringify(EMPTY_REAL_USER_DATA)) : JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
       }
     },
 
     saveData: function(data) {
+      const uid = getCurrentUserUid();
+      const key = getStorageKey();
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        data.schemaVersion = data.schemaVersion || 1;
+        if (uid) {
+          activeUserMemoryData = data;
+        }
+        localStorage.setItem(key, JSON.stringify(data));
+
+        // Notifica sincronização em segundo plano para Firestore se autenticado
+        if (uid && window.ActaFirestoreSync && typeof window.ActaFirestoreSync.scheduleSync === 'function') {
+          window.ActaFirestoreSync.scheduleSync(uid, data);
+        }
       } catch (e) {
-        console.error('Erro ao salvar no localStorage:', e);
+        console.error('Erro ao salvar armazenamento:', e);
+      }
+    },
+
+    setUserDataSet: function(uid, userData) {
+      if (uid && userData) {
+        activeUserMemoryData = userData;
+        try {
+          localStorage.setItem(`ACTA_USER_DATA_${uid}`, JSON.stringify(userData));
+        } catch(e) {}
+      }
+    },
+
+    resetUserSession: function(clearLocalData = false, uid = null) {
+      activeUserMemoryData = null;
+      if (clearLocalData && uid) {
+        try {
+          localStorage.removeItem(`ACTA_USER_DATA_${uid}`);
+        } catch(e) {}
       }
     },
 
@@ -949,7 +1053,9 @@
         return `<img src="${avatar}" alt="${alt}" class="${className} rounded-full" loading="lazy">`;
       }
       return `<span class="${className} flex items-center justify-center">${avatar}</span>`;
-    }
+    },
+
+    EMPTY_WEEK_SCHEDULE: EMPTY_WEEK_SCHEDULE
   };
 
   window.ActaStorage = ActaStorage;

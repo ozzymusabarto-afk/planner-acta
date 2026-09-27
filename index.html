@@ -104,6 +104,11 @@
           <i class="fa-solid fa-gear w-4 text-center text-sm"></i>
           <span>Configurações</span>
         </button>
+
+        <button type="button" onclick="ActaTutorial.startTour()" class="sidebar-nav-item text-[#2F5233] font-semibold bg-[#2F5233]/5 hover:bg-[#2F5233]/10 transition mt-2 border border-[#2F5233]/15 rounded-xl">
+          <i class="fa-solid fa-circle-question w-4 text-center text-sm text-[#2F5233]"></i>
+          <span>Guia & Como Usar</span>
+        </button>
       </nav>
     </div>
 
@@ -117,6 +122,37 @@
         title="Clique para alternar de criança"
       >
         <!-- Populado dinamicamente via ActaApp.renderSidebar -->
+      </div>
+
+      <!-- Painel de Conta / Sessão do Usuário -->
+      <div id="sidebarUserSession" class="flex items-center justify-between p-2 rounded-xl bg-white border border-[#E8E2D5] text-xs">
+        <div class="flex items-center gap-2 overflow-hidden">
+          <div class="w-6 h-6 rounded-full bg-[#2F5233] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+            <span id="sidebarUserInitial"><i class="fa-solid fa-user"></i></span>
+          </div>
+          <div class="truncate">
+            <p id="sidebarUserName" class="font-bold text-[#28302A] text-[11px] truncate leading-tight">Família ACTA</p>
+            <span id="sidebarUserBadge" class="text-[9px] px-1.5 py-0.2 rounded bg-[#FAF7F0] text-[#667267] font-semibold">Free</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-1 shrink-0">
+          <button 
+            type="button"
+            onclick="ActaApp.openAuthModal('signin')" 
+            title="Acessar / Cadastrar conta" 
+            class="text-[#2F5233] hover:text-[#1e3621] p-1.5 rounded-lg hover:bg-[#FAF7F0] transition"
+          >
+            <i class="fa-solid fa-right-to-bracket text-xs"></i>
+          </button>
+          <button 
+            type="button"
+            onclick="ActaApp.handleSignOut()" 
+            title="Sair da conta" 
+            class="text-[#8E9A8F] hover:text-[#A44A3F] p-1.5 rounded-lg hover:bg-[#FAF7F0] transition"
+          >
+            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Seletor Discreto de Tema -->
@@ -2213,6 +2249,120 @@
     <!-- Mensagem dinâmica -->
   </div>
 
+  <!-- ================================================================= -->
+  <!-- PORTAL PÚBLICO DE AUTENTICAÇÃO E ACESSO (ACTA AUTH)               -->
+  <!-- ================================================================= -->
+  <div id="actaAuthPortal" class="fixed inset-0 z-50 bg-[#FAF7F0] flex items-center justify-center p-4 overflow-y-auto hidden">
+    <div class="relative max-w-md w-full my-8 bg-white border border-[#E8E2D5] rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+      <button 
+        type="button" 
+        onclick="ActaApp.closeAuthModal()" 
+        class="absolute top-5 right-5 text-[#8E9A8F] hover:text-[#28302A] p-2 rounded-full hover:bg-[#FAF7F0] transition" 
+        title="Fechar e continuar como visitante"
+      >
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+      <!-- Cabeçalho Editorial com Identidade ACTA -->
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] text-[#2F5233] text-2xl shadow-xs">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <h1 class="font-editorial-serif text-2xl sm:text-3xl font-bold text-[#28302A] tracking-tight">ACTA</h1>
+        <p class="text-xs sm:text-sm text-[#667267] font-medium">Caderno Inteligente da Família & Escola</p>
+        <p class="text-[11px] text-[#8E9A8F] italic">Planeje com serenidade. Registre com profundidade.</p>
+      </div>
+
+      <!-- Abas de Alternância: Entrar | Criar Conta -->
+      <div class="flex border-b border-[#E8E2D5] text-xs font-semibold">
+        <button id="authTabBtnSignIn" type="button" onclick="ActaApp.switchAuthTab('signin')" class="flex-1 py-2.5 text-center border-b-2 border-[#2F5233] text-[#2F5233]">
+          Entrar
+        </button>
+        <button id="authTabBtnSignUp" type="button" onclick="ActaApp.switchAuthTab('signup')" class="flex-1 py-2.5 text-center text-[#8E9A8F] hover:text-[#28302A] border-b-2 border-transparent">
+          Criar Minha Conta
+        </button>
+      </div>
+
+      <!-- Mensagens de Alerta / Erro / Sucesso -->
+      <div id="authAlertMessage" class="hidden text-xs p-3 rounded-xl border"></div>
+
+      <!-- Formulário: Entrar (Login) -->
+      <form id="authFormSignIn" onsubmit="event.preventDefault(); ActaApp.handleSignInSubmit();" class="space-y-4">
+        <div>
+          <label for="authSignInEmail" class="block text-xs font-bold text-[#28302A] mb-1">E-mail</label>
+          <input type="email" id="authSignInEmail" required placeholder="seuemail@exemplo.com" class="w-full text-xs p-3 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none transition">
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label for="authSignInPassword" class="block text-xs font-bold text-[#28302A]">Senha</label>
+            <button type="button" onclick="ActaApp.showResetPasswordView()" class="text-[11px] text-[#2F5233] hover:underline">Esqueci minha senha</button>
+          </div>
+          <input type="password" id="authSignInPassword" required placeholder="••••••••" class="w-full text-xs p-3 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none transition">
+        </div>
+        <button id="btnAuthSignInSubmit" type="submit" class="hero-btn-green w-full py-3 rounded-full text-xs font-bold shadow-sm transition flex items-center justify-center gap-2">
+          <span>Acessar Meu Planner</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Formulário: Criar Nova Conta -->
+      <form id="authFormSignUp" onsubmit="event.preventDefault(); ActaApp.handleSignUpSubmit();" class="space-y-3.5 hidden">
+        <div>
+          <label for="authSignUpName" class="block text-xs font-bold text-[#28302A] mb-1">Nome da Família / Responsável</label>
+          <input type="text" id="authSignUpName" required placeholder="Ex: Família Martins ou Prof. Adriana" class="w-full text-xs p-3 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none transition">
+        </div>
+        <div>
+          <label for="authSignUpEmail" class="block text-xs font-bold text-[#28302A] mb-1">E-mail</label>
+          <input type="email" id="authSignUpEmail" required placeholder="seuemail@exemplo.com" class="w-full text-xs p-3 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none transition">
+        </div>
+        <div>
+          <label for="authSignUpPassword" class="block text-xs font-bold text-[#28302A] mb-1">Senha (Mínimo 6 caracteres)</label>
+          <input type="password" id="authSignUpPassword" required minlength="6" placeholder="••••••••" class="w-full text-xs p-3 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none transition">
+        </div>
+        <div>
+          <label for="authSignUpConfirmPassword" class="block text-xs font-bold text-[#28302A] mb-1">Confirmar Senha</label>
+          <input type="password" id="authSignUpConfirmPassword" required minlength="6" placeholder="••••••••" class="w-full text-xs p-3 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none transition">
+        </div>
+        <p class="text-[10px] text-[#667267] italic leading-tight">
+          🔒 Seus dados pedagógicos são protegidos e vinculados exclusivamente ao seu identificador pessoal (UID).
+        </p>
+        <button id="btnAuthSignUpSubmit" type="submit" class="hero-btn-green w-full py-3 rounded-full text-xs font-bold shadow-sm transition flex items-center justify-center gap-2">
+          <span>Criar Minha Conta</span>
+          <i class="fa-solid fa-seedling"></i>
+        </button>
+      </form>
+
+      <!-- Formulário: Redefinir Senha -->
+      <form id="authFormResetPassword" onsubmit="event.preventDefault(); ActaApp.handleResetPasswordSubmit();" class="space-y-4 hidden">
+        <div class="space-y-1">
+          <h3 class="text-xs font-bold text-[#28302A]">Recuperação de Senha</h3>
+          <p class="text-[11px] text-[#667267]">Informe seu e-mail cadastrado. Enviaremos um link oficial e seguro para você definir uma nova senha.</p>
+        </div>
+        <div>
+          <label for="authResetEmail" class="block text-xs font-bold text-[#28302A] mb-1">E-mail Cadastrado</label>
+          <input type="email" id="authResetEmail" required placeholder="seuemail@exemplo.com" class="w-full text-xs p-3 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none transition">
+        </div>
+        <div class="flex gap-2">
+          <button type="button" onclick="ActaApp.switchAuthTab('signin')" class="w-1/2 py-2.5 rounded-full text-xs font-medium text-[#667267] hover:bg-[#FAF7F0] border border-[#E8E2D5]">
+            Voltar
+          </button>
+          <button id="btnAuthResetSubmit" type="submit" class="hero-btn-green w-1/2 py-2.5 rounded-full text-xs font-bold shadow-sm">
+            Enviar Link
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts do Firebase SDK Compat (Oficial CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+  <!-- Camada de Conexão, Autenticação e Firestore do ACTA -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/firestore-sync.js"></script>
+  <script src="js/auth.js"></script>
+
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
   <script src="js/storage.js"></script>
   <script src="js/materials.js"></script>
@@ -2224,6 +2374,7 @@
   <script src="js/culture.js"></script>
   <script src="js/reports.js"></script>
   <script src="js/quotes.js"></script>
+  <script src="js/tutorial.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

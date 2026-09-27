@@ -1,0 +1,77 @@
+rules_version = '2';
+
+// ===============================================================
+// PLANNER ACTA — Cloud Firestore Security Rules
+// Firebase Project ID: acta-551f5
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Funções Auxiliares de Autenticação e Autorização
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAllowedSubcollection(subcollection) {
+      return subcollection in [
+        'children',
+        'materials',
+        'plans',
+        'records',
+        'diagnostics',
+        'calendar',
+        'extras',
+        'readings',
+        'movies',
+        'settings'
+      ];
+    }
+
+    function areImmutableFieldsUnchanged() {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(['plan', 'status', 'uid', 'createdAt']);
+    }
+
+    // ===============================================================
+    // Regras: /users/{userId} (Perfil da Família)
+    // ===============================================================
+
+    match /users/{userId} {
+      // 1. Leitura: apenas o próprio dono autenticado
+      allow read: if isOwner(userId);
+
+      // 2. Criação: apenas o próprio dono; 'plan' forçado a 'free' e 'status' a 'active'
+      allow create: if isOwner(userId) &&
+                       request.resource.data.get('uid', userId) == userId &&
+                       request.resource.data.get('plan', 'free') == 'free' &&
+                       request.resource.data.get('status', 'active') == 'active';
+
+      // 3. Atualização: apenas o próprio dono; plan, status, uid e createdAt são imutáveis
+      allow update: if isOwner(userId) && areImmutableFieldsUnchanged();
+
+      // 4. Exclusão: bloqueada na raiz para segurança da conta
+      allow delete: if false;
+
+      // ===============================================================
+      // Subcoleções Privadas da Família sob /users/{userId}
+      // ===============================================================
+      match /{subcollection}/{docId} {
+        allow read, write: if isOwner(userId) && isAllowedSubcollection(subcollection);
+      }
+    }
+
+    // ===============================================================
+    // Bloqueio Padrão (Default Deny)
+    // ===============================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
