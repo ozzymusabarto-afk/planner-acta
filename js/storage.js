@@ -1099,6 +1099,77 @@
       return `<span class="${className} flex items-center justify-center">${avatar}</span>`;
     },
 
+    exportBackupJSON: function() {
+      const data = this.getData();
+      const backupPayload = {
+        app: 'ACTA_PLANNER',
+        version: data.schemaVersion || 1,
+        exportedAt: new Date().toISOString(),
+        data: data
+      };
+
+      const jsonStr = JSON.stringify(backupPayload, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const now = new Date();
+      const datePart = now.toISOString().substring(0, 10);
+      const timePart = String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `backup_planner_acta_${datePart}_${timePart}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
+        window.ActaApp.showToast('✅ Cópia de segurança baixada com sucesso!');
+      }
+    },
+
+    importBackupJSON: function(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) {
+          reject(new Error('Nenhum arquivo selecionado.'));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const parsed = JSON.parse(e.target.result);
+            const actualData = parsed.data || parsed;
+
+            if (!actualData || typeof actualData !== 'object') {
+              throw new Error('Arquivo de backup inválido.');
+            }
+
+            if (!Array.isArray(actualData.people) && !Array.isArray(actualData.weekSchedule)) {
+              throw new Error('Estrutura de dados não compatível com o Planner ACTA.');
+            }
+
+            this.saveData(actualData);
+
+            if (window.ActaApp && typeof window.ActaApp.refreshAllTabs === 'function') {
+              window.ActaApp.refreshAllTabs();
+            }
+
+            if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
+              window.ActaApp.showToast('✅ Backup restaurado com sucesso!');
+            }
+
+            resolve(actualData);
+          } catch (err) {
+            reject(err);
+          }
+        };
+
+        reader.onerror = () => reject(new Error('Erro ao ler o arquivo de backup.'));
+        reader.readAsText(file);
+      });
+    },
+
     EMPTY_WEEK_SCHEDULE: EMPTY_WEEK_SCHEDULE
   };
 

@@ -1812,6 +1812,27 @@
       if (overlay) overlay.classList.add('hidden');
     },
 
+    handleBackupUpload: function(event) {
+      const file = event && event.target && event.target.files && event.target.files[0];
+      if (!file) return;
+      if (!confirm('Deseja realmente restaurar os dados deste arquivo de backup? Os dados atuais serão substituídos pelo backup.')) {
+        event.target.value = '';
+        return;
+      }
+      ActaStorage.importBackupJSON(file)
+        .then(() => {
+          this.closeModal('modalBackup');
+          this.showToast('✅ Cópia de segurança restaurada com sucesso!');
+          this.refreshAllTabs();
+        })
+        .catch((err) => {
+          alert('Erro ao importar backup: ' + (err && err.message ? err.message : err));
+        })
+        .finally(() => {
+          event.target.value = '';
+        });
+    },
+
     previewImage: function(imgUrl) {
       const modal = document.getElementById('modalImagePreview');
       const img = document.getElementById('modalImagePreviewSrc');

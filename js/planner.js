@@ -74,21 +74,60 @@
           </div>
         `;
       } else {
+        const completedItems = (scheduleData || []).reduce((acc, d) => {
+          return acc + ((d.items || []).filter(i => i.status === 'concluido').length);
+        }, 0);
+        const pct = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+
+        let motivationalMsg = 'Comece marcando as lições concluídas do dia!';
+        if (pct === 100) motivationalMsg = '🌟 Parabéns! Todas as aulas da semana foram concluídas com louvor!';
+        else if (pct >= 80) motivationalMsg = 'Reta final da semana! Quase tudo concluído com constância.';
+        else if (pct >= 50) motivationalMsg = 'Mais da metade da semana concluída! Ótimo ritmo de estudos.';
+        else if (pct > 0) motivationalMsg = 'Bom início de semana! Passo a passo o aprendizado se consolida.';
+
         html += `
-          <div class="p-3 bg-[#FAF7F0] border border-[#E8E2D5] rounded-xl flex items-center justify-between gap-3 shadow-2xs mb-4">
-            <div class="flex items-center gap-2 text-xs text-[#667267]">
-              <i class="fa-solid fa-layer-group text-[#2F5233]"></i>
-              <span>Grade ativa: <strong class="text-[#28302A]">${activePerson ? (activePerson.schoolYearLabel || 'Personalizada') : 'Semanal'}</strong> (${totalItems} aulas na semana)</span>
+          <div class="planner-card p-4 bg-gradient-to-r from-[#FAF7F0] via-white to-[#EBF3ED] border border-[#CCD8CD] rounded-2xl shadow-2xs mb-4 space-y-2.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl ${pct === 100 ? 'bg-[#2F5233]' : 'bg-[#1E3A5F]'} text-white flex items-center justify-center text-xs shrink-0 shadow-xs">
+                  <i class="fa-solid ${pct === 100 ? 'fa-award' : 'fa-chart-pie'}"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs font-bold text-[#28302A]">
+                      Progresso Semanal: <strong>${completedItems} de ${totalItems} aulas concluídas</strong> (${pct}%)
+                    </span>
+                    ${pct === 100 ? '<span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-[#EBF3ED] text-[#2F5233]">Concluída!</span>' : ''}
+                  </div>
+                  <span class="text-[11px] text-[#667267] font-medium">${motivationalMsg}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                <button 
+                  type="button" 
+                  onclick="if(window.ActaCurriculum) ActaCurriculum.openCurriculumModal('${activePerson ? activePerson.id : ''}')"
+                  class="text-[11px] font-bold px-3 py-1.5 rounded-full bg-white border border-[#2F5233]/30 text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
+                  title="Ajustar matérias e grade da semana"
+                >
+                  <i class="fa-solid fa-sliders text-[10px]"></i>
+                  <span>Ajustar Grade</span>
+                </button>
+                <button 
+                  type="button" 
+                  onclick="ActaPlanner.printWeekSchedule()"
+                  class="text-[11px] font-bold px-3 py-1.5 rounded-full bg-white border border-[#CCD8CD] text-[#28302A] hover:bg-[#FAF7F0] transition flex items-center gap-1 shadow-2xs"
+                  title="Imprimir folha A4 com a grade semanal"
+                >
+                  <i class="fa-solid fa-print text-[#667267] text-[10px]"></i>
+                  <span>Imprimir Folha</span>
+                </button>
+              </div>
             </div>
-            <button 
-              type="button" 
-              onclick="if(window.ActaApp) ActaApp.openCurriculumModal('${activePerson ? activePerson.id : ''}')"
-              class="text-[11px] font-bold px-3 py-1 rounded-full bg-white border border-[#2F5233]/30 text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
-              title="Alterar ou personalizar matérias da grade"
-            >
-              <i class="fa-solid fa-sliders text-[10px]"></i>
-              <span>Ajustar Grade</span>
-            </button>
+
+            <!-- Barra de Progresso Animada -->
+            <div class="w-full bg-[#E8E2D5] h-2.5 rounded-full overflow-hidden shadow-inner">
+              <div class="bg-gradient-to-r from-[#2F5233] to-[#437549] h-full rounded-full transition-all duration-500 ease-out" style="width: ${pct}%"></div>
+            </div>
           </div>
         `;
       }
@@ -735,6 +774,106 @@
           }
         }
       }
+    },
+
+    printWeekSchedule: function() {
+      const storage = window.ActaStorage;
+      if (!storage) return;
+
+      const schedule = storage.getWeekSchedule();
+      const activePerson = storage.getActivePerson();
+      const weekRange = (window.ActaCurriculum && typeof window.ActaCurriculum.getCurrentWeekRangeLabel === 'function') 
+        ? window.ActaCurriculum.getCurrentWeekRangeLabel() 
+        : 'Planejamento Semanal';
+
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        alert('Por favor, permita pop-ups no seu navegador para imprimir a folha da semana.');
+        return;
+      }
+
+      const days = Array.isArray(schedule) ? schedule : [];
+
+      const html = `
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8">
+          <title>Grade Semanal - ${activePerson ? activePerson.name : 'Estudante'}</title>
+          <style>
+            @page { size: A4 landscape; margin: 10mm; }
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #28302A; margin: 0; padding: 12px; background: #fff; }
+            .header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #2F5233; padding-bottom: 8px; margin-bottom: 12px; }
+            .title { font-size: 20px; font-weight: bold; color: #2F5233; margin: 0; }
+            .meta { font-size: 13px; color: #555; margin-top: 3px; }
+            .grid { display: flex; gap: 8px; }
+            .day-col { flex: 1; border: 1.5px solid #CCD8CD; border-radius: 10px; overflow: hidden; background: #FAF7F0; min-height: 440px; display: flex; flex-direction: column; }
+            .day-head { background: #2F5233; color: white; padding: 7px 8px; font-size: 13px; font-weight: bold; text-transform: uppercase; text-align: center; }
+            .day-date { font-size: 11px; font-weight: normal; opacity: 0.9; }
+            .day-body { padding: 8px; flex: 1; display: flex; flex-direction: column; gap: 8px; background: #fff; }
+            .item-card { border: 1px solid #E8E2D5; border-radius: 8px; padding: 7px; background: #FAF7F0; font-size: 12px; }
+            .item-head { display: flex; align-items: center; gap: 6px; font-weight: bold; color: #28302A; margin-bottom: 3px; }
+            .checkbox { width: 14px; height: 14px; border: 1.5px solid #2F5233; border-radius: 3px; display: inline-block; shrink: 0; }
+            .item-content { font-size: 11px; color: #667267; margin-left: 20px; }
+            .notes-box { margin-top: 12px; border: 1.5px dashed #CCD8CD; border-radius: 8px; padding: 10px; min-height: 45px; font-size: 12px; color: #667267; background: #FAF7F0; }
+            .footer { margin-top: 10px; font-size: 11px; color: #888; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div>
+              <h1 class="title">ACTA — Caderno da Família</h1>
+              <div class="meta">
+                Estudante: <strong>${activePerson ? activePerson.name : 'Estudante'}</strong> 
+                ${activePerson && activePerson.schoolYearLabel ? ` • Série: <strong>${activePerson.schoolYearLabel}</strong>` : ''}
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: bold; font-size: 14px; color: #2F5233;">${weekRange}</div>
+              <div style="font-size: 11px; color: #777;">Planejamento Pedagógico Semanal</div>
+            </div>
+          </div>
+
+          <div class="grid">
+            ${days.filter(d => d.dayKey !== 'sabado').map(d => `
+              <div class="day-col">
+                <div class="day-head">
+                  ${d.dayTitle}
+                  ${d.dateLabel ? `<div class="day-date">${d.dateLabel}</div>` : ''}
+                </div>
+                <div class="day-body">
+                  ${(d.items || []).map(i => `
+                    <div class="item-card">
+                      <div class="item-head">
+                        <span class="checkbox"></span>
+                        <span>${i.subject}</span>
+                      </div>
+                      <div class="item-content">${i.content}</div>
+                    </div>
+                  `).join('')}
+                  ${(!d.items || d.items.length === 0) ? '<div style="color: #999; font-size: 11px; font-style: italic; text-align: center; margin-top: 20px;">Livre</div>' : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="notes-box">
+            <strong>Anotações da Família / Metas da Semana:</strong>
+          </div>
+
+          <div class="footer">
+            Planner ACTA • Organização serena e formativa para famílias educadoras.
+          </div>
+
+          <script>
+            window.onload = function() { window.print(); };
+          </script>
+        </body>
+        </html>
+      `;
+
+      printWindow.document.write(html);
+      printWindow.document.close();
     }
   };
 
