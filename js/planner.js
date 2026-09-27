@@ -62,7 +62,7 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-[#28302A]">
                   ${day.dayTitle}
                 </span>
-                <span class="text-xs text-[#667267] font-medium font-mono">${day.dateLabel || ''}</span>
+                <span class="text-[11px] text-[#2F5233] font-bold font-mono px-2 py-0.5 rounded-full bg-[#EBF3ED]">${day.dateLabel ? `• dia ${day.dateLabel}` : ''}</span>
               </div>
               <div class="flex items-center gap-2">
                 <span class="text-[11px] text-[#667267] font-medium">${day.items.length} ${day.items.length === 1 ? 'conteúdo' : 'conteúdos'}</span>

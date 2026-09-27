@@ -870,7 +870,25 @@
 
     // Semana / Planejamento
     getWeekSchedule: function() {
-      return this.getData().weekSchedule || DEFAULT_SEED_DATA.weekSchedule;
+      const data = this.getData();
+      let schedule = data.weekSchedule;
+
+      // Se a semana estiver vazia (sem nenhuma aula planejada) e houver uma criança cadastrada,
+      // inicializa automaticamente com a grade sugerida para nunca deixar o calendário em branco!
+      const hasAnyItem = Array.isArray(schedule) && schedule.some(d => d.items && d.items.length > 0);
+      if (!hasAnyItem) {
+        const activePerson = this.getActivePerson();
+        if (activePerson && window.ActaCurriculum && typeof window.ActaCurriculum.applyGradeToSchedule === 'function') {
+          const grade = activePerson.schoolYear || 'fund1_1ano';
+          window.ActaCurriculum.applyGradeToSchedule(activePerson.id, grade, ['ingles'], true);
+          const freshData = this.getData();
+          if (freshData.weekSchedule && freshData.weekSchedule.length > 0) {
+            return freshData.weekSchedule;
+          }
+        }
+      }
+
+      return schedule || DEFAULT_SEED_DATA.weekSchedule;
     },
 
     saveWeekSchedule: function(schedule) {

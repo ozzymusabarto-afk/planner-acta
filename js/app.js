@@ -672,7 +672,7 @@
             <div class="flex items-center gap-2">
               <button 
                 type="button" 
-                onclick="ActaStorage.setActivePersonId('${p.id}'); ActaApp.renderSidebar(); ActaApp.switchTab('semana'); if(window.ActaCurriculum) window.ActaCurriculum.openCurriculumModal();" 
+                onclick="ActaStorage.setActivePersonId('${p.id}'); ActaApp.renderSidebar(); if(window.ActaCurriculum) window.ActaCurriculum.openCurriculumModal('${p.id}');" 
                 class="text-xs font-semibold px-3 py-2 rounded-full border border-[#2F5233]/20 bg-[#FAF7F0] text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
                 title="Configurar ou aplicar grade curricular sugerida para esta criança"
               >
@@ -718,7 +718,10 @@
         notes: notesInput ? notesInput.value.trim() : ''
       };
 
-      ActaStorage.addPerson(newPerson);
+      const added = ActaStorage.addPerson(newPerson);
+      if (window.ActaCurriculum && typeof window.ActaCurriculum.applyGradeToSchedule === 'function') {
+        window.ActaCurriculum.applyGradeToSchedule(added.id, newPerson.schoolYear, ['ingles'], true);
+      }
       this.closeModal('modalNewPerson');
 
       nameInput.value = '';
@@ -880,6 +883,11 @@
       if (scheduleContainer) {
         const scheduleData = ActaStorage.getWeekSchedule();
         scheduleContainer.innerHTML = ActaPlanner.renderWeekScheduleHTML(scheduleData, activePerson);
+      }
+
+      const rangeEl = document.getElementById('semanaWeekRangeLabel');
+      if (rangeEl && window.ActaCurriculum && typeof window.ActaCurriculum.getCurrentWeekRangeLabel === 'function') {
+        rangeEl.textContent = window.ActaCurriculum.getCurrentWeekRangeLabel();
       }
     },
 

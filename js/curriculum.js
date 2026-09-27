@@ -272,29 +272,79 @@
     ELECTIVES_CONFIG: ELECTIVES_CONFIG,
 
     /**
+     * Calcula as datas reais da semana atual (de segunda a sexta)
+     */
+    getWeekDates: function() {
+      const now = new Date();
+      const currentDay = now.getDay(); // 0 = Domingo, 1 = Segunda, ...
+      const distanceToMonday = currentDay === 0 ? -6 : 1 - currentDay;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() + distanceToMonday);
+
+      const daysMeta = [
+        { dayKey: 'segunda', dayTitle: 'Segunda-feira', offset: 0 },
+        { dayKey: 'terca', dayTitle: 'Terça-feira', offset: 1 },
+        { dayKey: 'quarta', dayTitle: 'Quarta-feira', offset: 2 },
+        { dayKey: 'quinta', dayTitle: 'Quinta-feira', offset: 3 },
+        { dayKey: 'sexta', dayTitle: 'Sexta-feira', offset: 4 }
+      ];
+
+      return daysMeta.map(d => {
+        const dDate = new Date(monday);
+        dDate.setDate(monday.getDate() + d.offset);
+        const dayNum = String(dDate.getDate()).padStart(2, '0');
+        const monthNum = String(dDate.getMonth() + 1).padStart(2, '0');
+        return {
+          dayKey: d.dayKey,
+          dayTitle: d.dayTitle,
+          dateLabel: `${dayNum}/${monthNum}`
+        };
+      });
+    },
+
+    /**
+     * Retorna a string legível do período da semana (ex: "Semana de 28 de setembro a 02 de outubro")
+     */
+    getCurrentWeekRangeLabel: function() {
+      const dates = this.getWeekDates();
+      const monthNames = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+      const now = new Date();
+      const currentDay = now.getDay();
+      const distanceToMonday = currentDay === 0 ? -6 : 1 - currentDay;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() + distanceToMonday);
+      const friday = new Date(monday);
+      friday.setDate(monday.getDate() + 4);
+
+      const d1 = monday.getDate();
+      const m1 = monthNames[monday.getMonth()];
+      const d2 = String(friday.getDate()).padStart(2, '0');
+      const m2 = monthNames[friday.getMonth()];
+
+      if (m1 === m2) {
+        return `Semana de ${d1} a ${d2} de ${m1}`;
+      }
+      return `Semana de ${d1} de ${m1} a ${d2} de ${m2}`;
+    },
+
+    /**
      * Aplica uma grade sugerida na semana da criança selecionada
      */
     applyGradeToSchedule: function(childId, gradeKey, selectedElectiveIds, replaceExisting) {
       const storage = window.ActaStorage;
       if (!storage) return false;
 
-      const grade = GRADES_CONFIG[gradeKey];
+      const grade = GRADES_CONFIG[gradeKey] || GRADES_CONFIG['fund1_1ano'];
       if (!grade) {
         console.error('[Curriculum] Grade não encontrada:', gradeKey);
         return false;
       }
 
-      // Base da semana
-      const weekDays = [
-        { dayKey: 'segunda', dayTitle: 'Segunda-feira', dateLabel: '' },
-        { dayKey: 'terca', dayTitle: 'Terça-feira', dateLabel: '' },
-        { dayKey: 'quarta', dayTitle: 'Quarta-feira', dateLabel: '' },
-        { dayKey: 'quinta', dayTitle: 'Quinta-feira', dateLabel: '' },
-        { dayKey: 'sexta', dayTitle: 'Sexta-feira', dateLabel: '' }
-      ];
+      // Base da semana com datas reais calculadas
+      const weekDays = this.getWeekDates();
 
       // Busca dados atuais da semana
-      let currentSchedule = storage.getWeekSchedule();
+      let currentSchedule = storage.getData ? (storage.getData().weekSchedule || []) : storage.getWeekSchedule();
       if (!Array.isArray(currentSchedule) || currentSchedule.length === 0) {
         currentSchedule = weekDays.map(d => ({ ...d, items: [] }));
       }
@@ -337,7 +387,7 @@
         return {
           dayKey: wDay.dayKey,
           dayTitle: wDay.dayTitle,
-          dateLabel: existingDay ? existingDay.dateLabel : '',
+          dateLabel: wDay.dateLabel,
           items: items
         };
       });
@@ -404,13 +454,18 @@
     /**
      * Abre modal interativo para aplicar grade sugerida
      */
-    openCurriculumModal: function() {
+    openCurriculumModal: function(targetChildId) {
       const storage = window.ActaStorage;
       const modal = document.getElementById('modalCurriculumGrade');
+      const overlay = document.getElementById('modalOverlay');
       if (!modal) return;
 
       const people = storage ? storage.getPeople() : [];
-      const activePerson = storage ? storage.getActivePerson() : null;
+      let activePerson = storage ? storage.getActivePerson() : null;
+      if (targetChildId) {
+        const found = (storage && typeof storage.getPersonById === 'function') ? storage.getPersonById(targetChildId) : null;
+        if (found) activePerson = found;
+      }
 
       // Popula select de crianças
       const childSelect = document.getElementById('curriculumChildSelect');
@@ -436,12 +491,15 @@
       }
 
       this.updateGradePreview();
+      if (overlay) overlay.classList.remove('hidden');
       modal.classList.remove('hidden');
     },
 
     closeCurriculumModal: function() {
       const modal = document.getElementById('modalCurriculumGrade');
+      const overlay = document.getElementById('modalOverlay');
       if (modal) modal.classList.add('hidden');
+      if (overlay) overlay.classList.add('hidden');
     },
 
     /**
@@ -508,11 +566,17 @@
       const ok = this.applyGradeToSchedule(childId, gradeKey, selectedElectives, replaceExisting);
       if (ok) {
         this.closeCurriculumModal();
-        if (window.ActaApp && typeof window.ActaApp.renderSemanaTab === 'function') {
-          window.ActaApp.renderSemanaTab();
+        if (childId && window.ActaStorage) {
+          window.ActaStorage.setActivePersonId(childId);
         }
-        if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
-          window.ActaApp.showToast('Grade horária sugerida aplicada com sucesso!');
+        if (window.ActaApp) {
+          if (typeof window.ActaApp.renderSidebar === 'function') window.ActaApp.renderSidebar();
+          if (typeof window.ActaApp.renderCriancasTab === 'function') window.ActaApp.renderCriancasTab();
+          if (typeof window.ActaApp.switchTab === 'function') window.ActaApp.switchTab('semana');
+          if (typeof window.ActaApp.renderSemanaTab === 'function') window.ActaApp.renderSemanaTab();
+          if (typeof window.ActaApp.showToast === 'function') {
+            window.ActaApp.showToast('Grade horária sugerida aplicada com sucesso!');
+          }
         }
       }
     }
