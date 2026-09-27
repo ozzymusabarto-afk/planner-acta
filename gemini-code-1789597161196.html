@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Estilos e Temas do Planner ACTA -->
-  <link rel="stylesheet" href="css/style.css?v=20260927_3">
+  <link rel="stylesheet" href="css/style.css?v=20260927_4">
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col md:flex-row">
 
@@ -2407,6 +2407,28 @@
       </form>
     </div>
 
+    <!-- Modal: Adiar / Remanejar Aula Inteligente (Equilíbrio e Sem Sobrecarga) -->
+    <div id="modalRescheduleClass" class="bg-white border border-[#E8E2D5] rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5 hidden my-8">
+      <div class="flex items-center justify-between border-b border-[#E8E2D5] pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-[#1E3A5F] text-white flex items-center justify-center text-sm shadow-xs">
+            <i class="fa-solid fa-arrows-split-up-and-left"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#28302A]">Remanejar ou Adiar Aula</h3>
+            <p id="rescheduleClassSubtitle" class="text-[11px] text-[#667267]">Equilíbrio de carga horária da semana</p>
+          </div>
+        </div>
+        <button type="button" onclick="ActaPlanner.closeRescheduleModal()" class="text-[#8E9A8F] hover:text-[#28302A] p-2 rounded-full hover:bg-[#FAF7F0] transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div id="rescheduleModalBody" class="space-y-4">
+        <!-- Renderizado dinamicamente via ActaPlanner.openRescheduleModal -->
+      </div>
+    </div>
+
   </div>
 
   <!-- Toast Notification Flutuante -->
@@ -2524,23 +2546,23 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
   <!-- Camada de Conexão, Autenticação e Firestore do ACTA -->
-  <script src="js/firebase-config.js?v=20260927_3"></script>
-  <script src="js/firestore-sync.js?v=20260927_3"></script>
-  <script src="js/auth.js?v=20260927_3"></script>
+  <script src="js/firebase-config.js?v=20260927_4"></script>
+  <script src="js/firestore-sync.js?v=20260927_4"></script>
+  <script src="js/auth.js?v=20260927_4"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260927_3"></script>
-  <script src="js/materials.js?v=20260927_3"></script>
-  <script src="js/curriculum.js?v=20260927_3"></script>
-  <script src="js/planner.js?v=20260927_3"></script>
-  <script src="js/diagnostic.js?v=20260927_3"></script>
-  <script src="js/calendar.js?v=20260927_3"></script>
-  <script src="js/extras.js?v=20260927_3"></script>
-  <script src="js/records.js?v=20260927_3"></script>
-  <script src="js/culture.js?v=20260927_3"></script>
-  <script src="js/reports.js?v=20260927_3"></script>
-  <script src="js/quotes.js?v=20260927_3"></script>
-  <script src="js/tutorial.js?v=20260927_3"></script>
-  <script src="js/app.js?v=20260927_3"></script>
+  <script src="js/storage.js?v=20260927_4"></script>
+  <script src="js/materials.js?v=20260927_4"></script>
+  <script src="js/curriculum.js?v=20260927_4"></script>
+  <script src="js/planner.js?v=20260927_4"></script>
+  <script src="js/diagnostic.js?v=20260927_4"></script>
+  <script src="js/calendar.js?v=20260927_4"></script>
+  <script src="js/extras.js?v=20260927_4"></script>
+  <script src="js/records.js?v=20260927_4"></script>
+  <script src="js/culture.js?v=20260927_4"></script>
+  <script src="js/reports.js?v=20260927_4"></script>
+  <script src="js/quotes.js?v=20260927_4"></script>
+  <script src="js/tutorial.js?v=20260927_4"></script>
+  <script src="js/app.js?v=20260927_4"></script>
 </body>
 </html>

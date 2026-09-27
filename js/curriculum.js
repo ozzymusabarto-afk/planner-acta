@@ -41,26 +41,31 @@
 
     'fund1_1ano': {
       label: '1º Ano do Ensino Fundamental (6 a 7 anos)',
-      description: 'Foco central na alfabetização segura, escrita inicial e domínio dos números naturais.',
+      description: 'Estrutura equilibrada (3 aulas/dia): Alfabetização, Matemática concreta e exploração do mundo.',
       days: {
         'segunda': [
           { subject: 'Língua Portuguesa (Alfabetização)', content: 'Consciência fonológica e traçado das letras' },
-          { subject: 'Matemática', content: 'Sistema de numeração decimal e contagem' }
+          { subject: 'Matemática', content: 'Sistema de numeração decimal e contagem' },
+          { subject: 'Ciências da Natureza', content: 'O corpo humano, os sentidos e os seres vivos' }
         ],
         'terca': [
           { subject: 'Língua Portuguesa', content: 'Leitura orientada e formação de sílabas' },
-          { subject: 'Ciências da Natureza', content: 'O corpo humano, os sentidos e os seres vivos' }
+          { subject: 'Matemática', content: 'Agrupamentos e reta numérica' },
+          { subject: 'História & Família', content: 'História pessoal, família e a passagem do tempo' }
         ],
         'quarta': [
           { subject: 'Língua Portuguesa', content: 'Cópia caprichada e ditado de palavras' },
-          { subject: 'História & Família', content: 'História pessoal, família e a passagem do tempo' }
+          { subject: 'Matemática', content: 'Comparação de grandezas (maior/menor, mais/menos)' },
+          { subject: 'Geografia & Espaço', content: 'A casa, o bairro, orientação e pontos de referência' }
         ],
         'quinta': [
+          { subject: 'Língua Portuguesa', content: 'Formação de pequenas frases e vocabulário' },
           { subject: 'Matemática', content: 'Adição simples com material concreto e problemas orais' },
-          { subject: 'Geografia & Espaço', content: 'A casa, o bairro, orientação e pontos de referência' }
+          { subject: 'Ciências & Natureza', content: 'Animais, plantas e ambiente natural' }
         ],
         'sexta': [
           { subject: 'Língua Portuguesa (Leitura)', content: 'Contos clássicos, cantigas e parlendas' },
+          { subject: 'Matemática', content: 'Formas geométricas básicas e padrões' },
           { subject: 'Artes Visuais & Música', content: 'Desenho de observação, cores primárias e ritmo' }
         ]
       }
@@ -68,26 +73,31 @@
 
     'fund1_2ano': {
       label: '2º Ano do Ensino Fundamental (7 a 8 anos)',
-      description: 'Consolidação da fluência leitora, ortografia básica, adição e subtração com reserva.',
+      description: 'Estrutura equilibrada (3 aulas/dia): Fluência leitora, cálculos com reserva e matérias integradas.',
       days: {
         'segunda': [
           { subject: 'Língua Portuguesa', content: 'Ortografia, pontuação e leitura expressiva' },
-          { subject: 'Matemática', content: 'Adição e subtração com agrupamento/reagrupamento' }
+          { subject: 'Matemática', content: 'Adição e subtração com agrupamento/reagrupamento' },
+          { subject: 'Ciências da Natureza', content: 'As plantas, fases da vida e cuidados com o ambiente' }
         ],
         'terca': [
           { subject: 'Língua Portuguesa', content: 'Pequenas produções de texto e compreensão' },
-          { subject: 'Ciências da Natureza', content: 'As plantas, fases da vida e cuidados com o ambiente' }
+          { subject: 'Matemática', content: 'Cálculo mental e resolução de situações-problema' },
+          { subject: 'História', content: 'A comunidade, profissões e fontes históricas da família' }
         ],
         'quarta': [
           { subject: 'Língua Portuguesa', content: 'Classes gramaticais iniciais (substantivos e adjetivos)' },
-          { subject: 'História', content: 'A comunidade, profissões e fontes históricas da família' }
-        ],
-        'quinta': [
           { subject: 'Matemática', content: 'Geometria espacial/plana e medidas de tempo (relógio)' },
           { subject: 'Geografia', content: 'Paisagens naturais e transformadas pelo homem' }
         ],
+        'quinta': [
+          { subject: 'Língua Portuguesa', content: 'Sinônimos, antônimos e ampliação vocabular' },
+          { subject: 'Matemática', content: 'Medidas de comprimento, massa e capacidade' },
+          { subject: 'Ciências & Saúde', content: 'Hábitos saudáveis, alimentação e higiene' }
+        ],
         'sexta': [
           { subject: 'Língua Portuguesa', content: 'Interpretação de textos e leitura em voz alta' },
+          { subject: 'Matemática', content: 'Desafios matemáticos e introdução à multiplicação' },
           { subject: 'Artes & Expressão', content: 'Técnicas de desenho, pintura e estudo de grandes mestres' }
         ]
       }
@@ -95,25 +105,30 @@
 
     'fund1_3ano': {
       label: '3º Ano do Ensino Fundamental (8 a 9 anos)',
-      description: 'Estruturação gramatical, tabuada da multiplicação, divisão inicial e primeiros textos longos.',
+      description: 'Estrutura equilibrada (3 aulas/dia): Tabuada, estruturação gramatical e ciências sociais.',
       days: {
         'segunda': [
           { subject: 'Língua Portuguesa', content: 'Gramática: verbos, concordância e pontuação avançada' },
-          { subject: 'Matemática', content: 'Tabuada, introdução à multiplicação e problemas' }
+          { subject: 'Matemática', content: 'Tabuada, introdução à multiplicação e problemas' },
+          { subject: 'Ciências da Natureza', content: 'O solo, a água, estados físicos e ecossistemas' }
         ],
         'terca': [
           { subject: 'Língua Portuguesa', content: 'Redação: parágrafos, início, meio e fim' },
-          { subject: 'Ciências da Natureza', content: 'O solo, a água, estados físicos e ecossistemas' }
+          { subject: 'Matemática', content: 'Multiplicação por um algarismo e estimativas' },
+          { subject: 'História', content: 'Origem dos municípios, patrimônio cultural e cidades antigas' }
         ],
         'quarta': [
           { subject: 'Língua Portuguesa', content: 'Vocabulário, sinônimos, antônimos e leitura profunda' },
-          { subject: 'História', content: 'Origem dos municípios, patrimônio cultural e cidades antigas' }
-        ],
-        'quinta': [
           { subject: 'Matemática', content: 'Introdução à divisão exata e medidas de massa/comprimento' },
           { subject: 'Geografia', content: 'O campo e a cidade (rural e urbano), relevo e mapas' }
         ],
+        'quinta': [
+          { subject: 'Língua Portuguesa', content: 'Ortografia detalhada e concordância' },
+          { subject: 'Matemática', content: 'Cálculo de troco, sistema monetário e frações iniciais' },
+          { subject: 'Ciências & Meio Ambiente', content: 'Luz, som, fontes de energia e preservação' }
+        ],
         'sexta': [
+          { subject: 'Língua Portuguesa', content: 'Literatura clássica e produção narrativa' },
           { subject: 'Matemática', content: 'Resolução de desafios matemáticos e raciocínio lógico' },
           { subject: 'Artes & Música', content: 'História da arte, instrumentos e apreciação estética' }
         ]
@@ -122,26 +137,31 @@
 
     'fund1_4ano': {
       label: '4º Ano do Ensino Fundamental (9 a 10 anos)',
-      description: 'História do Brasil, frações, divisão por dois algarismos e produção textual estruturada.',
+      description: 'Estrutura equilibrada (3 aulas/dia): Frações, história do Brasil e redação formal.',
       days: {
         'segunda': [
           { subject: 'Língua Portuguesa', content: 'Análise gramatical completa e ortografia aprofundada' },
-          { subject: 'Matemática', content: 'Multiplicação e divisão avançadas, introdução a frações' }
+          { subject: 'Matemática', content: 'Multiplicação e divisão avançadas, introdução a frações' },
+          { subject: 'Ciências da Natureza', content: 'Cadeias alimentares, energia e transformações químicas' }
         ],
         'terca': [
           { subject: 'Língua Portuguesa', content: 'Redação narrativa e dissertativa inicial' },
-          { subject: 'Ciências da Natureza', content: 'Cadeias alimentares, energia e transformações químicas' }
+          { subject: 'Matemática', content: 'Frações equivalentes e números decimais' },
+          { subject: 'História do Brasil', content: 'Povos originários, Grandes Navegações e Brasil Colônia' }
         ],
         'quarta': [
-          { subject: 'História do Brasil', content: 'Povos originários, Grandes Navegações e Brasil Colônia' },
+          { subject: 'Língua Portuguesa', content: 'Interpretação e análise literária de obras clássicas' },
+          { subject: 'Matemática', content: 'Geometria (ângulos, polígonos e simetria)' },
           { subject: 'Geografia do Brasil', content: 'As cinco regiões brasileiras, clima e vegetação' }
         ],
         'quinta': [
+          { subject: 'Língua Portuguesa', content: 'Concordância verbal, tempos verbais e coesão' },
           { subject: 'Matemática', content: 'Frações, números decimais e cálculos práticos' },
-          { subject: 'Língua Portuguesa', content: 'Interpretação e análise literária de obras clássicas' }
+          { subject: 'Ciências & Experimentos', content: 'O sistema solar, astros e método científico prático' }
         ],
         'sexta': [
-          { subject: 'Ciências & Experimentos', content: 'O sistema solar, astros e método científico prático' },
+          { subject: 'Língua Portuguesa', content: 'Gêneros textuais: cartas, resenhas e crônicas' },
+          { subject: 'Matemática', content: 'Problemas compostos e raciocínio investigativo' },
           { subject: 'Artes & História da Arte', content: 'Barroco brasileiro, arquitetura e desenho técnico' }
         ]
       }
@@ -149,27 +169,32 @@
 
     'fund1_5ano': {
       label: '5º Ano do Ensino Fundamental (10 a 11 anos)',
-      description: 'Transição para o ciclo fundamental II: autonomia leitora, matemática decimal e história imperial.',
+      description: 'Estrutura equilibrada (3 aulas/dia): Sintaxe, matemática decimal, história imperial e ciências.',
       days: {
         'segunda': [
           { subject: 'Língua Portuguesa', content: 'Sintaxe básica, concordância nominal e verbal' },
-          { subject: 'Matemática', content: 'Operações com frações, decimais e porcentagem inicial' }
+          { subject: 'Matemática', content: 'Operações com frações, decimais e porcentagem inicial' },
+          { subject: 'Ciências da Natureza', content: 'Sistemas do corpo humano: digestório, respiratório, circulatório' }
         ],
         'terca': [
-          { subject: 'Ciências da Natureza', content: 'Sistemas do corpo humano: digestório, respiratório, circulatório' },
+          { subject: 'Língua Portuguesa', content: 'Redação opinativa, resenha e argumentação' },
+          { subject: 'Matemática', content: 'Cálculo mental, porcentagens e problemas compostos' },
           { subject: 'História do Brasil', content: 'Ciclo do ouro, Independência e Brasil Império' }
         ],
         'quarta': [
-          { subject: 'Língua Portuguesa', content: 'Redação opinativa, resenha e argumentação' },
-          { subject: 'Geografia', content: 'Dinâmica populacional, hidrografia e cartografia' }
+          { subject: 'Língua Portuguesa', content: 'Vocabulário, figuras de linguagem e pontuação expressiva' },
+          { subject: 'Matemática', content: 'Áreas, perímetros e figuras geométricas espaciais' },
+          { subject: 'Geografia do Brasil', content: 'Dinâmica populacional, hidrografia e cartografia' }
         ],
         'quinta': [
-          { subject: 'Matemática', content: 'Áreas, perímetros, figuras geométricas e problemas compostos' },
-          { subject: 'Língua Portuguesa', content: 'Figuras de linguagem e enriquecimento vocabular' }
+          { subject: 'Língua Portuguesa', content: 'Interpretação profunda de textos e clássicos' },
+          { subject: 'Matemática', content: 'Medidas de volume, tempo, massa e gráficos' },
+          { subject: 'Ciências & Meio Ambiente', content: 'Ecossistemas, energia sustentável e transformações da matéria' }
         ],
         'sexta': [
-          { subject: 'História & Atualidades', content: 'Proclamação da República e formação da cidadania' },
-          { subject: 'Artes & Cultura', content: 'Grandes mestres da pintura, escultura e composição' }
+          { subject: 'Língua Portuguesa', content: 'Oratória, declamação poética e síntese de ideias' },
+          { subject: 'Matemática', content: 'Desafios lógicos, problemas de olimpíadas e revisão semanal' },
+          { subject: 'Artes Visuais & Cultura', content: 'Grandes mestres da pintura, escultura e composição' }
         ]
       }
     },
@@ -454,6 +479,32 @@
       // Adiciona no dia de destino
       movedItem.updatedAt = new Date().toISOString();
       toDay.items.push(movedItem);
+
+      storage.saveWeekSchedule(schedule);
+      return true;
+    },
+
+    /**
+     * Permuta / Troca duas aulas de dia para manter o equilíbrio exato da carga horária sem sobrecarga
+     */
+    swapPlanItems: function(fromDayKey, fromItemIndex, toDayKey, toItemIndex) {
+      const storage = window.ActaStorage;
+      if (!storage) return false;
+
+      let schedule = storage.getWeekSchedule();
+      if (!Array.isArray(schedule)) return false;
+
+      const fromDay = schedule.find(d => d.dayKey === fromDayKey);
+      const toDay = schedule.find(d => d.dayKey === toDayKey);
+
+      if (!fromDay || !toDay || !fromDay.items[fromItemIndex] || !toDay.items[toItemIndex]) return false;
+
+      const temp = fromDay.items[fromItemIndex];
+      fromDay.items[fromItemIndex] = toDay.items[toItemIndex];
+      toDay.items[toItemIndex] = temp;
+
+      fromDay.items[fromItemIndex].updatedAt = new Date().toISOString();
+      toDay.items[toItemIndex].updatedAt = new Date().toISOString();
 
       storage.saveWeekSchedule(schedule);
       return true;

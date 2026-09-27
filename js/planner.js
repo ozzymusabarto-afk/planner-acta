@@ -164,12 +164,12 @@
                 <!-- Botão 1-Clique: Adiar / Remanejar -->
                 <button 
                   type="button" 
-                  onclick="ActaPlanner.promptRescheduleItem('${day.dayKey}', ${itemIdx})"
+                  onclick="ActaPlanner.openRescheduleModal('${day.dayKey}', ${itemIdx})"
                   class="text-[11px] font-medium px-2.5 py-1 rounded-full border border-[#E8E2D5] bg-white text-[#1E3A5F] hover:bg-[#E9EFF6] transition flex items-center gap-1"
-                  title="Não deu essa aula hoje? Clique para adiar para outro dia"
+                  title="Não deu essa aula hoje? Clique para remanejar ou trocar com outro dia"
                 >
-                  <i class="fa-solid fa-forward-step text-[10px]"></i>
-                  <span>Adiar</span>
+                  <i class="fa-solid fa-arrows-split-up-and-left text-[10px]"></i>
+                  <span>Remanejar / Adiar</span>
                 </button>
 
                 <!-- Botão Ver Conteúdo -->
@@ -216,39 +216,227 @@
       return html;
     },
 
-    promptRescheduleItem: function(fromDayKey, itemIndex) {
-      const dayNames = {
-        'segunda': 'Segunda-feira',
-        'terca': 'Terça-feira',
-        'quarta': 'Quarta-feira',
-        'quinta': 'Quinta-feira',
-        'sexta': 'Sexta-feira',
-        'sabado': 'Sábado'
-      };
-      const daysOrder = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
-      const currentIdx = daysOrder.indexOf(fromDayKey);
-      const defaultNextDay = daysOrder[(currentIdx + 1) % daysOrder.length];
+    openRescheduleModal: function(fromDayKey, itemIndex) {
+      const storage = window.ActaStorage;
+      if (!storage) return;
 
-      const targetDay = prompt(
-        `Adiar aula de hoje para qual dia?\n\nDigite o dia de destino (ex: ${defaultNextDay}, terca, quarta, quinta, sexta ou sabado):`,
-        defaultNextDay
-      );
+      const schedule = storage.getWeekSchedule();
+      if (!Array.isArray(schedule)) return;
 
-      if (targetDay && daysOrder.includes(targetDay.toLowerCase().trim())) {
-        const toDayKey = targetDay.toLowerCase().trim();
-        const ok = window.ActaCurriculum && typeof window.ActaCurriculum.reschedulePlanItem === 'function'
-          ? window.ActaCurriculum.reschedulePlanItem(fromDayKey, itemIndex, toDayKey)
-          : false;
+      const fromDay = schedule.find(d => d.dayKey === fromDayKey);
+      if (!fromDay || !fromDay.items[itemIndex]) return;
 
+      const item = fromDay.items[itemIndex];
+      const modal = document.getElementById('modalRescheduleClass');
+      const overlay = document.getElementById('modalOverlay');
+      const subEl = document.getElementById('rescheduleClassSubtitle');
+      const bodyEl = document.getElementById('rescheduleModalBody');
+
+      if (!modal || !bodyEl) return;
+
+      if (subEl) {
+        subEl.textContent = `${item.subject} • Atualmente em ${fromDay.dayTitle}`;
+      }
+
+      // Monta as opções para os outros dias da semana
+      let html = `
+        <div class="p-3 bg-[#FAF7F0] border border-[#CCD8CD] rounded-2xl text-xs space-y-1">
+          <div class="font-bold text-[#28302A] flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#1E3A5F]"></span>
+            <span>Aula: <strong>${item.subject}</strong></span>
+          </div>
+          <p class="text-[#667267]">${item.content}</p>
+          <p class="text-[11px] text-[#8E9A8F]">Dia de origem: <strong>${fromDay.dayTitle}</strong> (${fromDay.items.length} ${fromDay.items.length === 1 ? 'aula' : 'aulas'} programadas)</p>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-[#28302A]">Para qual dia deseja remanejar?</span>
+            <span class="text-[11px] text-[#667267]">Equilíbrio de carga horária</span>
+          </div>
+
+          <div class="space-y-2.5">
+      `;
+
+      schedule.forEach(day => {
+        if (day.dayKey === fromDayKey) return; // não mostra o próprio dia
+
+        // Verifica se o dia de destino já tem essa mesma matéria
+        const subjectLower = item.subject.toLowerCase().trim();
+        const existingSubjectItem = day.items.find(i => {
+          const sub = i.subject.toLowerCase().trim();
+          return sub === subjectLower || sub.includes(subjectLower.split(' ')[0]);
+        });
+        const hasSameSubject = !!existingSubjectItem;
+
+        if (hasSameSubject) {
+          html += `
+            <div class="p-3 rounded-2xl border border-[#F59E0B]/50 bg-[#FFFBEB] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-[#92400E]">${day.dayTitle}</span>
+                  <span class="text-[10px] bg-white text-[#92400E] px-2 py-0.5 rounded-full border border-[#F59E0B]/40 font-semibold">${day.items.length} ${day.items.length === 1 ? 'aula' : 'aulas'}</span>
+                </div>
+                <p class="text-[11px] text-[#B45309] mt-0.5">
+                  ⚠️ Já tem <strong>${existingSubjectItem.subject}</strong> neste dia.
+                </p>
+              </div>
+              <div class="flex items-center gap-1.5 self-end sm:self-auto shrink-0 flex-wrap">
+                <!-- Botão Inteligente: Trocar de Lugar (Permutar) -->
+                <button 
+                  type="button" 
+                  onclick="ActaPlanner.openSwapSelect('${fromDayKey}', ${itemIndex}, '${day.dayKey}')"
+                  class="text-xs font-bold px-3 py-1.5 bg-[#F59E0B] text-white rounded-full hover:bg-[#D97706] transition shadow-xs flex items-center gap-1"
+                  title="Trocar com outra matéria para não sobrecarregar nenhum dia"
+                >
+                  <i class="fa-solid fa-arrow-right-arrow-left text-[10px]"></i>
+                  <span>Trocar c/ outra</span>
+                </button>
+                <button 
+                  type="button" 
+                  onclick="ActaPlanner.executeMovePlanItem('${fromDayKey}', ${itemIndex}, '${day.dayKey}')"
+                  class="text-[11px] font-medium px-2.5 py-1.5 bg-white text-[#92400E] border border-[#F59E0B]/40 rounded-full hover:bg-[#FEF3C7] transition"
+                  title="Adicionar mesmo assim neste dia"
+                >
+                  Adicionar
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="p-3 rounded-2xl border border-[#E8E2D5] bg-white hover:border-[#2F5233]/40 flex items-center justify-between gap-3 transition shadow-2xs">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-[#28302A]">${day.dayTitle}</span>
+                  <span class="text-[10px] bg-[#FAF7F0] text-[#667267] px-2 py-0.5 rounded-full border border-[#E8E2D5] font-semibold">${day.items.length} ${day.items.length === 1 ? 'aula' : 'aulas'}</span>
+                  <span class="text-[10px] bg-[#EBF3ED] text-[#2F5233] px-2 py-0.5 rounded-full font-semibold">✨ Livre desta matéria</span>
+                </div>
+                <p class="text-[11px] text-[#667267] mt-0.5">Dia ideal para remanejar sem duplicar conteúdos.</p>
+              </div>
+              <button 
+                type="button" 
+                onclick="ActaPlanner.executeMovePlanItem('${fromDayKey}', ${itemIndex}, '${day.dayKey}')"
+                class="hero-btn-green text-xs font-bold px-3.5 py-1.5 rounded-full shadow-2xs flex items-center gap-1 shrink-0"
+              >
+                <span>Mover</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          `;
+        }
+      });
+
+      html += `
+          </div>
+        </div>
+      `;
+
+      bodyEl.innerHTML = html;
+
+      // Abre overlay e modal
+      if (overlay) {
+        Array.from(overlay.children).forEach(c => c.classList.add('hidden'));
+        overlay.classList.remove('hidden');
+      }
+      modal.classList.remove('hidden');
+    },
+
+    closeRescheduleModal: function() {
+      const modal = document.getElementById('modalRescheduleClass');
+      const overlay = document.getElementById('modalOverlay');
+      if (modal) modal.classList.add('hidden');
+      if (overlay) overlay.classList.add('hidden');
+    },
+
+    executeMovePlanItem: function(fromDayKey, itemIndex, toDayKey) {
+      if (window.ActaCurriculum && typeof window.ActaCurriculum.reschedulePlanItem === 'function') {
+        const ok = window.ActaCurriculum.reschedulePlanItem(fromDayKey, itemIndex, toDayKey);
         if (ok) {
+          this.closeRescheduleModal();
           if (window.ActaApp && typeof window.ActaApp.renderSemanaTab === 'function') {
             window.ActaApp.renderSemanaTab();
           }
           if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
-            window.ActaApp.showToast(`Aula adiada com sucesso para ${dayNames[toDayKey]}!`);
+            window.ActaApp.showToast('Aula remanejada com sucesso!');
           }
         }
       }
+    },
+
+    openSwapSelect: function(fromDayKey, fromItemIndex, toDayKey) {
+      const storage = window.ActaStorage;
+      if (!storage) return;
+
+      const schedule = storage.getWeekSchedule();
+      const toDay = schedule.find(d => d.dayKey === toDayKey);
+      const fromDay = schedule.find(d => d.dayKey === fromDayKey);
+      const fromItem = fromDay ? fromDay.items[fromItemIndex] : null;
+      const bodyEl = document.getElementById('rescheduleModalBody');
+
+      if (!toDay || !fromItem || !bodyEl) return;
+
+      let html = `
+        <div class="p-3 bg-[#FEF3C7]/60 border border-[#F59E0B]/30 rounded-2xl text-xs space-y-1">
+          <p class="font-bold text-[#92400E]">Trocar aula sem alterar o número de aulas de cada dia:</p>
+          <p class="text-[11px] text-[#B45309]">
+            A aula de <strong>${fromItem.subject}</strong> irá para ${toDay.dayTitle}. Escolha abaixo qual aula de ${toDay.dayTitle} virá para ${fromDay.dayTitle}:
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <span class="text-xs font-bold text-[#28302A] block">Aulas de ${toDay.dayTitle}:</span>
+      `;
+
+      toDay.items.forEach((targetItem, targetIdx) => {
+        html += `
+          <div class="p-3 rounded-2xl border border-[#E8E2D5] bg-white hover:border-[#1E3A5F] flex items-center justify-between gap-3 transition shadow-2xs">
+            <div>
+              <span class="text-xs font-bold text-[#28302A] block">${targetItem.subject}</span>
+              <span class="text-[11px] text-[#667267] block">${targetItem.content}</span>
+            </div>
+            <button 
+              type="button" 
+              onclick="ActaPlanner.executeSwapPlanItems('${fromDayKey}', ${fromItemIndex}, '${toDayKey}', ${targetIdx})"
+              class="text-xs font-bold px-3 py-1.5 bg-[#1E3A5F] text-white rounded-full hover:bg-[#0F2238] transition shadow-xs flex items-center gap-1 shrink-0"
+            >
+              <i class="fa-solid fa-arrow-right-arrow-left text-[10px]"></i>
+              <span>Trocar por esta</span>
+            </button>
+          </div>
+        `;
+      });
+
+      html += `
+        </div>
+        <div class="pt-2 flex justify-start">
+          <button type="button" onclick="ActaPlanner.openRescheduleModal('${fromDayKey}', ${fromItemIndex})" class="text-xs text-[#667267] hover:text-[#28302A] flex items-center gap-1">
+            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+            <span>Voltar às opções de dias</span>
+          </button>
+        </div>
+      `;
+
+      bodyEl.innerHTML = html;
+    },
+
+    executeSwapPlanItems: function(fromDayKey, fromItemIndex, toDayKey, toItemIndex) {
+      if (window.ActaCurriculum && typeof window.ActaCurriculum.swapPlanItems === 'function') {
+        const ok = window.ActaCurriculum.swapPlanItems(fromDayKey, fromItemIndex, toDayKey, toItemIndex);
+        if (ok) {
+          this.closeRescheduleModal();
+          if (window.ActaApp && typeof window.ActaApp.renderSemanaTab === 'function') {
+            window.ActaApp.renderSemanaTab();
+          }
+          if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
+            window.ActaApp.showToast('Aulas trocadas com sucesso! Carga horária mantida em perfeito equilíbrio.');
+          }
+        }
+      }
+    },
+
+    promptRescheduleItem: function(fromDayKey, itemIndex) {
+      this.openRescheduleModal(fromDayKey, itemIndex);
     },
 
     openNewPlanModal: function(preselectedChildId, preselectedDayKey) {
