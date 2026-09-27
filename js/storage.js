@@ -950,6 +950,10 @@
       return record;
     },
 
+    saveRecord: function(record) {
+      return this.addRecord(record);
+    },
+
     deleteRecord: function(id) {
       const data = this.getData();
       data.records = data.records.filter(r => r.id !== id);
@@ -1013,6 +1017,13 @@
       return reading;
     },
 
+    saveReading: function(reading) {
+      if (reading.id && this.getReadingById(reading.id)) {
+        return this.updateReading(reading);
+      }
+      return this.addReading(reading);
+    },
+
     deleteReading: function(id) {
       const data = this.getData();
       if (!data.readings) return;
@@ -1049,6 +1060,13 @@
         this.saveData(data);
       }
       return movie;
+    },
+
+    saveMovie: function(movie) {
+      if (movie.id && this.getMovieById(movie.id)) {
+        return this.updateMovie(movie);
+      }
+      return this.addMovie(movie);
     },
 
     deleteMovie: function(id) {
