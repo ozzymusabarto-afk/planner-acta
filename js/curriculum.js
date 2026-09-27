@@ -330,7 +330,7 @@
     /**
      * Aplica uma grade sugerida na semana da criança selecionada
      */
-    applyGradeToSchedule: function(childId, gradeKey, selectedElectiveIds, replaceExisting) {
+    applyGradeToSchedule: function(childId, gradeKey, selectedElectiveIds = [], replaceExisting = true, dailyCore = false) {
       const storage = window.ActaStorage;
       if (!storage) return false;
 
@@ -355,7 +355,29 @@
         let items = (replaceExisting || !existingDay) ? [] : existingDay.items.slice();
 
         // 1. Adiciona as matérias da base do ano
-        const baseItems = grade.days[wDay.dayKey] || [];
+        const baseItems = (grade.days[wDay.dayKey] || []).slice();
+
+        // Se Núcleo Diário estiver ativado: garante Português e Matemática todos os dias
+        if (dailyCore) {
+          const hasPort = baseItems.some(b => b.subject.toLowerCase().includes('portugu'));
+          const hasMat = baseItems.some(b => b.subject.toLowerCase().includes('matemát'));
+
+          if (!hasPort) {
+            baseItems.unshift({
+              subject: 'Língua Portuguesa',
+              content: 'Leitura, gramática e escrita guiada'
+            });
+          }
+          if (!hasMat) {
+            const portIdx = baseItems.findIndex(b => b.subject.toLowerCase().includes('portugu'));
+            const insertIdx = portIdx >= 0 ? portIdx + 1 : 0;
+            baseItems.splice(insertIdx, 0, {
+              subject: 'Matemática',
+              content: 'Cálculo, fixação e resolução de problemas'
+            });
+          }
+        }
+
         baseItems.forEach(b => {
           items.push({
             id: 'plan_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
@@ -400,6 +422,7 @@
         if (person) {
           person.schoolYear = gradeKey;
           person.schoolYearLabel = grade.label;
+          person.dailyCore = !!dailyCore;
           if (typeof storage.updatePerson === 'function') {
             storage.updatePerson(person);
           } else if (typeof storage.savePerson === 'function') {
@@ -494,6 +517,12 @@
         }
       }
 
+      // Sincroniza o toggle de núcleo diário se a criança já tiver preferência salva
+      const dailyCoreCheck = document.getElementById('curriculumDailyCoreCheck');
+      if (dailyCoreCheck) {
+        dailyCoreCheck.checked = (activePerson && activePerson.dailyCore !== undefined) ? !!activePerson.dailyCore : false;
+      }
+
       this.updateGradePreview();
       if (overlay) overlay.classList.remove('hidden');
       modal.classList.remove('hidden');
@@ -512,6 +541,8 @@
     updateGradePreview: function() {
       const gradeSelect = document.getElementById('curriculumGradeSelect');
       const previewBox = document.getElementById('curriculumGradePreview');
+      const dailyCoreCheck = document.getElementById('curriculumDailyCoreCheck');
+      const isDailyCore = dailyCoreCheck ? dailyCoreCheck.checked : false;
       if (!gradeSelect || !previewBox) return;
 
       const grade = GRADES_CONFIG[gradeSelect.value];
@@ -531,12 +562,27 @@
         'sexta': 'Sexta'
       };
 
-      for (const [dKey, dItems] of Object.entries(grade.days)) {
+      for (const [dKey, dItemsRaw] of Object.entries(grade.days)) {
+        let dItems = dItemsRaw.slice();
+        if (isDailyCore) {
+          const hasPort = dItems.some(i => i.subject.toLowerCase().includes('portugu'));
+          const hasMat = dItems.some(i => i.subject.toLowerCase().includes('matemát'));
+          if (!hasPort) dItems.unshift({ subject: 'Língua Portuguesa' });
+          if (!hasMat) {
+            const portIdx = dItems.findIndex(i => i.subject.toLowerCase().includes('portugu'));
+            const insertIdx = portIdx >= 0 ? portIdx + 1 : 0;
+            dItems.splice(insertIdx, 0, { subject: 'Matemática' });
+          }
+        }
+
         html += `
-          <div class="p-2 rounded-xl bg-white border border-[#E8E2D5]">
+          <div class="p-2.5 rounded-xl bg-white border border-[#E8E2D5] shadow-2xs">
             <span class="font-bold text-[#28302A] block text-[10px] uppercase">${dayNames[dKey]}</span>
             <ul class="text-[#667267] list-disc list-inside mt-0.5 space-y-0.5">
-              ${dItems.map(i => `<li>${i.subject}</li>`).join('')}
+              ${dItems.map(i => {
+                const isCore = isDailyCore && (i.subject.includes('Portuguesa') || i.subject === 'Matemática');
+                return `<li class="${isCore ? 'text-[#2F5233] font-semibold' : ''}">${i.subject}</li>`;
+              }).join('')}
             </ul>
           </div>
         `;
@@ -553,10 +599,12 @@
       const childSelect = document.getElementById('curriculumChildSelect');
       const gradeSelect = document.getElementById('curriculumGradeSelect');
       const replaceCheck = document.getElementById('curriculumReplaceCheck');
+      const dailyCoreCheck = document.getElementById('curriculumDailyCoreCheck');
 
       const childId = childSelect ? childSelect.value : null;
       const gradeKey = gradeSelect ? gradeSelect.value : null;
       const replaceExisting = replaceCheck ? replaceCheck.checked : true;
+      const dailyCore = dailyCoreCheck ? dailyCoreCheck.checked : false;
 
       // Coleta eletivas marcadas
       const electiveChecks = document.querySelectorAll('input[name="curriculumElective"]:checked');
@@ -567,7 +615,7 @@
         return;
       }
 
-      const ok = this.applyGradeToSchedule(childId, gradeKey, selectedElectives, replaceExisting);
+      const ok = this.applyGradeToSchedule(childId, gradeKey, selectedElectives, replaceExisting, dailyCore);
       if (ok) {
         this.closeCurriculumModal();
         if (childId && window.ActaStorage) {

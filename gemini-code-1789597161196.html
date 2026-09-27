@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Estilos e Temas do Planner ACTA -->
-  <link rel="stylesheet" href="css/style.css?v=20260927_2">
+  <link rel="stylesheet" href="css/style.css?v=20260927_3">
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col md:flex-row">
 
@@ -2362,6 +2362,23 @@
           </p>
         </div>
 
+        <!-- Opção de Foco / Núcleo Diário (Português e Matemática todos os dias) -->
+        <div class="p-3.5 bg-[#F4EFE6]/70 border border-[#2F5233]/20 rounded-2xl flex items-center justify-between gap-3 shadow-2xs">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl bg-[#2F5233] text-white flex items-center justify-center text-xs shrink-0 shadow-xs">
+              <i class="fa-solid fa-star"></i>
+            </span>
+            <div>
+              <span class="text-xs font-bold text-[#28302A] block">Núcleo Diário: Português & Matemática todos os dias</span>
+              <span class="text-[11px] text-[#667267] block">Garante aula de Língua Portuguesa e Matemática de segunda a sexta, distribuindo as demais matérias na semana.</span>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer shrink-0">
+            <input type="checkbox" id="curriculumDailyCoreCheck" onchange="ActaCurriculum.updateGradePreview()" class="sr-only peer">
+            <div class="w-10 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#2F5233]"></div>
+          </label>
+        </div>
+
         <!-- Resumo da Grade Semanal -->
         <div>
           <label class="block text-xs font-bold text-[#28302A] mb-1.5">Distribuição Semanal Prevista:</label>
@@ -2507,23 +2524,23 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
   <!-- Camada de Conexão, Autenticação e Firestore do ACTA -->
-  <script src="js/firebase-config.js?v=20260927_2"></script>
-  <script src="js/firestore-sync.js?v=20260927_2"></script>
-  <script src="js/auth.js?v=20260927_2"></script>
+  <script src="js/firebase-config.js?v=20260927_3"></script>
+  <script src="js/firestore-sync.js?v=20260927_3"></script>
+  <script src="js/auth.js?v=20260927_3"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260927_2"></script>
-  <script src="js/materials.js?v=20260927_2"></script>
-  <script src="js/curriculum.js?v=20260927_2"></script>
-  <script src="js/planner.js?v=20260927_2"></script>
-  <script src="js/diagnostic.js?v=20260927_2"></script>
-  <script src="js/calendar.js?v=20260927_2"></script>
-  <script src="js/extras.js?v=20260927_2"></script>
-  <script src="js/records.js?v=20260927_2"></script>
-  <script src="js/culture.js?v=20260927_2"></script>
-  <script src="js/reports.js?v=20260927_2"></script>
-  <script src="js/quotes.js?v=20260927_2"></script>
-  <script src="js/tutorial.js?v=20260927_2"></script>
-  <script src="js/app.js?v=20260927_2"></script>
+  <script src="js/storage.js?v=20260927_3"></script>
+  <script src="js/materials.js?v=20260927_3"></script>
+  <script src="js/curriculum.js?v=20260927_3"></script>
+  <script src="js/planner.js?v=20260927_3"></script>
+  <script src="js/diagnostic.js?v=20260927_3"></script>
+  <script src="js/calendar.js?v=20260927_3"></script>
+  <script src="js/extras.js?v=20260927_3"></script>
+  <script src="js/records.js?v=20260927_3"></script>
+  <script src="js/culture.js?v=20260927_3"></script>
+  <script src="js/reports.js?v=20260927_3"></script>
+  <script src="js/quotes.js?v=20260927_3"></script>
+  <script src="js/tutorial.js?v=20260927_3"></script>
+  <script src="js/app.js?v=20260927_3"></script>
 </body>
 </html>
