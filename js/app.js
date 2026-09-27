@@ -648,6 +648,7 @@
                 <div class="flex items-center gap-2">
                   <h3 class="font-editorial-title text-base font-bold text-[#28302A]">${p.name}</h3>
                   ${isActive ? '<span class="text-[10px] bg-[#EBF3ED] text-[#2F5233] font-bold px-2.5 py-0.5 rounded-full">Ativo</span>' : ''}
+                  ${p.schoolYearLabel ? `<span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#2F5233] border border-[#2F5233]/20 px-2 py-0.5 rounded-full">🎓 ${p.schoolYearLabel}</span>` : ''}
                 </div>
                 ${p.notes ? `<p class="text-[11px] text-[#8E9A8F] italic mt-0.5">"${p.notes}"</p>` : ''}
                 <div class="flex items-center gap-2 pt-1.5 flex-wrap">
@@ -668,13 +669,24 @@
               </div>
             </div>
 
-            <button 
-              type="button" 
-              onclick="ActaApp.selectChild('${p.id}')"
-              class="text-xs font-semibold px-4 py-2 rounded-full border transition ${isActive ? 'bg-[#2F5233] text-white border-[#2F5233]' : 'bg-[#FAF7F0] text-[#28302A] border-[#E8E2D5] hover:bg-[#F4EFE6]'}"
-            >
-              ${isActive ? 'Selecionado' : 'Selecionar'}
-            </button>
+            <div class="flex items-center gap-2">
+              <button 
+                type="button" 
+                onclick="ActaStorage.setActivePersonId('${p.id}'); ActaApp.renderSidebar(); ActaApp.switchTab('semana'); if(window.ActaCurriculum) window.ActaCurriculum.openCurriculumModal();" 
+                class="text-xs font-semibold px-3 py-2 rounded-full border border-[#2F5233]/20 bg-[#FAF7F0] text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
+                title="Configurar ou aplicar grade curricular sugerida para esta criança"
+              >
+                <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i>
+                <span>Grade Curricular</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="ActaApp.selectChild('${p.id}')"
+                class="text-xs font-semibold px-4 py-2 rounded-full border transition ${isActive ? 'bg-[#2F5233] text-white border-[#2F5233]' : 'bg-[#FAF7F0] text-[#28302A] border-[#E8E2D5] hover:bg-[#F4EFE6]'}"
+              >
+                ${isActive ? 'Selecionado' : 'Selecionar'}
+              </button>
+            </div>
           </div>
         `;
       }).join('');
@@ -685,16 +697,24 @@
       const infoInput = document.getElementById('newPersonInfo');
       const avatarInput = document.getElementById('newPersonAvatar');
       const notesInput = document.getElementById('newPersonNotes');
+      const schoolYearSelect = document.getElementById('newPersonSchoolYear');
 
       if (!nameInput || !nameInput.value.trim()) {
         alert('Por favor, informe o nome da criança.');
         return;
       }
 
+      const schoolYear = schoolYearSelect ? schoolYearSelect.value : 'fund1_1ano';
+      const schoolYearLabel = (schoolYearSelect && schoolYearSelect.selectedOptions && schoolYearSelect.selectedOptions[0])
+        ? schoolYearSelect.selectedOptions[0].text
+        : '1º Ano do Ensino Fundamental (6 a 7 anos)';
+
       const newPerson = {
         name: nameInput.value.trim(),
         info: infoInput && infoInput.value.trim() ? infoInput.value.trim().replace(/explorad(a|or)?\s*(•|-)?\s*/gi, '').trim() : '',
         avatar: avatarInput && avatarInput.value ? avatarInput.value : 'assets/avatars/avatar-menino-castanho.png',
+        schoolYear: schoolYear,
+        schoolYearLabel: schoolYearLabel,
         notes: notesInput ? notesInput.value.trim() : ''
       };
 
@@ -852,6 +872,7 @@
           </div>
           <div>
             <span class="text-sm font-bold text-[#28302A] block leading-tight">${activePerson.name}</span>
+            <span class="text-[11px] text-[#2F5233] font-semibold">${activePerson.schoolYearLabel || 'Planejamento Ativo'}</span>
           </div>
         `;
       }

@@ -889,17 +889,39 @@
 
       </div>
 
-      <!-- Sub-Pílulas: Planejamento / Calendário / Materiais -->
-      <div class="flex items-center gap-2">
-        <button class="text-xs font-semibold px-4 py-1.5 rounded-full bg-[#2F5233] text-white transition shadow-sm">
-          Planejamento
-        </button>
-        <button onclick="ActaApp.switchTab('biblioteca')" class="text-xs font-medium px-4 py-1.5 rounded-full bg-white border border-[#E8E2D5] text-[#28302A] hover:bg-[#FAF7F0] transition">
-          Materiais
-        </button>
-        <button onclick="ActaApp.switchTab('caminhada')" class="text-xs font-medium px-4 py-1.5 rounded-full bg-white border border-[#E8E2D5] text-[#28302A] hover:bg-[#FAF7F0] transition">
-          Acompanhamento
-        </button>
+      <!-- Sub-Pílulas: Planejamento / Calendário / Materiais + Botões de Ação da Semana -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button class="text-xs font-semibold px-4 py-1.5 rounded-full bg-[#2F5233] text-white transition shadow-sm">
+            Planejamento
+          </button>
+          <button onclick="ActaApp.switchTab('biblioteca')" class="text-xs font-medium px-4 py-1.5 rounded-full bg-white border border-[#E8E2D5] text-[#28302A] hover:bg-[#FAF7F0] transition">
+            Materiais
+          </button>
+          <button onclick="ActaApp.switchTab('caminhada')" class="text-xs font-medium px-4 py-1.5 rounded-full bg-white border border-[#E8E2D5] text-[#28302A] hover:bg-[#FAF7F0] transition">
+            Acompanhamento
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button 
+            type="button" 
+            onclick="if(window.ActaCurriculum) window.ActaCurriculum.openCurriculumModal();" 
+            class="text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#FAF7F0] text-[#2F5233] border border-[#2F5233]/20 hover:bg-[#EBF3ED] transition flex items-center gap-1.5 shadow-2xs"
+            title="Preencher a semana automaticamente com a grade curricular sugerida para a série"
+          >
+            <i class="fa-solid fa-wand-magic-sparkles text-[#2F5233]"></i>
+            <span>⚡ Grade Sugerida por Série</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="ActaPlanner.openNewPlanModal()" 
+            class="hero-btn-green text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-xs transition flex items-center gap-1.5"
+          >
+            <i class="fa-solid fa-plus text-[10px]"></i>
+            <span>Planejar Aula</span>
+          </button>
+        </div>
       </div>
 
       <div class="planner-divider"></div>
@@ -1575,6 +1597,20 @@
         </div>
 
         <div>
+          <label for="newPersonSchoolYear" class="block text-xs font-bold text-[#28302A] mb-1">Série / Ciclo Escolar Sugerido</label>
+          <select id="newPersonSchoolYear" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-medium text-[#2F5233]">
+            <option value="infantil">Educação Infantil (4 a 5 anos)</option>
+            <option value="fund1_1ano" selected>1º Ano do Ensino Fundamental (6 a 7 anos)</option>
+            <option value="fund1_2ano">2º Ano do Ensino Fundamental (7 a 8 anos)</option>
+            <option value="fund1_3ano">3º Ano do Ensino Fundamental (8 a 9 anos)</option>
+            <option value="fund1_4ano">4º Ano do Ensino Fundamental (9 a 10 anos)</option>
+            <option value="fund1_5ano">5º Ano do Ensino Fundamental (10 a 11 anos)</option>
+            <option value="fund2_6a9ano">Anos Finais: 6º ao 9º Ano (11 a 15 anos)</option>
+            <option value="ensino_medio">Ensino Médio (1º ao 3º Ano)</option>
+          </select>
+        </div>
+
+        <div>
           <label for="newPersonNotes" class="block text-xs font-bold text-[#28302A] mb-1">Notas com carinho (Opcional)</label>
           <textarea id="newPersonNotes" rows="2" placeholder="Ex: Tem fascínio por animais, leitura autônoma..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
         </div>
@@ -1861,6 +1897,8 @@
             <label for="extraTypeSelect" class="block text-xs font-bold text-[#28302A] mb-1">Tipo de Atividade</label>
             <select id="extraTypeSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
               <option value="passeio">🏛️ Passeio Cultural</option>
+              <option value="esporte">🥋 Esporte / Arte Marcial (Judô, Ballet, Natação, Futebol)</option>
+              <option value="curso">💻 Curso Prático (Robótica, Programação, Desenho)</option>
               <option value="experimento">🔬 Experimento Científico</option>
               <option value="culinaria">🍳 Culinária Prática</option>
               <option value="marcenaria">🪵 Marcenaria</option>
@@ -2242,6 +2280,97 @@
       </div>
     </div>
 
+    <!-- Modal: Motor Pedagógico - Grade Curricular Sugerida por Série -->
+    <div id="modalCurriculumGrade" class="hidden bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <div>
+          <h3 class="font-editorial-serif text-lg font-bold text-[#28302A] flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-[#2F5233]"></i>
+            <span>Grade Curricular Sugerida por Série</span>
+          </h3>
+          <p class="text-xs text-[#667267]">Preenchimento automático do 1º Ano Fundamental ao Ensino Médio com 1 clique.</p>
+        </div>
+        <button onclick="ActaCurriculum.closeCurriculumModal()" class="text-[#8E9A8F] hover:text-[#28302A]">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); ActaCurriculum.handleApplySubmit();" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="curriculumChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">Criança / Estudante</label>
+            <select id="curriculumChildSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+              <!-- Populado dinamicamente -->
+            </select>
+          </div>
+          <div>
+            <label for="curriculumGradeSelect" class="block text-xs font-bold text-[#28302A] mb-1">Série / Ciclo Escolar</label>
+            <select id="curriculumGradeSelect" onchange="ActaCurriculum.updateGradePreview()" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-semibold text-[#2F5233]">
+              <!-- Populado dinamicamente -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Matérias Eletivas / Idiomas e Artes -->
+        <div class="p-3.5 bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5] space-y-2">
+          <label class="block text-xs font-bold text-[#28302A]">
+            Disciplinas Eletivas & Idiomas Adicionais (Opcional):
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+            <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
+              <input type="checkbox" name="curriculumElective" value="ingles" checked class="accent-[#2F5233] rounded">
+              <span class="font-medium text-[#28302A]">🇬🇧 Língua Inglesa</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
+              <input type="checkbox" name="curriculumElective" value="latim" class="accent-[#2F5233] rounded">
+              <span class="font-medium text-[#28302A]">🏛️ Latim Clássico</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
+              <input type="checkbox" name="curriculumElective" value="espanhol" class="accent-[#2F5233] rounded">
+              <span class="font-medium text-[#28302A]">🇪🇸 Língua Espanhola</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
+              <input type="checkbox" name="curriculumElective" value="musica" class="accent-[#2F5233] rounded">
+              <span class="font-medium text-[#28302A]">🎻 Música / Instrumento</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
+              <input type="checkbox" name="curriculumElective" value="logica" class="accent-[#2F5233] rounded">
+              <span class="font-medium text-[#28302A]">♟️ Lógica Formal</span>
+            </label>
+          </div>
+          <p class="text-[10px] text-[#667267] italic">
+            * Cursos e esportes práticos (Judô, Ballet, Robótica) podem ser registrados com fotos na aba <strong>Passeios & Extras</strong> sem poluir os cadernos escolares.
+          </p>
+        </div>
+
+        <!-- Resumo da Grade Semanal -->
+        <div>
+          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Distribuição Semanal Prevista:</label>
+          <div id="curriculumGradePreview" class="p-3 bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5]">
+            <!-- Preenchido via updateGradePreview() -->
+          </div>
+        </div>
+
+        <!-- Opção de Substituição -->
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="curriculumReplaceCheck" checked class="accent-[#2F5233] rounded">
+          <label for="curriculumReplaceCheck" class="text-xs text-[#28302A] cursor-pointer font-medium">
+            Substituir planejamento atual da semana por esta nova grade
+          </label>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2 border-t border-[#E8E2D5]">
+          <button type="button" onclick="ActaCurriculum.closeCurriculumModal()" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+            Cancelar
+          </button>
+          <button type="submit" class="hero-btn-green text-xs font-bold px-5 py-2.5 rounded-full shadow-sm flex items-center gap-2">
+            <i class="fa-solid fa-check"></i>
+            <span>Aplicar Grade na Semana</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
   </div>
 
   <!-- Toast Notification Flutuante -->
@@ -2366,6 +2495,7 @@
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
   <script src="js/storage.js"></script>
   <script src="js/materials.js"></script>
+  <script src="js/curriculum.js"></script>
   <script src="js/planner.js"></script>
   <script src="js/diagnostic.js"></script>
   <script src="js/calendar.js"></script>

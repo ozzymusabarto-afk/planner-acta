@@ -20,6 +20,8 @@
       experiencia: { label: 'Experiência Científica', icon: 'fa-flask', color: 'text-[#D97706]', bg: 'bg-[#FEF3C7]' },
       construcao: { label: 'Construção / Marcenaria', icon: 'fa-hammer', color: 'text-[#8C472E]', bg: 'bg-[#F5EBE6]' },
       oficina: { label: 'Oficina / Projeto Prático', icon: 'fa-screwdriver-wrench', color: 'text-[#059669]', bg: 'bg-[#ECFDF5]' },
+      esporte: { label: 'Esportes / Artes Marciais (Judô, Ballet, Natação, Futebol)', icon: 'fa-medal', color: 'text-[#D97706]', bg: 'bg-[#FEF3C7]' },
+      curso: { label: 'Cursos Práticos (Robótica, Programação, Desenho, Teatro)', icon: 'fa-laptop-code', color: 'text-[#4F46E5]', bg: 'bg-[#EEF2FF]' },
       outro: { label: 'Atividade Espontânea', icon: 'fa-sparkles', color: 'text-[#28302A]', bg: 'bg-[#FAF7F0]' }
     },
 
@@ -35,7 +37,11 @@
       let extras = storage.getExtras(person ? person.id : 'all');
 
       if (this.selectedCategoryFilter !== 'todos') {
-        extras = extras.filter(x => x.category === this.selectedCategoryFilter);
+        if (this.selectedCategoryFilter === 'esporte_curso') {
+          extras = extras.filter(x => x.type === 'esporte' || x.type === 'curso');
+        } else {
+          extras = extras.filter(x => x.category === this.selectedCategoryFilter);
+        }
       }
 
       let html = `
@@ -64,6 +70,13 @@
                 class="extra-filter-pill text-xs font-semibold px-4 py-1.5 rounded-full ${this.selectedCategoryFilter === 'extra' ? 'bg-[#2F5233] text-white' : 'bg-white border border-[#E8E2D5] text-[#28302A] hover:bg-[#FAF7F0]'} transition shadow-2xs"
               >
                 🎨 Projetos & Práticas
+              </button>
+              <button 
+                type="button" 
+                onclick="ActaExtras.filterCategory('esporte_curso', this)" 
+                class="extra-filter-pill text-xs font-semibold px-4 py-1.5 rounded-full ${this.selectedCategoryFilter === 'esporte_curso' ? 'bg-[#2F5233] text-white' : 'bg-white border border-[#E8E2D5] text-[#28302A] hover:bg-[#FAF7F0]'} transition shadow-2xs"
+              >
+                🥋 Esportes & Cursos Extras
               </button>
             </div>
 
