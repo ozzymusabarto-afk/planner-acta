@@ -1973,17 +1973,25 @@
       </form>
     </div>
 
-    <!-- Modal: Planejamento Direto (Criança -> Material -> Conteúdo -> Período) -->
-    <div id="modalNewPlan" class="hidden bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
-      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-2">
-        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Planejar Estudo Direto</h3>
-        <button onclick="ActaApp.closeModal('modalNewPlan')" class="text-[#8E9A8F] hover:text-[#28302A]">
+    <!-- Modal: Adicionar Aula ao Planejamento -->
+    <div id="modalNewPlan" class="hidden bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 space-y-4 shadow-2xl border border-[#E8E2D5]">
+      <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center shrink-0 shadow-2xs">
+            <i class="fa-solid fa-calendar-plus text-base"></i>
+          </div>
+          <div>
+            <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Adicionar Aula ao Planejamento</h3>
+            <p class="text-[11px] text-[#667267]">Organize uma matéria livre ou vincule a um livro da biblioteca.</p>
+          </div>
+        </div>
+        <button onclick="ActaApp.closeModal('modalNewPlan')" class="text-[#8E9A8F] hover:text-[#28302A] p-1.5 rounded-full hover:bg-[#FAF7F0] transition">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
 
-      <form onsubmit="event.preventDefault(); ActaApp.saveDirectPlan();" class="space-y-3.5">
-        <div class="grid grid-cols-2 gap-3">
+      <form onsubmit="event.preventDefault(); ActaPlanner.savePlanFromModal();" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label for="planChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">1. Criança</label>
             <select id="planChildSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
@@ -1992,7 +2000,7 @@
           </div>
           <div>
             <label for="planDaySelect" class="block text-xs font-bold text-[#28302A] mb-1">2. Dia da Semana</label>
-            <select id="planDaySelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+            <select id="planDaySelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-medium">
               <option value="segunda">Segunda-feira</option>
               <option value="terca">Terça-feira</option>
               <option value="quarta">Quarta-feira</option>
@@ -2004,25 +2012,82 @@
         </div>
 
         <div>
-          <label for="planMaterialSelect" class="block text-xs font-bold text-[#28302A] mb-1">3. Livro / Material da Biblioteca</label>
-          <select id="planMaterialSelect" onchange="ActaApp.onPlanMaterialChange(this.value)" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
-            <!-- Preenchido dinamicamente -->
+          <label for="planSubjectSelect" class="block text-xs font-bold text-[#28302A] mb-1">3. Matéria / Disciplina</label>
+          <select id="planSubjectSelect" onchange="ActaPlanner.onSubjectChange(this.value)" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-medium text-[#28302A]">
+            <option value="Língua Portuguesa">📖 Língua Portuguesa</option>
+            <option value="Matemática">📐 Matemática</option>
+            <option value="Ciências da Natureza">🌱 Ciências da Natureza</option>
+            <option value="História">🏛️ História</option>
+            <option value="Geografia">🌍 Geografia</option>
+            <option value="Língua Inglesa">🇬🇧 Língua Inglesa</option>
+            <option value="Latim">📜 Latim / Língua Latina</option>
+            <option value="Língua Espanhola">🇪🇸 Língua Espanhola</option>
+            <option value="Música">🎵 Música & Canto</option>
+            <option value="Artes Visuais">🎨 Artes Visuais</option>
+            <option value="Literatura">📚 Literatura & Leituras</option>
+            <option value="Religião & Virtudes">🕯️ Religião & Virtudes</option>
+            <option value="Filosofia & Lógica">💡 Filosofia & Lógica</option>
+            <option value="Robótica & Programação">🤖 Robótica & Programação</option>
+            <option value="__custom__">➕ Outra matéria (digitar nome)...</option>
           </select>
+          <div id="planCustomSubjectGroup" class="hidden mt-2">
+            <input 
+              type="text" 
+              id="planCustomSubjectInput" 
+              placeholder="Digite o nome da disciplina (ex: Francês, Redação, Caligrafia, Xadrez...)" 
+              class="w-full text-xs p-2.5 border border-[#CCD8CD] rounded-xl bg-white focus:border-[#2F5233] focus:outline-none placeholder:text-[#8E9A8F]"
+            >
+          </div>
         </div>
 
         <div>
-          <label for="planContentSelect" class="block text-xs font-bold text-[#28302A] mb-1">4. Conteúdo / Tópico do Sumário</label>
-          <select id="planContentSelect" required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
-            <option value="">Selecione um material acima primeiro</option>
-          </select>
+          <label for="planCustomContent" class="block text-xs font-bold text-[#28302A] mb-1">4. Conteúdo / Lição da Aula</label>
+          <input 
+            type="text" 
+            id="planCustomContent" 
+            required 
+            placeholder="Ex: Lição 14: Declinações dos Nomes / Cap. 4 pág. 52 / Ditado fonético" 
+            class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none placeholder:text-[#8E9A8F]"
+          >
+        </div>
+
+        <!-- Opção de vincular com livro da biblioteca -->
+        <div class="p-3 bg-[#FAF7F0] border border-[#E8E2D5] rounded-2xl space-y-2.5">
+          <label class="text-xs font-bold text-[#667267] flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="planLinkMaterialCheckbox" onchange="ActaPlanner.toggleLinkMaterial(this.checked)" class="rounded text-[#2F5233] focus:ring-0">
+            <span>Vincular com livro ou apostila da Biblioteca (opcional)</span>
+          </label>
+          <div id="planMaterialGroup" class="hidden space-y-2 pt-1 border-t border-[#E8E2D5]">
+            <div>
+              <label for="planMaterialSelect" class="block text-[11px] font-semibold text-[#667267] mb-1">Livro / Material:</label>
+              <select id="planMaterialSelect" onchange="ActaPlanner.updateTopicOptions(this.value)" class="w-full text-xs p-2 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none">
+                <!-- Preenchido dinamicamente -->
+              </select>
+            </div>
+            <div>
+              <label for="planContentSelect" class="block text-[11px] font-semibold text-[#667267] mb-1">Tópico do Sumário:</label>
+              <select id="planContentSelect" onchange="ActaPlanner.onTopicSelectChange(this.value)" class="w-full text-xs p-2 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none">
+                <option value="">Selecione um tópico...</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dica prática sobre Atividades Extras e Esportes -->
+        <div class="p-3 bg-[#EBF3ED]/80 border border-[#2F5233]/20 rounded-2xl text-[11px] text-[#2F5233] flex items-start gap-2.5">
+          <i class="fa-solid fa-circle-info text-sm mt-0.5 shrink-0"></i>
+          <div>
+            <span class="font-bold">Cursos e Atividades Extras:</span> Para aulas como <strong>Ballet, Judô, Jiu-Jitsu, Natação, Futebol</strong>, você também pode usar a aba <strong>Vivências & Extras</strong> para anexar fotos e relatórios da evolução da criança!
+          </div>
         </div>
 
         <div class="pt-2 flex justify-end gap-2 border-t border-[#E8E2D5]">
-          <button type="button" onclick="ActaApp.closeModal('modalNewPlan')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
+          <button type="button" onclick="ActaApp.closeModal('modalNewPlan')" class="text-xs px-4 py-2.5 rounded-full text-[#667267] hover:bg-[#FAF7F0] font-medium transition">
             Cancelar
           </button>
-          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
-            Adicionar ao Planejamento
+          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2.5 rounded-full shadow-sm flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-plus text-[10px]"></i>
+            <span>Adicionar Aula</span>
           </button>
         </div>
       </form>
@@ -2546,23 +2611,23 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
   <!-- Camada de Conexão, Autenticação e Firestore do ACTA -->
-  <script src="js/firebase-config.js?v=20260927_4"></script>
-  <script src="js/firestore-sync.js?v=20260927_4"></script>
-  <script src="js/auth.js?v=20260927_4"></script>
+  <script src="js/firebase-config.js?v=20260927_5"></script>
+  <script src="js/firestore-sync.js?v=20260927_5"></script>
+  <script src="js/auth.js?v=20260927_5"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260927_4"></script>
-  <script src="js/materials.js?v=20260927_4"></script>
-  <script src="js/curriculum.js?v=20260927_4"></script>
-  <script src="js/planner.js?v=20260927_4"></script>
-  <script src="js/diagnostic.js?v=20260927_4"></script>
-  <script src="js/calendar.js?v=20260927_4"></script>
-  <script src="js/extras.js?v=20260927_4"></script>
-  <script src="js/records.js?v=20260927_4"></script>
-  <script src="js/culture.js?v=20260927_4"></script>
-  <script src="js/reports.js?v=20260927_4"></script>
-  <script src="js/quotes.js?v=20260927_4"></script>
-  <script src="js/tutorial.js?v=20260927_4"></script>
-  <script src="js/app.js?v=20260927_4"></script>
+  <script src="js/storage.js?v=20260927_5"></script>
+  <script src="js/materials.js?v=20260927_5"></script>
+  <script src="js/curriculum.js?v=20260927_5"></script>
+  <script src="js/planner.js?v=20260927_5"></script>
+  <script src="js/diagnostic.js?v=20260927_5"></script>
+  <script src="js/calendar.js?v=20260927_5"></script>
+  <script src="js/extras.js?v=20260927_5"></script>
+  <script src="js/records.js?v=20260927_5"></script>
+  <script src="js/culture.js?v=20260927_5"></script>
+  <script src="js/reports.js?v=20260927_5"></script>
+  <script src="js/quotes.js?v=20260927_5"></script>
+  <script src="js/tutorial.js?v=20260927_5"></script>
+  <script src="js/app.js?v=20260927_5"></script>
 </body>
 </html>

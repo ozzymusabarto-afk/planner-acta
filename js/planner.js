@@ -17,7 +17,19 @@
       'história': { icon: 'fa-landmark', color: 'text-[#8C472E]', bg: 'bg-[#FAF7F0]' },
       'geografia': { icon: 'fa-earth-americas', color: 'text-[#325B6C]', bg: 'bg-[#FAF7F0]' },
       'literatura': { icon: 'fa-book-open', color: 'text-[#2F5233]', bg: 'bg-[#FAF7F0]' },
-      'arte': { icon: 'fa-palette', color: 'text-[#7C3AED]', bg: 'bg-[#FAF7F0]' }
+      'arte': { icon: 'fa-palette', color: 'text-[#7C3AED]', bg: 'bg-[#FAF7F0]' },
+      'latim': { icon: 'fa-feather-pointed', color: 'text-[#8B5CF6]', bg: 'bg-[#FAF7F0]' },
+      'inglês': { icon: 'fa-language', color: 'text-[#2563EB]', bg: 'bg-[#FAF7F0]' },
+      'ingles': { icon: 'fa-language', color: 'text-[#2563EB]', bg: 'bg-[#FAF7F0]' },
+      'espanhol': { icon: 'fa-earth-americas', color: 'text-[#EA580C]', bg: 'bg-[#FAF7F0]' },
+      'música': { icon: 'fa-music', color: 'text-[#D97706]', bg: 'bg-[#FAF7F0]' },
+      'musica': { icon: 'fa-music', color: 'text-[#D97706]', bg: 'bg-[#FAF7F0]' },
+      'religião': { icon: 'fa-hands-praying', color: 'text-[#059669]', bg: 'bg-[#FAF7F0]' },
+      'virtudes': { icon: 'fa-heart', color: 'text-[#E11D48]', bg: 'bg-[#FAF7F0]' },
+      'filosofia': { icon: 'fa-lightbulb', color: 'text-[#4F46E5]', bg: 'bg-[#FAF7F0]' },
+      'lógica': { icon: 'fa-brain', color: 'text-[#4F46E5]', bg: 'bg-[#FAF7F0]' },
+      'robótica': { icon: 'fa-robot', color: 'text-[#0284C7]', bg: 'bg-[#FAF7F0]' },
+      'programação': { icon: 'fa-code', color: 'text-[#0284C7]', bg: 'bg-[#FAF7F0]' }
     },
 
     getSubjectMeta: function(subject) {
@@ -439,22 +451,110 @@
       this.openRescheduleModal(fromDayKey, itemIndex);
     },
 
+    onSubjectChange: function(subjectVal) {
+      const group = document.getElementById('planCustomSubjectGroup');
+      const input = document.getElementById('planCustomSubjectInput');
+      if (group) {
+        if (subjectVal === '__custom__') {
+          group.classList.remove('hidden');
+          if (input) input.focus();
+        } else {
+          group.classList.add('hidden');
+        }
+      }
+    },
+
+    toggleLinkMaterial: function(checked) {
+      const group = document.getElementById('planMaterialGroup');
+      const matSelect = document.getElementById('planMaterialSelect');
+      if (group) {
+        if (checked) {
+          group.classList.remove('hidden');
+          const storage = window.ActaStorage;
+          const materials = storage ? storage.getMaterials() : [];
+          if (matSelect) {
+            matSelect.innerHTML = `
+              <option value="">Selecione um material da Biblioteca...</option>
+              ${materials.map(m => `
+                <option value="${m.id}">${m.subject ? m.subject + ' — ' : ''}${m.title}</option>
+              `).join('')}
+            `;
+            if (materials.length > 0) {
+              this.updateTopicOptions(matSelect.value);
+            }
+          }
+        } else {
+          group.classList.add('hidden');
+        }
+      }
+    },
+
+    updateTopicOptions: function(materialId) {
+      const storage = window.ActaStorage;
+      const contentSelect = document.getElementById('planContentSelect');
+      if (!contentSelect) return;
+
+      if (!materialId) {
+        contentSelect.innerHTML = '<option value="">Primeiro selecione um material acima...</option>';
+        return;
+      }
+
+      const mat = storage ? storage.getMaterialById(materialId) : null;
+      const topics = mat ? (mat.topics || mat.indexList || []) : [];
+
+      if (topics.length === 0) {
+        contentSelect.innerHTML = '<option value="">Material sem tópicos cadastrados no sumário</option>';
+        return;
+      }
+
+      contentSelect.innerHTML = `
+        <option value="">Selecione um tópico do sumário...</option>
+        ${topics.map(t => {
+          const title = t.title || t.name || t;
+          const code = t.code ? `${t.code} ` : '';
+          return `<option value="${title}">${code}${title}</option>`;
+        }).join('')}
+      `;
+
+      // Auto-selecionar matéria correspondente se possível
+      if (mat && mat.subject) {
+        const subjSelect = document.getElementById('planSubjectSelect');
+        if (subjSelect) {
+          const matchOpt = Array.from(subjSelect.options).find(opt => 
+            opt.value.toLowerCase().includes(mat.subject.toLowerCase()) || 
+            mat.subject.toLowerCase().includes(opt.value.toLowerCase())
+          );
+          if (matchOpt) {
+            subjSelect.value = matchOpt.value;
+            this.onSubjectChange(matchOpt.value);
+          }
+        }
+      }
+    },
+
+    onTopicSelectChange: function(topicVal) {
+      if (topicVal) {
+        const customInput = document.getElementById('planCustomContent');
+        if (customInput) {
+          customInput.value = topicVal;
+        }
+      }
+    },
+
     openNewPlanModal: function(preselectedChildId, preselectedDayKey) {
       const storage = window.ActaStorage;
       if (!storage) return;
 
-      const modal = document.getElementById('modalNewPlan');
-      if (!modal) return;
-
       const people = storage.getPeople();
-      const materials = storage.getMaterials();
       const activePerson = preselectedChildId ? storage.getPersonById(preselectedChildId) : storage.getActivePerson();
 
       // Popular seletor de criança
       const childSelect = document.getElementById('planChildSelect');
-      childSelect.innerHTML = people.map(p => `
-        <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>${p.name}</option>
-      `).join('');
+      if (childSelect) {
+        childSelect.innerHTML = people.map(p => `
+          <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>${p.name}</option>
+        `).join('');
+      }
 
       // Pré-selecionar dia da semana se informado
       const daySelect = document.getElementById('planDaySelect');
@@ -462,103 +562,78 @@
         daySelect.value = preselectedDayKey;
       }
 
-      // Popular seletor de material
-      const matSelect = document.getElementById('planMaterialSelect');
-      matSelect.innerHTML = `
-        <option value="">Selecione um material da Biblioteca...</option>
-        ${materials.map(m => `
-          <option value="${m.id}" data-subject="${m.subject}">${m.title} (${m.subject})</option>
-        `).join('')}
-        <option value="outro">+ Outro material / atividade livre</option>
-      `;
+      // Resetar campos do formulário
+      const subjSelect = document.getElementById('planSubjectSelect');
+      if (subjSelect) subjSelect.value = 'Língua Portuguesa';
+      this.onSubjectChange('Língua Portuguesa');
 
-      // Atualizar tópicos ao trocar de material
-      matSelect.onchange = () => this.updateTopicOptions(matSelect.value);
+      const customSubj = document.getElementById('planCustomSubjectInput');
+      if (customSubj) customSubj.value = '';
 
-      // Limpar campos
-      document.getElementById('planContentSelect').innerHTML = '<option value="">Primeiro selecione o material acima...</option>';
-      document.getElementById('planCustomContent').value = '';
-      document.getElementById('planPeriodInput').value = this.selectedPeriod;
+      const customContent = document.getElementById('planCustomContent');
+      if (customContent) customContent.value = '';
 
-      modal.classList.remove('hidden');
-    },
-
-    updateTopicOptions: function(materialId) {
-      const storage = window.ActaStorage;
-      const contentSelect = document.getElementById('planContentSelect');
-      const customContentDiv = document.getElementById('planCustomContentDiv');
-
-      if (!materialId || materialId === 'outro') {
-        contentSelect.innerHTML = '<option value="">Digite o conteúdo abaixo...</option>';
-        if (customContentDiv) customContentDiv.classList.remove('hidden');
-        return;
+      const linkCb = document.getElementById('planLinkMaterialCheckbox');
+      if (linkCb) {
+        linkCb.checked = false;
+        this.toggleLinkMaterial(false);
       }
 
-      const mat = storage.getMaterialById(materialId);
-      if (!mat || !mat.topics || mat.topics.length === 0) {
-        contentSelect.innerHTML = '<option value="">Nenhum tópico no índice (digite abaixo)</option>';
-        if (customContentDiv) customContentDiv.classList.remove('hidden');
-        return;
+      const modal = document.getElementById('modalNewPlan');
+      const overlay = document.getElementById('modalOverlay');
+      if (overlay) {
+        const siblings = overlay.querySelectorAll(':scope > div');
+        siblings.forEach(s => s.classList.add('hidden'));
+        overlay.classList.remove('hidden');
       }
-
-      contentSelect.innerHTML = `
-        <option value="">Selecione um tópico do índice...</option>
-        ${mat.topics.map(t => `<option value="${t.title}">${t.title}</option>`).join('')}
-        <option value="__custom__">+ Outro conteúdo deste material</option>
-      `;
-
-      contentSelect.onchange = () => {
-        if (contentSelect.value === '__custom__') {
-          if (customContentDiv) customContentDiv.classList.remove('hidden');
-        } else {
-          if (customContentDiv) customContentDiv.classList.add('hidden');
-        }
-      };
+      if (modal) modal.classList.remove('hidden');
     },
 
     savePlanFromModal: function() {
       const storage = window.ActaStorage;
-      const childId = document.getElementById('planChildSelect').value;
-      const materialId = document.getElementById('planMaterialSelect').value;
-      const contentSelect = document.getElementById('planContentSelect');
-      const customContent = document.getElementById('planCustomContent').value.trim();
-      const period = document.getElementById('planPeriodInput').value.trim() || 'Semana atual';
-      const dayKey = document.getElementById('planDaySelect').value;
+      if (!storage) return;
 
-      let contentTitle = contentSelect.value;
-      if (!contentTitle || contentTitle === '__custom__') {
-        contentTitle = customContent;
+      const childSelect = document.getElementById('planChildSelect');
+      const daySelect = document.getElementById('planDaySelect');
+      const subjSelect = document.getElementById('planSubjectSelect');
+      const customSubjInput = document.getElementById('planCustomSubjectInput');
+      const customContentInput = document.getElementById('planCustomContent');
+      const linkCb = document.getElementById('planLinkMaterialCheckbox');
+      const matSelect = document.getElementById('planMaterialSelect');
+
+      const childId = childSelect ? childSelect.value : '';
+      const dayKey = daySelect ? daySelect.value : 'segunda';
+
+      let subject = subjSelect ? subjSelect.value : 'Língua Portuguesa';
+      if (subject === '__custom__') {
+        subject = customSubjInput ? customSubjInput.value.trim() : '';
+        if (!subject) subject = 'Atividade Complementar';
       }
 
-      if (!contentTitle) {
-        alert('Por favor, informe o conteúdo a ser planejado.');
+      let content = customContentInput ? customContentInput.value.trim() : '';
+      if (!content) {
+        alert('Por favor, informe o conteúdo ou lição da aula a ser realizada.');
+        if (customContentInput) customContentInput.focus();
         return;
       }
 
-      let subject = 'Geral';
-      if (materialId && materialId !== 'outro') {
-        const mat = storage.getMaterialById(materialId);
-        if (mat) subject = mat.subject;
-      } else {
-        const customSubject = document.getElementById('planCustomSubject');
-        if (customSubject && customSubject.value.trim()) {
-          subject = customSubject.value.trim();
-        }
-      }
+      let materialId = (linkCb && linkCb.checked && matSelect) ? matSelect.value : null;
 
       // 1. Salvar no repositório de planos gerais
       storage.savePlan({
         personId: childId,
-        materialId: materialId,
+        materialId: materialId || '',
         subject: subject,
-        contentTitle: contentTitle,
-        period: period,
+        contentTitle: content,
+        period: 'Semana atual',
         dayKey: dayKey,
         status: 'planejado'
       });
 
       // 2. Sincronizar na grade semanal atual (weekSchedule)
       const data = storage.getData();
+      if (!Array.isArray(data.weekSchedule)) data.weekSchedule = [];
+
       let dayBlock = data.weekSchedule.find(d => d.dayKey === dayKey);
       if (!dayBlock) {
         const dayTitles = {
@@ -578,20 +653,72 @@
         data.weekSchedule.push(dayBlock);
       }
 
+      if (!Array.isArray(dayBlock.items)) dayBlock.items = [];
+
+      const meta = this.getSubjectMeta(subject);
       dayBlock.items.push({
         subject: subject,
-        content: contentTitle,
+        content: content,
         materialId: materialId,
-        icon: 'fa-book'
+        status: 'planejado',
+        icon: meta.icon
       });
 
       storage.saveWeekSchedule(data.weekSchedule);
 
       // 3. Fechar modal e atualizar interface
-      document.getElementById('modalNewPlan').classList.add('hidden');
+      if (window.ActaApp && typeof window.ActaApp.closeModal === 'function') {
+        window.ActaApp.closeModal('modalNewPlan');
+      } else {
+        const modal = document.getElementById('modalNewPlan');
+        const overlay = document.getElementById('modalOverlay');
+        if (modal) modal.classList.add('hidden');
+        if (overlay) overlay.classList.add('hidden');
+      }
+
       if (window.ActaApp && typeof window.ActaApp.renderSemanaTab === 'function') {
         window.ActaApp.renderSemanaTab();
       }
+
+      if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
+        window.ActaApp.showToast(`✅ Aula de ${subject} adicionada para ${dayBlock.dayTitle}!`);
+      }
+    },
+
+    planDirectContent: function(childId, materialId, contentId, dayKey) {
+      const storage = window.ActaStorage;
+      if (!storage) return;
+
+      const mat = storage.getMaterialById(materialId);
+      const subject = mat ? mat.subject : 'Estudo';
+      let contentTitle = 'Conteúdo';
+
+      if (mat) {
+        const topics = mat.topics || mat.indexList || [];
+        const t = topics.find(item => (item.id === contentId || item.title === contentId));
+        if (t) contentTitle = t.title || t.name || contentId;
+      }
+
+      const data = storage.getData();
+      if (!Array.isArray(data.weekSchedule)) data.weekSchedule = [];
+
+      let dayBlock = data.weekSchedule.find(d => d.dayKey === dayKey);
+      if (!dayBlock) {
+        dayBlock = { dayKey: dayKey, dayTitle: dayKey, dateLabel: '', items: [] };
+        data.weekSchedule.push(dayBlock);
+      }
+      if (!Array.isArray(dayBlock.items)) dayBlock.items = [];
+
+      const meta = this.getSubjectMeta(subject);
+      dayBlock.items.push({
+        subject: subject,
+        content: contentTitle,
+        materialId: materialId,
+        status: 'planejado',
+        icon: meta.icon
+      });
+
+      storage.saveWeekSchedule(data.weekSchedule);
     },
 
     deletePlanItem: function(dayKey, index) {

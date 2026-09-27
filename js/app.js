@@ -1568,20 +1568,9 @@
     },
 
     saveDirectPlan: function() {
-      const childId = document.getElementById('planChildSelect').value;
-      const dayKey = document.getElementById('planDaySelect').value;
-      const materialId = document.getElementById('planMaterialSelect').value;
-      const contentId = document.getElementById('planContentSelect').value;
-
-      if (!childId || !materialId || !contentId) {
-        alert('Por favor, selecione a criança, o material e o conteúdo.');
-        return;
+      if (window.ActaPlanner && typeof window.ActaPlanner.savePlanFromModal === 'function') {
+        return window.ActaPlanner.savePlanFromModal();
       }
-
-      ActaPlanner.planDirectContent(childId, materialId, contentId, dayKey);
-      this.closeModal('modalNewPlan');
-      this.showToast('✅ Estudo adicionado ao planejamento semanal!');
-      this.renderSemanaTab();
     },
 
     // ==========================================
@@ -1808,20 +1797,9 @@
             photoInput.dataset.bound = 'true';
           }
         } else if (modalId === 'modalNewPlan') {
-          const childSel = document.getElementById('planChildSelect');
-          if (childSel) {
-            childSel.innerHTML = people.map(p => `
-              <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>${p.name}</option>
-            `).join('');
-          }
-          const matSel = document.getElementById('planMaterialSelect');
-          if (matSel) {
-            matSel.innerHTML = materials.map(m => `
-              <option value="${m.id}">${m.subject} — ${m.title}</option>
-            `).join('');
-            if (materials.length > 0) {
-              this.onPlanMaterialChange(materials[0].id);
-            }
+          if (window.ActaPlanner && typeof window.ActaPlanner.openNewPlanModal === 'function') {
+            const activeP = ActaStorage.getActivePerson();
+            window.ActaPlanner.openNewPlanModal(activeP ? activeP.id : null);
           }
         }
       }
