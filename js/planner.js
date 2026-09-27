@@ -129,11 +129,11 @@
                 <button 
                   type="button" 
                   onclick="ActaPlanner.openNewPlanModal(null, '${day.dayKey}')" 
-                  class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white border border-[#E8E2D5] text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
-                  title="Adicionar mais uma aula neste dia"
+                  class="text-[11px] font-bold px-3 py-1 rounded-full bg-[#EBF3ED] border border-[#2F5233]/30 text-[#2F5233] hover:bg-[#2F5233] hover:text-white transition flex items-center gap-1 shadow-2xs"
+                  title="Incluir mais uma aula ou matéria neste dia"
                 >
                   <i class="fa-solid fa-plus text-[9px]"></i>
-                  <span>Aula</span>
+                  <span>+ Incluir Aula</span>
                 </button>
               </div>
             </div>
@@ -208,10 +208,11 @@
                 <button 
                   type="button" 
                   onclick="ActaPlanner.deletePlanItem('${day.dayKey}', ${itemIdx})"
-                  class="text-[#8E9A8F] hover:text-[#A95337] p-1 transition"
-                  title="Remover do planejamento"
+                  class="text-[11px] font-medium px-2 py-1 rounded-full border border-[#E8E2D5] text-[#8E9A8F] hover:text-[#A95337] hover:border-[#A95337]/40 hover:bg-rose-50/70 transition flex items-center gap-1"
+                  title="Excluir esta aula do planejamento"
                 >
-                  <i class="fa-solid fa-trash-can text-xs"></i>
+                  <i class="fa-solid fa-trash-can text-[10px]"></i>
+                  <span>Excluir</span>
                 </button>
               </div>
             </div>

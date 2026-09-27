@@ -574,7 +574,8 @@
         dailyCoreCheck.checked = (activePerson && activePerson.dailyCore !== undefined) ? !!activePerson.dailyCore : false;
       }
 
-      this.updateGradePreview();
+      this.workingGrade = null;
+      this.updateGradePreview(true);
       if (overlay) overlay.classList.remove('hidden');
       modal.classList.remove('hidden');
     },
@@ -586,100 +587,322 @@
       if (overlay) overlay.classList.add('hidden');
     },
 
-    /**
-     * Atualiza o resumo visual da grade selecionada no modal
-     */
-    updateGradePreview: function() {
-      const gradeSelect = document.getElementById('curriculumGradeSelect');
-      const previewBox = document.getElementById('curriculumGradePreview');
-      const dailyCoreCheck = document.getElementById('curriculumDailyCoreCheck');
-      const isDailyCore = dailyCoreCheck ? dailyCoreCheck.checked : false;
-      if (!gradeSelect || !previewBox) return;
+    workingGrade: null,
 
-      const grade = GRADES_CONFIG[gradeSelect.value];
-      if (!grade) return;
-
-      let html = `
-        <div class="space-y-2">
-          <p class="text-xs text-[#2F5233] font-semibold">${grade.description}</p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
-      `;
-
-      const dayNames = {
-        'segunda': 'Segunda',
-        'terca': 'Terça',
-        'quarta': 'Quarta',
-        'quinta': 'Quinta',
-        'sexta': 'Sexta'
-      };
-
-      for (const [dKey, dItemsRaw] of Object.entries(grade.days)) {
-        let dItems = dItemsRaw.slice();
-        if (isDailyCore) {
-          const hasPort = dItems.some(i => i.subject.toLowerCase().includes('portugu'));
-          const hasMat = dItems.some(i => i.subject.toLowerCase().includes('matemát'));
-          if (!hasPort) dItems.unshift({ subject: 'Língua Portuguesa' });
-          if (!hasMat) {
-            const portIdx = dItems.findIndex(i => i.subject.toLowerCase().includes('portugu'));
-            const insertIdx = portIdx >= 0 ? portIdx + 1 : 0;
-            dItems.splice(insertIdx, 0, { subject: 'Matemática' });
-          }
+    onCustomSubjSelectChange: function(val) {
+      const input = document.getElementById('curriculumCustomSubjInput');
+      if (input) {
+        if (val === '__custom__') {
+          input.classList.remove('hidden');
+          input.focus();
+        } else {
+          input.classList.add('hidden');
         }
-
-        html += `
-          <div class="p-2.5 rounded-xl bg-white border border-[#E8E2D5] shadow-2xs">
-            <span class="font-bold text-[#28302A] block text-[10px] uppercase">${dayNames[dKey]}</span>
-            <ul class="text-[#667267] list-disc list-inside mt-0.5 space-y-0.5">
-              ${dItems.map(i => {
-                const isCore = isDailyCore && (i.subject.includes('Portuguesa') || i.subject === 'Matemática');
-                return `<li class="${isCore ? 'text-[#2F5233] font-semibold' : ''}">${i.subject}</li>`;
-              }).join('')}
-            </ul>
-          </div>
-        `;
       }
-
-      html += `</div></div>`;
-      previewBox.innerHTML = html;
     },
 
-    /**
-     * Submete a aplicação da grade
-     */
-    handleApplySubmit: function() {
-      const childSelect = document.getElementById('curriculumChildSelect');
-      const gradeSelect = document.getElementById('curriculumGradeSelect');
-      const replaceCheck = document.getElementById('curriculumReplaceCheck');
-      const dailyCoreCheck = document.getElementById('curriculumDailyCoreCheck');
+    addCustomSubjectToWorkingGrade: function() {
+      if (!this.workingGrade) this.initWorkingGrade();
 
-      const childId = childSelect ? childSelect.value : null;
-      const gradeKey = gradeSelect ? gradeSelect.value : null;
-      const replaceExisting = replaceCheck ? replaceCheck.checked : true;
-      const dailyCore = dailyCoreCheck ? dailyCoreCheck.checked : false;
+      const select = document.getElementById('curriculumCustomSubjSelect');
+      const input = document.getElementById('curriculumCustomSubjInput');
+      const contentInput = document.getElementById('curriculumCustomContentInput');
+
+      let subject = select ? select.value : '';
+      if (subject === '__custom__') {
+        subject = input ? input.value.trim() : '';
+      }
+
+      if (!subject) {
+        alert('Por favor, informe o nome da matéria a ser acrescentada.');
+        if (input) input.focus();
+        return;
+      }
+
+      const content = (contentInput && contentInput.value.trim()) ? contentInput.value.trim() : 'Estudo prático / Teoria';
+
+      // Coleta dias marcados
+      const dayChecks = document.querySelectorAll('input[name="customSubjDay"]:checked');
+      const selectedDays = Array.from(dayChecks).map(c => c.value);
+
+      if (selectedDays.length === 0) {
+        alert('Selecione pelo menos um dia da semana para acrescentar esta matéria.');
+        return;
+      }
+
+      selectedDays.forEach(dKey => {
+        if (!Array.isArray(this.workingGrade[dKey])) this.workingGrade[dKey] = [];
+        this.workingGrade[dKey].push({
+          subject: subject,
+          content: content
+        });
+      });
+
+      this.renderWorkingGradePreview();
+
+      if (contentInput) contentInput.value = '';
+      if (input) input.value = '';
+      if (select) select.value = 'Língua Inglesa';
+      if (input) input.classList.add('hidden');
+
+      if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
+        window.ActaApp.showToast(`✅ Matéria "${subject}" acrescentada nos dias selecionados!`);
+      }
+    },
+
+    removeSubjectFromWorkingGrade: function(dayKey, itemIndex) {
+      if (!this.workingGrade || !this.workingGrade[dayKey]) return;
+      this.workingGrade[dayKey].splice(itemIndex, 1);
+      this.renderWorkingGradePreview();
+    },
+
+    openQuickAddPrompt: function(dayKey) {
+      const dayNames = {
+        segunda: 'Segunda-feira',
+        terca: 'Terça-feira',
+        quarta: 'Quarta-feira',
+        quinta: 'Quinta-feira',
+        sexta: 'Sexta-feira'
+      };
+
+      const promptFn = (typeof window !== 'undefined' && typeof window.prompt === 'function') ? window.prompt : (typeof prompt === 'function' ? prompt : null);
+      if (!promptFn) return;
+
+      const subject = promptFn(`Qual matéria deseja incluir na ${dayNames[dayKey] || dayKey}? (ex: Latim, Inglês, Robótica, Português, Matemática...)`);
+      if (!subject || !subject.trim()) return;
+
+      const content = promptFn(`Qual o conteúdo ou lição? (opcional)`) || 'Estudo orientado';
+
+      if (!this.workingGrade) this.initWorkingGrade();
+      if (!Array.isArray(this.workingGrade[dayKey])) this.workingGrade[dayKey] = [];
+
+      this.workingGrade[dayKey].push({
+        subject: subject.trim(),
+        content: content.trim()
+      });
+
+      this.renderWorkingGradePreview();
+    },
+
+    initWorkingGrade: function(forceReset = false) {
+      const gradeSelect = document.getElementById('curriculumGradeSelect');
+      const dailyCoreCheck = document.getElementById('curriculumDailyCoreCheck');
+      const isDailyCore = dailyCoreCheck ? dailyCoreCheck.checked : false;
+
+      const gradeKey = gradeSelect ? gradeSelect.value : 'fund1_1ano';
+      const grade = GRADES_CONFIG[gradeKey] || GRADES_CONFIG['fund1_1ano'];
 
       // Coleta eletivas marcadas
       const electiveChecks = document.querySelectorAll('input[name="curriculumElective"]:checked');
       const selectedElectives = Array.from(electiveChecks).map(c => c.value);
 
-      if (!gradeKey) {
-        alert('Selecione uma série para aplicar.');
-        return;
+      const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
+      this.workingGrade = {};
+
+      days.forEach(dKey => {
+        let baseItems = (grade.days[dKey] || []).map(item => ({ ...item }));
+
+        if (isDailyCore) {
+          const hasPort = baseItems.some(i => i.subject.toLowerCase().includes('portugu'));
+          const hasMat = baseItems.some(i => i.subject.toLowerCase().includes('matemát'));
+          if (!hasPort) baseItems.unshift({ subject: 'Língua Portuguesa', content: 'Leitura, gramática e escrita guiada' });
+          if (!hasMat) {
+            const portIdx = baseItems.findIndex(i => i.subject.toLowerCase().includes('portugu'));
+            const insertIdx = portIdx >= 0 ? portIdx + 1 : 0;
+            baseItems.splice(insertIdx, 0, { subject: 'Matemática', content: 'Cálculo, fixação e resolução de problemas' });
+          }
+        }
+
+        // Adiciona eletivas marcadas
+        selectedElectives.forEach(elecId => {
+          const elec = ELECTIVES_CONFIG[elecId];
+          if (elec && elec.days.includes(dKey)) {
+            baseItems.push({
+              subject: elec.name,
+              content: elec.defaultContent
+            });
+          }
+        });
+
+        this.workingGrade[dKey] = baseItems;
+      });
+    },
+
+    updateGradePreview: function(reset = false) {
+      if (reset || !this.workingGrade) {
+        this.initWorkingGrade(true);
+      }
+      this.renderWorkingGradePreview();
+    },
+
+    renderWorkingGradePreview: function() {
+      const previewBox = document.getElementById('curriculumGradePreview');
+      const gradeSelect = document.getElementById('curriculumGradeSelect');
+      if (!previewBox) return;
+
+      const gradeKey = gradeSelect ? gradeSelect.value : 'fund1_1ano';
+      const grade = GRADES_CONFIG[gradeKey] || GRADES_CONFIG['fund1_1ano'];
+
+      if (!this.workingGrade) this.initWorkingGrade();
+
+      const dayNames = {
+        'segunda': 'Segunda-feira',
+        'terca': 'Terça-feira',
+        'quarta': 'Quarta-feira',
+        'quinta': 'Quinta-feira',
+        'sexta': 'Sexta-feira'
+      };
+
+      let html = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between text-xs text-[#2F5233] bg-[#EBF3ED] p-2.5 rounded-xl border border-[#2F5233]/20">
+            <span class="font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>${grade.label}</span>
+            </span>
+            <span class="text-[11px] font-semibold text-[#667267] hidden sm:inline">${grade.description}</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 text-xs">
+      `;
+
+      const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
+
+      days.forEach(dKey => {
+        const items = this.workingGrade[dKey] || [];
+        const dayTitle = dayNames[dKey];
+
+        html += `
+          <div class="p-3 rounded-2xl bg-white border border-[#E8E2D5] shadow-2xs flex flex-col justify-between space-y-2">
+            <div>
+              <div class="flex items-center justify-between border-b border-[#F0ECE4] pb-1.5 mb-2">
+                <span class="font-bold text-[11px] text-[#28302A] uppercase tracking-wide">${dayTitle}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${items.length > 3 ? 'bg-[#FEF3C7] text-[#92400E]' : 'bg-[#EBF3ED] text-[#2F5233]'}">
+                  ${items.length} ${items.length === 1 ? 'aula' : 'aulas'}
+                </span>
+              </div>
+
+              ${items.length === 0 ? `
+                <div class="py-3 text-center text-[11px] text-[#8E9A8F] italic">
+                  Nenhuma aula neste dia
+                </div>
+              ` : `
+                <div class="space-y-1.5">
+                  ${items.map((item, idx) => {
+                    const meta = (window.ActaPlanner && typeof window.ActaPlanner.getSubjectMeta === 'function') 
+                      ? window.ActaPlanner.getSubjectMeta(item.subject) 
+                      : { icon: 'fa-book', color: 'text-[#2F5233]' };
+
+                    return `
+                      <div class="flex items-center justify-between p-1.5 px-2 bg-[#FAF7F0] hover:bg-[#F3EFE6] rounded-xl border border-[#E8E2D5] transition group">
+                        <div class="flex items-center gap-1.5 min-w-0 pr-1">
+                          <i class="fa-solid ${meta.icon} ${meta.color} text-xs shrink-0"></i>
+                          <div class="truncate">
+                            <span class="font-bold text-[11px] text-[#28302A] block truncate">${item.subject}</span>
+                            ${item.content ? `<span class="text-[10px] text-[#667267] block truncate">${item.content}</span>` : ''}
+                          </div>
+                        </div>
+                        <button 
+                          type="button" 
+                          onclick="ActaCurriculum.removeSubjectFromWorkingGrade('${dKey}', ${idx})" 
+                          class="text-[#8E9A8F] hover:text-[#A95337] hover:bg-rose-50 p-1 rounded-lg transition shrink-0" 
+                          title="Excluir ${item.subject} da ${dayTitle}"
+                        >
+                          <i class="fa-solid fa-trash-can text-[11px]"></i>
+                        </button>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              `}
+            </div>
+
+            <button 
+              type="button" 
+              onclick="ActaCurriculum.openQuickAddPrompt('${dKey}')" 
+              class="w-full py-1 text-[11px] font-semibold text-[#2F5233] bg-[#EBF3ED]/70 hover:bg-[#2F5233] hover:text-white rounded-xl border border-dashed border-[#2F5233]/30 transition flex items-center justify-center gap-1"
+            >
+              <i class="fa-solid fa-plus text-[9px]"></i>
+              <span>Incluir Aula</span>
+            </button>
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+        </div>
+      `;
+
+      previewBox.innerHTML = html;
+    },
+
+    /**
+     * Submete a aplicação da grade na semana
+     */
+    handleApplySubmit: function() {
+      const childSelect = document.getElementById('curriculumChildSelect');
+      const gradeSelect = document.getElementById('curriculumGradeSelect');
+      const storage = window.ActaStorage;
+
+      const childId = childSelect ? childSelect.value : null;
+      const gradeKey = gradeSelect ? gradeSelect.value : 'fund1_1ano';
+
+      if (!storage) return;
+
+      if (!this.workingGrade) {
+        this.initWorkingGrade();
       }
 
-      const ok = this.applyGradeToSchedule(childId, gradeKey, selectedElectives, replaceExisting, dailyCore);
-      if (ok) {
-        this.closeCurriculumModal();
-        if (childId && window.ActaStorage) {
-          window.ActaStorage.setActivePersonId(childId);
-        }
-        if (window.ActaApp) {
-          if (typeof window.ActaApp.renderSidebar === 'function') window.ActaApp.renderSidebar();
-          if (typeof window.ActaApp.renderCriancasTab === 'function') window.ActaApp.renderCriancasTab();
-          if (typeof window.ActaApp.switchTab === 'function') window.ActaApp.switchTab('semana');
-          if (typeof window.ActaApp.renderSemanaTab === 'function') window.ActaApp.renderSemanaTab();
-          if (typeof window.ActaApp.showToast === 'function') {
-            window.ActaApp.showToast('Grade horária sugerida aplicada com sucesso!');
+      // Converte o workingGrade nas aulas da semana com datas reais
+      const weekDays = this.getWeekDates();
+      const updatedSchedule = weekDays.map(wDay => {
+        const dayItems = (this.workingGrade[wDay.dayKey] || []).map(b => ({
+          id: 'plan_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+          childId: childId,
+          subject: b.subject,
+          content: b.content || 'Estudo orientado',
+          status: 'pendente',
+          createdAt: new Date().toISOString()
+        }));
+
+        return {
+          dayKey: wDay.dayKey,
+          dayTitle: wDay.dayTitle,
+          dateLabel: wDay.dateLabel,
+          items: dayItems
+        };
+      });
+
+      storage.saveWeekSchedule(updatedSchedule);
+
+      // Atualiza também o ano escolar no cadastro da criança
+      if (childId) {
+        const person = storage.getPersonById ? storage.getPersonById(childId) : null;
+        if (person) {
+          const grade = GRADES_CONFIG[gradeKey] || GRADES_CONFIG['fund1_1ano'];
+          person.schoolYear = gradeKey;
+          person.schoolYearLabel = grade ? grade.label : gradeKey;
+          if (typeof storage.updatePerson === 'function') {
+            storage.updatePerson(person);
+          } else if (typeof storage.savePerson === 'function') {
+            storage.savePerson(person);
           }
+        }
+        if (typeof storage.setActivePersonId === 'function') {
+          storage.setActivePersonId(childId);
+        }
+      }
+
+      this.closeCurriculumModal();
+
+      if (window.ActaApp) {
+        if (typeof window.ActaApp.renderSidebar === 'function') window.ActaApp.renderSidebar();
+        if (typeof window.ActaApp.renderCriancasTab === 'function') window.ActaApp.renderCriancasTab();
+        if (typeof window.ActaApp.switchTab === 'function') window.ActaApp.switchTab('semana');
+        if (typeof window.ActaApp.renderSemanaTab === 'function') window.ActaApp.renderSemanaTab();
+        if (typeof window.ActaApp.showToast === 'function') {
+          window.ActaApp.showToast('✅ Grade personalizada aplicada com sucesso na semana!');
         }
       }
     }

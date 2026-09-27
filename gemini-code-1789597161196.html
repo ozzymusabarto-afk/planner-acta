@@ -2389,7 +2389,7 @@
           </div>
           <div>
             <label for="curriculumGradeSelect" class="block text-xs font-bold text-[#28302A] mb-1">Série / Ciclo Escolar</label>
-            <select id="curriculumGradeSelect" onchange="ActaCurriculum.updateGradePreview()" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-semibold text-[#2F5233]">
+            <select id="curriculumGradeSelect" onchange="ActaCurriculum.updateGradePreview(true)" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-semibold text-[#2F5233]">
               <!-- Populado dinamicamente -->
             </select>
           </div>
@@ -2402,23 +2402,23 @@
           </label>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
             <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
-              <input type="checkbox" name="curriculumElective" value="ingles" checked class="accent-[#2F5233] rounded">
+              <input type="checkbox" name="curriculumElective" value="ingles" checked onchange="ActaCurriculum.updateGradePreview(true)" class="accent-[#2F5233] rounded">
               <span class="font-medium text-[#28302A]">🇬🇧 Língua Inglesa</span>
             </label>
             <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
-              <input type="checkbox" name="curriculumElective" value="latim" class="accent-[#2F5233] rounded">
+              <input type="checkbox" name="curriculumElective" value="latim" onchange="ActaCurriculum.updateGradePreview(true)" class="accent-[#2F5233] rounded">
               <span class="font-medium text-[#28302A]">🏛️ Latim Clássico</span>
             </label>
             <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
-              <input type="checkbox" name="curriculumElective" value="espanhol" class="accent-[#2F5233] rounded">
+              <input type="checkbox" name="curriculumElective" value="espanhol" onchange="ActaCurriculum.updateGradePreview(true)" class="accent-[#2F5233] rounded">
               <span class="font-medium text-[#28302A]">🇪🇸 Língua Espanhola</span>
             </label>
             <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
-              <input type="checkbox" name="curriculumElective" value="musica" class="accent-[#2F5233] rounded">
+              <input type="checkbox" name="curriculumElective" value="musica" onchange="ActaCurriculum.updateGradePreview(true)" class="accent-[#2F5233] rounded">
               <span class="font-medium text-[#28302A]">🎻 Música / Instrumento</span>
             </label>
             <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233]/40">
-              <input type="checkbox" name="curriculumElective" value="logica" class="accent-[#2F5233] rounded">
+              <input type="checkbox" name="curriculumElective" value="logica" onchange="ActaCurriculum.updateGradePreview(true)" class="accent-[#2F5233] rounded">
               <span class="font-medium text-[#28302A]">♟️ Lógica Formal</span>
             </label>
           </div>
@@ -2439,16 +2439,73 @@
             </div>
           </div>
           <label class="relative inline-flex items-center cursor-pointer shrink-0">
-            <input type="checkbox" id="curriculumDailyCoreCheck" onchange="ActaCurriculum.updateGradePreview()" class="sr-only peer">
+            <input type="checkbox" id="curriculumDailyCoreCheck" onchange="ActaCurriculum.updateGradePreview(true)" class="sr-only peer">
             <div class="w-10 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#2F5233]"></div>
           </label>
         </div>
 
-        <!-- Resumo da Grade Semanal -->
+        <!-- Painel: Acrescentar Outra Matéria que não está na Grade -->
+        <div class="p-3.5 bg-gradient-to-r from-[#FAF7F0] to-[#F3EFE6] rounded-2xl border border-[#CCD8CD] space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-[#28302A] flex items-center gap-2">
+              <span class="w-5 h-5 rounded-md bg-[#2F5233] text-white flex items-center justify-center text-[10px]">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+              <span>Acrescentar Outra Matéria na Grade (Eletiva ou Livre):</span>
+            </label>
+            <span class="text-[10px] text-[#667267] font-medium">Latim, Inglês, Robótica, Música, etc.</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="block text-[11px] font-semibold text-[#667267] mb-1">Escolher ou Digitar Matéria:</label>
+              <select id="curriculumCustomSubjSelect" onchange="ActaCurriculum.onCustomSubjSelectChange(this.value)" class="w-full text-xs p-2 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none font-medium">
+                <option value="Língua Inglesa">🇬🇧 Língua Inglesa</option>
+                <option value="Latim Clássico">📜 Latim Clássico</option>
+                <option value="Língua Espanhola">🇪🇸 Língua Espanhola</option>
+                <option value="Música & Instrumento">🎵 Música & Instrumento</option>
+                <option value="Robótica & Programação">🤖 Robótica & Programação</option>
+                <option value="Filosofia & Virtudes">💡 Filosofia & Virtudes</option>
+                <option value="Artes Visuais">🎨 Artes Visuais</option>
+                <option value="Lógica Formal">♟️ Lógica Formal</option>
+                <option value="__custom__">➕ Outra matéria (digitar nome)...</option>
+              </select>
+              <input type="text" id="curriculumCustomSubjInput" placeholder="Ex: Grego, Redação, Caligrafia, Xadrez..." class="hidden w-full text-xs p-2 mt-1.5 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#667267] mb-1">Lição / Conteúdo (opcional):</label>
+              <input type="text" id="curriculumCustomContentInput" placeholder="Ex: Lições semanais, exercícios, prática..." class="w-full text-xs p-2 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none">
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#E8E2D5]">
+            <div class="flex items-center gap-2.5 text-xs text-[#28302A]">
+              <span class="text-[11px] font-bold text-[#667267]">Dias:</span>
+              <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" name="customSubjDay" value="segunda" checked class="accent-[#2F5233]"> Seg</label>
+              <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" name="customSubjDay" value="terca" class="accent-[#2F5233]"> Ter</label>
+              <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" name="customSubjDay" value="quarta" checked class="accent-[#2F5233]"> Qua</label>
+              <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" name="customSubjDay" value="quinta" class="accent-[#2F5233]"> Qui</label>
+              <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" name="customSubjDay" value="sexta" class="accent-[#2F5233]"> Sex</label>
+            </div>
+            <button 
+              type="button" 
+              onclick="ActaCurriculum.addCustomSubjectToWorkingGrade()" 
+              class="hero-btn-green text-xs font-bold px-3.5 py-1.5 rounded-full shadow-xs flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-plus text-[10px]"></i>
+              <span>Acrescentar nesta Grade</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quadro Interativo da Grade Semanal -->
         <div>
-          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Distribuição Semanal Prevista:</label>
-          <div id="curriculumGradePreview" class="p-3 bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5]">
-            <!-- Preenchido via updateGradePreview() -->
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-bold text-[#28302A]">Quadro Interativo da Grade Semanal:</label>
+            <span class="text-[11px] text-[#667267]">Exclua no ✕ ou inclua mais aulas em cada dia</span>
+          </div>
+          <div id="curriculumGradePreview" class="p-3 bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5] space-y-3">
+            <!-- Preenchido via updateGradePreview() com botões de excluir e incluir -->
           </div>
         </div>
 
@@ -2611,23 +2668,23 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
   <!-- Camada de Conexão, Autenticação e Firestore do ACTA -->
-  <script src="js/firebase-config.js?v=20260927_5"></script>
-  <script src="js/firestore-sync.js?v=20260927_5"></script>
-  <script src="js/auth.js?v=20260927_5"></script>
+  <script src="js/firebase-config.js?v=20260927_6"></script>
+  <script src="js/firestore-sync.js?v=20260927_6"></script>
+  <script src="js/auth.js?v=20260927_6"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260927_5"></script>
-  <script src="js/materials.js?v=20260927_5"></script>
-  <script src="js/curriculum.js?v=20260927_5"></script>
-  <script src="js/planner.js?v=20260927_5"></script>
-  <script src="js/diagnostic.js?v=20260927_5"></script>
-  <script src="js/calendar.js?v=20260927_5"></script>
-  <script src="js/extras.js?v=20260927_5"></script>
-  <script src="js/records.js?v=20260927_5"></script>
-  <script src="js/culture.js?v=20260927_5"></script>
-  <script src="js/reports.js?v=20260927_5"></script>
-  <script src="js/quotes.js?v=20260927_5"></script>
-  <script src="js/tutorial.js?v=20260927_5"></script>
-  <script src="js/app.js?v=20260927_5"></script>
+  <script src="js/storage.js?v=20260927_6"></script>
+  <script src="js/materials.js?v=20260927_6"></script>
+  <script src="js/curriculum.js?v=20260927_6"></script>
+  <script src="js/planner.js?v=20260927_6"></script>
+  <script src="js/diagnostic.js?v=20260927_6"></script>
+  <script src="js/calendar.js?v=20260927_6"></script>
+  <script src="js/extras.js?v=20260927_6"></script>
+  <script src="js/records.js?v=20260927_6"></script>
+  <script src="js/culture.js?v=20260927_6"></script>
+  <script src="js/reports.js?v=20260927_6"></script>
+  <script src="js/quotes.js?v=20260927_6"></script>
+  <script src="js/tutorial.js?v=20260927_6"></script>
+  <script src="js/app.js?v=20260927_6"></script>
 </body>
 </html>
