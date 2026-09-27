@@ -1548,6 +1548,30 @@
         </div>
       </div>
 
+      <!-- SEÇÃO: PLANO & LICENÇA DA FAMÍLIA (HOTMART R$ 34,99) -->
+      <div class="planner-divider"></div>
+
+      <div class="planner-card p-6 bg-white border border-[#E8E2D5] rounded-3xl space-y-4 shadow-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E8E2D5] pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-[#FEF3C7] text-[#B45309] flex items-center justify-center text-xl shrink-0 shadow-2xs">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+            <div>
+              <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Plano & Licença da Família</h3>
+              <p class="text-xs text-[#667267]">Gerencie seu acesso e desbloqueie os recursos de formação cultural e relatórios oficiais.</p>
+            </div>
+          </div>
+          <div id="configPlanBadgeContainer">
+            <!-- Populado dinamicamente via renderConfiguracoesTab -->
+          </div>
+        </div>
+
+        <div id="configPlanBodyContainer" class="pt-1">
+          <!-- Populado dinamicamente via renderConfiguracoesTab -->
+        </div>
+      </div>
+
     </div>
 
   </main>
@@ -2702,6 +2726,115 @@
       </div>
     </div>
 
+    <!-- Modal: Upgrade / Desbloqueio do Planner ACTA Completo (Hotmart R$ 34,99) -->
+    <div id="modalUpgradePlan" class="bg-white border border-[#E8E2D5] rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl space-y-6 hidden my-8 custom-scrollbar">
+      <div class="flex items-center justify-between border-b border-[#E8E2D5] pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-[#FEF3C7] text-[#B45309] flex items-center justify-center text-lg shadow-xs">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-wider text-[#B45309]">Plano Completo da Família</span>
+            <h3 class="text-base font-bold text-[#28302A] leading-tight">Planner ACTA Completo</h3>
+          </div>
+        </div>
+        <button type="button" onclick="ActaApp.closeModal('modalUpgradePlan')" class="text-[#8E9A8F] hover:text-[#28302A] p-2 rounded-full hover:bg-[#FAF7F0] transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Mensagem de Contexto (Opcional, ex: limite de filhos) -->
+      <p id="upgradeModalCustomMessage" class="hidden text-xs p-3 rounded-2xl bg-[#FEF3C7] text-[#92400E] font-medium border border-[#F59E0B]/30 leading-relaxed"></p>
+
+      <div class="space-y-3">
+        <p class="text-xs text-[#667267] leading-relaxed">
+          O ACTA foi feito para acompanhar a história viva da sua família com serenidade. Ao desbloquear a versão completa, você libera todos os módulos de formação cultural e relatórios oficiais:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-[#28302A]">
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-book-open-reader text-[#2F5233] text-sm"></i>
+            <span class="font-medium">Estante de Leituras & Virtudes</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-film text-[#1E3A5F] text-sm"></i>
+            <span class="font-medium">Cinemateca & Valores</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-compass text-[#D97706] text-sm"></i>
+            <span class="font-medium">Passeios, Museus & Extras</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-chart-simple text-[#2F5233] text-sm"></i>
+            <span class="font-medium">Acompanhamento & Métricas</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-timeline text-[#6D28D9] text-sm"></i>
+            <span class="font-medium">Linha do Tempo Completa</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-file-invoice text-[#BE123C] text-sm"></i>
+            <span class="font-medium">Dossiês & Relatórios em PDF</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-children text-[#2F5233] text-sm"></i>
+            <span class="font-medium">Filhos Ilimitados no Cadastro</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#FAF7F0] border border-[#E8E2D5]">
+            <i class="fa-solid fa-palette text-[#D97706] text-sm"></i>
+            <span class="font-medium">Todos os Temas Visuais</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preço e Botão Hotmart -->
+      <div class="p-5 rounded-2xl bg-[#EBF3ED] border border-[#2F5233]/25 text-center space-y-3">
+        <div>
+          <span class="text-[10px] uppercase font-bold tracking-wider text-[#2F5233]">Valor Especial para a Família</span>
+          <div class="flex items-baseline justify-center gap-1.5 mt-0.5">
+            <span class="text-xs text-[#667267] font-medium">apenas</span>
+            <span class="font-editorial-serif text-3xl font-bold text-[#2F5233]">R$ 34,99</span>
+          </div>
+          <p class="text-[11px] text-[#667267]">Pagamento único • Sem mensalidades recorrentes • Acesso da Família</p>
+        </div>
+
+        <a 
+          href="https://pay.hotmart.com" 
+          target="_blank" 
+          class="w-full hero-btn-green py-3.5 px-6 rounded-full text-xs font-bold shadow-md hover:scale-[1.01] transition flex items-center justify-center gap-2"
+        >
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span>Adquirir Acesso no Hotmart (R$ 34,99)</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+      </div>
+
+      <!-- Formulário de Ativação por Código -->
+      <div class="pt-2 border-t border-[#E8E2D5] space-y-2">
+        <label for="inputActivationKey" class="block text-xs font-bold text-[#28302A]">
+          Já comprou no Hotmart ou possui uma chave?
+        </label>
+        <div class="flex gap-2">
+          <input 
+            type="text" 
+            id="inputActivationKey" 
+            placeholder="Digite o código ou chave (Ex: ACTA-PRO)" 
+            class="flex-1 text-xs p-2.5 border border-[#CCD8CD] rounded-xl uppercase font-mono tracking-wider bg-[#FAF7F0] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5233]/20"
+          >
+          <button 
+            type="button" 
+            onclick="ActaApp.handleActivateLicense()" 
+            class="hero-btn-green text-xs font-bold px-5 py-2.5 rounded-xl shadow-xs transition shrink-0"
+          >
+            Ativar
+          </button>
+        </div>
+        <p class="text-[10px] text-[#667267] italic leading-tight">
+          💡 O código de ativação é enviado por e-mail após a confirmação do Hotmart ou pode ser solicitado diretamente à coordenação.
+        </p>
+      </div>
+    </div>
+
   </div>
 
   <!-- Toast Notification Flutuante -->
@@ -2824,18 +2957,18 @@
   <script src="js/auth.js?v=20260927_8"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260927_8"></script>
-  <script src="js/materials.js?v=20260927_8"></script>
-  <script src="js/curriculum.js?v=20260927_8"></script>
-  <script src="js/planner.js?v=20260927_8"></script>
-  <script src="js/diagnostic.js?v=20260927_8"></script>
-  <script src="js/calendar.js?v=20260927_8"></script>
-  <script src="js/extras.js?v=20260927_8"></script>
-  <script src="js/records.js?v=20260927_8"></script>
-  <script src="js/culture.js?v=20260927_8"></script>
-  <script src="js/reports.js?v=20260927_8"></script>
-  <script src="js/quotes.js?v=20260927_8"></script>
-  <script src="js/tutorial.js?v=20260927_8"></script>
-  <script src="js/app.js?v=20260927_8"></script>
+  <script src="js/storage.js?v=20260927_9"></script>
+  <script src="js/materials.js?v=20260927_9"></script>
+  <script src="js/curriculum.js?v=20260927_9"></script>
+  <script src="js/planner.js?v=20260927_9"></script>
+  <script src="js/diagnostic.js?v=20260927_9"></script>
+  <script src="js/calendar.js?v=20260927_9"></script>
+  <script src="js/extras.js?v=20260927_9"></script>
+  <script src="js/records.js?v=20260927_9"></script>
+  <script src="js/culture.js?v=20260927_9"></script>
+  <script src="js/reports.js?v=20260927_9"></script>
+  <script src="js/quotes.js?v=20260927_9"></script>
+  <script src="js/tutorial.js?v=20260927_9"></script>
+  <script src="js/app.js?v=20260927_9"></script>
 </body>
 </html>

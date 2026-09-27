@@ -97,6 +97,7 @@
 
       // 4. Setup de navegação e listeners
       this.setupNavigation();
+      this.updateProNavigationUI();
     },
 
     // ==========================================
@@ -130,6 +131,7 @@
           userInitialEl.textContent = name.charAt(0).toUpperCase();
         }
         this.refreshAllTabs();
+        this.updateProNavigationUI();
         if (window.ActaTutorial && typeof window.ActaTutorial.checkAutoStart === 'function') {
           window.ActaTutorial.checkAutoStart(user.uid);
         }
@@ -428,6 +430,21 @@
         }
       });
 
+      // Validação de Abas Exclusivas do Plano ACTA Completo (PRO)
+      const proTabs = ['leituras', 'filmes', 'passeios', 'caminhada', 'linhadotempo', 'dossie'];
+      const isProTab = proTabs.includes(tabName);
+      const isPremium = typeof ActaStorage.isPremiumUser === 'function' ? ActaStorage.isPremiumUser() : false;
+
+      if (isProTab && !isPremium) {
+        this.renderProLockView(tabName, activePane);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      } else if (activePane) {
+        const oldShowcase = activePane.querySelector('.acta-pro-showcase');
+        if (oldShowcase) oldShowcase.remove();
+        activePane.querySelectorAll(':scope > div:not(.acta-pro-showcase)').forEach(el => el.classList.remove('hidden'));
+      }
+
       // Atualizar dados ao entrar na aba
       if (tabName === 'casa') this.renderCasaTab();
       if (tabName === 'criancas') this.renderCriancasTab();
@@ -525,6 +542,7 @@
           </div>
         `;
       }
+      this.updateProNavigationUI();
     },
 
     // ==========================================
@@ -683,6 +701,14 @@
     },
 
     openNewPersonModal: function() {
+      if (typeof ActaStorage.isPremiumUser === 'function' && !ActaStorage.isPremiumUser()) {
+        const currentPeople = ActaStorage.getPeople();
+        if (currentPeople.length >= 2) {
+          this.openUpgradeModal('No Plano Gratuito você pode acompanhar até 2 crianças. Para cadastrar 3 ou mais filhos sem limites e liberar toda a biblioteca, cinemateca, estante cultural e relatórios, adquira o Planner ACTA Completo por apenas R$ 34,99!');
+          return;
+        }
+      }
+
       const editId = document.getElementById('editPersonId');
       const nameInput = document.getElementById('newPersonName');
       const birthInput = document.getElementById('newPersonBirthDate');
@@ -1635,7 +1661,73 @@
     // TELA 12: CONFIGURAÇÕES & TEMAS
     // ==========================================
     renderConfiguracoesTab: function() {
-      // Temas já disponíveis para seleção com 1 clique
+      const isPremium = typeof ActaStorage.isPremiumUser === 'function' ? ActaStorage.isPremiumUser() : false;
+      const badgeContainer = document.getElementById('configPlanBadgeContainer');
+      const bodyContainer = document.getElementById('configPlanBodyContainer');
+
+      if (badgeContainer) {
+        if (isPremium) {
+          badgeContainer.innerHTML = `
+            <span class="text-xs px-3 py-1 rounded-full bg-[#FEF3C7] border border-[#F59E0B]/30 text-[#B45309] font-bold flex items-center gap-1.5 shadow-2xs">
+              <i class="fa-solid fa-crown text-[11px]"></i>
+              <span>Plano ACTA Completo Ativo</span>
+            </span>
+          `;
+        } else {
+          badgeContainer.innerHTML = `
+            <span class="text-xs px-3 py-1 rounded-full bg-[#FAF7F0] border border-[#E8E2D5] text-[#667267] font-semibold flex items-center gap-1.5">
+              <span>Plano Gratuito</span>
+            </span>
+          `;
+        }
+      }
+
+      if (bodyContainer) {
+        if (isPremium) {
+          bodyContainer.innerHTML = `
+            <div class="p-4 rounded-2xl bg-[#EBF3ED] border border-[#2F5233]/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <span class="text-xs font-bold text-[#28302A] block">⭐ Sua família possui Acesso Completo e Ilimitado!</span>
+                <p class="text-[11px] text-[#667267]">Todos os 14 módulos (Leituras, Filmes, Passeios, Acompanhamento, Linha do Tempo e Dossiês Oficiais) estão 100% liberados.</p>
+              </div>
+              <span class="text-[11px] text-[#2F5233] font-bold px-3 py-1 rounded-full bg-white border border-[#2F5233]/20 shadow-2xs shrink-0">
+                Licença Vitalícia
+              </span>
+            </div>
+          `;
+        } else {
+          bodyContainer.innerHTML = `
+            <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-[#28302A]">Experimente o Planner ACTA Completo</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#EBF3ED] text-[#2F5233] font-bold">R$ 34,99</span>
+                </div>
+                <p class="text-[11px] text-[#667267] max-w-xl">
+                  Desbloqueie a Estante Cultural de Leituras, Cinemateca da Família, Diário de Passeios & Museus, Gráficos de Evolução, Linha do Tempo e Dossiês Oficiais para impressão.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <a 
+                  href="${ActaStorage.HOTMART_CHECKOUT_URL}" 
+                  target="_blank" 
+                  class="hero-btn-green text-xs font-bold px-4 py-2 rounded-full shadow-xs flex items-center gap-1.5 transition"
+                >
+                  <i class="fa-solid fa-bag-shopping"></i>
+                  <span>Comprar no Hotmart</span>
+                </a>
+                <button 
+                  type="button" 
+                  onclick="ActaApp.openUpgradeModal()" 
+                  class="text-xs font-bold px-3.5 py-2 rounded-full bg-white border border-[#CCD8CD] text-[#28302A] hover:bg-[#FAF7F0] shadow-2xs transition"
+                >
+                  Ativar Código
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      }
     },
 
     // ==========================================
@@ -1845,6 +1937,233 @@
         .finally(() => {
           event.target.value = '';
         });
+    },
+
+    renderProLockView: function(tabName, paneEl) {
+      if (!paneEl) return;
+
+      // Esconde o conteúdo interno padrão da aba
+      paneEl.querySelectorAll(':scope > div:not(.acta-pro-showcase)').forEach(el => el.classList.add('hidden'));
+
+      let showcase = paneEl.querySelector('.acta-pro-showcase');
+      if (!showcase) {
+        showcase = document.createElement('div');
+        showcase.className = 'acta-pro-showcase planner-card p-6 sm:p-10 bg-white border border-[#E8E2D5] rounded-3xl space-y-8 shadow-xs max-w-3xl mx-auto my-4';
+        paneEl.appendChild(showcase);
+      }
+      showcase.classList.remove('hidden');
+
+      const infoMap = {
+        leituras: {
+          badge: 'Formação Moral & Literária',
+          icon: 'fa-book-open-reader',
+          title: 'Estante Cultural de Leituras & Virtudes',
+          sub: 'Cultive a imaginação moral, o gosto pelos clássicos e a vida interior dos seus filhos.',
+          items: [
+            'Estante viva com capas e status de leitura por criança',
+            'Registro das virtudes trabalhadas em cada conto ou romance',
+            'Anotação de passagens marcantes, diálogos e reflexões em família',
+            'Metas anuais de leitura com incentivo ao hábito diário'
+          ]
+        },
+        filmes: {
+          badge: 'Cultura & Bons Costumes',
+          icon: 'fa-film',
+          title: 'Cinemateca da Família & Valores',
+          sub: 'Cinema com propósito: documentários, clássicos, biografias e conversas à mesa.',
+          items: [
+            'Catálogo com cartazes, faixa etária recomendada e gênero',
+            'Anotações de virtudes e conversas geradas após a sessão',
+            'Avaliação afetiva com estrelas e memórias em família',
+            'Histórico das noites de cinema e aprendizados compartilhados'
+          ]
+        },
+        passeios: {
+          badge: 'Experiências Vivas',
+          icon: 'fa-compass',
+          title: 'Passeios, Museus & Atividades Extras',
+          sub: '“Nem tudo o que educa precisa estar dentro de uma sala de aula.”',
+          items: [
+            'Registro de visitas a museus, planetários, teatros e viagens',
+            'Diário de projetos manuais, jardinagem, culinária e oficinas',
+            'Espaço para anexar fotos de evidências e memórias afetivas',
+            'Histórico de aprendizagem vivencial da família'
+          ]
+        },
+        caminhada: {
+          badge: 'Métricas Pedagógicas',
+          icon: 'fa-chart-simple',
+          title: 'Acompanhamento & Evolução Pedagógica',
+          sub: 'Visualize o crescimento dos seus filhos com relatórios e gráficos claros.',
+          items: [
+            'Gráficos de horas de aula e progresso por disciplina',
+            'Taxa de aproveitamento pedagógico (Compreendeu / Em desenvolvimento)',
+            'Visão panorâmica para planejamento dos próximos bimestres',
+            'Estatísticas prontas para prestar contas ou comprovação escolar'
+          ]
+        },
+        linhadotempo: {
+          badge: 'Memória Afetiva',
+          icon: 'fa-timeline',
+          title: 'Linha do Tempo da Jornada',
+          sub: 'Um álbum cronológico vivo de todas as conquistas e marcos do ano letivo.',
+          items: [
+            'Histórico unificado: aulas, livros lidos, filmes e passeios',
+            'Filtro individual por filho para acompanhar a biografia de cada um',
+            'Fotos, registros de diário e anotações dos pais em ordem temporal',
+            'Uma recordação eterna do crescimento dos seus filhos'
+          ]
+        },
+        dossie: {
+          badge: 'Documentação Oficial',
+          icon: 'fa-file-invoice',
+          title: 'Dossiês & Relatórios Oficiais para Impressão',
+          sub: 'Portfólio escolar e documentação formal formatada com elegância.',
+          items: [
+            'Emissão em PDF oficial de histórico de estudos e frequência',
+            'Compilação de matérias, livros concluídos e diagnósticos',
+            'Documentação para conselhos, escolas e arquivo familiar',
+            'Diagramação limpa e profissional com carimbo da família'
+          ]
+        }
+      };
+
+      const info = infoMap[tabName] || {
+        badge: 'Recurso Exclusivo',
+        icon: 'fa-crown',
+        title: 'Módulo Exclusivo do Planner ACTA Completo',
+        sub: 'Desenvolvido especialmente para as famílias que buscam uma experiência integral.',
+        items: ['Acesso ilimitado a todas as ferramentas extras', 'Suporte à educação da família']
+      };
+
+      showcase.innerHTML = `
+        <div class="text-center space-y-3">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF3C7] text-[#B45309] text-[11px] font-bold border border-[#F59E0B]/30 shadow-2xs">
+            <i class="fa-solid fa-crown text-[10px]"></i>
+            <span>${info.badge}</span>
+          </div>
+          <h2 class="font-editorial-serif text-2xl sm:text-3xl font-bold text-[#28302A] tracking-tight">
+            ${info.title}
+          </h2>
+          <div class="planner-title-vignette mx-auto"></div>
+          <p class="text-xs sm:text-sm text-[#667267] max-w-xl mx-auto italic">
+            ${info.sub}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+          ${info.items.map(item => `
+            <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
+              <div class="w-5 h-5 rounded-full bg-[#2F5233]/15 text-[#2F5233] flex items-center justify-center text-[10px] shrink-0 mt-0.5 font-bold">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <span class="text-xs text-[#28302A] leading-snug font-medium">${item}</span>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Card de Oferta Hotmart -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-[#FAF7F0] to-[#EBF3ED] border border-[#2F5233]/30 space-y-4 text-center">
+          <div class="space-y-1">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-[#2F5233]">Oferta Especial de Lançamento</span>
+            <div class="flex items-baseline justify-center gap-1">
+              <span class="text-xs text-[#667267] font-medium">por apenas</span>
+              <span class="font-editorial-serif text-3xl font-bold text-[#2F5233]">R$ 34,99</span>
+            </div>
+            <p class="text-[11px] text-[#667267]">Pagamento único • Acesso vitalício da sua família • Sem mensalidades</p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <a 
+              href="${ActaStorage.HOTMART_CHECKOUT_URL}" 
+              target="_blank" 
+              class="w-full sm:w-auto hero-btn-green px-6 py-3 rounded-full text-xs font-bold shadow-md hover:scale-[1.02] transition flex items-center justify-center gap-2"
+            >
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span>Adquirir no Hotmart (R$ 34,99)</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i>
+            </a>
+
+            <button 
+              type="button" 
+              onclick="ActaApp.openUpgradeModal()" 
+              class="w-full sm:w-auto px-5 py-3 rounded-full bg-white border border-[#CCD8CD] text-xs font-bold text-[#28302A] hover:bg-[#FAF7F0] shadow-2xs transition flex items-center justify-center gap-1.5"
+            >
+              <i class="fa-solid fa-key text-[#D97706]"></i>
+              <span>Já comprou? Digite seu Código</span>
+            </button>
+          </div>
+        </div>
+      `;
+    },
+
+    openUpgradeModal: function(optionalMessage) {
+      const msgEl = document.getElementById('upgradeModalCustomMessage');
+      if (msgEl) {
+        if (optionalMessage) {
+          msgEl.textContent = optionalMessage;
+          msgEl.classList.remove('hidden');
+        } else {
+          msgEl.classList.add('hidden');
+        }
+      }
+      this.openModal('modalUpgradePlan');
+    },
+
+    handleActivateLicense: function() {
+      const input = document.getElementById('inputActivationKey');
+      const key = input ? input.value.trim() : '';
+      if (!key) {
+        alert('Por favor, informe a chave de ativação ou e-mail de compra.');
+        return;
+      }
+      const success = ActaStorage.activatePremium(key);
+      if (success) {
+        this.closeModal('modalUpgradePlan');
+        this.showToast('🎉 Parabéns! Seu Planner ACTA Completo foi ativado com sucesso! Todos os módulos liberados.');
+        this.updateProNavigationUI();
+        this.refreshAllTabs();
+        this.switchTab(this.currentTab || 'casa');
+      } else {
+        alert('Código de ativação não reconhecido. Verifique e tente novamente ou entre em contato com o suporte.');
+      }
+    },
+
+    updateProNavigationUI: function() {
+      const isPremium = typeof ActaStorage.isPremiumUser === 'function' ? ActaStorage.isPremiumUser() : false;
+      const badgeEl = document.getElementById('sidebarUserBadge');
+      if (badgeEl) {
+        if (isPremium) {
+          badgeEl.innerHTML = '<span class="text-[#B45309] font-bold">⭐ PRO</span>';
+          badgeEl.className = 'text-[9px] px-1.5 py-0.2 rounded bg-[#FEF3C7] border border-[#F59E0B]/30 font-semibold';
+          badgeEl.onclick = null;
+          badgeEl.title = 'Plano ACTA Completo Vitalício Ativo';
+        } else {
+          badgeEl.innerHTML = 'Free • <span class="underline">Upgrade</span>';
+          badgeEl.className = 'text-[9px] px-1.5 py-0.2 rounded bg-[#FAF7F0] border border-[#E8E2D5] text-[#667267] font-semibold cursor-pointer hover:text-[#2F5233]';
+          badgeEl.onclick = () => this.openUpgradeModal();
+          badgeEl.title = 'Clique para conhecer o plano Completo';
+        }
+      }
+
+      // Selos PRO nos botões do menu lateral
+      const proTabs = ['leituras', 'filmes', 'passeios', 'caminhada', 'linhadotempo', 'dossie'];
+      proTabs.forEach(tab => {
+        const btn = document.querySelector(`[data-nav-target="${tab}"]`);
+        if (btn) {
+          let tag = btn.querySelector('.sidebar-pro-tag');
+          if (!isPremium) {
+            if (!tag) {
+              tag = document.createElement('span');
+              tag.className = 'sidebar-pro-tag ml-auto text-[8px] font-bold px-1.5 py-0.2 rounded bg-[#FAF7F0] border border-[#D97706]/40 text-[#D97706]';
+              tag.textContent = 'PRO';
+              btn.appendChild(tag);
+            }
+          } else {
+            if (tag) tag.remove();
+          }
+        }
+      });
     },
 
     previewImage: function(imgUrl) {

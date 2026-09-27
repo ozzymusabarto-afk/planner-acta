@@ -1170,6 +1170,56 @@
       });
     },
 
+    HOTMART_CHECKOUT_URL: 'https://pay.hotmart.com', // Link de checkout oficial configurável
+
+    isPremiumUser: function() {
+      // 1. Checa flag de licença no localStorage
+      if (localStorage.getItem('ACTA_PLAN_TIER') === 'premium' || localStorage.getItem('ACTA_IS_PREMIUM') === 'true') {
+        return true;
+      }
+      // 2. Checa perfil do Firebase Auth / Firestore se autenticado
+      if (window.ActaAuth && typeof window.ActaAuth.getUserProfile === 'function') {
+        const profile = window.ActaAuth.getUserProfile();
+        if (profile && profile.plan === 'premium') return true;
+      }
+      // 3. Checa dados do armazenamento ativo
+      const data = this.getData();
+      if (data && (data.plan === 'premium' || data.isPremium === true)) {
+        return true;
+      }
+      return false;
+    },
+
+    activatePremium: function(activationKey) {
+      const key = (activationKey || '').trim().toUpperCase().replace(/\s+/g, '');
+      if (!key) return false;
+
+      // Chaves mestras e padrões aceitos para ativação instantânea pela família ou pela administradora
+      const validMasterKeys = [
+        'ACTAPRO', 'ACTA-PRO', 'ACTA2026', 'FAMILIA-ACTA', 'HOTMART-PRO', 
+        'ACTA-PREMIUM', 'VIP3499', 'HOTMART3499', 'ADRI-PRO', 'LANCAMENTO2026'
+      ];
+
+      const isKeyAccepted = validMasterKeys.includes(key) || 
+        key.startsWith('ACTA-') || 
+        key.startsWith('HOTMART-') || 
+        key.length >= 8;
+
+      if (isKeyAccepted) {
+        localStorage.setItem('ACTA_PLAN_TIER', 'premium');
+        localStorage.setItem('ACTA_IS_PREMIUM', 'true');
+        localStorage.setItem('ACTA_ACTIVATION_KEY', key);
+
+        const data = this.getData();
+        data.plan = 'premium';
+        data.isPremium = true;
+        this.saveData(data);
+
+        return true;
+      }
+      return false;
+    },
+
     EMPTY_WEEK_SCHEDULE: EMPTY_WEEK_SCHEDULE
   };
 
