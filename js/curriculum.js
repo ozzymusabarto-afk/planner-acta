@@ -400,11 +400,15 @@
         if (person) {
           person.schoolYear = gradeKey;
           person.schoolYearLabel = grade.label;
-          storage.savePerson(person);
+          if (typeof storage.updatePerson === 'function') {
+            storage.updatePerson(person);
+          } else if (typeof storage.savePerson === 'function') {
+            storage.savePerson(person);
+          }
         }
       }
 
-      return true;
+      return updatedSchedule;
     },
 
     /**

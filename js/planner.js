@@ -33,8 +33,56 @@
      * Renderiza o planejamento semanal organizado em blocos diários
      */
     renderWeekScheduleHTML: function(scheduleData, activePerson) {
+      const totalItems = (scheduleData || []).reduce((acc, d) => acc + (d.items ? d.items.length : 0), 0);
+      let html = '';
+
+      if (totalItems === 0) {
+        html += `
+          <div class="planner-card p-6 bg-gradient-to-r from-[#FAF7F0] via-white to-[#EBF3ED] border-2 border-[#2F5233]/20 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm mb-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-[#2F5233] text-white flex items-center justify-center shrink-0 shadow-md">
+                <i class="fa-solid fa-graduation-cap text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-[#28302A]">Grade Semanal de ${activePerson ? activePerson.name : 'Estudos'}</h4>
+                <p class="text-xs text-[#667267] mt-0.5">
+                  ${activePerson && activePerson.schoolYearLabel ? `Série configurada: <strong>${activePerson.schoolYearLabel}</strong>.` : 'Nenhuma aula distribuída para esta semana ainda.'}
+                  Clique no botão para gerar o cronograma com os dias da semana e matérias sugeridas!
+                </p>
+              </div>
+            </div>
+            <button 
+              type="button" 
+              onclick="if(window.ActaApp) ActaApp.openCurriculumModal('${activePerson ? activePerson.id : ''}')"
+              class="hero-btn-green text-xs font-bold px-5 py-2.5 rounded-full shadow-md flex items-center gap-2 shrink-0 whitespace-nowrap hover:scale-[1.02] transition"
+            >
+              <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+              <span>Gerar Grade Automática</span>
+            </button>
+          </div>
+        `;
+      } else {
+        html += `
+          <div class="p-3 bg-[#FAF7F0] border border-[#E8E2D5] rounded-xl flex items-center justify-between gap-3 shadow-2xs mb-4">
+            <div class="flex items-center gap-2 text-xs text-[#667267]">
+              <i class="fa-solid fa-layer-group text-[#2F5233]"></i>
+              <span>Grade ativa: <strong class="text-[#28302A]">${activePerson ? (activePerson.schoolYearLabel || 'Personalizada') : 'Semanal'}</strong> (${totalItems} aulas na semana)</span>
+            </div>
+            <button 
+              type="button" 
+              onclick="if(window.ActaApp) ActaApp.openCurriculumModal('${activePerson ? activePerson.id : ''}')"
+              class="text-[11px] font-bold px-3 py-1 rounded-full bg-white border border-[#2F5233]/30 text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
+              title="Alterar ou personalizar matérias da grade"
+            >
+              <i class="fa-solid fa-sliders text-[10px]"></i>
+              <span>Ajustar Grade</span>
+            </button>
+          </div>
+        `;
+      }
+
       if (!scheduleData || scheduleData.length === 0) {
-        return `
+        return html + `
           <div class="planner-card p-8 text-center bg-white border border-[#E8E2D5] text-[#667267] shadow-xs">
             <i class="fa-regular fa-calendar-check text-3xl text-[#8E9A8F] mb-2"></i>
             <p class="text-sm font-medium">Nenhum planejamento registrado para este período.</p>
@@ -50,7 +98,7 @@
         `;
       }
 
-      let html = '<div class="space-y-4">';
+      html += '<div class="space-y-4">';
 
       scheduleData.forEach(day => {
         html += `

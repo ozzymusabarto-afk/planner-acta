@@ -674,6 +674,10 @@
       this.saveData(data);
     },
 
+    setActivePersonId: function(id) {
+      return this.setActivePerson(id);
+    },
+
     addPerson: function(person) {
       const data = this.getData();
       if (!person.id) person.id = 'p_' + Date.now();
@@ -691,6 +695,10 @@
         this.saveData(data);
       }
       return person;
+    },
+
+    savePerson: function(person) {
+      return this.updatePerson(person);
     },
 
     deletePerson: function(id) {

@@ -617,6 +617,146 @@
     // ==========================================
     // TELA 2: CRIANÇAS
     // ==========================================
+    calculateAgeAndGrade: function(birthDateString) {
+      if (!birthDateString) return null;
+      const today = new Date();
+      const birth = new Date(birthDateString);
+      if (isNaN(birth.getTime())) return null;
+
+      let age = today.getFullYear() - birth.getFullYear();
+      const m = today.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+        age--;
+      }
+      if (age < 0) age = 0;
+
+      let recommendedGrade = 'fund1_1ano';
+      let recommendedLabel = '1º Ano do Ensino Fundamental (6 a 7 anos)';
+
+      if (age <= 5) {
+        recommendedGrade = 'infantil';
+        recommendedLabel = 'Educação Infantil (4 a 5 anos)';
+      } else if (age === 6 || age === 7) {
+        recommendedGrade = 'fund1_1ano';
+        recommendedLabel = '1º Ano do Ensino Fundamental (6 a 7 anos)';
+      } else if (age === 8) {
+        recommendedGrade = 'fund1_2ano';
+        recommendedLabel = '2º Ano do Ensino Fundamental (7 a 8 anos)';
+      } else if (age === 9) {
+        recommendedGrade = 'fund1_3ano';
+        recommendedLabel = '3º Ano do Ensino Fundamental (8 a 9 anos)';
+      } else if (age === 10) {
+        recommendedGrade = 'fund1_5ano';
+        recommendedLabel = '5º Ano do Ensino Fundamental (10 a 11 anos)';
+      } else if (age === 11) {
+        recommendedGrade = 'fund1_5ano';
+        recommendedLabel = '5º Ano do Ensino Fundamental (10 a 11 anos)';
+      } else if (age >= 12 && age <= 14) {
+        recommendedGrade = 'fund2_6a9ano';
+        recommendedLabel = 'Anos Finais: 6º ao 9º Ano (11 a 15 anos)';
+      } else if (age >= 15) {
+        recommendedGrade = 'ensino_medio';
+        recommendedLabel = 'Ensino Médio (1º ao 3º Ano)';
+      }
+
+      return { age, recommendedGrade, recommendedLabel };
+    },
+
+    onBirthDateChange: function(val) {
+      const calc = this.calculateAgeAndGrade(val);
+      const feedback = document.getElementById('personAgeFeedback');
+      const feedbackText = document.getElementById('personAgeFeedbackText');
+      const schoolYearSelect = document.getElementById('newPersonSchoolYear');
+
+      if (calc) {
+        if (schoolYearSelect) {
+          schoolYearSelect.value = calc.recommendedGrade;
+        }
+        if (feedback && feedbackText) {
+          feedbackText.textContent = `${calc.age} anos — Série sugerida: ${calc.recommendedLabel}`;
+          feedback.classList.remove('hidden');
+        }
+      } else if (feedback) {
+        feedback.classList.add('hidden');
+      }
+    },
+
+    openNewPersonModal: function() {
+      const editId = document.getElementById('editPersonId');
+      const nameInput = document.getElementById('newPersonName');
+      const birthInput = document.getElementById('newPersonBirthDate');
+      const schoolYearSelect = document.getElementById('newPersonSchoolYear');
+      const notesInput = document.getElementById('newPersonNotes');
+      const avatarInput = document.getElementById('newPersonAvatar');
+      const title = document.getElementById('modalPersonTitle');
+      const sub = document.getElementById('modalPersonSub');
+      const btn = document.getElementById('btnSubmitPersonForm');
+      const feedback = document.getElementById('personAgeFeedback');
+
+      if (editId) editId.value = '';
+      if (nameInput) nameInput.value = '';
+      if (birthInput) birthInput.value = '';
+      if (schoolYearSelect) schoolYearSelect.value = 'fund1_1ano';
+      if (notesInput) notesInput.value = '';
+      if (avatarInput) avatarInput.value = 'assets/avatars/avatar-menino-castanho.png';
+      if (title) title.textContent = 'Adicionar Criança';
+      if (sub) sub.textContent = 'Cadastre com carinho para acompanhar a caminhada.';
+      if (btn) btn.textContent = 'Cadastrar Criança';
+      if (feedback) feedback.classList.add('hidden');
+
+      this.openModal('modalNewPerson');
+    },
+
+    openEditPersonModal: function(personId) {
+      const person = ActaStorage.getPersonById(personId);
+      if (!person) return;
+
+      const editId = document.getElementById('editPersonId');
+      const nameInput = document.getElementById('newPersonName');
+      const birthInput = document.getElementById('newPersonBirthDate');
+      const schoolYearSelect = document.getElementById('newPersonSchoolYear');
+      const notesInput = document.getElementById('newPersonNotes');
+      const avatarInput = document.getElementById('newPersonAvatar');
+      const title = document.getElementById('modalPersonTitle');
+      const sub = document.getElementById('modalPersonSub');
+      const btn = document.getElementById('btnSubmitPersonForm');
+
+      if (editId) editId.value = person.id;
+      if (nameInput) nameInput.value = person.name || '';
+      if (birthInput) birthInput.value = person.birthDate || '';
+      if (schoolYearSelect && person.schoolYear) schoolYearSelect.value = person.schoolYear;
+      if (notesInput) notesInput.value = person.notes || '';
+      if (avatarInput) avatarInput.value = person.avatar || 'assets/avatars/avatar-menino-castanho.png';
+      if (title) title.textContent = `Editar Perfil de ${person.name}`;
+      if (sub) sub.textContent = 'Atualize data de nascimento, ano escolar e observações.';
+      if (btn) btn.textContent = 'Salvar Alterações';
+
+      if (person.birthDate) {
+        this.onBirthDateChange(person.birthDate);
+      } else {
+        const feedback = document.getElementById('personAgeFeedback');
+        if (feedback) feedback.classList.add('hidden');
+      }
+
+      this.openModal('modalNewPerson');
+    },
+
+    openCurriculumModal: function(childId) {
+      if (childId) {
+        if (typeof ActaStorage.setActivePerson === 'function') {
+          ActaStorage.setActivePerson(childId);
+        } else if (typeof ActaStorage.setActivePersonId === 'function') {
+          ActaStorage.setActivePersonId(childId);
+        }
+        this.renderSidebar();
+      }
+      if (window.ActaCurriculum && typeof window.ActaCurriculum.openCurriculumModal === 'function') {
+        window.ActaCurriculum.openCurriculumModal(childId);
+      } else {
+        this.openModal('modalCurriculumGrade');
+      }
+    },
+
     renderCriancasTab: function() {
       const container = document.getElementById('criancasCardsContainer');
       if (!container) return;
@@ -630,6 +770,7 @@
         const isActive = activePerson && activePerson.id === p.id;
         const childReadings = allReadings.filter(r => r.personId === p.id && (r.status || 'concluido') === 'concluido').length;
         const childMovies = allMovies.filter(m => m.personId === p.id).length;
+        const ageLabel = p.birthDate ? `${this.calculateAgeAndGrade(p.birthDate)?.age || ''} anos` : (p.age ? `${p.age} anos` : '');
 
         return `
           <div class="acta-card p-5 bg-white border border-[#E8E2D5] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -645,10 +786,11 @@
                 </div>
               </div>
               <div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap">
                   <h3 class="font-editorial-title text-base font-bold text-[#28302A]">${p.name}</h3>
                   ${isActive ? '<span class="text-[10px] bg-[#EBF3ED] text-[#2F5233] font-bold px-2.5 py-0.5 rounded-full">Ativo</span>' : ''}
-                  ${p.schoolYearLabel ? `<span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#2F5233] border border-[#2F5233]/20 px-2 py-0.5 rounded-full">🎓 ${p.schoolYearLabel}</span>` : ''}
+                  ${p.schoolYearLabel ? `<span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#2F5233] border border-[#2F5233]/20 px-2.5 py-0.5 rounded-full">🎓 ${p.schoolYearLabel}</span>` : ''}
+                  ${ageLabel ? `<span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#667267] border border-[#E8E2D5] px-2 py-0.5 rounded-full">🎂 ${ageLabel}</span>` : ''}
                 </div>
                 ${p.notes ? `<p class="text-[11px] text-[#8E9A8F] italic mt-0.5">"${p.notes}"</p>` : ''}
                 <div class="flex items-center gap-2 pt-1.5 flex-wrap">
@@ -658,6 +800,13 @@
                   <span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#3D6B78] border border-[#E8E2D5] px-2 py-0.5 rounded-full">
                     🎬 ${childMovies} ${childMovies === 1 ? 'filme' : 'filmes'}
                   </span>
+                  <button 
+                    type="button" 
+                    onclick="ActaApp.openEditPersonModal('${p.id}')" 
+                    class="text-[11px] text-[#1E3A5F] hover:text-[#0F2238] hover:underline font-semibold inline-flex items-center gap-1 ml-1"
+                  >
+                    <i class="fa-solid fa-user-pen text-[10px]"></i> Editar dados
+                  </button>
                   <button 
                     type="button" 
                     onclick="ActaApp.openAvatarModalForPerson('${p.id}')" 
@@ -672,11 +821,11 @@
             <div class="flex items-center gap-2">
               <button 
                 type="button" 
-                onclick="ActaStorage.setActivePersonId('${p.id}'); ActaApp.renderSidebar(); if(window.ActaCurriculum) window.ActaCurriculum.openCurriculumModal('${p.id}');" 
-                class="text-xs font-semibold px-3 py-2 rounded-full border border-[#2F5233]/20 bg-[#FAF7F0] text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
+                onclick="ActaApp.openCurriculumModal('${p.id}')" 
+                class="text-xs font-semibold px-3.5 py-2 rounded-full border border-[#2F5233]/20 bg-[#FAF7F0] text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1.5 shadow-2xs"
                 title="Configurar ou aplicar grade curricular sugerida para esta criança"
               >
-                <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i>
+                <i class="fa-solid fa-wand-magic-sparkles text-[11px]"></i>
                 <span>Grade Curricular</span>
               </button>
               <button 
@@ -692,47 +841,77 @@
       }).join('');
     },
 
-    saveNewPerson: function() {
+    savePersonForm: function() {
+      const editId = document.getElementById('editPersonId');
       const nameInput = document.getElementById('newPersonName');
-      const infoInput = document.getElementById('newPersonInfo');
-      const avatarInput = document.getElementById('newPersonAvatar');
-      const notesInput = document.getElementById('newPersonNotes');
+      const birthInput = document.getElementById('newPersonBirthDate');
       const schoolYearSelect = document.getElementById('newPersonSchoolYear');
+      const notesInput = document.getElementById('newPersonNotes');
+      const avatarInput = document.getElementById('newPersonAvatar');
 
       if (!nameInput || !nameInput.value.trim()) {
         alert('Por favor, informe o nome da criança.');
         return;
       }
 
-      const schoolYear = schoolYearSelect ? schoolYearSelect.value : 'fund1_1ano';
+      const birthDate = birthInput ? birthInput.value : '';
+      const calc = this.calculateAgeAndGrade(birthDate);
+      const schoolYear = schoolYearSelect ? schoolYearSelect.value : (calc ? calc.recommendedGrade : 'fund1_1ano');
       const schoolYearLabel = (schoolYearSelect && schoolYearSelect.selectedOptions && schoolYearSelect.selectedOptions[0])
         ? schoolYearSelect.selectedOptions[0].text
-        : '1º Ano do Ensino Fundamental (6 a 7 anos)';
+        : (calc ? calc.recommendedLabel : '1º Ano do Ensino Fundamental');
 
-      const newPerson = {
-        name: nameInput.value.trim(),
-        info: infoInput && infoInput.value.trim() ? infoInput.value.trim().replace(/explorad(a|or)?\s*(•|-)?\s*/gi, '').trim() : '',
-        avatar: avatarInput && avatarInput.value ? avatarInput.value : 'assets/avatars/avatar-menino-castanho.png',
-        schoolYear: schoolYear,
-        schoolYearLabel: schoolYearLabel,
-        notes: notesInput ? notesInput.value.trim() : ''
-      };
+      const isEdit = editId && editId.value;
 
-      const added = ActaStorage.addPerson(newPerson);
-      if (window.ActaCurriculum && typeof window.ActaCurriculum.applyGradeToSchedule === 'function') {
-        window.ActaCurriculum.applyGradeToSchedule(added.id, newPerson.schoolYear, ['ingles'], true);
+      if (isEdit) {
+        const existing = ActaStorage.getPersonById(editId.value);
+        if (existing) {
+          existing.name = nameInput.value.trim();
+          existing.birthDate = birthDate;
+          if (calc) existing.age = calc.age;
+          existing.schoolYear = schoolYear;
+          existing.schoolYearLabel = schoolYearLabel;
+          if (avatarInput && avatarInput.value) existing.avatar = avatarInput.value;
+          existing.notes = notesInput ? notesInput.value.trim() : '';
+
+          ActaStorage.updatePerson(existing);
+
+          // Atualiza a grade semanal para o novo ano escolar
+          if (window.ActaCurriculum && typeof window.ActaCurriculum.applyGradeToSchedule === 'function') {
+            window.ActaCurriculum.applyGradeToSchedule(existing.id, schoolYear, ['ingles'], true);
+          }
+
+          this.showToast(`Dados de ${existing.name} atualizados com sucesso!`);
+        }
+      } else {
+        const newPerson = {
+          name: nameInput.value.trim(),
+          birthDate: birthDate,
+          age: calc ? calc.age : null,
+          info: '',
+          avatar: avatarInput && avatarInput.value ? avatarInput.value : 'assets/avatars/avatar-menino-castanho.png',
+          schoolYear: schoolYear,
+          schoolYearLabel: schoolYearLabel,
+          notes: notesInput ? notesInput.value.trim() : ''
+        };
+
+        const added = ActaStorage.addPerson(newPerson);
+        if (window.ActaCurriculum && typeof window.ActaCurriculum.applyGradeToSchedule === 'function') {
+          window.ActaCurriculum.applyGradeToSchedule(added.id, schoolYear, ['ingles'], true);
+        }
+        this.showToast(`Criança adicionada com carinho!`);
       }
+
       this.closeModal('modalNewPerson');
-
-      nameInput.value = '';
-      if (infoInput) infoInput.value = '';
-      if (notesInput) notesInput.value = '';
-
       this.renderSidebar();
       this.renderCasaTab();
       this.renderCriancasTab();
+      this.renderSemanaTab();
       this.updateRegisterDropdowns();
-      this.showToast(`Criança adicionada com carinho!`);
+    },
+
+    saveNewPerson: function() {
+      this.savePersonForm();
     },
 
     // ==========================================
@@ -881,7 +1060,12 @@
       }
 
       if (scheduleContainer) {
-        const scheduleData = ActaStorage.getWeekSchedule();
+        let scheduleData = ActaStorage.getWeekSchedule();
+        const totalItems = (scheduleData || []).reduce((acc, d) => acc + (d.items ? d.items.length : 0), 0);
+        // Se a semana estiver totalmente vazia e houver uma série/ano cadastrado para a criança ativa, auto-popula
+        if (totalItems === 0 && activePerson && activePerson.schoolYear && window.ActaCurriculum && typeof window.ActaCurriculum.applyGradeToSchedule === 'function') {
+          scheduleData = window.ActaCurriculum.applyGradeToSchedule(activePerson.id, activePerson.schoolYear, ['ingles'], false);
+        }
         scheduleContainer.innerHTML = ActaPlanner.renderWeekScheduleHTML(scheduleData, activePerson);
       }
 
@@ -1541,6 +1725,10 @@
       const modal = document.getElementById(modalId);
       const overlay = document.getElementById('modalOverlay');
       if (modal && overlay) {
+        // Garante que qualquer outro modal irmão fique oculto
+        const siblings = overlay.querySelectorAll(':scope > div');
+        siblings.forEach(s => s.classList.add('hidden'));
+
         overlay.classList.remove('hidden');
         modal.classList.remove('hidden');
         
@@ -1548,7 +1736,28 @@
         const activePerson = ActaStorage.getActivePerson();
         const materials = ActaStorage.getMaterials();
 
-        if (modalId === 'modalNewPerson') {
+        if (modalId === 'modalCurriculumGrade') {
+          if (window.ActaCurriculum && typeof window.ActaCurriculum.updateGradePreview === 'function') {
+            const childSelect = document.getElementById('curriculumChildSelect');
+            const gradeSelect = document.getElementById('curriculumGradeSelect');
+            if (childSelect) {
+              childSelect.innerHTML = people.map(p => `
+                <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>
+                  ${p.name} ${p.schoolYearLabel ? '(' + p.schoolYearLabel + ')' : ''}
+                </option>
+              `).join('');
+            }
+            if (gradeSelect && window.ActaCurriculum.GRADES_CONFIG) {
+              gradeSelect.innerHTML = Object.entries(window.ActaCurriculum.GRADES_CONFIG).map(([key, val]) => `
+                <option value="${key}">${val.label}</option>
+              `).join('');
+              if (activePerson && activePerson.schoolYear && window.ActaCurriculum.GRADES_CONFIG[activePerson.schoolYear]) {
+                gradeSelect.value = activePerson.schoolYear;
+              }
+            }
+            window.ActaCurriculum.updateGradePreview();
+          }
+        } else if (modalId === 'modalNewPerson') {
           this.renderAvatarPicker();
         } else if (modalId === 'modalDiagnosticEval') {
           const childSel = document.getElementById('diagEvalChildSelect');
