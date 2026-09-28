@@ -1173,16 +1173,24 @@
     HOTMART_CHECKOUT_URL: 'https://pay.hotmart.com', // Link de checkout oficial configurável
 
     isPremiumUser: function() {
-      // 1. Checa flag de licença no localStorage
+      // 0. Simulador de Perfis da Administradora
+      const simulated = this.getSimulatedRole();
+      if (simulated === 'free') return false;
+      if (simulated === 'pro' || simulated === 'admin') return true;
+
+      // 1. Se for a Administradora autenticada com PIN no painel, libera tudo para testes
+      if (this.isAdminAuthenticated()) return true;
+
+      // 2. Checa flag de licença no localStorage
       if (localStorage.getItem('ACTA_PLAN_TIER') === 'premium' || localStorage.getItem('ACTA_IS_PREMIUM') === 'true') {
         return true;
       }
-      // 2. Checa perfil do Firebase Auth / Firestore se autenticado
+      // 3. Checa perfil do Firebase Auth / Firestore se autenticado
       if (window.ActaAuth && typeof window.ActaAuth.getUserProfile === 'function') {
         const profile = window.ActaAuth.getUserProfile();
         if (profile && profile.plan === 'premium') return true;
       }
-      // 3. Checa dados do armazenamento ativo
+      // 4. Checa dados do armazenamento ativo
       const data = this.getData();
       if (data && (data.plan === 'premium' || data.isPremium === true)) {
         return true;
@@ -1218,6 +1226,204 @@
         return true;
       }
       return false;
+    },
+
+    // ==========================================
+    // MÓDULO DA ADMINISTRADORA (GESTÃO, MÉTRICAS & SUPORTE LOCAL)
+    // ==========================================
+    DEFAULT_ADMIN_PIN: '2026',
+
+    getAdminPin: function() {
+      return localStorage.getItem('ACTA_ADMIN_PIN') || this.DEFAULT_ADMIN_PIN;
+    },
+
+    setAdminPin: function(newPin) {
+      if (!newPin || String(newPin).trim().length < 4) {
+        throw new Error('O PIN deve conter no mínimo 4 dígitos.');
+      }
+      localStorage.setItem('ACTA_ADMIN_PIN', String(newPin).trim());
+      return true;
+    },
+
+    validateAdminPin: function(pin) {
+      const correct = this.getAdminPin();
+      return String(pin).trim() === correct;
+    },
+
+    _getSessionItem: function(key) {
+      try {
+        if (typeof sessionStorage !== 'undefined') {
+          return sessionStorage.getItem(key);
+        }
+      } catch (e) {}
+      return null;
+    },
+
+    _setSessionItem: function(key, val) {
+      try {
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem(key, val);
+        }
+      } catch (e) {}
+    },
+
+    _removeSessionItem: function(key) {
+      try {
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.removeItem(key);
+        }
+      } catch (e) {}
+    },
+
+    isAdminAuthenticated: function() {
+      return this._getSessionItem('ACTA_ADMIN_AUTHENTICATED') === 'true';
+    },
+
+    setAdminAuthenticated: function(status) {
+      if (status) {
+        this._setSessionItem('ACTA_ADMIN_AUTHENTICATED', 'true');
+      } else {
+        this._removeSessionItem('ACTA_ADMIN_AUTHENTICATED');
+        this._removeSessionItem('ACTA_SIMULATED_ROLE');
+      }
+    },
+
+    getSimulatedRole: function() {
+      return this._getSessionItem('ACTA_SIMULATED_ROLE') || 'normal';
+    },
+
+    setSimulatedRole: function(role) {
+      this._setSessionItem('ACTA_SIMULATED_ROLE', role);
+    },
+
+    logVisitOncePerSession: function() {
+      if (!this._getSessionItem('ACTA_SESSION_VISIT_LOGGED')) {
+        this._setSessionItem('ACTA_SESSION_VISIT_LOGGED', 'true');
+        const current = Number(localStorage.getItem('ACTA_METRIC_VISITS') || 38);
+        localStorage.setItem('ACTA_METRIC_VISITS', String(current + 1));
+      }
+    },
+
+    getAdminMetrics: function() {
+      const visits = Number(localStorage.getItem('ACTA_METRIC_VISITS') || 38);
+      const keys = JSON.parse(localStorage.getItem('ACTA_ADMIN_KEYS') || '[]');
+      const messages = JSON.parse(localStorage.getItem('ACTA_SUPPORT_MESSAGES') || '[]');
+      const salesCount = Number(localStorage.getItem('ACTA_METRIC_SALES') || keys.filter(k => k.used).length);
+      const unitPrice = 34.99;
+      const hotmartFeeRate = 0.099; // ~9,9% taxa estimada Hotmart
+
+      const grossRevenue = salesCount * unitPrice;
+      const estimatedFees = grossRevenue * hotmartFeeRate;
+      const netRevenue = grossRevenue - estimatedFees;
+      const splitAmount = netRevenue / 2; // Divisão 50% com a amiga
+
+      return {
+        visits: visits,
+        salesCount: salesCount,
+        unitPrice: unitPrice,
+        grossRevenue: grossRevenue,
+        estimatedFees: estimatedFees,
+        fees: estimatedFees,
+        netRevenue: netRevenue,
+        splitAmount: splitAmount,
+        splitAdmin: splitAmount,
+        splitPartner: splitAmount,
+        keys: keys,
+        messages: messages,
+        announcement: localStorage.getItem('ACTA_ADMIN_ANNOUNCEMENT') || ''
+      };
+    },
+
+    getActivationKeys: function() {
+      return JSON.parse(localStorage.getItem('ACTA_ADMIN_KEYS') || '[]');
+    },
+
+    generateNewKey: function(notes) {
+      const randomDigits = Math.floor(1000 + Math.random() * 9000);
+      const key = `ACTA-PRO-${randomDigits}`;
+      const keys = JSON.parse(localStorage.getItem('ACTA_ADMIN_KEYS') || '[]');
+      
+      const newEntry = {
+        key: key,
+        code: key,
+        createdAt: new Date().toISOString(),
+        notes: notes || 'Gerada pela Administradora',
+        used: false,
+        usedAt: null
+      };
+
+      keys.unshift(newEntry);
+      localStorage.setItem('ACTA_ADMIN_KEYS', JSON.stringify(keys));
+      return newEntry;
+    },
+
+    recordManualSale: function() {
+      const current = Number(localStorage.getItem('ACTA_METRIC_SALES') || 0);
+      localStorage.setItem('ACTA_METRIC_SALES', String(current + 1));
+      return current + 1;
+    },
+
+    getSupportMessages: function() {
+      const raw = localStorage.getItem('ACTA_SUPPORT_MESSAGES');
+      if (!raw) {
+        // Mensagens semente amigáveis de exemplo para testar
+        const seeds = [
+          {
+            id: 'sup_1',
+            sender: 'Família Martins',
+            subject: 'Dúvida sobre impressão semanal',
+            message: 'Boa tarde! Adorei a impressão da folha A4. Consigo imprimir em formato retrato também?',
+            status: 'pendente',
+            createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+            reply: ''
+          }
+        ];
+        localStorage.setItem('ACTA_SUPPORT_MESSAGES', JSON.stringify(seeds));
+        return seeds;
+      }
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return [];
+      }
+    },
+
+    addSupportMessage: function(sender, subject, message) {
+      if (message === undefined) {
+        message = subject;
+        subject = 'Dúvida Pedagógica';
+      }
+      const list = this.getSupportMessages();
+      const newMsg = {
+        id: 'sup_' + Date.now(),
+        sender: sender || 'Família ACTA',
+        userName: sender || 'Família ACTA',
+        subject: subject || 'Dúvida Pedagógica',
+        message: message,
+        status: 'pendente',
+        createdAt: new Date().toISOString(),
+        reply: ''
+      };
+      list.unshift(newMsg);
+      localStorage.setItem('ACTA_SUPPORT_MESSAGES', JSON.stringify(list));
+      return newMsg;
+    },
+
+    replySupportMessage: function(msgId, replyText) {
+      const list = this.getSupportMessages();
+      const item = list.find(m => m.id === msgId);
+      if (item) {
+        item.status = 'respondido';
+        item.reply = replyText;
+        item.repliedAt = new Date().toISOString();
+        localStorage.setItem('ACTA_SUPPORT_MESSAGES', JSON.stringify(list));
+        return item;
+      }
+      return null;
+    },
+
+    setAdminAnnouncement: function(text) {
+      localStorage.setItem('ACTA_ADMIN_ANNOUNCEMENT', text || '');
     },
 
     EMPTY_WEEK_SCHEDULE: EMPTY_WEEK_SCHEDULE

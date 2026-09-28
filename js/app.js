@@ -81,6 +81,11 @@
       const savedTheme = ActaStorage.getActiveTheme();
       this.applyTheme(savedTheme);
 
+      // Registrar métrica de visita única por sessão
+      if (typeof ActaStorage.logVisitOncePerSession === 'function') {
+        ActaStorage.logVisitOncePerSession();
+      }
+
       // 2. Inicializar observador de autenticação (Firebase Auth)
       this.initAuth();
 
@@ -2164,6 +2169,435 @@
           }
         }
       });
+    },
+
+    // ==========================================
+    // PAINEL DA ADMINISTRADORA (PIN, VENDAS, CHAVES & SUPORTE LOCAL)
+    // ==========================================
+    openAdminPinModal: function() {
+      const pinInput = document.getElementById('adminPinInput');
+      const errEl = document.getElementById('adminPinError');
+      if (pinInput) pinInput.value = '';
+      if (errEl) errEl.classList.add('hidden');
+      this.openModal('modalAdminPin');
+      setTimeout(() => pinInput && pinInput.focus(), 150);
+    },
+
+    handleVerifyAdminPin: function() {
+      const pinInput = document.getElementById('adminPinInput');
+      const errEl = document.getElementById('adminPinError');
+      const pin = pinInput ? pinInput.value.trim() : '';
+
+      if (ActaStorage.validateAdminPin(pin)) {
+        ActaStorage.setAdminAuthenticated(true);
+        this.closeModal('modalAdminPin');
+        this.showToast('👑 Bem-vinda ao Painel da Administradora!');
+        this.openAdminDashboard('metrics');
+      } else {
+        if (errEl) {
+          errEl.textContent = 'Código PIN incorreto. O PIN padrão inicial é 2026.';
+          errEl.classList.remove('hidden');
+        }
+      }
+    },
+
+    openAdminDashboard: function(defaultTab = 'metrics') {
+      this.openModal('modalAdminDashboard');
+      this.switchAdminTab(defaultTab);
+    },
+
+    switchAdminTab: function(tabName) {
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        if (btn.getAttribute('data-admin-tab') === tabName) {
+          btn.className = 'admin-tab-btn py-2 px-3.5 text-xs font-bold rounded-xl bg-[#2F5233] text-white shadow-xs transition';
+        } else {
+          btn.className = 'admin-tab-btn py-2 px-3.5 text-xs font-semibold rounded-xl bg-[#FAF7F0] text-[#667267] hover:bg-white border border-[#E8E2D5] transition';
+        }
+      });
+
+      document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.add('hidden'));
+      const activePane = document.getElementById(`admin-pane-${tabName}`);
+      if (activePane) activePane.classList.remove('hidden');
+
+      if (tabName === 'metrics') this.renderAdminMetricsTab();
+      if (tabName === 'keys') this.renderAdminKeysTab();
+      if (tabName === 'support') this.renderAdminSupportTab();
+      if (tabName === 'simulator') this.renderAdminSimulatorTab();
+      if (tabName === 'config') this.renderAdminConfigTab();
+    },
+
+    renderAdminMetricsTab: function() {
+      const metrics = ActaStorage.getAdminMetrics();
+      const formatBRL = (v) => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+
+      const container = document.getElementById('adminMetricsContent');
+      if (!container) return;
+
+      container.innerHTML = `
+        <!-- Cards de Destaque -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1">
+            <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Acessos à Plataforma</span>
+            <div class="text-2xl font-bold text-[#28302A]">${metrics.visits}</div>
+            <span class="text-[10px] text-[#2F5233] font-semibold"><i class="fa-solid fa-arrow-trend-up"></i> Sessões registradas</span>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1">
+            <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Vendas / Licenças</span>
+            <div class="text-2xl font-bold text-[#2F5233]">${metrics.salesCount}</div>
+            <span class="text-[10px] text-[#667267]">R$ 34,99 cada</span>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1">
+            <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Faturamento Bruto</span>
+            <div class="text-2xl font-bold text-[#28302A]">${formatBRL(metrics.grossRevenue)}</div>
+            <span class="text-[10px] text-[#667267]">Taxa Hotmart: ~${formatBRL(metrics.estimatedFees)}</span>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#EBF3ED] border border-[#2F5233]/20 space-y-1">
+            <span class="text-[10px] font-bold text-[#2F5233] uppercase tracking-wider block">Líquido Total</span>
+            <div class="text-2xl font-bold text-[#2F5233]">${formatBRL(metrics.netRevenue)}</div>
+            <span class="text-[10px] text-[#2F5233] font-bold">100% sob seu controle</span>
+          </div>
+        </div>
+
+        <!-- RELATÓRIO DE DIVISÃO COM A AMIGA (50% / 50%) -->
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-white to-[#FAF7F0] border border-[#E8E2D5] space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E8E2D5] pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-[#FEF3C7] text-[#B45309] flex items-center justify-center text-xs">
+                <i class="fa-solid fa-handshake-simple"></i>
+              </span>
+              <div>
+                <h4 class="text-xs font-bold text-[#28302A]">Relatório de Divisão da Parceria (50% / 50%)</h4>
+                <p class="text-[11px] text-[#667267]">Divisão transparente após desconto estimado das taxas da plataforma.</p>
+              </div>
+            </div>
+            <button 
+              type="button" 
+              onclick="ActaApp.handleCopySplitReport()"
+              class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#CCD8CD] text-[#28302A] hover:bg-[#FAF7F0] font-semibold transition flex items-center gap-1.5 self-start sm:self-auto shadow-2xs"
+            >
+              <i class="fa-solid fa-copy text-[#2F5233]"></i>
+              <span>Copiar Relatório para WhatsApp</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-white border border-[#E8E2D5] flex items-center justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-[#667267] uppercase block">Sua Parte (Você - 50%)</span>
+                <span class="text-base font-bold text-[#2F5233]">${formatBRL(metrics.splitAmount)}</span>
+              </div>
+              <i class="fa-solid fa-user-check text-[#2F5233] text-lg opacity-40"></i>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-[#E8E2D5] flex items-center justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-[#667267] uppercase block">Parte da Amiga (Parceira - 50%)</span>
+                <span class="text-base font-bold text-[#1E3A5F]">${formatBRL(metrics.splitAmount)}</span>
+              </div>
+              <i class="fa-solid fa-heart text-[#1E3A5F] text-lg opacity-40"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ação Rápida de Registro Manual de Venda -->
+        <div class="p-4 rounded-2xl bg-white border border-[#E8E2D5] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <h5 class="text-xs font-bold text-[#28302A]">Registrar Venda Direta (PIX ou Dinheiro)</h5>
+            <p class="text-[11px] text-[#667267]">Soma +1 venda de R$ 34,99 ao relatório financeiro para atualizar o rateio.</p>
+          </div>
+          <button 
+            type="button" 
+            onclick="ActaApp.handleRecordManualSale()" 
+            class="hero-btn-green text-xs font-bold px-4 py-2 rounded-full shadow-xs flex items-center gap-1.5 shrink-0"
+          >
+            <i class="fa-solid fa-plus text-[10px]"></i>
+            <span>+ Registrar Venda (R$ 34,99)</span>
+          </button>
+        </div>
+      `;
+    },
+
+    handleCopySplitReport: function() {
+      const m = ActaStorage.getAdminMetrics();
+      const formatBRL = (v) => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+      const text = `📊 *RELATÓRIO DE VENDAS - PLANNER ACTA*\n` +
+        `Data: ${new Date().toLocaleDateString('pt-BR')}\n` +
+        `--------------------------------\n` +
+        `Total de Licenças: ${m.salesCount} vendas (R$ 34,99)\n` +
+        `Faturamento Bruto: ${formatBRL(m.grossRevenue)}\n` +
+        `Taxas estimadas: ${formatBRL(m.estimatedFees)}\n` +
+        `Líquido Total: ${formatBRL(m.netRevenue)}\n` +
+        `--------------------------------\n` +
+        `Sua Parte (50%): ${formatBRL(m.splitAmount)}\n` +
+        `Parte da Parceira (50%): ${formatBRL(m.splitAmount)}\n` +
+        `--------------------------------\n` +
+        `Planner ACTA • Gestão em Família`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          this.showToast('📋 Relatório de divisão copiado! Pronto para colar no WhatsApp.');
+        });
+      } else {
+        alert(text);
+      }
+    },
+
+    handleRecordManualSale: function() {
+      ActaStorage.recordManualSale();
+      this.showToast('✅ Venda registrada com sucesso no relatório financeiro!');
+      this.renderAdminMetricsTab();
+    },
+
+    renderAdminKeysTab: function() {
+      const keys = JSON.parse(localStorage.getItem('ACTA_ADMIN_KEYS') || '[]');
+      const container = document.getElementById('adminKeysContent');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#E8E2D5] pb-3">
+          <div>
+            <h4 class="text-xs font-bold text-[#28302A]">Gerador de Chaves de Ativação</h4>
+            <p class="text-[11px] text-[#667267]">Gere códigos para enviar para clientes que comprarem por PIX ou pelo Hotmart.</p>
+          </div>
+          <button 
+            type="button" 
+            onclick="ActaApp.handleGenerateAdminKey()"
+            class="hero-btn-green text-xs font-bold px-4 py-2 rounded-full shadow-xs flex items-center gap-1.5 shrink-0"
+          >
+            <i class="fa-solid fa-key text-[10px]"></i>
+            <span>+ Gerar Nova Chave</span>
+          </button>
+        </div>
+
+        <div class="space-y-2 pt-2">
+          ${keys.length === 0 ? `
+            <div class="p-8 text-center bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5] text-[#667267] text-xs">
+              Nenhuma chave gerada manualmente ainda. Clique no botão acima para gerar a primeira chave oficial.
+            </div>
+          ` : keys.map(k => `
+            <div class="p-3 bg-[#FAF7F0] rounded-xl border border-[#E8E2D5] flex items-center justify-between text-xs">
+              <div class="space-y-0.5">
+                <span class="font-mono font-bold text-[#2F5233] text-sm">${k.key}</span>
+                <span class="text-[10px] text-[#667267] block">${k.notes} • Criada em ${new Date(k.createdAt).toLocaleDateString('pt-BR')}</span>
+              </div>
+              <button 
+                type="button" 
+                onclick="navigator.clipboard.writeText('${k.key}'); ActaApp.showToast('Chave ${k.key} copiada!');"
+                class="px-3 py-1.5 rounded-lg bg-white border border-[#CCD8CD] text-[11px] font-bold text-[#28302A] hover:bg-[#FAF7F0] transition shadow-2xs"
+              >
+                Copiar Chave
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    },
+
+    handleGenerateAdminKey: function() {
+      const notes = prompt('Para quem é esta chave? (Ex: Nome da cliente, venda Hotmart, etc.):', 'Venda Hotmart');
+      if (notes === null) return;
+      const newKey = ActaStorage.generateNewKey(notes);
+      this.showToast(`🔑 Chave gerada com sucesso: ${newKey.key}`);
+      this.renderAdminKeysTab();
+    },
+
+    renderAdminSupportTab: function() {
+      const messages = ActaStorage.getSupportMessages();
+      const container = document.getElementById('adminSupportContent');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="border-b border-[#E8E2D5] pb-3">
+          <h4 class="text-xs font-bold text-[#28302A]">Central de Mensagens e Suporte Local</h4>
+          <p class="text-[11px] text-[#667267]">Todas as dúvidas deixadas pelas famílias ficam salvas aqui, sem encher sua caixa de e-mail.</p>
+        </div>
+
+        <div class="space-y-3 pt-2">
+          ${messages.length === 0 ? `
+            <div class="p-8 text-center bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5] text-[#667267] text-xs">
+              Nenhuma mensagem de suporte recebida no momento. Tudo tranquilo!
+            </div>
+          ` : messages.map(m => `
+            <div class="p-4 bg-[#FAF7F0] rounded-2xl border border-[#E8E2D5] space-y-2.5 text-xs">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-[#28302A]">${m.sender}</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full ${m.status === 'respondido' ? 'bg-[#EBF3ED] text-[#2F5233]' : 'bg-[#FEF3C7] text-[#B45309]'} font-bold">
+                    ${m.status === 'respondido' ? '✅ Respondido' : '⏳ Pendente'}
+                  </span>
+                </div>
+                <span class="text-[10px] text-[#8E9A8F]">${new Date(m.createdAt).toLocaleDateString('pt-BR')}</span>
+              </div>
+              <p class="font-semibold text-[#28302A] text-[11px]">${m.subject}</p>
+              <p class="text-[#667267] bg-white p-3 rounded-xl border border-[#E8E2D5] leading-relaxed">${m.message}</p>
+              ${m.reply ? `
+                <div class="p-2.5 rounded-xl bg-[#EBF3ED] border border-[#2F5233]/20 text-[11px] text-[#2F5233]">
+                  <strong>Sua Resposta:</strong> ${m.reply}
+                </div>
+              ` : `
+                <button 
+                  type="button" 
+                  onclick="ActaApp.handleReplySupportModal('${m.id}')"
+                  class="hero-btn-green text-xs font-bold px-3.5 py-1.5 rounded-full shadow-2xs"
+                >
+                  Responder / Concluir
+                </button>
+              `}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    },
+
+    handleReplySupportModal: function(msgId) {
+      const reply = prompt('Digite sua resposta para esta família:');
+      if (!reply) return;
+      ActaStorage.replySupportMessage(msgId, reply);
+      this.showToast('✅ Resposta gravada localmente com sucesso!');
+      this.renderAdminSupportTab();
+    },
+
+    renderAdminSimulatorTab: function() {
+      const currentRole = ActaStorage.getSimulatedRole();
+      const container = document.getElementById('adminSimulatorContent');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="border-b border-[#E8E2D5] pb-3">
+          <h4 class="text-xs font-bold text-[#28302A]">Simulador de Visão de Usuário (Auditoria)</h4>
+          <p class="text-[11px] text-[#667267]">Alterne instantaneamente o modo de exibição para testar como o app se comporta em cada plano.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <div 
+            onclick="ActaApp.handleSetSimulatedRole('normal')" 
+            class="p-4 rounded-2xl border cursor-pointer transition ${currentRole === 'normal' ? 'bg-[#EBF3ED] border-[#2F5233] shadow-xs' : 'bg-[#FAF7F0] border-[#E8E2D5] hover:bg-white'}"
+          >
+            <div class="flex items-center gap-2 font-bold text-xs text-[#28302A] mb-1">
+              <span>👑 Modo Administradora</span>
+            </div>
+            <p class="text-[11px] text-[#667267]">Acesso irrestrito a todos os 14 módulos e painel de controle.</p>
+          </div>
+
+          <div 
+            onclick="ActaApp.handleSetSimulatedRole('free')" 
+            class="p-4 rounded-2xl border cursor-pointer transition ${currentRole === 'free' ? 'bg-[#EBF3ED] border-[#2F5233] shadow-xs' : 'bg-[#FAF7F0] border-[#E8E2D5] hover:bg-white'}"
+          >
+            <div class="flex items-center gap-2 font-bold text-xs text-[#28302A] mb-1">
+              <span>👁️ Simular Usuário Free</span>
+            </div>
+            <p class="text-[11px] text-[#667267]">Permite auditar os bloqueios, selos PRO e vitrines de compra do Hotmart.</p>
+          </div>
+
+          <div 
+            onclick="ActaApp.handleSetSimulatedRole('pro')" 
+            class="p-4 rounded-2xl border cursor-pointer transition ${currentRole === 'pro' ? 'bg-[#EBF3ED] border-[#2F5233] shadow-xs' : 'bg-[#FAF7F0] border-[#E8E2D5] hover:bg-white'}"
+          >
+            <div class="flex items-center gap-2 font-bold text-xs text-[#28302A] mb-1">
+              <span>⭐ Simular Usuário PRO</span>
+            </div>
+            <p class="text-[11px] text-[#667267]">Visão de quem já comprou: todos os recursos liberados sem travas.</p>
+          </div>
+        </div>
+      `;
+    },
+
+    handleSetSimulatedRole: function(role) {
+      ActaStorage.setSimulatedRole(role);
+      this.updateProNavigationUI();
+      this.refreshAllTabs();
+      this.switchTab(this.currentTab || 'casa');
+      this.showToast(`Modo alterado para: ${role.toUpperCase()}`);
+      this.renderAdminSimulatorTab();
+    },
+
+    renderAdminConfigTab: function() {
+      const pin = ActaStorage.getAdminPin();
+      const url = ActaStorage.HOTMART_CHECKOUT_URL;
+      const announcement = localStorage.getItem('ACTA_ADMIN_ANNOUNCEMENT') || '';
+
+      const container = document.getElementById('adminConfigContent');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="border-b border-[#E8E2D5] pb-3">
+          <h4 class="text-xs font-bold text-[#28302A]">Configurações da Administradora</h4>
+          <p class="text-[11px] text-[#667267]">Ajuste o seu código PIN secreto, link do Hotmart e avisos para as famílias.</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); ActaApp.handleSaveAdminConfig();" class="space-y-4 pt-2 text-xs">
+          <div>
+            <label class="block font-bold text-[#28302A] mb-1">Código PIN Secreto de Acesso (Atual: ${pin})</label>
+            <input type="text" id="adminNewPinInput" value="${pin}" maxlength="8" class="w-full sm:w-64 p-2.5 border border-[#CCD8CD] rounded-xl font-mono text-sm bg-[#FAF7F0] focus:bg-white focus:outline-none">
+            <span class="text-[10px] text-[#667267] block mt-1">Mínimo de 4 dígitos para proteger o seu painel de controle.</span>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#28302A] mb-1">Link da Página de Checkout do Hotmart</label>
+            <input type="url" id="adminHotmartUrlInput" value="${url}" placeholder="https://pay.hotmart.com/SEU_CODIGO" class="w-full p-2.5 border border-[#CCD8CD] rounded-xl font-mono text-xs bg-[#FAF7F0] focus:bg-white focus:outline-none">
+            <span class="text-[10px] text-[#667267] block mt-1">Cole aqui o link do seu produto no Hotmart quando criar a página de vendas.</span>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#28302A] mb-1">Mural de Avisos da Coordenação (Opcional)</label>
+            <textarea id="adminAnnouncementInput" rows="2" placeholder="Ex: Sejam bem-vindas à semana de planejamento!..." class="w-full p-2.5 border border-[#CCD8CD] rounded-xl text-xs bg-[#FAF7F0] focus:bg-white focus:outline-none">${announcement}</textarea>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="hero-btn-green font-bold px-6 py-2.5 rounded-full shadow-xs">
+              Salvar Configurações
+            </button>
+          </div>
+        </form>
+      `;
+    },
+
+    handleSaveAdminConfig: function() {
+      const pinInput = document.getElementById('adminNewPinInput');
+      const urlInput = document.getElementById('adminHotmartUrlInput');
+      const annInput = document.getElementById('adminAnnouncementInput');
+
+      if (pinInput && pinInput.value.trim().length >= 4) {
+        ActaStorage.setAdminPin(pinInput.value.trim());
+      }
+      if (urlInput && urlInput.value.trim()) {
+        ActaStorage.HOTMART_CHECKOUT_URL = urlInput.value.trim();
+        localStorage.setItem('ACTA_HOTMART_CHECKOUT_URL', urlInput.value.trim());
+      }
+      if (annInput) {
+        ActaStorage.setAdminAnnouncement(annInput.value.trim());
+      }
+
+      this.showToast('✅ Configurações da Administradora salvas com sucesso!');
+      this.renderAdminConfigTab();
+    },
+
+    // Modal de Suporte Local para as famílias
+    openSupportModal: function() {
+      this.openModal('modalSupport');
+    },
+
+    handleSendSupportMessage: function() {
+      const nameInput = document.getElementById('supportSenderName');
+      const subInput = document.getElementById('supportSubject');
+      const msgInput = document.getElementById('supportMessageText');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const subject = subInput ? subInput.value.trim() : '';
+      const message = msgInput ? msgInput.value.trim() : '';
+
+      if (!message) {
+        alert('Por favor, escreva sua mensagem ou dúvida.');
+        return;
+      }
+
+      ActaStorage.addSupportMessage(name, subject, message);
+      this.closeModal('modalSupport');
+      this.showToast('💌 Mensagem enviada para a coordenação com sucesso!');
+
+      if (msgInput) msgInput.value = '';
     },
 
     previewImage: function(imgUrl) {

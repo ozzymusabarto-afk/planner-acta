@@ -187,6 +187,29 @@
         </select>
       </div>
 
+      <!-- Links Discretos de Suporte e Gestão Administrativa -->
+      <div class="flex items-center justify-between px-1 text-[10px] text-[#8E9A8F] pt-1">
+        <button 
+          type="button" 
+          onclick="ActaApp.openSupportModal()" 
+          class="hover:text-[#2F5233] flex items-center gap-1 transition"
+          title="Fale com a coordenação / Enviar mensagem"
+        >
+          <i class="fa-solid fa-headset text-[9px]"></i>
+          <span>Suporte</span>
+        </button>
+
+        <button 
+          type="button" 
+          onclick="ActaApp.openAdminPinModal()" 
+          class="hover:text-[#28302A] flex items-center gap-1 transition"
+          title="Acesso da Administradora (PIN)"
+        >
+          <i class="fa-solid fa-lock text-[9px]"></i>
+          <span>Gestão</span>
+        </button>
+      </div>
+
       <!-- Decoração Temática da Base da Barra Lateral (Exclusiva da Identidade ACTA) -->
       <div class="pt-2 flex justify-center overflow-hidden rounded-2xl">
         <img id="sidebarDecorImg" src="assets/sidebar-decor-natureza.png" alt="Decoração do tema" class="w-full max-h-32 object-contain drop-shadow-xs transition-all duration-500">
@@ -2835,6 +2858,154 @@
       </div>
     </div>
 
+    <!-- Modal: Acesso da Administradora (PIN de Segurança) -->
+    <div id="modalAdminPin" class="bg-white border border-[#E8E2D5] rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-5 hidden my-8">
+      <div class="flex items-center justify-between border-b border-[#E8E2D5] pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-[#2F5233] text-white flex items-center justify-center text-sm shadow-xs">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#28302A]">Coordenação ACTA</h3>
+            <p class="text-[11px] text-[#667267]">Acesso da Administradora</p>
+          </div>
+        </div>
+        <button type="button" onclick="ActaApp.closeModal('modalAdminPin')" class="text-[#8E9A8F] hover:text-[#28302A] p-2 rounded-full hover:bg-[#FAF7F0] transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); ActaApp.handleVerifyAdminPin();" class="space-y-4">
+        <div>
+          <label for="adminPinInput" class="block text-xs font-bold text-[#28302A] mb-1">
+            Digite seu PIN de Administradora:
+          </label>
+          <input 
+            type="password" 
+            id="adminPinInput" 
+            maxlength="8" 
+            placeholder="••••" 
+            required 
+            class="w-full text-center text-xl tracking-[0.5em] font-mono p-3 border border-[#CCD8CD] rounded-2xl bg-[#FAF7F0] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5233]/20"
+          >
+          <div id="adminPinError" class="hidden text-[11px] text-[#DC2626] font-semibold mt-1.5 text-center"></div>
+        </div>
+
+        <button type="submit" class="hero-btn-green w-full py-3 rounded-full text-xs font-bold shadow-xs transition flex items-center justify-center gap-2">
+          <span>Acessar Painel de Gestão</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </button>
+        <p class="text-[10px] text-[#8E9A8F] text-center italic">
+          PIN padrão inicial de segurança: <strong>2026</strong>
+        </p>
+      </form>
+    </div>
+
+    <!-- Modal: Painel da Administradora (Métricas, Vendas, Chaves & Suporte) -->
+    <div id="modalAdminDashboard" class="bg-white border border-[#E8E2D5] rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 shadow-2xl space-y-6 hidden my-8 custom-scrollbar">
+      <!-- Topo do Painel -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E8E2D5] pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-[#2F5233] text-white flex items-center justify-center text-xl shrink-0 shadow-xs">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Painel da Administradora</h3>
+              <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#EBF3ED] text-[#2F5233] font-bold border border-[#2F5233]/20">Modo Gestão Ativo</span>
+            </div>
+            <p class="text-xs text-[#667267]">Controle financeiro, gerador de chaves, suporte local e auditoria sem expor dados íntimos das famílias.</p>
+          </div>
+        </div>
+        <button type="button" onclick="ActaApp.closeModal('modalAdminDashboard')" class="text-[#8E9A8F] hover:text-[#28302A] p-2 rounded-full hover:bg-[#FAF7F0] transition self-start sm:self-auto">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Abas Internas do Painel -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <button type="button" data-admin-tab="metrics" onclick="ActaApp.switchAdminTab('metrics')" class="admin-tab-btn py-2 px-3.5 text-xs font-bold rounded-xl bg-[#2F5233] text-white shadow-xs transition shrink-0">
+          <i class="fa-solid fa-chart-pie mr-1 text-[11px]"></i> Vendas & Rateio
+        </button>
+        <button type="button" data-admin-tab="keys" onclick="ActaApp.switchAdminTab('keys')" class="admin-tab-btn py-2 px-3.5 text-xs font-semibold rounded-xl bg-[#FAF7F0] text-[#667267] hover:bg-white border border-[#E8E2D5] transition shrink-0">
+          <i class="fa-solid fa-key mr-1 text-[11px]"></i> Chaves de Ativação
+        </button>
+        <button type="button" data-admin-tab="support" onclick="ActaApp.switchAdminTab('support')" class="admin-tab-btn py-2 px-3.5 text-xs font-semibold rounded-xl bg-[#FAF7F0] text-[#667267] hover:bg-white border border-[#E8E2D5] transition shrink-0">
+          <i class="fa-solid fa-inbox mr-1 text-[11px]"></i> Suporte Local
+        </button>
+        <button type="button" data-admin-tab="simulator" onclick="ActaApp.switchAdminTab('simulator')" class="admin-tab-btn py-2 px-3.5 text-xs font-semibold rounded-xl bg-[#FAF7F0] text-[#667267] hover:bg-white border border-[#E8E2D5] transition shrink-0">
+          <i class="fa-solid fa-eye mr-1 text-[11px]"></i> Simulador de Perfis
+        </button>
+        <button type="button" data-admin-tab="config" onclick="ActaApp.switchAdminTab('config')" class="admin-tab-btn py-2 px-3.5 text-xs font-semibold rounded-xl bg-[#FAF7F0] text-[#667267] hover:bg-white border border-[#E8E2D5] transition shrink-0">
+          <i class="fa-solid fa-gear mr-1 text-[11px]"></i> Configurações & PIN
+        </button>
+      </div>
+
+      <!-- Conteúdo das Abas -->
+      <div id="admin-pane-metrics" class="admin-tab-pane space-y-4">
+        <div id="adminMetricsContent" class="space-y-4"></div>
+      </div>
+
+      <div id="admin-pane-keys" class="admin-tab-pane hidden space-y-4">
+        <div id="adminKeysContent" class="space-y-4"></div>
+      </div>
+
+      <div id="admin-pane-support" class="admin-tab-pane hidden space-y-4">
+        <div id="adminSupportContent" class="space-y-4"></div>
+      </div>
+
+      <div id="admin-pane-simulator" class="admin-tab-pane hidden space-y-4">
+        <div id="adminSimulatorContent" class="space-y-4"></div>
+      </div>
+
+      <div id="admin-pane-config" class="admin-tab-pane hidden space-y-4">
+        <div id="adminConfigContent" class="space-y-4"></div>
+      </div>
+    </div>
+
+    <!-- Modal: Suporte & Mensagem da Família (100% Local) -->
+    <div id="modalSupport" class="bg-white border border-[#E8E2D5] rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl space-y-5 hidden my-8">
+      <div class="flex items-center justify-between border-b border-[#E8E2D5] pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center text-sm shadow-xs">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#28302A]">Fale com o Suporte ACTA</h3>
+            <p class="text-[11px] text-[#667267]">Canal direto com a coordenação</p>
+          </div>
+        </div>
+        <button type="button" onclick="ActaApp.closeModal('modalSupport')" class="text-[#8E9A8F] hover:text-[#28302A] p-2 rounded-full hover:bg-[#FAF7F0] transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); ActaApp.handleSendSupportMessage();" class="space-y-3.5 text-xs">
+        <div>
+          <label for="supportSenderName" class="block font-bold text-[#28302A] mb-1">Seu Nome / Família</label>
+          <input type="text" id="supportSenderName" placeholder="Ex: Família Silva, Mariana..." required class="w-full p-2.5 border border-[#CCD8CD] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+        </div>
+
+        <div>
+          <label for="supportSubject" class="block font-bold text-[#28302A] mb-1">Assunto</label>
+          <input type="text" id="supportSubject" placeholder="Ex: Dúvida sobre a grade, sugestão de livro..." required class="w-full p-2.5 border border-[#CCD8CD] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+        </div>
+
+        <div>
+          <label for="supportMessageText" class="block font-bold text-[#28302A] mb-1">Como podemos te ajudar?</label>
+          <textarea id="supportMessageText" rows="3" placeholder="Escreva aqui com detalhes sua mensagem..." required class="w-full p-2.5 border border-[#CCD8CD] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <button type="submit" class="hero-btn-green w-full py-3 rounded-full font-bold shadow-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane text-[10px]"></i>
+          <span>Enviar Mensagem para a Coordenação</span>
+        </button>
+        <p class="text-[10px] text-[#8E9A8F] text-center leading-tight">
+          🔒 Sua mensagem é recebida diretamente no painel interno de gestão, com total privacidade.
+        </p>
+      </form>
+    </div>
+
   </div>
 
   <!-- Toast Notification Flutuante -->
@@ -2952,23 +3123,23 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
   <!-- Camada de Conexão, Autenticação e Firestore do ACTA -->
-  <script src="js/firebase-config.js?v=20260927_8"></script>
-  <script src="js/firestore-sync.js?v=20260927_8"></script>
-  <script src="js/auth.js?v=20260927_8"></script>
+  <script src="js/firebase-config.js?v=20260927_10"></script>
+  <script src="js/firestore-sync.js?v=20260927_10"></script>
+  <script src="js/auth.js?v=20260927_10"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260927_9"></script>
-  <script src="js/materials.js?v=20260927_9"></script>
-  <script src="js/curriculum.js?v=20260927_9"></script>
-  <script src="js/planner.js?v=20260927_9"></script>
-  <script src="js/diagnostic.js?v=20260927_9"></script>
-  <script src="js/calendar.js?v=20260927_9"></script>
-  <script src="js/extras.js?v=20260927_9"></script>
-  <script src="js/records.js?v=20260927_9"></script>
-  <script src="js/culture.js?v=20260927_9"></script>
-  <script src="js/reports.js?v=20260927_9"></script>
-  <script src="js/quotes.js?v=20260927_9"></script>
-  <script src="js/tutorial.js?v=20260927_9"></script>
-  <script src="js/app.js?v=20260927_9"></script>
+  <script src="js/storage.js?v=20260927_10"></script>
+  <script src="js/materials.js?v=20260927_10"></script>
+  <script src="js/curriculum.js?v=20260927_10"></script>
+  <script src="js/planner.js?v=20260927_10"></script>
+  <script src="js/diagnostic.js?v=20260927_10"></script>
+  <script src="js/calendar.js?v=20260927_10"></script>
+  <script src="js/extras.js?v=20260927_10"></script>
+  <script src="js/records.js?v=20260927_10"></script>
+  <script src="js/culture.js?v=20260927_10"></script>
+  <script src="js/reports.js?v=20260927_10"></script>
+  <script src="js/quotes.js?v=20260927_10"></script>
+  <script src="js/tutorial.js?v=20260927_10"></script>
+  <script src="js/app.js?v=20260927_10"></script>
 </body>
 </html>
