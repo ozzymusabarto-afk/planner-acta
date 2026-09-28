@@ -77,6 +77,9 @@
     selectedResult: 'compreendeu',
 
     init: function() {
+      // 0. Checagem de Ativação Automática via URL (Link Mágico / Hotmart)
+      this.checkUrlActivation();
+
       // 1. Aplicar tema salvo
       const savedTheme = ActaStorage.getActiveTheme();
       this.applyTheme(savedTheme);
@@ -103,6 +106,36 @@
       // 4. Setup de navegação e listeners
       this.setupNavigation();
       this.updateProNavigationUI();
+    },
+
+    checkUrlActivation: function() {
+      try {
+        if (typeof window === 'undefined' || !window.location || !window.location.search) return;
+        const params = new URLSearchParams(window.location.search);
+        const key = params.get('ativar') || params.get('key') || params.get('chave') || params.get('cupom');
+        const isHotmartSuccess = params.get('status') === 'approved' || params.get('hotmart') === 'success';
+
+        if (key || isHotmartSuccess) {
+          const codeToUse = key || 'HOTMART-PRO';
+          if (typeof ActaStorage.activatePremium === 'function') {
+            const success = ActaStorage.activatePremium(codeToUse);
+            if (success) {
+              if (window.history && window.history.replaceState) {
+                const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+              }
+
+              setTimeout(() => {
+                this.showToast('🎉 Parabéns! Seu Planner ACTA Completo foi liberado com sucesso!');
+                this.updateProNavigationUI();
+                this.refreshAllTabs();
+              }, 400);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Erro ao processar URL de ativação:', e);
+      }
     },
 
     // ==========================================
