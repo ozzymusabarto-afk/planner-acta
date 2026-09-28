@@ -1247,7 +1247,11 @@
 
     validateAdminPin: function(pin) {
       const correct = this.getAdminPin();
-      return String(pin).trim() === correct;
+      const isValid = String(pin).trim() === correct;
+      if (isValid) {
+        localStorage.setItem('ACTA_IS_ADMIN_DEVICE', 'true');
+      }
+      return isValid;
     },
 
     _getSessionItem: function(key) {
@@ -1297,18 +1301,35 @@
     },
 
     logVisitOncePerSession: function() {
+      // Se for a própria administradora, NÃO computa visita para não distorcer as métricas
+      try {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('ACTA_IS_ADMIN_DEVICE') === 'true') {
+          return;
+        }
+      } catch (e) {}
+
+      if (this.isAdminAuthenticated()) {
+        return;
+      }
+
       if (!this._getSessionItem('ACTA_SESSION_VISIT_LOGGED')) {
         this._setSessionItem('ACTA_SESSION_VISIT_LOGGED', 'true');
-        const current = Number(localStorage.getItem('ACTA_METRIC_VISITS') || 38);
+        const current = Number(localStorage.getItem('ACTA_METRIC_VISITS') || 0);
         localStorage.setItem('ACTA_METRIC_VISITS', String(current + 1));
       }
     },
 
+    resetVisitsMetric: function() {
+      localStorage.setItem('ACTA_METRIC_VISITS', '0');
+      return 0;
+    },
+
     getAdminMetrics: function() {
-      const visits = Number(localStorage.getItem('ACTA_METRIC_VISITS') || 38);
+      const visits = Number(localStorage.getItem('ACTA_METRIC_VISITS') || 0);
       const keys = JSON.parse(localStorage.getItem('ACTA_ADMIN_KEYS') || '[]');
       const messages = JSON.parse(localStorage.getItem('ACTA_SUPPORT_MESSAGES') || '[]');
       const salesCount = Number(localStorage.getItem('ACTA_METRIC_SALES') || keys.filter(k => k.used).length);
+      const registeredChildren = (this.getPeople() || []).length;
       const unitPrice = 34.99;
       const hotmartFeeRate = 0.099; // ~9,9% taxa estimada Hotmart
 
@@ -1319,6 +1340,7 @@
 
       return {
         visits: visits,
+        registeredChildren: registeredChildren,
         salesCount: salesCount,
         unitPrice: unitPrice,
         grossRevenue: grossRevenue,

@@ -2237,27 +2237,37 @@
         <!-- Cards de Destaque -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1">
-            <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Acessos à Plataforma</span>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Acessos de Famílias</span>
+              <button 
+                type="button" 
+                onclick="ActaApp.handleResetVisitsMetric()" 
+                class="text-[9px] text-[#8E9A8F] hover:text-[#DC2626] p-1 rounded transition" 
+                title="Zerar acessos para começar limpo no lançamento oficial"
+              >
+                <i class="fa-solid fa-arrows-rotate"></i> Zerar
+              </button>
+            </div>
             <div class="text-2xl font-bold text-[#28302A]">${metrics.visits}</div>
-            <span class="text-[10px] text-[#2F5233] font-semibold"><i class="fa-solid fa-arrow-trend-up"></i> Sessões registradas</span>
+            <span class="text-[10px] text-[#2F5233] font-semibold"><i class="fa-solid fa-user-group"></i> Visitas de famílias externas</span>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1">
+            <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Crianças / Famílias</span>
+            <div class="text-2xl font-bold text-[#28302A]">${metrics.registeredChildren}</div>
+            <span class="text-[10px] text-[#667267]"><i class="fa-solid fa-child"></i> Perfis criados no app</span>
           </div>
 
           <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1">
             <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Vendas / Licenças</span>
             <div class="text-2xl font-bold text-[#2F5233]">${metrics.salesCount}</div>
-            <span class="text-[10px] text-[#667267]">R$ 34,99 cada</span>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1">
-            <span class="text-[10px] font-bold text-[#667267] uppercase tracking-wider block">Faturamento Bruto</span>
-            <div class="text-2xl font-bold text-[#28302A]">${formatBRL(metrics.grossRevenue)}</div>
-            <span class="text-[10px] text-[#667267]">Taxa Hotmart: ~${formatBRL(metrics.estimatedFees)}</span>
+            <span class="text-[10px] text-[#667267]">Preço: R$ 34,99 cada</span>
           </div>
 
           <div class="p-4 rounded-2xl bg-[#EBF3ED] border border-[#2F5233]/20 space-y-1">
             <span class="text-[10px] font-bold text-[#2F5233] uppercase tracking-wider block">Líquido Total</span>
             <div class="text-2xl font-bold text-[#2F5233]">${formatBRL(metrics.netRevenue)}</div>
-            <span class="text-[10px] text-[#2F5233] font-bold">100% sob seu controle</span>
+            <span class="text-[10px] text-[#2F5233] font-semibold">Bruto: ${formatBRL(metrics.grossRevenue)}</span>
           </div>
         </div>
 
@@ -2270,17 +2280,29 @@
               </span>
               <div>
                 <h4 class="text-xs font-bold text-[#28302A]">Relatório de Divisão da Parceria (50% / 50%)</h4>
-                <p class="text-[11px] text-[#667267]">Divisão transparente após desconto estimado das taxas da plataforma.</p>
+                <p class="text-[11px] text-[#667267]">Divisão transparente após desconto estimado das taxas da plataforma (~9,9%).</p>
               </div>
             </div>
-            <button 
-              type="button" 
-              onclick="ActaApp.handleCopySplitReport()"
-              class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#CCD8CD] text-[#28302A] hover:bg-[#FAF7F0] font-semibold transition flex items-center gap-1.5 self-start sm:self-auto shadow-2xs"
-            >
-              <i class="fa-solid fa-copy text-[#2F5233]"></i>
-              <span>Copiar Relatório para WhatsApp</span>
-            </button>
+            <div class="flex items-center gap-2 flex-wrap">
+              <button 
+                type="button" 
+                onclick="ActaApp.handleCopySplitReport()"
+                class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#CCD8CD] text-[#28302A] hover:bg-[#FAF7F0] font-semibold transition flex items-center gap-1.5 shadow-2xs"
+                title="Copia o relatório para a sua área de transferência (Ctrl + V)"
+              >
+                <i class="fa-solid fa-copy text-[#2F5233]"></i>
+                <span>Copiar Relatório</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="ActaApp.handleOpenWhatsAppReport()"
+                class="text-xs px-3 py-1.5 rounded-full bg-[#EBF3ED] border border-[#2F5233]/25 text-[#2F5233] hover:bg-[#dfeee2] font-bold transition flex items-center gap-1.5 shadow-2xs"
+                title="Abre o WhatsApp com o texto já pronto para enviar à sua amiga"
+              >
+                <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
+                <span>Enviar pelo WhatsApp</span>
+              </button>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -2305,7 +2327,7 @@
         <div class="p-4 rounded-2xl bg-white border border-[#E8E2D5] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <h5 class="text-xs font-bold text-[#28302A]">Registrar Venda Direta (PIX ou Dinheiro)</h5>
-            <p class="text-[11px] text-[#667267]">Soma +1 venda de R$ 34,99 ao relatório financeiro para atualizar o rateio.</p>
+            <p class="text-[11px] text-[#667267]">Soma +1 venda de R$ 34,99 ao relatório financeiro para atualizar o rateio automaticamente.</p>
           </div>
           <button 
             type="button" 
@@ -2327,20 +2349,51 @@
         `--------------------------------\n` +
         `Total de Licenças: ${m.salesCount} vendas (R$ 34,99)\n` +
         `Faturamento Bruto: ${formatBRL(m.grossRevenue)}\n` +
-        `Taxas estimadas: ${formatBRL(m.estimatedFees)}\n` +
+        `Taxas estimadas (~9,9%): ${formatBRL(m.estimatedFees)}\n` +
         `Líquido Total: ${formatBRL(m.netRevenue)}\n` +
         `--------------------------------\n` +
-        `Sua Parte (50%): ${formatBRL(m.splitAmount)}\n` +
+        `Sua Parte (Você - 50%): ${formatBRL(m.splitAmount)}\n` +
         `Parte da Parceira (50%): ${formatBRL(m.splitAmount)}\n` +
         `--------------------------------\n` +
         `Planner ACTA • Gestão em Família`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
-          this.showToast('📋 Relatório de divisão copiado! Pronto para colar no WhatsApp.');
+          this.showToast('📋 Relatório copiado! Agora basta abrir o WhatsApp e dar Colar (Ctrl + V).');
+        }).catch(() => {
+          alert(text);
         });
       } else {
         alert(text);
+      }
+    },
+
+    handleOpenWhatsAppReport: function() {
+      const m = ActaStorage.getAdminMetrics();
+      const formatBRL = (v) => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+      const text = `📊 *RELATÓRIO DE VENDAS - PLANNER ACTA*\n` +
+        `Data: ${new Date().toLocaleDateString('pt-BR')}\n` +
+        `--------------------------------\n` +
+        `Total de Licenças: ${m.salesCount} vendas (R$ 34,99)\n` +
+        `Faturamento Bruto: ${formatBRL(m.grossRevenue)}\n` +
+        `Taxas estimadas (~9,9%): ${formatBRL(m.estimatedFees)}\n` +
+        `Líquido Total: ${formatBRL(m.netRevenue)}\n` +
+        `--------------------------------\n` +
+        `Sua Parte (Você - 50%): ${formatBRL(m.splitAmount)}\n` +
+        `Parte da Parceira (50%): ${formatBRL(m.splitAmount)}\n` +
+        `--------------------------------\n` +
+        `Planner ACTA • Gestão em Família`;
+
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      window.open(whatsappUrl, '_blank');
+      this.showToast('📲 Abrindo WhatsApp com o relatório pronto!');
+    },
+
+    handleResetVisitsMetric: function() {
+      if (confirm('Deseja zerar a contagem de acessos de teste para iniciar o lançamento oficial limpo?')) {
+        ActaStorage.resetVisitsMetric();
+        this.showToast('🔄 Contador de acessos zerado para o lançamento!');
+        this.renderAdminMetricsTab();
       }
     },
 
