@@ -1176,29 +1176,85 @@
       // 0. Simulador de Perfis da Administradora
       const simulated = this.getSimulatedRole();
       if (simulated === 'free') return false;
+      if (simulated === 'expired') return false;
       if (simulated === 'pro' || simulated === 'admin') return true;
 
-      // 1. Se for a Administradora autenticada com PIN no painel, libera tudo para testes
+      // 1. Se for a Administradora autenticada com PIN no painel, acesso vitalício irrestrito
       if (this.isAdminAuthenticated()) return true;
 
-      // 2. Checa flag de licença no localStorage
+      // 2. Checa se a anuidade expirou
+      if (this.isLicenseExpired()) {
+        return false;
+      }
+
+      // 3. Checa flag de licença no localStorage
       if (localStorage.getItem('ACTA_PLAN_TIER') === 'premium' || localStorage.getItem('ACTA_IS_PREMIUM') === 'true') {
         return true;
       }
-      // 3. Checa perfil do Firebase Auth / Firestore se autenticado
+
+      // 4. Checa perfil do Firebase Auth / Firestore se autenticado
       if (window.ActaAuth && typeof window.ActaAuth.getUserProfile === 'function') {
         const profile = window.ActaAuth.getUserProfile();
-        if (profile && profile.plan === 'premium') return true;
+        if (profile && profile.plan === 'premium') {
+          if (profile.expirationDate && new Date(profile.expirationDate) < new Date()) {
+            return false;
+          }
+          return true;
+        }
       }
-      // 4. Checa dados do armazenamento ativo
+
+      // 5. Checa dados do armazenamento ativo
       const data = this.getData();
       if (data && (data.plan === 'premium' || data.isPremium === true)) {
+        if (data.expirationDate && new Date(data.expirationDate) < new Date()) {
+          return false;
+        }
         return true;
       }
       return false;
     },
 
-    activatePremium: function(activationKey) {
+    isLicenseExpired: function() {
+      // Simulador de perfil da admin
+      if (this.getSimulatedRole() === 'expired') return true;
+
+      // Administradora nunca expira
+      if (this.isAdminAuthenticated()) return false;
+
+      const expStr = localStorage.getItem('ACTA_EXPIRATION_DATE');
+      if (!expStr) return false;
+      const expDate = new Date(expStr);
+      return !isNaN(expDate.getTime()) && new Date() > expDate;
+    },
+
+    getLicenseInfo: function() {
+      const isPro = this.isPremiumUser();
+      const isExpired = this.isLicenseExpired();
+      const expStr = localStorage.getItem('ACTA_EXPIRATION_DATE');
+      const actStr = localStorage.getItem('ACTA_ACTIVATION_DATE');
+
+      let daysRemaining = 0;
+      let expirationDate = null;
+      let activationDate = actStr ? new Date(actStr) : null;
+
+      if (expStr) {
+        expirationDate = new Date(expStr);
+        if (!isNaN(expirationDate.getTime())) {
+          const diffMs = expirationDate.getTime() - new Date().getTime();
+          daysRemaining = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+        }
+      }
+
+      return {
+        isPremium: isPro,
+        isExpired: isExpired,
+        activationDate: activationDate,
+        expirationDate: expirationDate,
+        daysRemaining: daysRemaining
+      };
+    },
+
+    activatePremium: function(activationKey, customDays = 365) {
       const key = (activationKey || '').trim().toUpperCase().replace(/\s+/g, '');
       if (!key) return false;
 
@@ -1214,13 +1270,21 @@
         key.length >= 8;
 
       if (isKeyAccepted) {
+        const now = new Date();
+        const expiration = new Date();
+        expiration.setDate(now.getDate() + Number(customDays || 365));
+
         localStorage.setItem('ACTA_PLAN_TIER', 'premium');
         localStorage.setItem('ACTA_IS_PREMIUM', 'true');
         localStorage.setItem('ACTA_ACTIVATION_KEY', key);
+        localStorage.setItem('ACTA_ACTIVATION_DATE', now.toISOString());
+        localStorage.setItem('ACTA_EXPIRATION_DATE', expiration.toISOString());
 
         const data = this.getData();
         data.plan = 'premium';
         data.isPremium = true;
+        data.activationDate = now.toISOString();
+        data.expirationDate = expiration.toISOString();
         this.saveData(data);
 
         return true;

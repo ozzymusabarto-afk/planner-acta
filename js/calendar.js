@@ -38,9 +38,12 @@
 
     WEEKDAY_NAMES: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
 
-    renderCalendarHTML: function() {
+    renderCalendarHTML: function(customYear, customMonth) {
       const storage = window.ActaStorage;
       if (!storage) return '';
+
+      if (typeof customYear === 'number') this.selectedYear = customYear;
+      if (typeof customMonth === 'number') this.selectedMonth = customMonth;
 
       const events = storage.getCalendarEvents();
       const year = this.selectedYear;
@@ -302,9 +305,13 @@
     },
 
     refresh: function() {
-      const container = document.getElementById('calendarContentContainer');
+      const container = document.getElementById('familyCalendarGridContainer') || document.getElementById('calendarContentContainer');
       if (container) {
         container.innerHTML = this.renderCalendarHTML();
+      }
+      if (window.ActaApp) {
+        window.ActaApp.currentCalendarYear = this.selectedYear;
+        window.ActaApp.currentCalendarMonth = this.selectedMonth;
       }
     },
 

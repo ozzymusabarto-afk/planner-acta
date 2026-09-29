@@ -1700,15 +1700,25 @@
     // ==========================================
     renderConfiguracoesTab: function() {
       const isPremium = typeof ActaStorage.isPremiumUser === 'function' ? ActaStorage.isPremiumUser() : false;
+      const isExpired = typeof ActaStorage.isLicenseExpired === 'function' ? ActaStorage.isLicenseExpired() : false;
+      const lic = typeof ActaStorage.getLicenseInfo === 'function' ? ActaStorage.getLicenseInfo() : { isPremium: false, daysRemaining: 0 };
       const badgeContainer = document.getElementById('configPlanBadgeContainer');
       const bodyContainer = document.getElementById('configPlanBodyContainer');
 
       if (badgeContainer) {
         if (isPremium) {
+          const expText = lic.expirationDate ? ` • Válido até ${lic.expirationDate.toLocaleDateString('pt-BR')}` : '';
           badgeContainer.innerHTML = `
             <span class="text-xs px-3 py-1 rounded-full bg-[#FEF3C7] border border-[#F59E0B]/30 text-[#B45309] font-bold flex items-center gap-1.5 shadow-2xs">
               <i class="fa-solid fa-crown text-[11px]"></i>
-              <span>Plano ACTA Completo Ativo</span>
+              <span>Plano ACTA Anual Ativo${expText}</span>
+            </span>
+          `;
+        } else if (isExpired) {
+          badgeContainer.innerHTML = `
+            <span class="text-xs px-3 py-1 rounded-full bg-[#FBECE8] border border-[#DC2626]/30 text-[#DC2626] font-bold flex items-center gap-1.5 shadow-2xs">
+              <i class="fa-solid fa-clock-rotate-left text-[11px]"></i>
+              <span>Anuidade Expirada • Renovar</span>
             </span>
           `;
         } else {
@@ -1722,15 +1732,47 @@
 
       if (bodyContainer) {
         if (isPremium) {
+          const daysText = lic.daysRemaining > 0 ? `Restam ${lic.daysRemaining} dias de acesso anual.` : 'Acesso da Administradora / Ilimitado.';
           bodyContainer.innerHTML = `
             <div class="p-4 rounded-2xl bg-[#EBF3ED] border border-[#2F5233]/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div class="space-y-1">
-                <span class="text-xs font-bold text-[#28302A] block">⭐ Sua família possui Acesso Completo e Ilimitado!</span>
-                <p class="text-[11px] text-[#667267]">Todos os 14 módulos (Leituras, Filmes, Passeios, Acompanhamento, Linha do Tempo e Dossiês Oficiais) estão 100% liberados.</p>
+                <span class="text-xs font-bold text-[#28302A] block">⭐ Sua família possui Acesso Anual Ativo!</span>
+                <p class="text-[11px] text-[#667267]">Todos os 14 módulos (Leituras, Filmes, Passeios, Acompanhamento, Linha do Tempo e Dossiês Oficiais) estão liberados. ${daysText}</p>
               </div>
               <span class="text-[11px] text-[#2F5233] font-bold px-3 py-1 rounded-full bg-white border border-[#2F5233]/20 shadow-2xs shrink-0">
-                Licença Vitalícia
+                ${lic.daysRemaining > 0 ? `${lic.daysRemaining} dias restantes` : 'Vitalício / Coordenação'}
               </span>
+            </div>
+          `;
+        } else if (isExpired) {
+          bodyContainer.innerHTML = `
+            <div class="p-4 rounded-2xl bg-[#FBECE8] border border-[#DC2626]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-[#991B1B]">⚠️ Sua anuidade anual encerrou o ciclo letivo</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-white text-[#991B1B] font-bold border border-[#DC2626]/20">R$ 34,99/ano</span>
+                </div>
+                <p class="text-[11px] text-[#667267] max-w-xl">
+                  Seus dados e relatórios estão guardados com total segurança. Para continuar registrando leituras, emitindo novos relatórios e acompanhando seus filhos no novo ciclo, renove sua anuidade no Hotmart.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <a 
+                  href="${ActaStorage.HOTMART_CHECKOUT_URL}" 
+                  target="_blank" 
+                  class="hero-btn-green text-xs font-bold px-4 py-2 rounded-full shadow-xs flex items-center gap-1.5 transition"
+                >
+                  <i class="fa-solid fa-arrows-rotate"></i>
+                  <span>Renovar Anuidade (R$ 34,99)</span>
+                </a>
+                <button 
+                  type="button" 
+                  onclick="ActaApp.openUpgradeModal('Renovação de Anuidade: Digite o novo código de ativação do Hotmart para liberar mais 1 ano de acesso completo.')" 
+                  class="text-xs font-bold px-3.5 py-2 rounded-full bg-white border border-[#CCD8CD] text-[#28302A] hover:bg-[#FAF7F0] shadow-2xs transition"
+                >
+                  Ativar Chave
+                </button>
+              </div>
             </div>
           `;
         } else {
@@ -1739,7 +1781,7 @@
               <div class="space-y-1">
                 <div class="flex items-center gap-2">
                   <span class="text-xs font-bold text-[#28302A]">Experimente o Planner ACTA Completo</span>
-                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#EBF3ED] text-[#2F5233] font-bold">R$ 34,99</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#EBF3ED] text-[#2F5233] font-bold">R$ 34,99 / ano</span>
                 </div>
                 <p class="text-[11px] text-[#667267] max-w-xl">
                   Desbloqueie a Estante Cultural de Leituras, Cinemateca da Família, Diário de Passeios & Museus, Gráficos de Evolução, Linha do Tempo e Dossiês Oficiais para impressão.
@@ -2169,13 +2211,21 @@
 
     updateProNavigationUI: function() {
       const isPremium = typeof ActaStorage.isPremiumUser === 'function' ? ActaStorage.isPremiumUser() : false;
+      const isExpired = typeof ActaStorage.isLicenseExpired === 'function' ? ActaStorage.isLicenseExpired() : false;
       const badgeEl = document.getElementById('sidebarUserBadge');
       if (badgeEl) {
         if (isPremium) {
-          badgeEl.innerHTML = '<span class="text-[#B45309] font-bold">⭐ PRO</span>';
+          const lic = typeof ActaStorage.getLicenseInfo === 'function' ? ActaStorage.getLicenseInfo() : { daysRemaining: 0 };
+          const daysLabel = lic.daysRemaining > 0 ? ` (${lic.daysRemaining}d)` : '';
+          badgeEl.innerHTML = `<span class="text-[#B45309] font-bold">⭐ PRO${daysLabel}</span>`;
           badgeEl.className = 'text-[9px] px-1.5 py-0.2 rounded bg-[#FEF3C7] border border-[#F59E0B]/30 font-semibold';
           badgeEl.onclick = null;
-          badgeEl.title = 'Plano ACTA Completo Vitalício Ativo';
+          badgeEl.title = lic.daysRemaining > 0 ? `Plano ACTA Anual Ativo • Restam ${lic.daysRemaining} dias` : 'Plano ACTA Ativo';
+        } else if (isExpired) {
+          badgeEl.innerHTML = '<span class="text-[#DC2626] font-bold animate-pulse">⚠️ Renovar</span>';
+          badgeEl.className = 'text-[9px] px-1.5 py-0.2 rounded bg-[#FBECE8] border border-[#DC2626]/30 text-[#DC2626] font-semibold cursor-pointer';
+          badgeEl.onclick = () => this.openUpgradeModal('⚠️ Sua anuidade do Planner ACTA chegou ao fim do ciclo letivo de 1 ano. Para continuar com todos os módulos culturais, relatórios oficiais e biblioteca liberados para o novo ano letivo, renove sua assinatura anual por apenas R$ 34,99!');
+          badgeEl.title = 'Anuidade Expirada • Clique para renovar';
         } else {
           badgeEl.innerHTML = 'Free • <span class="underline">Upgrade</span>';
           badgeEl.className = 'text-[9px] px-1.5 py-0.2 rounded bg-[#FAF7F0] border border-[#E8E2D5] text-[#667267] font-semibold cursor-pointer hover:text-[#2F5233]';
@@ -2556,15 +2606,15 @@
           <p class="text-[11px] text-[#667267]">Alterne instantaneamente o modo de exibição para testar como o app se comporta em cada plano.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
           <div 
             onclick="ActaApp.handleSetSimulatedRole('normal')" 
             class="p-4 rounded-2xl border cursor-pointer transition ${currentRole === 'normal' ? 'bg-[#EBF3ED] border-[#2F5233] shadow-xs' : 'bg-[#FAF7F0] border-[#E8E2D5] hover:bg-white'}"
           >
             <div class="flex items-center gap-2 font-bold text-xs text-[#28302A] mb-1">
-              <span>👑 Modo Administradora</span>
+              <span>👑 Administradora</span>
             </div>
-            <p class="text-[11px] text-[#667267]">Acesso irrestrito a todos os 14 módulos e painel de controle.</p>
+            <p class="text-[11px] text-[#667267]">Acesso irrestrito vitalício e painel de controle.</p>
           </div>
 
           <div 
@@ -2572,9 +2622,9 @@
             class="p-4 rounded-2xl border cursor-pointer transition ${currentRole === 'free' ? 'bg-[#EBF3ED] border-[#2F5233] shadow-xs' : 'bg-[#FAF7F0] border-[#E8E2D5] hover:bg-white'}"
           >
             <div class="flex items-center gap-2 font-bold text-xs text-[#28302A] mb-1">
-              <span>👁️ Simular Usuário Free</span>
+              <span>👁️ Usuário Free</span>
             </div>
-            <p class="text-[11px] text-[#667267]">Permite auditar os bloqueios, selos PRO e vitrines de compra do Hotmart.</p>
+            <p class="text-[11px] text-[#667267]">Auditar bloqueios, selos PRO e vitrines de compra.</p>
           </div>
 
           <div 
@@ -2582,9 +2632,19 @@
             class="p-4 rounded-2xl border cursor-pointer transition ${currentRole === 'pro' ? 'bg-[#EBF3ED] border-[#2F5233] shadow-xs' : 'bg-[#FAF7F0] border-[#E8E2D5] hover:bg-white'}"
           >
             <div class="flex items-center gap-2 font-bold text-xs text-[#28302A] mb-1">
-              <span>⭐ Simular Usuário PRO</span>
+              <span>⭐ Assinatura Ativa</span>
             </div>
-            <p class="text-[11px] text-[#667267]">Visão de quem já comprou: todos os recursos liberados sem travas.</p>
+            <p class="text-[11px] text-[#667267]">Visão da compradora com anuidade em dia e tudo liberado.</p>
+          </div>
+
+          <div 
+            onclick="ActaApp.handleSetSimulatedRole('expired')" 
+            class="p-4 rounded-2xl border cursor-pointer transition ${currentRole === 'expired' ? 'bg-[#FBECE8] border-[#DC2626] shadow-xs' : 'bg-[#FAF7F0] border-[#E8E2D5] hover:bg-white'}"
+          >
+            <div class="flex items-center gap-2 font-bold text-xs text-[#DC2626] mb-1">
+              <span>⏳ Anuidade Expirada</span>
+            </div>
+            <p class="text-[11px] text-[#667267]">Testa o bloqueio de encerramento do ciclo de 1 ano e botão de renovação.</p>
           </div>
         </div>
       `;
