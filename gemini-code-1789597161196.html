@@ -415,107 +415,46 @@
         <!-- Coluna Principal (2/3 da largura) -->
         <div class="lg:col-span-2 space-y-6">
           
-          <!-- Seletor Visual de Temas -->
-          <div class="bg-white p-5 rounded-3xl border border-[#E8E2D5] shadow-xs space-y-3">
-            <div class="flex items-center justify-between">
+          <!-- Roteiro de Hoje (Foco Diário Sereno) -->
+          <div class="bg-white p-5 sm:p-6 rounded-3xl border border-[#E8E2D5] shadow-xs space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#F0ECE4] pb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center shrink-0 shadow-2xs">
+                  <i class="fa-solid fa-sun text-sm"></i>
+                </div>
+                <div>
+                  <h3 id="casaTodayTitle" class="text-sm font-bold text-[#28302A]">Roteiro de Hoje</h3>
+                  <span id="casaTodaySubtitle" class="text-[11px] text-[#667267]">Acompanhando a rotina diária da família</span>
+                </div>
+              </div>
               <div class="flex items-center gap-2">
-                <span class="theme-title-badge w-5 h-5 shrink-0"></span>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#28302A]">Tema visual</h3>
-              </div>
-              <span class="text-[11px] text-[#667267]">Escolha o clima visual do seu caderno</span>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
-              <!-- Natureza -->
-              <div 
-                onclick="ActaApp.applyTheme('natureza')"
-                data-theme-name="natureza"
-                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#2F5233] transition flex flex-col items-center text-center gap-2 group"
-              >
-                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
-                  <img src="assets/theme-natureza.png" alt="Natureza" class="w-full h-full object-cover">
-                </div>
-                <span class="text-xs font-bold text-[#28302A]">Natureza</span>
-                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#2F5233] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
-                  <i class="fa-solid fa-check"></i>
-                </span>
-              </div>
-
-              <!-- Clássico -->
-              <div 
-                onclick="ActaApp.applyTheme('classico')"
-                data-theme-name="classico"
-                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#1E3A5F] transition flex flex-col items-center text-center gap-2 group"
-              >
-                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
-                  <img src="assets/theme-classico.png" alt="Clássico" class="w-full h-full object-cover">
-                </div>
-                <span class="text-xs font-bold text-[#28302A]">Clássico</span>
-                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#1E3A5F] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
-                  <i class="fa-solid fa-check"></i>
-                </span>
-              </div>
-
-              <!-- Alegre -->
-              <div 
-                onclick="ActaApp.applyTheme('alegre')"
-                data-theme-name="alegre"
-                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#D97706] transition flex flex-col items-center text-center gap-2 group"
-              >
-                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
-                  <img src="assets/theme-alegre.png" alt="Alegre" class="w-full h-full object-cover">
-                </div>
-                <span class="text-xs font-bold text-[#28302A]">Alegre</span>
-                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#D97706] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
-                  <i class="fa-solid fa-check"></i>
-                </span>
-              </div>
-
-              <!-- Elegante -->
-              <div 
-                onclick="ActaApp.applyTheme('elegante')"
-                data-theme-name="elegante"
-                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#1E293B] transition flex flex-col items-center text-center gap-2 group"
-              >
-                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
-                  <img src="assets/theme-elegante.png" alt="Elegante" class="w-full h-full object-cover">
-                </div>
-                <span class="text-xs font-bold text-[#28302A]">Elegante</span>
-                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#1E293B] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
-                  <i class="fa-solid fa-check"></i>
-                </span>
-              </div>
-
-              <!-- Criativo -->
-              <div 
-                onclick="ActaApp.applyTheme('criativo')"
-                data-theme-name="criativo"
-                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#7C3AED] transition flex flex-col items-center text-center gap-2 group"
-              >
-                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
-                  <img src="assets/theme-criativo.png" alt="Criativo" class="w-full h-full object-cover">
-                </div>
-                <span class="text-xs font-bold text-[#28302A]">Criativo</span>
-                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#7C3AED] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
-                  <i class="fa-solid fa-check"></i>
-                </span>
-              </div>
-
-              <!-- Romântico -->
-              <div 
-                onclick="ActaApp.applyTheme('romantico')"
-                data-theme-name="romantico"
-                class="theme-card-option relative rounded-2xl p-2.5 bg-[#FAF7F0] border border-[#E8E2D5] cursor-pointer hover:border-[#BE123C] transition flex flex-col items-center text-center gap-2 group"
-              >
-                <div class="w-full h-16 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center">
-                  <img src="assets/theme-romantico.png" alt="Romântico" class="w-full h-full object-cover">
-                </div>
-                <span class="text-xs font-bold text-[#28302A]">Romântico</span>
-                <span class="theme-check-icon hidden absolute top-1.5 right-1.5 w-4 h-4 bg-[#BE123C] text-white rounded-full flex items-center justify-center text-[9px] shadow-xs">
-                  <i class="fa-solid fa-check"></i>
-                </span>
+                <button 
+                  type="button" 
+                  onclick="ActaApp.switchTab('semana')" 
+                  class="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#FAF7F0] border border-[#E8E2D5] text-[#2F5233] hover:bg-[#EBF3ED] transition flex items-center gap-1 shadow-2xs"
+                >
+                  <span>Ver Grade da Semana</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
               </div>
             </div>
+
+            <!-- Lista Dinâmica das Aulas de Hoje -->
+            <div id="casaTodayList" class="space-y-2.5">
+              <!-- Renderizado dinamicamente via ActaApp.renderCasaTab -->
+            </div>
+          </div>
+
+          <!-- Atalho Sutil para Personalizar Tema Visual -->
+          <div class="p-3.5 bg-[#FAF7F0] rounded-2xl border border-[#CCD8CD] flex items-center justify-between gap-3 text-xs shadow-2xs">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🎨</span>
+              <span class="text-[#667267]">Quer trocar a atmosfera e as cores do seu caderno?</span>
+            </div>
+            <button type="button" onclick="ActaApp.switchTab('configuracoes')" class="font-bold text-[#2F5233] hover:underline flex items-center gap-1 shrink-0">
+              <span>Personalizar Tema</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
           </div>
 
           <!-- Seção: Últimos livros da biblioteca -->

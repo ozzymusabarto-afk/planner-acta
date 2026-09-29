@@ -650,7 +650,106 @@
         statsText.innerHTML = `<strong>${completedReadings}</strong> ${completedReadings === 1 ? 'livro lido' : 'livros lidos'} · <strong>${movies.length}</strong> ${movies.length === 1 ? 'filme em família' : 'filmes em família'}`;
       }
 
-      // Atualiza também os botões de tema visual na Home
+      // Renderiza as Aulas de Hoje no Roteiro Diário da Home
+      const todayTitleEl = document.getElementById('casaTodayTitle');
+      const todaySubtitleEl = document.getElementById('casaTodaySubtitle');
+      const todayListEl = document.getElementById('casaTodayList');
+
+      if (todayListEl) {
+        const dayKeys = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+        const dayTitles = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+        const now = new Date();
+        const dayIndex = now.getDay();
+        const currentDayKey = dayKeys[dayIndex];
+        const currentDayTitle = dayTitles[dayIndex];
+
+        let schedule = ActaStorage.getWeekSchedule() || [];
+        // Se a semana estiver totalmente vazia e a criança ativa tiver ano letivo, auto-gera
+        const totalItems = schedule.reduce((acc, d) => acc + (d.items ? d.items.length : 0), 0);
+        if (totalItems === 0 && activePerson && activePerson.schoolYear && window.ActaCurriculum && typeof window.ActaCurriculum.applyGradeToSchedule === 'function') {
+          schedule = window.ActaCurriculum.applyGradeToSchedule(activePerson.id, activePerson.schoolYear, ['ingles'], false);
+        }
+
+        let todayBlock = schedule.find(d => d.dayKey === currentDayKey);
+        if (!todayBlock && (currentDayKey === 'domingo' || currentDayKey === 'sabado')) {
+          todayBlock = schedule.find(d => d.dayKey === 'segunda') || schedule[0];
+        }
+
+        const childName = activePerson ? activePerson.name : 'Estudante';
+
+        if (todayTitleEl) {
+          todayTitleEl.textContent = `Aulas de Hoje • ${currentDayTitle}`;
+        }
+        if (todaySubtitleEl) {
+          todaySubtitleEl.textContent = `Rotina de estudos para ${childName}`;
+        }
+
+        const items = todayBlock ? (todayBlock.items || []) : [];
+
+        if (items.length === 0) {
+          todayListEl.innerHTML = `
+            <div class="p-6 text-center rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] text-[#667267] space-y-2">
+              <i class="fa-regular fa-sun text-2xl text-[#8E9A8F]"></i>
+              <p class="text-xs font-medium">Nenhuma aula específica programada para hoje.</p>
+              <div class="flex items-center justify-center gap-2 pt-1 flex-wrap">
+                <button type="button" onclick="ActaPlanner.openNewPlanModal(null, '${todayBlock ? todayBlock.dayKey : 'segunda'}')" class="text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#EBF3ED] text-[#2F5233] border border-[#2F5233]/30 hover:bg-[#2F5233] hover:text-white transition shadow-2xs">
+                  + Adicionar Aula Hoje
+                </button>
+                <button type="button" onclick="ActaApp.switchTab('leituras')" class="text-xs font-medium px-3.5 py-1.5 rounded-full bg-white text-[#28302A] border border-[#E8E2D5] hover:bg-[#FAF7F0] transition shadow-2xs">
+                  Ver Leituras Livres
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          todayListEl.innerHTML = items.map((item, itemIdx) => {
+            const meta = (window.ActaPlanner && typeof window.ActaPlanner.getSubjectMeta === 'function') 
+              ? window.ActaPlanner.getSubjectMeta(item.subject) 
+              : { icon: 'fa-book', color: 'text-[#2F5233]', bg: 'bg-[#FAF7F0]' };
+            const isDone = item.status === 'concluido';
+
+            return `
+              <div class="p-3 rounded-2xl border transition flex items-center justify-between gap-3 ${isDone ? 'bg-[#FAFBF9] border-[#2F5233]/30' : 'bg-white border-[#E8E2D5] hover:border-[#2F5233]/40 shadow-2xs'}">
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-8 h-8 rounded-xl ${meta.bg} border border-[#E8E2D5] flex items-center justify-center shrink-0">
+                    <i class="fa-solid ${meta.icon} ${meta.color} text-xs"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs font-bold text-[#28302A] truncate ${isDone ? 'line-through text-[#8E9A8F]' : ''}">${item.subject}</span>
+                      ${isDone ? '<span class="text-[9px] bg-[#EBF3ED] text-[#2F5233] font-bold px-1.5 py-0.2 rounded-full">Feita</span>' : ''}
+                    </div>
+                    <span class="text-[11px] text-[#667267] block truncate ${isDone ? 'line-through text-[#A3ADA4]' : ''}">${item.content}</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button 
+                    type="button"
+                    onclick="if(window.ActaCurriculum){ window.ActaCurriculum.togglePlanItemStatus('${todayBlock.dayKey}', ${itemIdx}); ActaApp.renderCasaTab(); }"
+                    class="text-xs px-2.5 py-1 rounded-full border transition font-semibold flex items-center gap-1 ${isDone ? 'bg-[#EBF3ED] text-[#2F5233] border-[#2F5233]/30' : 'bg-[#FAF7F0] text-[#667267] border-[#E8E2D5] hover:bg-[#EBF3ED] hover:text-[#2F5233]'}"
+                    title="${isDone ? 'Aula concluída! Clique para reabrir' : 'Marcar como feita'}"
+                  >
+                    <i class="fa-solid ${isDone ? 'fa-circle-check text-[#2F5233]' : 'fa-circle text-[#D4CBBF]'} text-[11px]"></i>
+                    <span>${isDone ? 'Feita' : 'Concluir'}</span>
+                  </button>
+
+                  <button 
+                    type="button" 
+                    onclick="ActaApp.openQuickRegisterFromPlan('${item.materialId || ''}', '${encodeURIComponent(item.content)}', '${item.subject}')"
+                    class="text-xs font-bold px-2.5 py-1 rounded-full bg-[#EBF3ED] text-[#2F5233] hover:bg-[#2F5233] hover:text-white transition shadow-2xs"
+                    title="Registrar vivência"
+                  >
+                    Registrar
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // Atualiza também os botões de tema visual se houver
       const currentTheme = ActaStorage.getActiveTheme();
       this.applyTheme(currentTheme);
     },
