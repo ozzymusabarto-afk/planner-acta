@@ -1093,6 +1093,19 @@
             </div>
           </div>
 
+          <!-- Linha 4.5: Virtudes & Bons Hábitos (Opcional - Clique para marcar várias) -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-[#28302A]">
+                Virtudes & Hábitos Observados (opcional - clique para marcar várias)
+              </label>
+              <span class="text-[10px] text-[#2F5233] font-semibold">★ Multiseleção livre</span>
+            </div>
+            <div id="regVirtuesPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
+              <!-- Renderizado dinamicamente via ActaApp.setupRegistrosForm -->
+            </div>
+          </div>
+
           <!-- Linha 5: Observações (Opcional) -->
           <div>
             <label for="regNotesInput" class="block text-xs font-bold text-[#28302A] mb-1">
@@ -1104,6 +1117,19 @@
               placeholder="Ex: Atividade realizada com atenção e boa participação..." 
               class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FDFBF7] focus:bg-white focus:outline-none"
             ></textarea>
+          </div>
+
+          <!-- Virtudes e Bons Hábitos Cultivados na Aula -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-[#28302A]">
+                Virtudes e Bons Hábitos Observados (Opcional - selecione quantos quiser)
+              </label>
+              <span class="text-[10px] text-[#667267]">Multi-seleção</span>
+            </div>
+            <div id="regVirtuesPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
+              <!-- Populado dinamicamente -->
+            </div>
           </div>
 
           <!-- Linha 6: Adicionar Foto (Evidência Opcional) -->
@@ -2048,16 +2074,17 @@
     <!-- Modal: Marcar Período no Calendário da Família -->
     <div id="modalCalendarPeriod" class="hidden bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-[#E8E2D5]">
       <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-2">
-        <h3 class="font-editorial-serif text-base font-bold text-[#28302A]">Marcar Período / Data Especial</h3>
+        <h3 id="calModalTitle" class="font-editorial-serif text-base font-bold text-[#28302A]">Marcar Período / Data Especial</h3>
         <button onclick="ActaApp.closeModal('modalCalendarPeriod')" class="text-[#8E9A8F] hover:text-[#28302A]">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
 
       <form onsubmit="event.preventDefault(); ActaApp.saveCalendarPeriod();" class="space-y-3.5">
+        <input type="hidden" id="calEventId" value="">
         <div>
           <label for="calEventTitle" class="block text-xs font-bold text-[#28302A] mb-1">Nome do Evento / Período</label>
-          <input type="text" id="calEventTitle" placeholder="Ex: Férias em Família, Recesso de Páscoa..." required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+          <input type="text" id="calEventTitle" placeholder="Ex: Férias em Família, Recesso de Páscoa, Aniversário..." required class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -2096,13 +2123,19 @@
           <input type="text" id="calEventNotes" placeholder="Ex: Viagem para casa dos avós, descanso e leitura livre..." class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
         </div>
 
-        <div class="pt-2 flex justify-end gap-2 border-t border-[#E8E2D5]">
-          <button type="button" onclick="ActaApp.closeModal('modalCalendarPeriod')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0]">
-            Cancelar
+        <div class="pt-2 flex justify-between items-center gap-2 border-t border-[#E8E2D5]">
+          <button type="button" id="calModalDeleteBtn" class="hidden text-xs px-3.5 py-2 rounded-full text-rose-600 hover:bg-rose-50 border border-rose-200 transition font-medium flex items-center gap-1.5">
+            <i class="fa-solid fa-trash-can text-[10px]"></i>
+            <span>Excluir</span>
           </button>
-          <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
-            Salvar no Calendário
-          </button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button type="button" onclick="ActaApp.closeModal('modalCalendarPeriod')" class="text-xs px-4 py-2 rounded-full text-[#667267] hover:bg-[#FAF7F0] transition font-medium">
+              Cancelar
+            </button>
+            <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm transition">
+              <span id="calModalSubmitBtn">Salvar no Calendário</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -2308,7 +2341,7 @@
     <div id="modalNewReading" class="hidden bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 space-y-4 shadow-2xl border border-[#E8E2D5]">
       <div class="flex justify-between items-center border-b border-[#E8E2D5] pb-3">
         <div>
-          <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Registrar Leitura & Literatura</h3>
+          <h3 id="modalNewReadingTitle" class="font-editorial-serif text-lg font-bold text-[#28302A]">Registrar Leitura & Literatura</h3>
           <p class="text-xs text-[#667267]">Cultivo do imaginário, histórias exemplares e boas conversas.</p>
         </div>
         <button onclick="ActaApp.closeModal('modalNewReading')" class="text-[#8E9A8F] hover:text-[#28302A]">
@@ -2317,6 +2350,7 @@
       </div>
 
       <form id="formNewReading" onsubmit="event.preventDefault(); ActaCulture.saveNewReading();" class="space-y-4">
+        <input type="hidden" id="editReadingId" value="">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label for="readingChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">Criança Leitora</label>
@@ -2379,7 +2413,7 @@
 
         <!-- Virtudes e Exemplos Morais -->
         <div>
-          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Virtudes e Bons Exemplos Observados</label>
+          <label class="block text-xs font-bold text-[#28302A] mb-1.5">Virtudes e Bons Exemplos Observados (Clique para marcar várias)</label>
           <div id="readingVirtuesPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
             <!-- Populado dinamicamente -->
           </div>
@@ -2412,7 +2446,7 @@
             Cancelar
           </button>
           <button type="submit" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
-            Guardar na Estante
+            <span id="modalNewReadingBtn">Guardar na Estante</span>
           </button>
         </div>
       </form>
@@ -2435,9 +2469,15 @@
         <button id="btnDeleteReading" type="button" class="text-xs text-rose-600 hover:text-rose-800 font-semibold px-3 py-1.5 rounded-full hover:bg-rose-50 transition">
           <i class="fa-solid fa-trash-can mr-1"></i> Excluir registro
         </button>
-        <button type="button" onclick="ActaApp.closeModal('modalViewReading')" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
-          Fechar
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="btnEditReading" type="button" class="text-xs px-4 py-2 rounded-full bg-[#FAF7F0] border border-[#2F5233]/30 text-[#2F5233] font-bold hover:bg-[#EBF3ED] transition flex items-center gap-1.5">
+            <i class="fa-solid fa-pen-to-square text-[11px]"></i>
+            <span>Editar Leitura</span>
+          </button>
+          <button type="button" onclick="ActaApp.closeModal('modalViewReading')" class="hero-btn-green text-xs font-semibold px-5 py-2 rounded-full shadow-sm">
+            Fechar
+          </button>
+        </div>
       </div>
     </div>
 
@@ -2591,16 +2631,16 @@
       </div>
 
       <form onsubmit="event.preventDefault(); ActaCurriculum.handleApplySubmit();" class="space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="space-y-3.5">
           <div>
             <label for="curriculumChildSelect" class="block text-xs font-bold text-[#28302A] mb-1">Criança / Estudante</label>
-            <select id="curriculumChildSelect" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none">
+            <select id="curriculumChildSelect" class="w-full text-xs sm:text-sm p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none shadow-2xs font-medium text-[#28302A]">
               <!-- Populado dinamicamente -->
             </select>
           </div>
           <div>
-            <label for="curriculumGradeSelect" class="block text-xs font-bold text-[#28302A] mb-1">Série / Ciclo Escolar</label>
-            <select id="curriculumGradeSelect" onchange="ActaCurriculum.updateGradePreview(true)" class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-semibold text-[#2F5233]">
+            <label for="curriculumGradeSelect" class="block text-xs font-bold text-[#28302A] mb-1">Série / Ciclo Escolar Sugerido</label>
+            <select id="curriculumGradeSelect" onchange="ActaCurriculum.updateGradePreview(true)" class="w-full text-xs sm:text-sm p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none font-semibold text-[#2F5233] shadow-2xs">
               <!-- Populado dinamicamente -->
             </select>
           </div>
@@ -3195,18 +3235,18 @@
   <script src="js/auth.js?v=20260927_12"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260929_13"></script>
-  <script src="js/materials.js?v=20260927_12"></script>
-  <script src="js/curriculum.js?v=20260927_12"></script>
-  <script src="js/planner.js?v=20260927_12"></script>
-  <script src="js/diagnostic.js?v=20260927_12"></script>
-  <script src="js/calendar.js?v=20260929_13"></script>
-  <script src="js/extras.js?v=20260927_12"></script>
-  <script src="js/records.js?v=20260927_12"></script>
-  <script src="js/culture.js?v=20260927_12"></script>
-  <script src="js/reports.js?v=20260927_12"></script>
-  <script src="js/quotes.js?v=20260927_12"></script>
-  <script src="js/tutorial.js?v=20260927_12"></script>
-  <script src="js/app.js?v=20260929_13"></script>
+  <script src="js/storage.js?v=20260929_15"></script>
+  <script src="js/materials.js?v=20260929_15"></script>
+  <script src="js/curriculum.js?v=20260929_15"></script>
+  <script src="js/planner.js?v=20260929_15"></script>
+  <script src="js/diagnostic.js?v=20260929_15"></script>
+  <script src="js/calendar.js?v=20260929_15"></script>
+  <script src="js/extras.js?v=20260929_15"></script>
+  <script src="js/records.js?v=20260929_15"></script>
+  <script src="js/culture.js?v=20260929_15"></script>
+  <script src="js/reports.js?v=20260929_15"></script>
+  <script src="js/quotes.js?v=20260929_15"></script>
+  <script src="js/tutorial.js?v=20260929_15"></script>
+  <script src="js/app.js?v=20260929_15"></script>
 </body>
 </html>

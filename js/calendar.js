@@ -160,21 +160,35 @@
           <div class="min-h-[75px] sm:min-h-[90px] p-1.5 rounded-xl ${cellBg} ${cellBorder} flex flex-col justify-between hover:border-[#2F5233]/40 transition group">
             <div class="flex justify-between items-start">
               <span class="${numberClass}">${day}</span>
-              ${holiday ? `
-                <span class="text-[9px] bg-[#FBECE8] text-[#A95337] px-1 rounded truncate max-w-[65px]" title="${holiday}">
-                  ${holiday}
-                </span>
-              ` : ''}
+              <div class="flex items-center gap-1">
+                ${holiday ? `
+                  <span class="text-[9px] bg-[#FBECE8] text-[#A95337] px-1 rounded truncate max-w-[65px]" title="${holiday}">
+                    ${holiday}
+                  </span>
+                ` : ''}
+                <button 
+                  type="button" 
+                  onclick="event.stopPropagation(); ActaCalendar.openPeriodModalForDate('${dateStr}')" 
+                  class="w-5 h-5 rounded-full bg-[#FAF7F0] hover:bg-[#2F5233] text-[#8E9A8F] hover:text-white flex items-center justify-center text-[10px] opacity-60 group-hover:opacity-100 transition shadow-2xs" 
+                  title="Adicionar atividade ou período em ${day}/${month + 1}"
+                >
+                  <i class="fa-solid fa-plus text-[9px]"></i>
+                </button>
+              </div>
             </div>
 
-            <!-- Marcadores de Períodos da Família -->
-            <div class="space-y-1 mt-1">
+            <!-- Marcadores de Períodos da Família (Suporta Múltiplas Atividades) -->
+            <div class="space-y-1 mt-1 max-h-[75px] sm:max-h-[85px] overflow-y-auto pr-0.5">
               ${matchingEvents.map(ev => {
                 const conf = this.EVENT_TYPES[ev.type] || this.EVENT_TYPES.especial;
                 return `
-                  <div class="text-[10px] px-1.5 py-0.5 rounded truncate font-medium border ${conf.color}" title="${ev.title}: ${ev.notes || ''}">
-                    <i class="fa-solid ${conf.icon} text-[8px] mr-0.5"></i>
-                    <span>${ev.title}</span>
+                  <div 
+                    onclick="event.stopPropagation(); ActaCalendar.openPeriodModal('${ev.id}')"
+                    class="text-[10px] px-1.5 py-0.5 rounded truncate font-medium border ${conf.color} cursor-pointer hover:brightness-95 hover:shadow-2xs transition flex items-center gap-1" 
+                    title="${ev.title}: ${ev.notes || ''} (Clique para editar)"
+                  >
+                    <i class="fa-solid ${conf.icon} text-[8px] shrink-0"></i>
+                    <span class="truncate">${ev.title}</span>
                   </div>
                 `;
               }).join('')}
@@ -244,14 +258,24 @@
                           <span class="text-[11px] text-[#667267] block">${this.formatDateRange(ev.startDate, ev.endDate)}</span>
                           ${ev.notes ? `<p class="text-[10px] text-[#8E9A8F] italic">${ev.notes}</p>` : ''}
                         </div>
-                        <button 
-                          type="button" 
-                          onclick="ActaCalendar.deletePeriod('${ev.id}')"
-                          class="text-[#8E9A8F] hover:text-[#A95337] text-xs p-1"
-                          title="Remover período"
-                        >
-                          <i class="fa-solid fa-trash-can"></i>
-                        </button>
+                        <div class="flex items-center gap-1 self-start shrink-0">
+                          <button 
+                            type="button" 
+                            onclick="ActaCalendar.openPeriodModal('${ev.id}')"
+                            class="text-[#2F5233] hover:text-[#1F3822] text-xs p-1 rounded hover:bg-[#EBF3ED] transition"
+                            title="Editar período"
+                          >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                          </button>
+                          <button 
+                            type="button" 
+                            onclick="ActaCalendar.deletePeriod('${ev.id}')"
+                            class="text-[#8E9A8F] hover:text-[#A95337] text-xs p-1 rounded hover:bg-rose-50 transition"
+                            title="Remover período"
+                          >
+                            <i class="fa-solid fa-trash-can"></i>
+                          </button>
+                        </div>
                       </div>
                     `;
                   }).join('')}
@@ -315,22 +339,61 @@
       }
     },
 
-    openPeriodModal: function() {
-      if (window.ActaApp && typeof window.ActaApp.openModal === 'function') {
-        const titleEl = document.getElementById('calEventTitle');
-        const startEl = document.getElementById('calEventStart');
-        const endEl = document.getElementById('calEventEnd');
-        const notesEl = document.getElementById('calEventNotes');
+    openPeriodModalForDate: function(dateStr) {
+      this.openPeriodModal(null, dateStr);
+    },
+
+    openPeriodModal: function(eventId, defaultDate) {
+      const storage = window.ActaStorage;
+      const idEl = document.getElementById('calEventId');
+      const titleEl = document.getElementById('calEventTitle');
+      const typeEl = document.getElementById('calEventType');
+      const highlightEl = document.getElementById('calEventHighlight');
+      const startEl = document.getElementById('calEventStart');
+      const endEl = document.getElementById('calEventEnd');
+      const notesEl = document.getElementById('calEventNotes');
+      const modalTitleEl = document.getElementById('calModalTitle');
+      const submitBtnEl = document.getElementById('calModalSubmitBtn');
+      const deleteBtnEl = document.getElementById('calModalDeleteBtn');
+
+      if (eventId && storage) {
+        const events = storage.getCalendarEvents() || [];
+        const ev = events.find(e => e.id === eventId);
+        if (ev) {
+          if (idEl) idEl.value = ev.id;
+          if (titleEl) titleEl.value = ev.title || '';
+          if (typeEl) typeEl.value = ev.type || 'ferias';
+          if (highlightEl) highlightEl.value = ev.highlight ? 'true' : 'false';
+          if (startEl) startEl.value = ev.startDate || '';
+          if (endEl) endEl.value = ev.endDate || ev.startDate || '';
+          if (notesEl) notesEl.value = ev.notes || '';
+          if (modalTitleEl) modalTitleEl.textContent = 'Editar Período / Evento';
+          if (submitBtnEl) submitBtnEl.textContent = 'Salvar Alterações';
+          if (deleteBtnEl) {
+            deleteBtnEl.classList.remove('hidden');
+            deleteBtnEl.onclick = () => this.deletePeriod(ev.id);
+          }
+        }
+      } else {
+        const todayStr = defaultDate || new Date().toISOString().split('T')[0];
+        if (idEl) idEl.value = '';
         if (titleEl) titleEl.value = '';
-        if (startEl) startEl.value = new Date().toISOString().split('T')[0];
-        if (endEl) endEl.value = new Date().toISOString().split('T')[0];
+        if (typeEl) typeEl.value = 'ferias';
+        if (highlightEl) highlightEl.value = 'false';
+        if (startEl) startEl.value = todayStr;
+        if (endEl) endEl.value = todayStr;
         if (notesEl) notesEl.value = '';
+        if (modalTitleEl) modalTitleEl.textContent = 'Marcar Período / Data Especial';
+        if (submitBtnEl) submitBtnEl.textContent = 'Salvar no Calendário';
+        if (deleteBtnEl) deleteBtnEl.classList.add('hidden');
+      }
+
+      if (window.ActaApp && typeof window.ActaApp.openModal === 'function') {
         window.ActaApp.openModal('modalCalendarPeriod');
         return;
       }
       const modal = document.getElementById('modalCalendarPeriod');
-      if (!modal) return;
-      modal.classList.remove('hidden');
+      if (modal) modal.classList.remove('hidden');
     },
 
     savePeriodFromModal: function() {
@@ -339,6 +402,7 @@
         return;
       }
       const storage = window.ActaStorage;
+      const id = (document.getElementById('calEventId') || {}).value || '';
       const title = (document.getElementById('calEventTitle') || {}).value?.trim() || '';
       const type = (document.getElementById('calEventType') || {}).value || 'ferias';
       const startDate = (document.getElementById('calEventStart') || {}).value || '';
@@ -350,13 +414,16 @@
         return;
       }
 
-      storage.saveCalendarEvent({
+      const eventData = {
         title: title,
         type: type,
         startDate: startDate,
         endDate: endDate,
         notes: notes
-      });
+      };
+      if (id) eventData.id = id;
+
+      storage.saveCalendarEvent(eventData);
 
       if (window.ActaApp && typeof window.ActaApp.closeModal === 'function') {
         window.ActaApp.closeModal('modalCalendarPeriod');
@@ -369,7 +436,13 @@
     deletePeriod: function(id) {
       if (confirm('Deseja remover este período do calendário?')) {
         window.ActaStorage.deleteCalendarEvent(id);
+        if (window.ActaApp && typeof window.ActaApp.closeModal === 'function') {
+          window.ActaApp.closeModal('modalCalendarPeriod');
+        }
         this.refresh();
+        if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
+          window.ActaApp.showToast('Período removido com sucesso.');
+        }
       }
     }
   };

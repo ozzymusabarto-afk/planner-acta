@@ -41,11 +41,29 @@
       return { icon: 'fa-book-bookmark', color: 'text-[#2F5233]', bg: 'bg-[#FAF7F0]' };
     },
 
+    getViewMode: function() {
+      try {
+        const saved = localStorage.getItem('acta_semana_view_mode');
+        if (saved === 'detailed' || saved === 'panoramic') return saved;
+      } catch (e) {}
+      return 'panoramic';
+    },
+
+    setViewMode: function(mode) {
+      try {
+        localStorage.setItem('acta_semana_view_mode', mode);
+      } catch (e) {}
+      if (window.ActaApp && typeof window.ActaApp.renderSemanaTab === 'function') {
+        window.ActaApp.renderSemanaTab();
+      }
+    },
+
     /**
      * Renderiza o planejamento semanal organizado em blocos diários
      */
     renderWeekScheduleHTML: function(scheduleData, activePerson) {
       const totalItems = (scheduleData || []).reduce((acc, d) => acc + (d.items ? d.items.length : 0), 0);
+      const currentMode = this.getViewMode();
       let html = '';
 
       if (totalItems === 0) {
@@ -102,7 +120,27 @@
                   <span class="text-[11px] text-[#667267] font-medium">${motivationalMsg}</span>
                 </div>
               </div>
-              <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+              <div class="flex items-center gap-2 self-end sm:self-auto shrink-0 flex-wrap">
+                <!-- Seletor de Modo de Exibição -->
+                <div class="inline-flex rounded-full bg-[#E8E2D5]/70 p-0.5 border border-[#CCD8CD]">
+                  <button 
+                    type="button" 
+                    onclick="ActaPlanner.setViewMode('panoramic')"
+                    class="text-[11px] font-bold px-2.5 py-1 rounded-full transition ${currentMode === 'panoramic' ? 'bg-[#2F5233] text-white shadow-2xs' : 'text-[#667267] hover:text-[#28302A]'}"
+                    title="Visão geral de segunda a sexta lado a lado"
+                  >
+                    <i class="fa-solid fa-table-columns text-[10px] mr-1"></i>Visão Geral
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="ActaPlanner.setViewMode('detailed')"
+                    class="text-[11px] font-bold px-2.5 py-1 rounded-full transition ${currentMode === 'detailed' ? 'bg-[#2F5233] text-white shadow-2xs' : 'text-[#667267] hover:text-[#28302A]'}"
+                    title="Visão detalhada em lista"
+                  >
+                    <i class="fa-solid fa-list-check text-[10px] mr-1"></i>Roteiro Detalhado
+                  </button>
+                </div>
+
                 <button 
                   type="button" 
                   onclick="if(window.ActaCurriculum) ActaCurriculum.openCurriculumModal('${activePerson ? activePerson.id : ''}')"
@@ -149,11 +187,16 @@
         `;
       }
 
+      // Se o modo for Panorâmico (5 dias em colunas)
+      if (currentMode === 'panoramic') {
+        return html + this.renderPanoramicWeekGrid(scheduleData, activePerson);
+      }
+
       html += '<div class="space-y-4">';
 
       scheduleData.forEach(day => {
         html += `
-          <div class="planner-card overflow-hidden bg-white border border-[#E8E2D5] shadow-xs">
+          <div id="day-card-${day.dayKey}" class="planner-card overflow-hidden bg-white border border-[#E8E2D5] shadow-xs transition-all duration-300">
             <!-- Cabeçalho do Dia com Marcador Temático -->
             <div class="bg-[#FDFBF7] px-4 py-2.5 border-b border-[#E8E2D5] flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -257,6 +300,136 @@
             </div>
           `;
         });
+
+        html += `
+            </div>
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      return html;
+    },
+
+    /**
+     * Visão Geral Semanal Panorâmica (5 Colunas Lado a Lado)
+     * Proporciona clareza imediata sem rolagem excessiva.
+     */
+    renderPanoramicWeekGrid: function(scheduleData, activePerson) {
+      if (!scheduleData || scheduleData.length === 0) return '';
+
+      let html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5 items-start">';
+
+      scheduleData.forEach(day => {
+        const totalDayItems = (day.items || []).length;
+        const completedDayItems = (day.items || []).filter(i => i.status === 'concluido').length;
+        const allDone = totalDayItems > 0 && totalDayItems === completedDayItems;
+
+        html += `
+          <div id="day-col-${day.dayKey}" class="planner-card overflow-hidden bg-white border border-[#E8E2D5] rounded-2xl shadow-2xs transition-all duration-300 flex flex-col min-h-[380px]">
+            <!-- Cabeçalho da Coluna do Dia -->
+            <div class="px-3.5 py-2.5 ${allDone ? 'bg-[#EBF3ED]' : 'bg-[#FDFBF7]'} border-b border-[#E8E2D5] flex items-center justify-between gap-1">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full ${allDone ? 'bg-[#2F5233]' : 'bg-[#A95337]'}"></span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-[#28302A]">${day.dayTitle.split('-')[0]}</span>
+                </div>
+                ${day.dateLabel ? `<span class="text-[10px] text-[#2F5233] font-bold font-mono">dia ${day.dateLabel}</span>` : ''}
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${allDone ? 'bg-[#2F5233] text-white' : 'bg-[#FAF7F0] text-[#667267] border border-[#E8E2D5]'}">
+                  ${completedDayItems}/${totalDayItems}
+                </span>
+                <button 
+                  type="button" 
+                  onclick="ActaPlanner.openNewPlanModal(null, '${day.dayKey}')" 
+                  class="w-6 h-6 rounded-full bg-[#EBF3ED] text-[#2F5233] hover:bg-[#2F5233] hover:text-white transition flex items-center justify-center text-[10px] shadow-2xs"
+                  title="Adicionar aula neste dia"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Lista de Aulas Compactas em Coluna -->
+            <div class="p-2.5 space-y-2.5 flex-1">
+        `;
+
+        if (!day.items || day.items.length === 0) {
+          html += `
+            <div class="p-6 text-center text-[#8E9A8F] text-xs font-medium border-2 border-dashed border-[#E8E2D5] rounded-xl my-4">
+              <i class="fa-regular fa-sun text-lg mb-1 block text-[#D4CBBF]"></i>
+              Dia livre
+            </div>
+          `;
+        } else {
+          day.items.forEach((item, itemIdx) => {
+            const meta = this.getSubjectMeta(item.subject);
+            const isDone = item.status === 'concluido';
+
+            html += `
+              <div class="p-2.5 rounded-xl border transition-all ${isDone ? 'bg-[#F4F8F5] border-[#2F5233]/30 shadow-2xs' : 'bg-white border-[#E8E2D5] hover:border-[#2F5233]/40 shadow-xs'}">
+                <div class="flex items-start justify-between gap-1.5">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <div class="w-6 h-6 rounded-md ${meta.bg} border border-[#E8E2D5] flex items-center justify-center shrink-0">
+                      <i class="fa-solid ${meta.icon} ${meta.color} text-[10px]"></i>
+                    </div>
+                    <span class="text-xs font-bold text-[#28302A] truncate ${isDone ? 'line-through text-[#8E9A8F]' : ''}" title="${item.subject}">
+                      ${item.subject}
+                    </span>
+                  </div>
+                  <!-- Botão 1-Clique Check/Uncheck -->
+                  <button 
+                    type="button"
+                    onclick="if(window.ActaCurriculum){ window.ActaCurriculum.togglePlanItemStatus('${day.dayKey}', ${itemIdx}); if(window.ActaApp) window.ActaApp.renderSemanaTab(); }"
+                    class="shrink-0 p-1 text-xs transition ${isDone ? 'text-[#2F5233]' : 'text-[#D4CBBF] hover:text-[#2F5233]'}"
+                    title="${isDone ? 'Concluída! Clique para reabrir' : 'Marcar como concluída'}"
+                  >
+                    <i class="fa-solid ${isDone ? 'fa-circle-check text-sm' : 'fa-circle text-xs'}"></i>
+                  </button>
+                </div>
+
+                <p class="text-[11px] text-[#667267] mt-1 line-clamp-2 ${isDone ? 'line-through text-[#A3ADA4]' : ''}" title="${item.content}">
+                  ${item.content}
+                </p>
+
+                <div class="mt-2 pt-2 border-t border-[#F0ECE4] flex items-center justify-between gap-1">
+                  <!-- Mover / Trocar -->
+                  <button 
+                    type="button" 
+                    onclick="ActaPlanner.openRescheduleModal('${day.dayKey}', ${itemIdx})"
+                    class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#FAF7F0] text-[#1E3A5F] hover:bg-[#E9EFF6] border border-[#CCD8CD] transition flex items-center gap-1"
+                    title="Remanejar ou trocar com outro dia"
+                  >
+                    <i class="fa-solid fa-arrows-split-up-and-left text-[9px]"></i>
+                    <span>Mover</span>
+                  </button>
+
+                  <div class="flex items-center gap-1">
+                    <!-- Registrar -->
+                    <button 
+                      type="button" 
+                      onclick="ActaApp.openQuickRegisterFromPlan('${item.materialId || ''}', '${encodeURIComponent(item.content)}', '${item.subject}')"
+                      class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#EBF3ED] text-[#2F5233] hover:bg-[#2F5233] hover:text-white transition"
+                      title="Registrar vivência"
+                    >
+                      Registrar
+                    </button>
+                    <!-- Excluir -->
+                    <button 
+                      type="button" 
+                      onclick="ActaPlanner.deletePlanItem('${day.dayKey}', ${itemIdx})"
+                      class="text-[10px] p-1 text-[#8E9A8F] hover:text-[#A95337] transition"
+                      title="Excluir aula"
+                    >
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        }
 
         html += `
             </div>
@@ -403,6 +576,17 @@
 
     executeMovePlanItem: function(fromDayKey, itemIndex, toDayKey) {
       if (window.ActaCurriculum && typeof window.ActaCurriculum.reschedulePlanItem === 'function') {
+        const storage = window.ActaStorage;
+        let subjectName = 'Aula';
+        let destTitle = toDayKey;
+        if (storage) {
+          const schedule = storage.getWeekSchedule();
+          const fromDay = schedule ? schedule.find(d => d.dayKey === fromDayKey) : null;
+          const toDay = schedule ? schedule.find(d => d.dayKey === toDayKey) : null;
+          if (fromDay && fromDay.items[itemIndex]) subjectName = fromDay.items[itemIndex].subject;
+          if (toDay) destTitle = toDay.dayTitle;
+        }
+
         const ok = window.ActaCurriculum.reschedulePlanItem(fromDayKey, itemIndex, toDayKey);
         if (ok) {
           this.closeRescheduleModal();
@@ -410,8 +594,19 @@
             window.ActaApp.renderSemanaTab();
           }
           if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
-            window.ActaApp.showToast('Aula remanejada com sucesso!');
+            window.ActaApp.showToast(`✅ "${subjectName}" movida para ${destTitle}!`);
           }
+          // Destaque visual luminoso para a mãe ver imediatamente para onde foi
+          setTimeout(() => {
+            const targetEl = document.getElementById(`day-col-${toDayKey}`) || document.getElementById(`day-card-${toDayKey}`);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              targetEl.classList.add('ring-4', 'ring-[#2F5233]', 'bg-[#EBF3ED]/60');
+              setTimeout(() => {
+                targetEl.classList.remove('ring-4', 'ring-[#2F5233]', 'bg-[#EBF3ED]/60');
+              }, 2500);
+            }
+          }, 150);
         }
       }
     },
@@ -474,6 +669,16 @@
 
     executeSwapPlanItems: function(fromDayKey, fromItemIndex, toDayKey, toItemIndex) {
       if (window.ActaCurriculum && typeof window.ActaCurriculum.swapPlanItems === 'function') {
+        const storage = window.ActaStorage;
+        let fromDayTitle = fromDayKey, toDayTitle = toDayKey;
+        if (storage) {
+          const schedule = storage.getWeekSchedule();
+          const f = schedule ? schedule.find(d => d.dayKey === fromDayKey) : null;
+          const t = schedule ? schedule.find(d => d.dayKey === toDayKey) : null;
+          if (f) fromDayTitle = f.dayTitle;
+          if (t) toDayTitle = t.dayTitle;
+        }
+
         const ok = window.ActaCurriculum.swapPlanItems(fromDayKey, fromItemIndex, toDayKey, toItemIndex);
         if (ok) {
           this.closeRescheduleModal();
@@ -481,8 +686,18 @@
             window.ActaApp.renderSemanaTab();
           }
           if (window.ActaApp && typeof window.ActaApp.showToast === 'function') {
-            window.ActaApp.showToast('Aulas trocadas com sucesso! Carga horária mantida em perfeito equilíbrio.');
+            window.ActaApp.showToast(`✅ Aulas permutadas entre ${fromDayTitle} e ${toDayTitle}! Carga horária mantida em perfeito equilíbrio.`);
           }
+          setTimeout(() => {
+            const targetEl = document.getElementById(`day-col-${toDayKey}`) || document.getElementById(`day-card-${toDayKey}`);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              targetEl.classList.add('ring-4', 'ring-[#2F5233]', 'bg-[#EBF3ED]/60');
+              setTimeout(() => {
+                targetEl.classList.remove('ring-4', 'ring-[#2F5233]', 'bg-[#EBF3ED]/60');
+              }, 2500);
+            }
+          }, 150);
         }
       }
     },

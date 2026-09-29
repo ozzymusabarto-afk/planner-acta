@@ -854,7 +854,7 @@
                 <div class="flex items-center gap-2 flex-wrap">
                   <h3 class="font-editorial-title text-base font-bold text-[#28302A]">${p.name}</h3>
                   ${isActive ? '<span class="text-[10px] bg-[#EBF3ED] text-[#2F5233] font-bold px-2.5 py-0.5 rounded-full">Ativo</span>' : ''}
-                  ${p.schoolYearLabel ? `<span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#2F5233] border border-[#2F5233]/20 px-2.5 py-0.5 rounded-full">🎓 ${p.schoolYearLabel}</span>` : ''}
+                  ${p.schoolYearLabel ? `<span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#2F5233] border border-[#2F5233]/20 px-2.5 py-0.5 rounded-full break-words whitespace-normal inline-flex items-center">🎓 ${p.schoolYearLabel}</span>` : ''}
                   ${ageLabel ? `<span class="text-[10px] font-semibold bg-[#FAF7F0] text-[#667267] border border-[#E8E2D5] px-2 py-0.5 rounded-full">🎂 ${ageLabel}</span>` : ''}
                 </div>
                 ${p.notes ? `<p class="text-[11px] text-[#8E9A8F] italic mt-0.5">"${p.notes}"</p>` : ''}
@@ -1180,10 +1180,51 @@
         `).join('');
       }
 
+      // Virtudes & Bons Hábitos
+      const virtuesContainer = document.getElementById('regVirtuesPills');
+      if (virtuesContainer) {
+        const virtuesList = [
+          'Atenção', 'Diligência', 'Ordem', 'Paciência', 
+          'Perseverança', 'Respeito', 'Amor ao Estudo', 'Fortaleza', 
+          'Generosidade', 'Obediência', 'Curiosidade', 'Capricho'
+        ];
+        virtuesContainer.innerHTML = virtuesList.map(v => `
+          <button 
+            type="button" 
+            onclick="ActaApp.toggleRegVirtuePill(this)" 
+            data-value="${v}"
+            class="reg-virtue-pill text-[11px] px-2.5 py-1 rounded-full border border-[#E8E2D5] bg-[#FAF7F0] text-[#667267] hover:border-[#2F5233]/40 transition-all select-none flex items-center gap-1 font-medium"
+          >
+            <span>★</span>
+            <span>${v}</span>
+          </button>
+        `).join('');
+      }
+
       // Input de foto de evidência
       const fileInput = document.getElementById('regEvidencePhotoInput');
       if (fileInput) {
         fileInput.addEventListener('change', (e) => this.handleEvidencePhotoUpload(e));
+      }
+    },
+
+    toggleRegVirtuePill: function(btn) {
+      if (!btn) return;
+      const isActive = btn.classList.contains('acta-pill-active');
+      if (isActive) {
+        btn.classList.remove('acta-pill-active', 'bg-[#2F5233]', 'text-white', 'border-[#2F5233]', 'shadow-xs', 'font-bold');
+        btn.classList.add('bg-[#FAF7F0]', 'text-[#667267]', 'border-[#E8E2D5]', 'font-medium');
+        const check = btn.querySelector('.pill-check');
+        if (check) check.remove();
+      } else {
+        btn.classList.add('acta-pill-active', 'bg-[#2F5233]', 'text-white', 'border-[#2F5233]', 'shadow-xs', 'font-bold');
+        btn.classList.remove('bg-[#FAF7F0]', 'text-[#667267]', 'border-[#E8E2D5]', 'font-medium');
+        if (!btn.querySelector('.pill-check')) {
+          const check = document.createElement('span');
+          check.className = 'pill-check text-[10px] font-bold mr-0.5';
+          check.textContent = '✓';
+          btn.prepend(check);
+        }
       }
     },
 
@@ -1305,6 +1346,8 @@
       this.onActivityCheckboxesChanged();
       const narrative = ActaRecords.generateNarrative(subject, content, this.selectedActivities, this.selectedResult);
 
+      const selectedVirtues = Array.from(document.querySelectorAll('#regVirtuesPills .acta-pill-active')).map(b => b.dataset.value);
+
       const record = {
         personId: person ? person.id : 'p1',
         personName: person ? person.name : 'João',
@@ -1313,6 +1356,7 @@
         contentTitle: content,
         activityType: this.selectedActivities.join(' + ') || 'Estudo',
         result: this.selectedResult || 'compreendeu',
+        virtues: selectedVirtues,
         date: new Date().toISOString().split('T')[0],
         formattedDate: new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' }),
         autoSummary: narrative,
@@ -1325,6 +1369,7 @@
       // Limpar formulário
       if (contentInput) contentInput.value = '';
       if (notesInput) notesInput.value = '';
+      document.querySelectorAll('#regVirtuesPills .acta-pill-active').forEach(b => this.toggleRegVirtuePill(b));
       this.removeEvidencePhoto();
 
       // Atualizar visualizações
@@ -1496,6 +1541,7 @@
     },
 
     saveCalendarPeriod: function() {
+      const id = (document.getElementById('calEventId') || {}).value || '';
       const title = document.getElementById('calEventTitle').value.trim();
       const type = document.getElementById('calEventType').value;
       const highlight = document.getElementById('calEventHighlight').value === 'true';
@@ -1503,19 +1549,25 @@
       const endDate = document.getElementById('calEventEnd').value;
       const notes = document.getElementById('calEventNotes').value.trim();
 
-      if (!title || !startDate || !endDate) return;
+      if (!title || !startDate || !endDate) {
+        alert('Por favor, informe o título e as datas de início e fim.');
+        return;
+      }
 
-      ActaStorage.saveCalendarEvent({
+      const eventData = {
         title,
         type,
         startDate,
         endDate,
         highlight,
         notes
-      });
+      };
+      if (id) eventData.id = id;
+
+      ActaStorage.saveCalendarEvent(eventData);
 
       this.closeModal('modalCalendarPeriod');
-      this.showToast('✅ Período marcado no calendário!');
+      this.showToast(id ? '✅ Período atualizado com sucesso!' : '✅ Período marcado no calendário!');
       this.renderCalendarioTab();
     },
 
