@@ -97,15 +97,6 @@
                   <i class="fa-solid fa-chevron-right text-[11px]"></i>
                 </button>
               </div>
-
-              <button 
-                type="button" 
-                onclick="ActaCalendar.openPeriodModal()"
-                class="hero-btn-green text-xs font-semibold px-4 py-2 rounded-full shadow-xs flex items-center gap-1.5 shrink-0"
-              >
-                <i class="fa-solid fa-plus text-[10px]"></i>
-                <span>Marcar período</span>
-              </button>
             </div>
           </div>
 
@@ -318,22 +309,34 @@
     },
 
     openPeriodModal: function() {
+      if (window.ActaApp && typeof window.ActaApp.openModal === 'function') {
+        const titleEl = document.getElementById('calEventTitle');
+        const startEl = document.getElementById('calEventStart');
+        const endEl = document.getElementById('calEventEnd');
+        const notesEl = document.getElementById('calEventNotes');
+        if (titleEl) titleEl.value = '';
+        if (startEl) startEl.value = new Date().toISOString().split('T')[0];
+        if (endEl) endEl.value = new Date().toISOString().split('T')[0];
+        if (notesEl) notesEl.value = '';
+        window.ActaApp.openModal('modalCalendarPeriod');
+        return;
+      }
       const modal = document.getElementById('modalCalendarPeriod');
       if (!modal) return;
-      document.getElementById('calPeriodTitle').value = '';
-      document.getElementById('calPeriodStartDate').value = new Date().toISOString().split('T')[0];
-      document.getElementById('calPeriodEndDate').value = '';
-      document.getElementById('calPeriodNotes').value = '';
       modal.classList.remove('hidden');
     },
 
     savePeriodFromModal: function() {
+      if (window.ActaApp && typeof window.ActaApp.saveCalendarPeriod === 'function') {
+        window.ActaApp.saveCalendarPeriod();
+        return;
+      }
       const storage = window.ActaStorage;
-      const title = document.getElementById('calPeriodTitle').value.trim();
-      const type = document.getElementById('calPeriodType').value || 'ferias';
-      const startDate = document.getElementById('calPeriodStartDate').value;
-      const endDate = document.getElementById('calPeriodEndDate').value || startDate;
-      const notes = document.getElementById('calPeriodNotes').value.trim();
+      const title = (document.getElementById('calEventTitle') || {}).value?.trim() || '';
+      const type = (document.getElementById('calEventType') || {}).value || 'ferias';
+      const startDate = (document.getElementById('calEventStart') || {}).value || '';
+      const endDate = (document.getElementById('calEventEnd') || {}).value || startDate;
+      const notes = (document.getElementById('calEventNotes') || {}).value?.trim() || '';
 
       if (!title || !startDate) {
         alert('Por favor, informe o título e a data de início do período.');
@@ -348,7 +351,11 @@
         notes: notes
       });
 
-      document.getElementById('modalCalendarPeriod').classList.add('hidden');
+      if (window.ActaApp && typeof window.ActaApp.closeModal === 'function') {
+        window.ActaApp.closeModal('modalCalendarPeriod');
+      } else {
+        document.getElementById('modalCalendarPeriod')?.classList.add('hidden');
+      }
       this.refresh();
     },
 
