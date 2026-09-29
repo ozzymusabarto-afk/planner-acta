@@ -609,28 +609,27 @@
         return `
           <div 
             onclick="ActaApp.selectChild('${p.id}')"
-            class="flex items-center justify-between p-3 sm:p-3.5 rounded-2xl cursor-pointer transition border ${cardBgClass} ${isActive ? 'ring-2 ring-[#2F5233] shadow-sm' : 'hover:shadow-sm'}"
-            style="min-width: 200px;"
+            class="shrink-0 flex items-center justify-between p-3 sm:px-4 sm:py-3.5 rounded-2xl cursor-pointer transition border ${cardBgClass} ${isActive ? 'ring-2 ring-[#2F5233] shadow-sm' : 'hover:shadow-sm'} min-w-[220px] sm:min-w-[240px]"
           >
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-full overflow-hidden border border-white shadow-xs shrink-0 bg-white">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-full overflow-hidden border-2 ${isActive ? 'border-[#2F5233]' : 'border-white'} shadow-xs shrink-0 bg-white">
                 ${ActaStorage.renderAvatarHTML(p.avatar, 'w-full h-full object-cover', p.name)}
               </div>
-              <div class="text-left">
-                <div class="flex items-center gap-2">
-                  <span class="text-base font-bold text-[#28302A] leading-tight">${p.name}</span>
-                  ${isActive ? '<span class="text-[9px] bg-[#2F5233] text-white font-bold px-1.5 py-0.5 rounded-full">Ativo</span>' : ''}
+              <div class="text-left min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-base font-bold text-[#28302A] leading-tight truncate">${p.name}</span>
+                  ${isActive ? '<span class="text-[10px] bg-[#2F5233] text-white font-bold px-2 py-0.5 rounded-full shrink-0">Ativo</span>' : ''}
                 </div>
+                <span class="text-[11px] text-[#667267] block mt-0.5 truncate">${p.schoolYearLabel ? p.schoolYearLabel.split('(')[0].trim() : 'Estudante'}</span>
               </div>
             </div>
-            <i class="fa-solid fa-chevron-right text-xs text-[#8E9A8F] ml-2"></i>
+            ${isActive ? '<i class="fa-solid fa-circle-check text-sm text-[#2F5233] ml-3 shrink-0"></i>' : '<i class="fa-solid fa-chevron-right text-xs text-[#8E9A8F] ml-3 shrink-0"></i>'}
           </div>
         `;
       }).join('') + `
         <div 
           onclick="ActaApp.openModal('modalNewPerson')"
-          class="card-child-add flex items-center gap-3 p-3 sm:p-3.5 rounded-2xl cursor-pointer transition text-[#667267] hover:text-[#28302A]"
-          style="min-width: 200px;"
+          class="card-child-add shrink-0 flex items-center gap-3 p-3 sm:px-4 sm:py-3.5 rounded-2xl cursor-pointer transition text-[#667267] hover:text-[#28302A] min-w-[200px]"
         >
           <div class="w-11 h-11 rounded-full border-2 border-dashed border-[#8E9A8F] flex items-center justify-center text-base text-[#8E9A8F] shrink-0">
             <i class="fa-solid fa-plus"></i>
