@@ -1536,11 +1536,13 @@
       const people = ActaStorage.getPeople();
       const activePerson = ActaStorage.getActivePerson();
 
-      if (childSelect && (childSelect.options.length <= 1 || childSelect.dataset.populated !== 'true')) {
+      if (childSelect) {
+        const currVal = childSelect.value;
+        const exists = people.some(p => p.id === currVal);
+        const selectedId = exists ? currVal : (activePerson ? activePerson.id : (people[0] ? people[0].id : ''));
         childSelect.innerHTML = people.map(p => `
-          <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>${p.name}</option>
+          <option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.name}</option>
         `).join('');
-        childSelect.dataset.populated = 'true';
       }
 
       const childId = childSelect ? childSelect.value : (activePerson ? activePerson.id : 'p1');
@@ -1689,11 +1691,13 @@
       const people = ActaStorage.getPeople();
       const activePerson = ActaStorage.getActivePerson();
 
-      if (childSelect && (childSelect.options.length <= 1 || childSelect.dataset.populated !== 'true')) {
+      if (childSelect) {
+        const currVal = childSelect.value;
+        const exists = people.some(p => p.id === currVal);
+        const selectedId = exists ? currVal : (activePerson ? activePerson.id : (people[0] ? people[0].id : ''));
         childSelect.innerHTML = people.map(p => `
-          <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>${p.name}</option>
+          <option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.name}</option>
         `).join('');
-        childSelect.dataset.populated = 'true';
       }
 
       const childId = childSelect ? childSelect.value : (activePerson ? activePerson.id : 'p1');
@@ -1765,11 +1769,13 @@
       const people = ActaStorage.getPeople();
       const activePerson = ActaStorage.getActivePerson();
 
-      if (childSelect && (childSelect.options.length <= 1 || childSelect.dataset.populated !== 'true')) {
+      if (childSelect) {
+        const currVal = childSelect.value;
+        const exists = people.some(p => p.id === currVal);
+        const selectedId = exists ? currVal : (activePerson ? activePerson.id : (people[0] ? people[0].id : ''));
         childSelect.innerHTML = people.map(p => `
-          <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>${p.name}</option>
+          <option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.name}</option>
         `).join('');
-        childSelect.dataset.populated = 'true';
       }
 
       const childId = childSelect ? childSelect.value : (activePerson ? activePerson.id : 'p1');
@@ -1813,11 +1819,13 @@
 
       if (!container) return;
 
-      if (childSelect && (childSelect.options.length <= 1 || childSelect.dataset.populated !== 'true')) {
+      if (childSelect) {
+        const currVal = childSelect.value;
+        const exists = people.some(p => p.id === currVal);
+        const selectedId = exists ? currVal : (activePerson ? activePerson.id : (people[0] ? people[0].id : ''));
         childSelect.innerHTML = people.map(p => `
-          <option value="${p.id}" ${activePerson && activePerson.id === p.id ? 'selected' : ''}>${p.name}</option>
+          <option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.name}</option>
         `).join('');
-        childSelect.dataset.populated = 'true';
       }
 
       const selectedChildId = childSelect ? childSelect.value : (activePerson ? activePerson.id : 'p1');
