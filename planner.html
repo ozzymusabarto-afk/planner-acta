@@ -1629,42 +1629,37 @@
       <!-- SEÇÃO: ÁREA DA ADMINISTRADORA & CENTRAL DE SUPORTE -->
       <div class="planner-divider"></div>
 
-      <div class="planner-card p-6 bg-gradient-to-r from-[#FFFDF9] to-[#FAF7F0] border border-[#8A5A2B]/35 rounded-3xl space-y-4 shadow-xs">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E8E2D5] pb-4">
+      <!-- Central de Ajuda & Suporte à Família (Visão do Cliente) -->
+      <div class="planner-card p-6 bg-white border border-[#E8E2D5] rounded-3xl space-y-4 shadow-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-[#8A5A2B] text-white flex items-center justify-center text-xl shrink-0 shadow-2xs">
-              <i class="fa-solid fa-crown"></i>
+            <div class="w-11 h-11 rounded-2xl bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center text-xl shrink-0 shadow-2xs">
+              <i class="fa-solid fa-headset"></i>
             </div>
             <div>
-              <div class="flex items-center gap-2">
-                <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Painel da Administradora & Gestão ACTA</h3>
-                <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#EBF3ED] text-[#2F5233] font-bold border border-[#2F5233]/20">Área Restrita (PIN)</span>
-              </div>
-              <p class="text-xs text-[#667267]">Acesso exclusivo para controle de vendas, rateio 50%/50%, gerador de chaves de ativação e atendimento de suporte local.</p>
+              <h3 class="font-editorial-serif text-lg font-bold text-[#28302A]">Central de Ajuda & Atendimento à Família</h3>
+              <p class="text-xs text-[#667267]">Dúvidas pedagógicas, sugestões ou suporte no uso do Planner? Nossa equipe está à sua disposição.</p>
             </div>
           </div>
-          <div class="flex items-center gap-2 self-start sm:self-auto">
+          <div class="flex items-center gap-2 self-start sm:self-auto shrink-0">
             <button 
               type="button" 
               onclick="ActaApp.openSupportModal()" 
-              class="px-4 py-2.5 rounded-full text-xs font-semibold text-[#2F5233] bg-[#EBF3ED] hover:bg-[#dfeee2] transition flex items-center gap-1.5"
+              class="hero-btn-green px-5 py-2.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-xs transition"
             >
-              <i class="fa-solid fa-headset"></i>
-              <span>Abrir Suporte</span>
+              <i class="fa-solid fa-paper-plane text-[11px]"></i>
+              <span>Enviar Mensagem ao Suporte</span>
             </button>
             <button 
               type="button" 
               onclick="ActaApp.openAdminPinModal()" 
-              class="hero-btn-green px-5 py-2.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-xs cursor-pointer"
+              class="w-9 h-9 rounded-full bg-[#FAF7F0] hover:bg-[#E8E2D5] text-[#8E9A8F] hover:text-[#28302A] flex items-center justify-center transition border border-[#E8E2D5]"
+              title="Acesso da Coordenação (PIN)"
             >
-              <i class="fa-solid fa-lock"></i>
-              <span>Acessar Painel (PIN)</span>
+              <i class="fa-solid fa-lock text-xs"></i>
             </button>
           </div>
         </div>
-        <p class="text-[11px] text-[#8E9A8F]">
-          🔒 <strong>Privacidade Preservada:</strong> Os diários, notas, planejamentos e fotos íntimas das famílias não são expostos. Apenas métricas de vendas e mensagens enviadas ao suporte.
-        </p>
       </div>
 
     </div>
@@ -3200,18 +3195,18 @@
   <script src="js/auth.js?v=20260927_12"></script>
 
   <!-- Scripts do Planner ACTA em Ordem de Dependência -->
-  <script src="js/storage.js?v=20260929_12"></script>
+  <script src="js/storage.js?v=20260929_13"></script>
   <script src="js/materials.js?v=20260927_12"></script>
   <script src="js/curriculum.js?v=20260927_12"></script>
   <script src="js/planner.js?v=20260927_12"></script>
   <script src="js/diagnostic.js?v=20260927_12"></script>
-  <script src="js/calendar.js?v=20260929_12"></script>
+  <script src="js/calendar.js?v=20260929_13"></script>
   <script src="js/extras.js?v=20260927_12"></script>
   <script src="js/records.js?v=20260927_12"></script>
   <script src="js/culture.js?v=20260927_12"></script>
   <script src="js/reports.js?v=20260927_12"></script>
   <script src="js/quotes.js?v=20260927_12"></script>
   <script src="js/tutorial.js?v=20260927_12"></script>
-  <script src="js/app.js?v=20260929_12"></script>
+  <script src="js/app.js?v=20260929_13"></script>
 </body>
 </html>
