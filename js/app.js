@@ -1584,6 +1584,10 @@
     },
 
     deleteEvaluation: function(id) {
+      if (window.ActaDiagnostic && typeof window.ActaDiagnostic.deleteEvaluationPrompt === 'function') {
+        window.ActaDiagnostic.deleteEvaluationPrompt(id);
+        return;
+      }
       if (confirm('Deseja excluir esta avaliação diagnóstica?')) {
         ActaStorage.deleteEvaluation(id);
         this.renderAvaliacoesTab();
@@ -2093,6 +2097,12 @@
         } else if (modalId === 'modalNewPerson') {
           this.renderAvatarPicker();
         } else if (modalId === 'modalDiagnosticEval') {
+          if (window.ActaDiagnostic && typeof window.ActaDiagnostic.openNewEvaluationModal === 'function') {
+            const childFilter = document.getElementById('evalChildFilter');
+            const targetChildId = childFilter ? childFilter.value : (activePerson ? activePerson.id : '');
+            window.ActaDiagnostic.openNewEvaluationModal(targetChildId);
+            return;
+          }
           const childSel = document.getElementById('diagEvalChildSelect');
           if (childSel) {
             childSel.innerHTML = people.map(p => `

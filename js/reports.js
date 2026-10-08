@@ -140,26 +140,58 @@
             </h3>
 
             ${latestEval ? `
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="p-4 bg-[#FDFBF7] rounded-xl border border-[#E8E2D5] space-y-2">
-                  <h4 class="text-xs font-bold text-[#2F5233] flex items-center justify-between">
-                    <span>Pontos Fortes & Consolidados</span>
-                    <span class="text-[10px] font-normal text-[#667267]">Ref: ${latestEval.date ? new Date(latestEval.date + 'T12:00:00').toLocaleDateString('pt-BR') : 'Recente'}</span>
-                  </h4>
-                  <p class="text-xs text-[#28302A] leading-relaxed">
-                    ${latestEval.summaryStrengths || 'Demonstra excelente prontidão, interesse vivo e boa capacidade de atenção.'}
-                  </p>
+              ${latestEval.schemaVersion === 2 ? `
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#CCD8CD] space-y-1.5">
+                    <h4 class="text-xs font-bold text-[#2F5233] flex items-center justify-between">
+                      <span class="flex items-center gap-1.5"><i class="fa-solid fa-seedling text-[10px]"></i> O que já está firme</span>
+                      <span class="text-[10px] font-normal text-[#667267]">Ref: ${latestEval.date ? new Date(latestEval.date + 'T12:00:00').toLocaleDateString('pt-BR') : 'Recente'}</span>
+                    </h4>
+                    <p class="text-xs text-[#28302A] leading-relaxed">
+                      ${latestEval.qualitativeSynthesis?.firm || latestEval.summaryStrengths || 'Demonstra excelente prontidão e interesse vivo.'}
+                    </p>
+                  </div>
+                  <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#E8C4B8] space-y-1.5">
+                    <h4 class="text-xs font-bold text-[#A95337] flex items-center justify-between">
+                      <span class="flex items-center gap-1.5"><i class="fa-solid fa-water text-[10px]"></i> A fortalecer agora</span>
+                      <span class="text-[10px] font-normal text-[#667267]">Foco</span>
+                    </h4>
+                    <p class="text-xs text-[#28302A] leading-relaxed">
+                      ${latestEval.qualitativeSynthesis?.strengthen || latestEval.summaryRetomar || 'Constância e apoio próximo nas novas descobertas.'}
+                    </p>
+                  </div>
+                  <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#B8D3DD] space-y-1.5">
+                    <h4 class="text-xs font-bold text-[#3D6B78] flex items-center justify-between">
+                      <span class="flex items-center gap-1.5"><i class="fa-solid fa-compass text-[10px]"></i> Próximo passo</span>
+                      <span class="text-[10px] font-normal text-[#667267]">Sem pressa</span>
+                    </h4>
+                    <p class="text-xs text-[#28302A] leading-relaxed">
+                      ${latestEval.qualitativeSynthesis?.nextStep || latestEval.summaryNotes || 'Seguir com ritmo constante e leitura compartilhada.'}
+                    </p>
+                  </div>
                 </div>
-                <div class="p-4 bg-[#FDFBF7] rounded-xl border border-[#E8E2D5] space-y-2">
-                  <h4 class="text-xs font-bold text-[#A44A3F] flex items-center justify-between">
-                    <span>Atenção & Conteúdos a Retomar</span>
-                    <span class="text-[10px] font-normal text-[#667267]">Foco do período</span>
-                  </h4>
-                  <p class="text-xs text-[#28302A] leading-relaxed">
-                    ${latestEval.summaryRetomar || latestEval.summaryFocus || 'Consolidação de rotina e fixação diária dos conceitos apresentados.'}
-                  </p>
+              ` : `
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="p-4 bg-[#FDFBF7] rounded-xl border border-[#E8E2D5] space-y-2">
+                    <h4 class="text-xs font-bold text-[#2F5233] flex items-center justify-between">
+                      <span>Pontos Fortes & Consolidados</span>
+                      <span class="text-[10px] font-normal text-[#667267]">Ref: ${latestEval.date ? new Date(latestEval.date + 'T12:00:00').toLocaleDateString('pt-BR') : 'Recente'}</span>
+                    </h4>
+                    <p class="text-xs text-[#28302A] leading-relaxed">
+                      ${latestEval.summaryStrengths || 'Demonstra excelente prontidão, interesse vivo e boa capacidade de atenção.'}
+                    </p>
+                  </div>
+                  <div class="p-4 bg-[#FDFBF7] rounded-xl border border-[#E8E2D5] space-y-2">
+                    <h4 class="text-xs font-bold text-[#A44A3F] flex items-center justify-between">
+                      <span>Atenção & Conteúdos a Retomar</span>
+                      <span class="text-[10px] font-normal text-[#667267]">Foco do período</span>
+                    </h4>
+                    <p class="text-xs text-[#28302A] leading-relaxed">
+                      ${latestEval.summaryRetomar || latestEval.summaryFocus || 'Consolidação de rotina e fixação diária dos conceitos apresentados.'}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              `}
             ` : `
               <div class="p-4 bg-[#FDFBF7] rounded-xl border border-[#E8E2D5] text-xs text-[#667267] italic">
                 Nenhuma avaliação formal arquivada no período. O acompanhamento se fundamenta nos registros diários de ritmo e assimilação.
@@ -467,37 +499,95 @@
 
             ${latestEval ? `
               <div class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div class="p-4 bg-[#FAF7F0] border border-[#E8E2D5] rounded-xl space-y-2">
-                    <h4 class="text-xs font-bold text-[#28302A] uppercase tracking-wider">Linguagem & Expressão (Português)</h4>
-                    <div class="space-y-1.5 text-xs">
-                      ${latestEval.portugues ? Object.entries(latestEval.portugues).map(([key, val]) => `
-                        <div class="flex justify-between items-center py-0.5 border-b border-[#E8E2D5]/50">
-                          <span class="capitalize text-[#445045]">${key}</span>
-                          <span class="font-semibold ${val === 'Consolidado' ? 'text-[#2F5233]' : val === 'Em desenvolvimento' ? 'text-[#3D6B78]' : 'text-[#A44A3F]'}">${val}</span>
-                        </div>
-                      `).join('') : '<p class="text-[#667267] italic">Sem notas detalhadas.</p>'}
+                ${latestEval.schemaVersion === 2 ? `
+                  <!-- Diagnóstico Pedagógico Formativo (Schema v2 - 8 Eixos de Desenvolvimento) -->
+                  <div class="p-4 sm:p-5 bg-[#FAF7F0] border border-[#CCD8CD] rounded-2xl space-y-4 shadow-2xs">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8E2D5] pb-3">
+                      <div>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#2F5233] block">${latestEval.phaseTitle || 'Observação Formativa'}</span>
+                        <h4 class="font-editorial-serif text-base sm:text-lg font-bold text-[#28302A]">${latestEval.title || 'Observação Diagnóstica'}</h4>
+                      </div>
+                      <div class="text-right text-xs text-[#667267]">
+                        <span>Ref: ${latestEval.date ? new Date(latestEval.date + 'T12:00:00').toLocaleDateString('pt-BR') : 'Recente'}</span>
+                        <span class="block text-[10px] text-[#8E9A8F]">Avaliador: ${latestEval.evaluator || 'Família'}</span>
+                      </div>
+                    </div>
+
+                    <!-- 3 Perguntas Norteadoras da Pedagogia Clássica -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                      <div class="p-3.5 bg-white rounded-xl border border-[#CCD8CD] space-y-1.5 shadow-2xs">
+                        <span class="font-bold text-[#2F5233] flex items-center gap-1.5">
+                          <i class="fa-solid fa-seedling text-[11px]"></i>
+                          <span>O que já está firme</span>
+                        </span>
+                        <p class="text-[#28302A] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis?.firm || latestEval.summaryStrengths || 'Competências e atitudes consolidadas com autonomia.'}</p>
+                      </div>
+
+                      <div class="p-3.5 bg-white rounded-xl border border-[#E8C4B8] space-y-1.5 shadow-2xs">
+                        <span class="font-bold text-[#A95337] flex items-center gap-1.5">
+                          <i class="fa-solid fa-water text-[11px]"></i>
+                          <span>A fortalecer agora</span>
+                        </span>
+                        <p class="text-[#28302A] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis?.strengthen || latestEval.summaryRetomar || 'Habilidades que se beneficiam de mediação e modelo calmo.'}</p>
+                      </div>
+
+                      <div class="p-3.5 bg-white rounded-xl border border-[#B8D3DD] space-y-1.5 shadow-2xs">
+                        <span class="font-bold text-[#3D6B78] flex items-center gap-1.5">
+                          <i class="fa-solid fa-compass text-[11px]"></i>
+                          <span>Próximo passo sem pressa</span>
+                        </span>
+                        <p class="text-[#28302A] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis?.nextStep || latestEval.summaryNotes || 'Direcionamento sereno para a rotina diária.'}</p>
+                      </div>
+                    </div>
+
+                    ${latestEval.qualitativeSynthesis?.priorities ? `
+                      <div class="p-3 bg-white rounded-xl border border-[#E8E2D5] text-xs">
+                        <strong class="text-[#28302A]">Prioridades formativas do período:</strong>
+                        <p class="text-[#445045] mt-0.5 leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis.priorities}</p>
+                      </div>
+                    ` : ''}
+
+                    ${latestEval.familyNotes ? `
+                      <div class="p-3 bg-[#FDFBF7] rounded-xl border border-[#E8E2D5] text-xs">
+                        <strong class="text-[#28302A]">Anotações da Família:</strong>
+                        <p class="text-[#445045] mt-0.5 leading-relaxed whitespace-pre-line">${latestEval.familyNotes}</p>
+                      </div>
+                    ` : ''}
+                  </div>
+                ` : `
+                  <!-- Diagnóstico Legado (Schema v1) -->
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 bg-[#FAF7F0] border border-[#E8E2D5] rounded-xl space-y-2">
+                      <h4 class="text-xs font-bold text-[#28302A] uppercase tracking-wider">Linguagem & Expressão (Português)</h4>
+                      <div class="space-y-1.5 text-xs">
+                        ${latestEval.portugues ? Object.entries(latestEval.portugues).map(([key, val]) => `
+                          <div class="flex justify-between items-center py-0.5 border-b border-[#E8E2D5]/50">
+                            <span class="capitalize text-[#445045]">${key}</span>
+                            <span class="font-semibold ${val === 'Consolidado' ? 'text-[#2F5233]' : val === 'Em desenvolvimento' ? 'text-[#3D6B78]' : 'text-[#A44A3F]'}">${val}</span>
+                          </div>
+                        `).join('') : '<p class="text-[#667267] italic">Sem notas detalhadas.</p>'}
+                      </div>
+                    </div>
+
+                    <div class="p-4 bg-[#FAF7F0] border border-[#E8E2D5] rounded-xl space-y-2">
+                      <h4 class="text-xs font-bold text-[#28302A] uppercase tracking-wider">Raciocínio & Cálculo (Matemática)</h4>
+                      <div class="space-y-1.5 text-xs">
+                        ${latestEval.matematica ? Object.entries(latestEval.matematica).map(([key, val]) => `
+                          <div class="flex justify-between items-center py-0.5 border-b border-[#E8E2D5]/50">
+                            <span class="capitalize text-[#445045]">${key}</span>
+                            <span class="font-semibold ${val === 'Consolidado' ? 'text-[#2F5233]' : val === 'Em desenvolvimento' ? 'text-[#3D6B78]' : 'text-[#A44A3F]'}">${val}</span>
+                          </div>
+                        `).join('') : '<p class="text-[#667267] italic">Sem notas detalhadas.</p>'}
+                      </div>
                     </div>
                   </div>
 
-                  <div class="p-4 bg-[#FAF7F0] border border-[#E8E2D5] rounded-xl space-y-2">
-                    <h4 class="text-xs font-bold text-[#28302A] uppercase tracking-wider">Raciocínio & Cálculo (Matemática)</h4>
-                    <div class="space-y-1.5 text-xs">
-                      ${latestEval.matematica ? Object.entries(latestEval.matematica).map(([key, val]) => `
-                        <div class="flex justify-between items-center py-0.5 border-b border-[#E8E2D5]/50">
-                          <span class="capitalize text-[#445045]">${key}</span>
-                          <span class="font-semibold ${val === 'Consolidado' ? 'text-[#2F5233]' : val === 'Em desenvolvimento' ? 'text-[#3D6B78]' : 'text-[#A44A3F]'}">${val}</span>
-                        </div>
-                      `).join('') : '<p class="text-[#667267] italic">Sem notas detalhadas.</p>'}
-                    </div>
+                  <div class="p-4 bg-[#FDFBF7] border border-[#E8E2D5] rounded-xl space-y-2 text-xs">
+                    <p><strong class="text-[#2F5233]">Pontos Fortes:</strong> ${latestEval.summaryStrengths || 'Capacidade atenta de retenção e entusiasmo.'}</p>
+                    <p><strong class="text-[#A44A3F]">Conteúdos a Retomar:</strong> ${latestEval.summaryRetomar || 'Fixação contínua de exercícios práticos.'}</p>
+                    ${latestEval.summaryNotes ? `<p><strong class="text-[#28302A]">Observações do Educador:</strong> ${latestEval.summaryNotes}</p>` : ''}
                   </div>
-                </div>
-
-                <div class="p-4 bg-[#FDFBF7] border border-[#E8E2D5] rounded-xl space-y-2 text-xs">
-                  <p><strong class="text-[#2F5233]">Pontos Fortes:</strong> ${latestEval.summaryStrengths || 'Capacidade atenta de retenção e entusiasmo.'}</p>
-                  <p><strong class="text-[#A44A3F]">Conteúdos a Retomar:</strong> ${latestEval.summaryRetomar || 'Fixação contínua de exercícios práticos.'}</p>
-                  ${latestEval.summaryNotes ? `<p><strong class="text-[#28302A]">Observações do Educador:</strong> ${latestEval.summaryNotes}</p>` : ''}
-                </div>
+                `}
               </div>
             ` : `
               <div class="p-4 bg-[#FDFBF7] border border-[#E8E2D5] rounded-xl text-xs text-[#667267] italic">
