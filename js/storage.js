@@ -736,6 +736,18 @@
         evalData.formattedDate = `${parseInt(parts[2])} de ${monthNames[parseInt(parts[1]) - 1]}`;
       }
 
+      // Sanitização estrita de privacidade: garante que anotações de rotina e saúde nunca fiquem no array geral sincronizado na nuvem
+      if (evalData.wellnessContext) {
+        if (window.ActaDiagnostic && typeof window.ActaDiagnostic.savePrivateWellness === 'function') {
+          window.ActaDiagnostic.savePrivateWellness(evalData.id, evalData.wellnessContext);
+        } else {
+          try {
+            localStorage.setItem('acta_wellness_' + evalData.id, JSON.stringify(evalData.wellnessContext));
+          } catch(e) {}
+        }
+        delete evalData.wellnessContext;
+      }
+
       const idx = data.evaluations.findIndex(e => e.id === evalData.id);
       if (idx >= 0) {
         data.evaluations[idx] = evalData;
@@ -749,6 +761,9 @@
     deleteEvaluation: function(id) {
       const data = this.getData();
       data.evaluations = (data.evaluations || []).filter(e => e.id !== id);
+      try {
+        localStorage.removeItem('acta_wellness_' + id);
+      } catch(e) {}
       this.saveData(data);
     },
 

@@ -933,7 +933,7 @@
       const exploreLaterText = syn.exploreLater || syn.foundation || summary.exploreLaterText || summary.earlierFoundationText || '';
 
       const profile = ev.learningProfile || null;
-      const wellness = ev.wellnessContext || null;
+      const wellness = ev.wellnessContext || (this.getPrivateWellness ? this.getPrivateWellness(ev.id) : null) || null;
 
       return `
         <div class="pt-4 space-y-6">
@@ -1102,15 +1102,15 @@
             </div>
           ` : ''}
 
-          <!-- Contexto de Rotina e Bem-Estar (Privado da Família - Se houver) -->
+          <!-- Contexto de Rotina e Bem-Estar (Privado da Família - Apenas neste dispositivo) -->
           ${wellness && (wellness.sleep || wellness.appetite || wellness.sensory || wellness.energy || wellness.notes) ? `
-            <div class="p-4 rounded-2xl bg-[#FFFBEB] border border-[#F59E0B]/30 space-y-2 text-xs">
+            <div class="no-print p-4 rounded-2xl bg-[#FFFBEB] border border-[#F59E0B]/30 space-y-2 text-xs">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-[#92400E] flex items-center gap-1.5 text-[11px]">
                   <i class="fa-solid fa-lock text-[10px]"></i>
-                  <span>Anotações Privadas de Rotina e Bem-estar</span>
+                  <span>Anotações Privadas de Rotina e Bem-estar (Apenas este dispositivo)</span>
                 </span>
-                <span class="text-[10px] text-[#B45309] font-medium">Uso exclusivo da família • Omitido em exportações</span>
+                <span class="text-[10px] text-[#B45309] font-medium">Uso exclusivo da família • Omitido em exportações, impressões e nuvem</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 text-[11px] text-[#445045]">
                 ${wellness.sleep ? `<div><strong>Sono:</strong> ${wellness.sleep}</div>` : ''}
@@ -1312,7 +1312,7 @@
               challengeContexts: [],
               challengesNote: ''
             },
-            wellnessContext: draft.wellnessContext ? Object.assign({}, draft.wellnessContext) : {
+            wellnessContext: (draft.wellnessContext || (this.getPrivateWellness ? this.getPrivateWellness(draft.id) : null)) ? Object.assign({}, draft.wellnessContext || this.getPrivateWellness(draft.id)) : {
               sleep: '',
               appetite: '',
               sensory: '',
@@ -1955,7 +1955,7 @@
             <div class="p-3 rounded-2xl bg-white border border-[#E8E2D5] text-xs text-[#667267] flex items-start gap-2.5">
               <i class="fa-solid fa-circle-info text-[#2F5233] text-sm shrink-0 mt-0.5"></i>
               <p class="leading-relaxed">
-                Estes apontamentos ficam salvos de forma confidencial no seu dispositivo e <strong>NÃO são incluídos por padrão em Dossiês compartilhados ou impressões externas</strong>.
+                Estes apontamentos de rotina e saúde ficam gravados apenas neste aparelho/navegador para resguardar a intimidade da família. <strong>Eles não são enviados para a sincronização em nuvem e não saem nos Dossiês impressos ou exportados.</strong> Atenção: se você limpar os dados deste navegador, essas anotações locais específicas poderão ser perdidas.
               </p>
             </div>
 
@@ -2532,6 +2532,36 @@
       this.wizard.wellnessContext[field] = text.trim();
     },
 
+    getPrivateWellness: function(evalId) {
+      if (!evalId) return null;
+      try {
+        const raw = localStorage.getItem('acta_wellness_' + evalId);
+        return raw ? JSON.parse(raw) : null;
+      } catch(e) {
+        return null;
+      }
+    },
+
+    savePrivateWellness: function(evalId, data) {
+      if (!evalId) return;
+      try {
+        if (data && (data.sleep || data.appetite || data.sensory || data.energy || data.notes)) {
+          localStorage.setItem('acta_wellness_' + evalId, JSON.stringify(data));
+        } else {
+          localStorage.removeItem('acta_wellness_' + evalId);
+        }
+      } catch(e) {
+        console.warn('[ActaDiagnostic] Erro ao salvar wellness local:', e);
+      }
+    },
+
+    deletePrivateWellness: function(evalId) {
+      if (!evalId) return;
+      try {
+        localStorage.removeItem('acta_wellness_' + evalId);
+      } catch(e) {}
+    },
+
     // =======================================================================
     // 9. SALVAMENTO (RASCUNHO vs CONCLUÍDO)
     // =======================================================================
@@ -2543,9 +2573,16 @@
       const childName = person ? person.name : 'Estudante';
       const phase = PHASES[this.wizard.phaseId] || PHASES.fase_1;
 
-      // Salva rascunho com todos os estados e perfil preservados
+      const evalId = this.wizard.evalId || ('eval_' + Date.now());
+
+      // Salva apontamentos privados de saúde e rotina exclusivamente no aparelho local
+      if (this.wizard.wellnessContext) {
+        this.savePrivateWellness(evalId, this.wizard.wellnessContext);
+      }
+
+      // Salva rascunho com todos os estados pedagógicos (sem dados de saúde no array geral sincronizável)
       const evalData = {
-        id: this.wizard.evalId || ('eval_' + Date.now()),
+        id: evalId,
         schemaVersion: 2,
         personId: this.wizard.childId,
         personName: childName,
@@ -2559,7 +2596,6 @@
         activityNotes: Object.assign({}, this.wizard.activityNotes),
         activityContext: Object.assign({}, this.wizard.activityContext),
         learningProfile: JSON.parse(JSON.stringify(this.wizard.learningProfile || {})),
-        wellnessContext: Object.assign({}, this.wizard.wellnessContext || {}),
         summary: this.wizard.customSummary ? Object.assign({}, this.wizard.customSummary) : null,
         title: `Observação Diagnóstica (${phase.shortTitle})`,
         pontosFortes: 'Rascunho em andamento.',
@@ -2648,9 +2684,16 @@
       const answeredSignals = Object.keys(this.wizard.observations).filter(k => this.wizard.observations[k] && this.wizard.observations[k] !== 'nao_observei').length;
       const isPartial = answeredSignals < totalSignals;
 
-      // Monta objeto compatível com novos padrões e relatórios legados
+      const evalId = this.wizard.evalId || ('eval_' + Date.now());
+
+      // Salva apontamentos privados de saúde e rotina exclusivamente no aparelho local
+      if (this.wizard.wellnessContext) {
+        this.savePrivateWellness(evalId, this.wizard.wellnessContext);
+      }
+
+      // Monta objeto compatível com novos padrões e relatórios legados (sem anexar dados de saúde no objeto geral)
       const completedEval = {
-        id: this.wizard.evalId || ('eval_' + Date.now()),
+        id: evalId,
         schemaVersion: 2,
         personId: this.wizard.childId,
         personName: childName,
@@ -2665,7 +2708,6 @@
         activityNotes: Object.assign({}, this.wizard.activityNotes),
         activityContext: Object.assign({}, this.wizard.activityContext),
         learningProfile: JSON.parse(JSON.stringify(this.wizard.learningProfile || {})),
-        wellnessContext: Object.assign({}, this.wizard.wellnessContext || {}),
         summary: Object.assign({}, this.wizard.customSummary),
         qualitativeSynthesis: {
           firm: this.wizard.customSummary.strengthsText,
@@ -2722,6 +2764,7 @@
       if (confirm('Deseja descartar este rascunho de observação?')) {
         const storage = window.ActaStorage;
         if (storage) {
+          this.deletePrivateWellness(draftId);
           storage.deleteEvaluation(draftId);
           if (window.ActaApp && typeof window.ActaApp.renderAvaliacoesTab === 'function') {
             window.ActaApp.renderAvaliacoesTab();
@@ -2737,6 +2780,7 @@
       if (confirm('Deseja realmente excluir esta observação diagnóstica do histórico da família?')) {
         const storage = window.ActaStorage;
         if (storage) {
+          this.deletePrivateWellness(evalId);
           storage.deleteEvaluation(evalId);
           if (window.ActaApp && typeof window.ActaApp.renderAvaliacoesTab === 'function') {
             window.ActaApp.renderAvaliacoesTab();

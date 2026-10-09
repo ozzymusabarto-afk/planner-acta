@@ -156,6 +156,9 @@
           updatedAt: new Date().toISOString()
         });
         delete payload.id; // Evita redundância
+        if (subcollection === 'diagnostics') {
+          delete payload.wellnessContext; // Sanitização estrita: dados privados de rotina/sono/bem-estar NUNCA vão para a nuvem
+        }
         await docRef.set(payload, { merge: true });
       } catch (err) {
         console.error(`[ACTA Firestore] Erro ao salvar ${subcollection}/${docId}:`, err);
@@ -237,6 +240,9 @@
                 const itemRef = userRef.collection(colName).doc(item.id);
                 const clone = Object.assign({}, item);
                 delete clone.id;
+                if (colName === 'diagnostics') {
+                  delete clone.wellnessContext; // Sanitização estrita: dados privados de rotina/sono/bem-estar NUNCA vão para a nuvem
+                }
                 await itemRef.set(clone, { merge: true });
               }
             }

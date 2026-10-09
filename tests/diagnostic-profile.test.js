@@ -224,9 +224,9 @@ test('Critério 6: Zero notas, médias, percentuais e rótulos clínicos (TDAH, 
 });
 
 // ---------------------------------------------------------------------------
-// TESTE 7: Informações de saúde/rotina NUNCA aparecem no Dossiê exportável
+// TESTE 7: Informações de saúde/rotina NUNCA aparecem no Dossiê, na nuvem ou em impressões
 // ---------------------------------------------------------------------------
-test('Critério 7: Dados opcionais de rotina/saúde são omitidos do Dossiê por padrão', () => {
+test('Critério 7: Dados opcionais de rotina/saúde são omitidos do Dossiê e da nuvem por padrão', () => {
   resetTestStorage();
   window.ActaDiagnostic.openNewEvaluationModal(testChild.id);
   
@@ -234,15 +234,37 @@ test('Critério 7: Dados opcionais de rotina/saúde são omitidos do Dossiê por
   window.ActaDiagnostic.saveWellnessField('sensory', 'Incomoda-se muito com luz forte de lâmpadas brancas');
   window.ActaDiagnostic.concludeEvaluation();
   
-  // Gera HTML do Dossiê Resumido e Dossiê Completo
+  const savedEvals = window.ActaStorage.getEvaluations(testChild.id);
+  assert.ok(savedEvals.length > 0, 'Deve ter gravado a avaliação');
+  const savedEval = savedEvals[0];
+
+  // 1. Verificação de armazenamento: o objeto geral de avaliação NUNCA contém wellnessContext
+  assert.strictEqual(savedEval.wellnessContext, undefined, 'wellnessContext NÃO deve estar no objeto sincronizado da avaliação');
+
+  // 2. Verificação de persistência local: notas de saúde ficam no storage privado do dispositivo
+  const privateWellness = window.ActaDiagnostic.getPrivateWellness(savedEval.id);
+  assert.ok(privateWellness !== null, 'Dados privados devem existir no armazenamento local do dispositivo');
+  assert.strictEqual(privateWellness.sleep, 'Acorda assustado às 3h da manhã', 'Sono preservado localmente');
+  assert.strictEqual(privateWellness.sensory, 'Incomoda-se muito com luz forte de lâmpadas brancas', 'Sensorial preservado localmente');
+
+  // 3. Verificação de visualização local e proteção de impressão
+  const singleHtml = window.ActaDiagnostic.renderSingleEvaluationHTML(savedEval, false);
+  assert.ok(singleHtml.includes('Anotações Privadas de Rotina e Bem-estar (Apenas este dispositivo)'), 'Exibe cabeçalho privado no dispositivo');
+  assert.ok(singleHtml.includes('no-print'), 'Card privado deve ter classe no-print para não sair em impressões');
+
+  // 4. Verificação de exportação: Dossiê Resumido e Completo
   const dossieResumido = window.ActaReports.generateResumoDossieHTML({ personId: testChild.id });
   const dossieCompleto = window.ActaReports.generateCompletoDossieHTML({ personId: testChild.id });
   
-  // Verifica que os dados sensíveis NÃO foram vazados para o dossiê
   assert.ok(!dossieResumido.includes('Acorda assustado às 3h da manhã'), 'Dossiê Resumido não deve conter dados de sono');
   assert.ok(!dossieResumido.includes('luz forte de lâmpadas brancas'), 'Dossiê Resumido não deve conter sensibilidade sensorial');
   assert.ok(!dossieCompleto.includes('Acorda assustado às 3h da manhã'), 'Dossiê Completo não deve conter dados de sono');
   assert.ok(!dossieCompleto.includes('luz forte de lâmpadas brancas'), 'Dossiê Completo não deve conter sensibilidade sensorial');
+
+  // 5. Verificação de payload de sincronização do Firestore (simulação do clone de sync)
+  const syncClone = Object.assign({}, savedEval);
+  delete syncClone.id;
+  assert.strictEqual(syncClone.wellnessContext, undefined, 'Payload de sincronização do Firestore não possui wellnessContext');
 });
 
 // ---------------------------------------------------------------------------
