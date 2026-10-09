@@ -112,6 +112,29 @@
 
         const settingsData = (settingsDoc && settingsDoc.exists) ? settingsDoc.data() : {};
 
+        // Sanitização e saneamento retroativo de privacidade:
+        // Se algum documento legado em Firestore /users/{uid}/diagnostics contiver wellnessContext,
+        // migra para o armazenamento local do dispositivo e remove exclusivamente o campo do Firestore
+        const sanitizedEvaluations = [];
+        for (const d of results[4].docs) {
+          const evalItem = Object.assign({ id: d.id }, d.data());
+          if (evalItem.wellnessContext) {
+            if (window.ActaDiagnostic && typeof window.ActaDiagnostic.savePrivateWellness === 'function') {
+              window.ActaDiagnostic.savePrivateWellness(d.id, evalItem.wellnessContext);
+            }
+            delete evalItem.wellnessContext;
+            // Remove do Firestore de forma assíncrona e segura, preservando todos os demais campos
+            try {
+              if (window.firebase && window.firebase.firestore && window.firebase.firestore.FieldValue) {
+                d.ref.update({
+                  wellnessContext: window.firebase.firestore.FieldValue.delete()
+                }).catch(() => {});
+              }
+            } catch(e) {}
+          }
+          sanitizedEvaluations.push(evalItem);
+        }
+
         // Monta o estado unificado para o usuário
         const userData = {
           schemaVersion: SCHEMA_VERSION,
@@ -122,7 +145,7 @@
           materials: results[1].docs.map(d => ({ id: d.id, ...d.data() })),
           plans: results[2].docs.map(d => ({ id: d.id, ...d.data() })),
           records: results[3].docs.map(d => ({ id: d.id, ...d.data() })),
-          evaluations: results[4].docs.map(d => ({ id: d.id, ...d.data() })),
+          evaluations: sanitizedEvaluations,
           calendarEvents: results[5].docs.map(d => ({ id: d.id, ...d.data() })),
           extras: results[6].docs.map(d => ({ id: d.id, ...d.data() })),
           readings: results[7].docs.map(d => ({ id: d.id, ...d.data() })),

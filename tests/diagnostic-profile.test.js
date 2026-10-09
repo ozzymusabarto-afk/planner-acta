@@ -378,4 +378,34 @@ test('Critério 12: Aliases qualitativos retrocompatíveis (firm, strengthen, ne
   assert.ok(completed.matematica, 'matematica legado deve existir');
 });
 
+// ---------------------------------------------------------------------------
+// TESTE 13: Saneamento retroativo de dados privados em avaliações existentes
+// ---------------------------------------------------------------------------
+test('Critério 13: Avaliações pré-existentes com wellnessContext são migradas para storage local e limpas do array geral', () => {
+  resetTestStorage();
+  const legacyWithWellness = {
+    id: 'eval_legacy_with_wellness',
+    schemaVersion: 2,
+    personId: testChild.id,
+    date: '2025-08-01',
+    title: 'Diagnóstico Antigo',
+    wellnessContext: {
+      sleep: 'Sono agitado',
+      sensory: 'Sensível a ruídos altos'
+    }
+  };
+
+  // Salva no storage (simulando dado pré-existente recebido de sincronização ou rascunho anterior)
+  const saved = window.ActaStorage.saveEvaluation(legacyWithWellness);
+
+  // O objeto retornado e persistido NÃO contém mais wellnessContext
+  assert.strictEqual(saved.wellnessContext, undefined, 'wellnessContext foi removido do objeto');
+
+  // Mas foi preservado no armazenamento privado local do dispositivo
+  const localWellness = window.ActaDiagnostic.getPrivateWellness('eval_legacy_with_wellness');
+  assert.ok(localWellness !== null, 'Dados foram preservados no storage local');
+  assert.strictEqual(localWellness.sleep, 'Sono agitado');
+  assert.strictEqual(localWellness.sensory, 'Sensível a ruídos altos');
+});
+
 console.log(`\n🎉 Concluído: ${passedTests} de ${totalTests} testes passaram com sucesso!`);

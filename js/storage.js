@@ -598,7 +598,28 @@
         if (!parsed.records || parsed.records.length === 0) parsed.records = DEFAULT_SEED_DATA.records;
         if (!parsed.weekSchedule) parsed.weekSchedule = DEFAULT_SEED_DATA.weekSchedule;
         if (!parsed.achievements) parsed.achievements = DEFAULT_SEED_DATA.achievements;
-        if (!parsed.evaluations || parsed.evaluations.length === 0) parsed.evaluations = DEFAULT_SEED_DATA.evaluations;
+        if (!parsed.evaluations || parsed.evaluations.length === 0) {
+          parsed.evaluations = DEFAULT_SEED_DATA.evaluations;
+        } else {
+          // Sanitização retroativa: migra qualquer wellnessContext legado para armazenamento local exclusivo
+          let hasMigratedWellness = false;
+          parsed.evaluations.forEach(ev => {
+            if (ev && ev.wellnessContext) {
+              if (window.ActaDiagnostic && typeof window.ActaDiagnostic.savePrivateWellness === 'function') {
+                window.ActaDiagnostic.savePrivateWellness(ev.id, ev.wellnessContext);
+              } else {
+                try {
+                  localStorage.setItem('acta_wellness_' + ev.id, JSON.stringify(ev.wellnessContext));
+                } catch(e) {}
+              }
+              delete ev.wellnessContext;
+              hasMigratedWellness = true;
+            }
+          });
+          if (hasMigratedWellness) {
+            this.saveData(parsed);
+          }
+        }
         if (!parsed.calendarEvents || parsed.calendarEvents.length === 0) parsed.calendarEvents = DEFAULT_SEED_DATA.calendarEvents;
         if (!parsed.extras || parsed.extras.length === 0) parsed.extras = DEFAULT_SEED_DATA.extras;
         if (!parsed.plans || parsed.plans.length === 0) parsed.plans = DEFAULT_SEED_DATA.plans;
