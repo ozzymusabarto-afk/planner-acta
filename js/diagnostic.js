@@ -83,33 +83,58 @@
   };
 
   // =========================================================================
-  // 2. OS QUATRO ESTADOS DE OBSERVAÇÃO
+  // 2. OS SEIS ESTADOS DE OBSERVAÇÃO FORMATIVA (Sem notas, não julgadores)
   // =========================================================================
   const STATES = {
     sozinho: {
       id: 'sozinho',
-      label: 'Já faz sozinho',
-      desc: 'Demonstrou a habilidade sem ajuda nesta situação.',
+      label: 'Faz sozinho com frequência',
+      shortLabel: 'Sozinho',
+      desc: 'A habilidade aparece com autonomia e regularidade.',
       badgeClass: 'bg-[#EBF3ED] text-[#2F5233] border-[#2F5233]/40 font-bold',
       pillClass: 'border-[#2F5233]/40 bg-[#EBF3ED] text-[#2F5233]',
       activeClass: 'bg-[#2F5233] text-white border-[#2F5233]',
       icon: 'fa-solid fa-circle-check',
       legacyEquivalent: 'Consolidado'
     },
+    sozinho_varia: {
+      id: 'sozinho_varia',
+      label: 'Faz sozinho, mas varia',
+      shortLabel: 'Varia',
+      desc: 'Consegue sem ajuda às vezes, mas varia conforme interesse, energia, ambiente ou tipo de tarefa.',
+      badgeClass: 'bg-[#EDF5F2] text-[#256350] border-[#256350]/40 font-bold',
+      pillClass: 'border-[#256350]/40 bg-[#EDF5F2] text-[#256350]',
+      activeClass: 'bg-[#256350] text-white border-[#256350]',
+      icon: 'fa-solid fa-circle-half-stroke',
+      legacyEquivalent: 'Consolidado'
+    },
     com_ajuda: {
       id: 'com_ajuda',
       label: 'Faz com ajuda',
-      desc: 'Demonstrou parte da habilidade ou conseguiu com uma pista, exemplo ou apoio.',
+      shortLabel: 'Com ajuda',
+      desc: 'Consegue com pistas, lembretes, modelo, divisão em etapas ou presença do adulto.',
       badgeClass: 'bg-[#E9EFF6] text-[#1E3A5F] border-[#1E3A5F]/40 font-bold',
       pillClass: 'border-[#1E3A5F]/40 bg-[#E9EFF6] text-[#1E3A5F]',
       activeClass: 'bg-[#1E3A5F] text-white border-[#1E3A5F]',
       icon: 'fa-solid fa-hand-holding-heart',
       legacyEquivalent: 'Em desenvolvimento'
     },
+    comecando_parcial: {
+      id: 'comecando_parcial',
+      label: 'Começando / em parte',
+      shortLabel: 'Em parte',
+      desc: 'A habilidade aparece parcialmente ou de forma intermitente.',
+      badgeClass: 'bg-[#F3E8FF] text-[#6B21A8] border-[#A855F7]/40 font-bold',
+      pillClass: 'border-[#A855F7]/40 bg-[#FAF5FF] text-[#6B21A8]',
+      activeClass: 'bg-[#7E22CE] text-white border-[#7E22CE]',
+      icon: 'fa-solid fa-hourglass-half',
+      legacyEquivalent: 'Iniciando / Retomar'
+    },
     nao_apareceu: {
       id: 'nao_apareceu',
-      label: 'Ainda não apareceu nesta observação',
-      desc: 'Houve oportunidade de observar, mas não apareceu com clareza ou precisa de muito apoio.',
+      label: 'Ainda não apareceu',
+      shortLabel: 'Ainda não',
+      desc: 'Houve oportunidade razoável, mas a habilidade não apareceu com clareza nesta observação.',
       badgeClass: 'bg-[#FEF3C7] text-[#92400E] border-[#D97706]/40 font-bold',
       pillClass: 'border-[#D97706]/40 bg-[#FFFBEB] text-[#92400E]',
       activeClass: 'bg-[#D97706] text-white border-[#D97706]',
@@ -118,8 +143,9 @@
     },
     nao_observei: {
       id: 'nao_observei',
-      label: 'Não observei ainda',
-      desc: 'A situação não aconteceu, foi interrompida ou não há informação suficiente.',
+      label: 'Não deu para observar',
+      shortLabel: 'Não observado',
+      desc: 'Não houve oportunidade adequada ou a atividade foi interrompida.',
       badgeClass: 'bg-[#FAF7F0] text-[#667267] border-[#CCD8CD]',
       pillClass: 'border-[#CCD8CD] bg-[#FAF7F0] text-[#667267]',
       activeClass: 'bg-[#667267] text-white border-[#667267]',
@@ -127,6 +153,60 @@
       legacyEquivalent: null
     }
   };
+
+  // Marcadores de Contexto da Atividade ("Como foi neste momento?")
+  const ACTIVITY_CONTEXT_MARKERS = [
+    { id: 'interessado', label: 'Estava interessado na atividade', icon: 'fa-regular fa-star' },
+    { id: 'lembrete_comecar', label: 'Precisou de lembretes para começar', icon: 'fa-solid fa-play' },
+    { id: 'lembrete_continuar', label: 'Precisou de lembretes para continuar', icon: 'fa-solid fa-forward' },
+    { id: 'etapas_pequenas', label: 'Melhor em etapas pequenas / uma por vez', icon: 'fa-solid fa-list-ol' },
+    { id: 'cansado_sono', label: 'Estava cansado ou dormiu mal', icon: 'fa-solid fa-bed' },
+    { id: 'ambiente_distracao', label: 'Ambiente com muitas distrações', icon: 'fa-solid fa-volume-high' },
+    { id: 'frustrado_desconforto', label: 'Ficou frustrado ou quis parar', icon: 'fa-solid fa-hand' }
+  ];
+
+  // Opções para a Seção Opcional "Conhecendo como meu filho aprende"
+  const PROFILE_STRENGTHS_OPTIONS = [
+    { id: 'aprende_sozinho', label: 'Aprende sozinho quando se interessa por um assunto' },
+    { id: 'linguas_expressoes', label: 'Aprende línguas ou expressões com pouca instrução' },
+    { id: 'cria_jogos_monta', label: 'Programa, cria jogos, monta ou inventa coisas' },
+    { id: 'percebe_detalhes', label: 'Percebe detalhes e relações que outras pessoas deixam passar' },
+    { id: 'explica_oral_clareza', label: 'Explica ideias oralmente com clareza' },
+    { id: 'entende_complexos', label: 'Entende rapidamente assuntos complexos para ele' },
+    { id: 'solucoes_originais', label: 'Cria soluções originais para o dia a dia' },
+    { id: 'memoria_forte', label: 'Tem memória forte para assuntos de interesse' }
+  ];
+
+  const PROFILE_SUPPORTS_OPTIONS = [
+    { id: 'mostra_falando', label: 'Mostra melhor o que sabe falando / explicando' },
+    { id: 'mostra_construindo', label: 'Mostra melhor montando, desenhando ou demonstrando' },
+    { id: 'mostra_escrevendo', label: 'Mostra melhor escrevendo ou esquematizando' },
+    { id: 'escolhe_tema', label: 'Funciona melhor quando escolhe o próprio tema' },
+    { id: 'passos_pequenos', label: 'Ajuda dividir a tarefa em passos pequenos' },
+    { id: 'adulto_por_perto', label: 'Ajuda ter o adulto por perto com presença serena' },
+    { id: 'apoio_visual', label: 'Ajuda ter lista visual, roteiro do dia ou cartões' },
+    { id: 'pausas_movimento', label: 'Ajuda ter pausas curtas de movimento' },
+    { id: 'ambiente_silencioso', label: 'Ajuda ter ambiente silencioso e calmo' }
+  ];
+
+  const PROFILE_CHALLENGES_OPTIONS = [
+    { id: 'comecar_tarefas', label: 'Começar tarefas propostas por outra pessoa' },
+    { id: 'manter_ate_fim', label: 'Continuar em uma tarefa até terminar' },
+    { id: 'retomar_pos_interrupcao', label: 'Retomar o foco após uma interrupção' },
+    { id: 'transicao_atividades', label: 'Trocar de uma atividade para outra' },
+    { id: 'seguir_multiplas_instrucoes', label: 'Seguir várias instruções de uma vez' },
+    { id: 'organizar_materiais', label: 'Organizar materiais e planejar etapas' },
+    { id: 'perceber_tempo', label: 'Perceber o tempo ou cumprir combinados' },
+    { id: 'lidar_frustracao', label: 'Lidar com frustração ou erro' }
+  ];
+
+  const PROFILE_CHALLENGE_CONTEXTS = [
+    { id: 'ctx_nao_escolhidas', label: 'Tarefas não escolhidas / repetitivas' },
+    { id: 'ctx_leitura_escrita', label: 'Leitura ou escrita formal' },
+    { id: 'ctx_matematica', label: 'Raciocínio matemático abstrato' },
+    { id: 'ctx_rotina_transicao', label: 'Momentos de transição na rotina' },
+    { id: 'ctx_social', label: 'Interações sociais ou cobranças externas' }
+  ];
 
   // =========================================================================
   // 3. BANCO DE ATIVIDADES POR FASE (4 FASES • 7 CARTÕES POR FASE)
@@ -837,11 +917,23 @@
       const phase = PHASES[ev.phaseId] || PHASES.fase_1;
       const summary = ev.summary || {};
       const obs = ev.observations || {};
-      const totalSignals = Object.keys(obs).length;
       const firmSignals = Object.values(obs).filter(v => v === 'sozinho').length;
+      const variaSignals = Object.values(obs).filter(v => v === 'sozinho_varia').length;
       const helpSignals = Object.values(obs).filter(v => v === 'com_ajuda').length;
+      const partialSignals = Object.values(obs).filter(v => v === 'comecando_parcial').length;
       const notAppeared = Object.values(obs).filter(v => v === 'nao_apareceu').length;
       const unobserved = Object.values(obs).filter(v => v === 'nao_observei').length;
+
+      const syn = ev.qualitativeSynthesis || {};
+      const firmText = syn.firm || summary.strengthsText || 'Observação consolidada com tranquilidade nas atividades propostas.';
+      const interestsText = syn.interests || summary.interestsText || '';
+      const supportText = syn.support || syn.strengthen || summary.strengthenNowText || 'Habilidades para acompanhar com modelo calmo e ritmo diário do lar.';
+      const conditionsText = syn.conditions || summary.conditionsText || '';
+      const nextStepsText = syn.nextSteps || syn.nextStep || summary.nextStepsText || 'Prioridades práticas sugeridas para organizar a grade semanal.';
+      const exploreLaterText = syn.exploreLater || syn.foundation || summary.exploreLaterText || summary.earlierFoundationText || '';
+
+      const profile = ev.learningProfile || null;
+      const wellness = ev.wellnessContext || null;
 
       return `
         <div class="pt-4 space-y-6">
@@ -859,90 +951,182 @@
             </div>
           </div>
 
-          <!-- Resumo Quantitativo Discreto dos Sinais Observados -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+          <!-- Resumo Quantitativo Discreto dos 6 Estados Observados -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 text-xs">
             <div class="p-2.5 rounded-2xl bg-[#EBF3ED] border border-[#2F5233]/20 flex items-center gap-2">
               <i class="fa-solid fa-circle-check text-[#2F5233] text-sm"></i>
               <div>
-                <span class="text-[10px] uppercase font-bold text-[#2F5233] block">Já faz sozinho</span>
+                <span class="text-[9px] uppercase font-bold text-[#2F5233] block">Faz sozinho</span>
                 <span class="font-bold text-[#28302A] text-xs">${firmSignals} sinais</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-2xl bg-[#EDF5F2] border border-[#256350]/20 flex items-center gap-2">
+              <i class="fa-solid fa-circle-half-stroke text-[#256350] text-sm"></i>
+              <div>
+                <span class="text-[9px] uppercase font-bold text-[#256350] block">Sozinho (varia)</span>
+                <span class="font-bold text-[#28302A] text-xs">${variaSignals} sinais</span>
               </div>
             </div>
             <div class="p-2.5 rounded-2xl bg-[#E9EFF6] border border-[#1E3A5F]/20 flex items-center gap-2">
               <i class="fa-solid fa-hand-holding-heart text-[#1E3A5F] text-sm"></i>
               <div>
-                <span class="text-[10px] uppercase font-bold text-[#1E3A5F] block">Faz com ajuda</span>
+                <span class="text-[9px] uppercase font-bold text-[#1E3A5F] block">Com ajuda</span>
                 <span class="font-bold text-[#28302A] text-xs">${helpSignals} sinais</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-2xl bg-[#FAF5FF] border border-[#A855F7]/20 flex items-center gap-2">
+              <i class="fa-solid fa-hourglass-half text-[#7E22CE] text-sm"></i>
+              <div>
+                <span class="text-[9px] uppercase font-bold text-[#6B21A8] block">Começando</span>
+                <span class="font-bold text-[#28302A] text-xs">${partialSignals} sinais</span>
               </div>
             </div>
             <div class="p-2.5 rounded-2xl bg-[#FEF3C7] border border-[#D97706]/30 flex items-center gap-2">
               <i class="fa-solid fa-seedling text-[#D97706] text-sm"></i>
               <div>
-                <span class="text-[10px] uppercase font-bold text-[#92400E] block">Ainda não apareceu</span>
+                <span class="text-[9px] uppercase font-bold text-[#92400E] block">Ainda não</span>
                 <span class="font-bold text-[#28302A] text-xs">${notAppeared} sinais</span>
               </div>
             </div>
             <div class="p-2.5 rounded-2xl bg-[#FAF7F0] border border-[#CCD8CD] flex items-center gap-2">
               <i class="fa-regular fa-circle text-[#8E9A8F] text-sm"></i>
               <div>
-                <span class="text-[10px] uppercase font-bold text-[#667267] block">Não observados</span>
+                <span class="text-[9px] uppercase font-bold text-[#667267] block">Não observado</span>
                 <span class="font-bold text-[#28302A] text-xs">${unobserved} sinais</span>
               </div>
             </div>
           </div>
 
-          <!-- As 4 Caixas Pedagógicas da Síntese Qualitativa -->
+          <!-- Os 6 Blocos da Síntese Qualitativa -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- 1. O que já aparece com firmeza -->
+            <!-- 1. O que já está firme -->
             <div class="p-4 sm:p-5 rounded-2xl bg-white border border-[#2F5233]/30 shadow-xs space-y-2">
               <div class="flex items-center gap-2 text-[#2F5233]">
                 <i class="fa-solid fa-star text-sm"></i>
-                <h4 class="text-xs font-bold uppercase tracking-wider">1. O que já aparece com firmeza</h4>
+                <h4 class="text-xs font-bold uppercase tracking-wider">1. O que já está firme</h4>
               </div>
-              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">
-                ${summary.strengthsText || 'Observação consolidada com tranquilidade nas atividades propostas.'}
-              </p>
+              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">${firmText}</p>
             </div>
 
-            <!-- 2. O que pode ser fortalecido agora -->
+            <!-- 2. Interesses e facilidades -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-white border border-[#325B6C]/30 shadow-xs space-y-2">
+              <div class="flex items-center gap-2 text-[#325B6C]">
+                <i class="fa-solid fa-lightbulb text-sm"></i>
+                <h4 class="text-xs font-bold uppercase tracking-wider">2. Interesses e facilidades</h4>
+              </div>
+              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">${interestsText || 'Interesses naturais que despertam entusiasmo e podem servir de ponte para novos aprendizados.'}</p>
+            </div>
+
+            <!-- 3. O que precisa de apoio agora -->
             <div class="p-4 sm:p-5 rounded-2xl bg-white border border-[#D97706]/40 shadow-xs space-y-2">
               <div class="flex items-center gap-2 text-[#92400E]">
                 <i class="fa-solid fa-seedling text-sm text-[#D97706]"></i>
-                <h4 class="text-xs font-bold uppercase tracking-wider">2. O que pode ser fortalecido agora</h4>
+                <h4 class="text-xs font-bold uppercase tracking-wider">3. O que precisa de apoio agora</h4>
               </div>
-              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">
-                ${summary.strengthenNowText || 'Pontos sugeridos para apoiar com paciência no ritmo diário do lar.'}
-              </p>
+              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">${supportText}</p>
             </div>
 
-            <!-- 3. Base anterior que vale observar -->
-            <div class="p-4 sm:p-5 rounded-2xl bg-[#FDFBF7] border border-[#CCD8CD] shadow-xs space-y-2">
+            <!-- 4. Em quais condições rende melhor -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-[#FDFBF7] border border-[#1E3A5F]/30 shadow-xs space-y-2">
               <div class="flex items-center gap-2 text-[#1E3A5F]">
-                <i class="fa-solid fa-lightbulb text-sm"></i>
-                <h4 class="text-xs font-bold uppercase tracking-wider">3. Base anterior a observar</h4>
+                <i class="fa-solid fa-compass text-sm"></i>
+                <h4 class="text-xs font-bold uppercase tracking-wider">4. Em quais condições rende melhor</h4>
               </div>
-              <p class="text-xs text-[#445045] leading-relaxed whitespace-pre-line">
-                ${summary.earlierFoundationText || 'Fundamento pedagógico recomendado para consolidar a segurança da criança.'}
-              </p>
+              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">${conditionsText || 'Ambiente tranquilo, instruções curtas e presença acolhedora do educador.'}</p>
             </div>
 
-            <!-- 4. Próximos passos para o planejamento -->
+            <!-- 5. Próximos passos para o planejamento -->
             <div class="p-4 sm:p-5 rounded-2xl bg-[#F0F7F2] border border-[#2F5233]/30 shadow-xs space-y-2">
               <div class="flex items-center gap-2 text-[#2F5233]">
                 <i class="fa-solid fa-route text-sm"></i>
-                <h4 class="text-xs font-bold uppercase tracking-wider">4. Próximos passos no planejamento</h4>
+                <h4 class="text-xs font-bold uppercase tracking-wider">5. Próximos passos no planejamento</h4>
               </div>
-              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line font-medium">
-                ${summary.nextStepsText || 'Prioridades práticas sugeridas para organizar a grade semanal.'}
-              </p>
+              <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line font-medium">${nextStepsText}</p>
+            </div>
+
+            <!-- 6. O que vale observar melhor -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-[#FAF7F0] border border-[#CCD8CD] shadow-xs space-y-2">
+              <div class="flex items-center gap-2 text-[#667267]">
+                <i class="fa-solid fa-binoculars text-sm"></i>
+                <h4 class="text-xs font-bold uppercase tracking-wider">6. O que vale observar melhor</h4>
+              </div>
+              <p class="text-xs text-[#445045] leading-relaxed whitespace-pre-line">${exploreLaterText || 'Acompanhar a consolidação do ritmo semanal sem pressa.'}</p>
             </div>
           </div>
 
-          <!-- 5. Observações da Família (se houver) -->
-          ${summary.familyNotes ? `
+          <!-- Perfil Observacional Registrado (se houver) -->
+          ${profile && ((profile.strengths && profile.strengths.length > 0) || (profile.supports && profile.supports.length > 0) || (profile.challenges && profile.challenges.length > 0)) ? `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-3">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-user-graduate text-[#2F5233] text-sm"></i>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-[#28302A]">Conhecendo como meu filho aprende (Perfil Registrado)</h4>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                ${profile.strengths && profile.strengths.length > 0 ? `
+                  <div class="p-3 bg-white rounded-xl border border-[#CCD8CD] space-y-1">
+                    <span class="font-bold text-[#2F5233] text-[11px] block">Facilidades & Iniciativas</span>
+                    <ul class="text-[#445045] space-y-0.5 list-disc list-inside">
+                      ${profile.strengths.map(s => {
+                        const opt = PROFILE_STRENGTHS_OPTIONS.find(o => o.id === s);
+                        return `<li>${opt ? opt.label : s}</li>`;
+                      }).join('')}
+                    </ul>
+                    ${profile.strengthsExample ? `<p class="italic text-[10px] text-[#667267] mt-1 border-t border-[#F0ECE4] pt-1">“${profile.strengthsExample}”</p>` : ''}
+                  </div>
+                ` : ''}
+                ${profile.supports && profile.supports.length > 0 ? `
+                  <div class="p-3 bg-white rounded-xl border border-[#CCD8CD] space-y-1">
+                    <span class="font-bold text-[#1E3A5F] text-[11px] block">Apoios que Ajudam</span>
+                    <ul class="text-[#445045] space-y-0.5 list-disc list-inside">
+                      ${profile.supports.map(s => {
+                        const opt = PROFILE_SUPPORTS_OPTIONS.find(o => o.id === s);
+                        return `<li>${opt ? opt.label : s}</li>`;
+                      }).join('')}
+                    </ul>
+                    ${profile.supportsNote ? `<p class="italic text-[10px] text-[#667267] mt-1 border-t border-[#F0ECE4] pt-1">“${profile.supportsNote}”</p>` : ''}
+                  </div>
+                ` : ''}
+                ${profile.challenges && profile.challenges.length > 0 ? `
+                  <div class="p-3 bg-white rounded-xl border border-[#CCD8CD] space-y-1">
+                    <span class="font-bold text-[#92400E] text-[11px] block">Desafios Cotidianos</span>
+                    <ul class="text-[#445045] space-y-0.5 list-disc list-inside">
+                      ${profile.challenges.map(c => {
+                        const opt = PROFILE_CHALLENGES_OPTIONS.find(o => o.id === c);
+                        return `<li>${opt ? opt.label : c}</li>`;
+                      }).join('')}
+                    </ul>
+                    ${profile.challengesNote ? `<p class="italic text-[10px] text-[#667267] mt-1 border-t border-[#F0ECE4] pt-1">“${profile.challengesNote}”</p>` : ''}
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Contexto de Rotina e Bem-Estar (Privado da Família - Se houver) -->
+          ${wellness && (wellness.sleep || wellness.appetite || wellness.sensory || wellness.energy || wellness.notes) ? `
+            <div class="p-4 rounded-2xl bg-[#FFFBEB] border border-[#F59E0B]/30 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-[#92400E] flex items-center gap-1.5 text-[11px]">
+                  <i class="fa-solid fa-lock text-[10px]"></i>
+                  <span>Anotações Privadas de Rotina e Bem-estar</span>
+                </span>
+                <span class="text-[10px] text-[#B45309] font-medium">Uso exclusivo da família • Omitido em exportações</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 text-[11px] text-[#445045]">
+                ${wellness.sleep ? `<div><strong>Sono:</strong> ${wellness.sleep}</div>` : ''}
+                ${wellness.appetite ? `<div><strong>Alimentação:</strong> ${wellness.appetite}</div>` : ''}
+                ${wellness.sensory ? `<div><strong>Sensibilidade:</strong> ${wellness.sensory}</div>` : ''}
+                ${wellness.energy ? `<div><strong>Energia:</strong> ${wellness.energy}</div>` : ''}
+              </div>
+              ${wellness.notes ? `<p class="text-[11px] text-[#78350F] italic mt-1 border-t border-[#FDE68A] pt-1">“${wellness.notes}”</p>` : ''}
+            </div>
+          ` : ''}
+
+          <!-- Observações Livres da Família (se houver) -->
+          ${summary.familyNotes || ev.familyNotes ? `
             <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5] space-y-1.5">
               <span class="text-[10px] uppercase font-bold tracking-wider text-[#667267] block">Anotações e Reflexões da Família</span>
-              <p class="text-xs text-[#28302A] leading-relaxed italic whitespace-pre-line">"${summary.familyNotes}"</p>
+              <p class="text-xs text-[#28302A] leading-relaxed italic whitespace-pre-line">"${summary.familyNotes || ev.familyNotes}"</p>
             </div>
           ` : ''}
 
@@ -1118,6 +1302,23 @@
             isDraft: true,
             observations: Object.assign({}, draft.observations || {}),
             activityNotes: Object.assign({}, draft.activityNotes || {}),
+            activityContext: Object.assign({}, draft.activityContext || {}),
+            learningProfile: draft.learningProfile ? JSON.parse(JSON.stringify(draft.learningProfile)) : {
+              strengths: [],
+              strengthsExample: '',
+              supports: [],
+              supportsNote: '',
+              challenges: [],
+              challengeContexts: [],
+              challengesNote: ''
+            },
+            wellnessContext: draft.wellnessContext ? Object.assign({}, draft.wellnessContext) : {
+              sleep: '',
+              appetite: '',
+              sensory: '',
+              energy: '',
+              notes: ''
+            },
             familyNotes: draft.summary?.familyNotes || draft.observacoes || '',
             customSummary: draft.summary ? Object.assign({}, draft.summary) : null
           };
@@ -1151,6 +1352,23 @@
         isDraft: false,
         observations: {},
         activityNotes: {},
+        activityContext: {},
+        learningProfile: {
+          strengths: [],
+          strengthsExample: '',
+          supports: [],
+          supportsNote: '',
+          challenges: [],
+          challengeContexts: [],
+          challengesNote: ''
+        },
+        wellnessContext: {
+          sleep: '',
+          appetite: '',
+          sensory: '',
+          energy: '',
+          notes: ''
+        },
         familyNotes: '',
         customSummary: null
       };
@@ -1202,6 +1420,8 @@
       } else if (step >= 1 && step <= 7) {
         container.innerHTML = this.renderWizardStepActivityHTML(step);
       } else if (step === 8) {
+        container.innerHTML = this.renderWizardStepProfileHTML();
+      } else if (step === 9) {
         container.innerHTML = this.renderWizardStepSummaryHTML();
       }
     },
@@ -1332,7 +1552,7 @@
     },
 
     /**
-     * ETAPA 1 a 7: Cartão Individual de Atividade com Sinais Observáveis
+     * ETAPA 1 a 7: Cartão Individual de Atividade com Sinais Observáveis e Contexto
      */
     renderWizardStepActivityHTML: function(stepNumber) {
       const phase = PHASES[this.wizard.phaseId] || PHASES.fase_1;
@@ -1343,6 +1563,7 @@
       const totalSteps = 7;
       const pct = Math.round((stepNumber / totalSteps) * 100);
       const activityNotes = this.wizard.activityNotes[activity.id] || '';
+      const actContext = this.wizard.activityContext[activity.id] || { markers: [], note: '' };
 
       let html = `
         <div class="space-y-5">
@@ -1414,7 +1635,7 @@
               </div>
             </div>
 
-            <!-- Lista de Sinais Observáveis com as 4 Pílulas Interativas -->
+            <!-- Lista de Sinais Observáveis com as 6 Pílulas Interativas -->
             <div class="space-y-4 pt-1">
               ${activity.signals.map((sig, sigIdx) => {
                 const currentVal = this.wizard.observations[sig.id] || null;
@@ -1425,19 +1646,19 @@
                       <p class="text-xs font-medium text-[#28302A] leading-snug">${sig.text}</p>
                     </div>
 
-                    <!-- 4 Botões de Estado -->
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1">
+                    <!-- 6 Botões de Estado Formativo -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 pt-1">
                       ${Object.values(STATES).map(st => {
                         const isSelected = currentVal === st.id;
                         return `
                           <button 
                             type="button" 
                             onclick="ActaDiagnostic.setSignalState('${sig.id}', '${st.id}')"
-                            class="text-[11px] px-2.5 py-1.5 rounded-xl border text-center transition flex items-center justify-center gap-1.5 font-medium ${isSelected ? st.activeClass + ' font-bold shadow-xs' : 'bg-white border-[#E8E2D5] text-[#445045] hover:bg-[#FAF7F0]'}"
+                            class="text-[10px] sm:text-[11px] px-2 py-1.5 rounded-xl border text-center transition flex items-center justify-center gap-1 font-medium ${isSelected ? st.activeClass + ' font-bold shadow-xs' : 'bg-white border-[#E8E2D5] text-[#445045] hover:bg-[#FAF7F0]'}"
                             title="${st.desc}"
                           >
-                            <i class="${st.icon} text-[10px]"></i>
-                            <span class="truncate">${st.label}</span>
+                            <i class="${st.icon} text-[9px]"></i>
+                            <span class="truncate">${st.shortLabel || st.label}</span>
                           </button>
                         `;
                       }).join('')}
@@ -1445,6 +1666,45 @@
                   </div>
                 `;
               }).join('')}
+            </div>
+
+            <!-- Contexto Opcional da Atividade: "Como foi neste momento?" -->
+            <div class="p-3.5 rounded-2xl bg-[#FDFBF7] border border-[#CCD8CD] space-y-2">
+              <div class="flex items-center justify-between flex-wrap gap-1">
+                <span class="text-xs font-bold text-[#28302A] flex items-center gap-1.5">
+                  <i class="fa-regular fa-compass text-[#2F5233]"></i>
+                  <span>Como foi neste momento?</span>
+                  <span class="text-[10px] font-normal text-[#8E9A8F]">(Contexto opcional)</span>
+                </span>
+                <span class="text-[10px] text-[#667267]">Não conta nota nem rotula</span>
+              </div>
+              <p class="text-[11px] text-[#667267] leading-relaxed">
+                Marque se houve alguma condição pontual que influenciou esta atividade:
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                ${ACTIVITY_CONTEXT_MARKERS.map(m => {
+                  const isChecked = (actContext.markers || []).includes(m.id);
+                  return `
+                    <button 
+                      type="button" 
+                      onclick="ActaDiagnostic.toggleActivityMarker('${activity.id}', '${m.id}')"
+                      class="text-[11px] px-2.5 py-1 rounded-full border transition flex items-center gap-1.5 ${isChecked ? 'bg-[#2F5233] text-white border-[#2F5233] font-semibold' : 'bg-white border-[#E8E2D5] text-[#445045] hover:bg-[#FAF7F0]'}"
+                    >
+                      <i class="${m.icon} text-[9px]"></i>
+                      <span>${m.label}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+              <div class="pt-1">
+                <input 
+                  type="text" 
+                  value="${actContext.note || ''}"
+                  placeholder="Outro contexto deste momento (ex: ambiente barulhento, brinquedo novo ao lado...)"
+                  onchange="ActaDiagnostic.saveActivityContextNote('${activity.id}', this.value)"
+                  class="w-full text-xs p-2 border border-[#E8E2D5] rounded-xl bg-white focus:outline-none"
+                >
+              </div>
             </div>
 
             <!-- Campo Opcional: O que notei nesta atividade? -->
@@ -1487,7 +1747,7 @@
             <div class="flex items-center gap-2">
               <button 
                 type="button" 
-                onclick="ActaDiagnostic.goToStep(8)"
+                onclick="ActaDiagnostic.goToStep(9)"
                 class="text-xs font-medium px-3.5 py-2 rounded-full bg-white text-[#667267] hover:text-[#28302A] hover:bg-[#FAF7F0] transition"
                 title="Pular direto para a conclusão mesmo que parcial"
               >
@@ -1498,7 +1758,7 @@
                 onclick="ActaDiagnostic.goToStep(${stepNumber + 1})"
                 class="hero-btn-green text-xs font-bold px-5 py-2 rounded-full shadow-sm flex items-center gap-1.5 transition"
               >
-                <span>${stepNumber === 7 ? 'Revisar Síntese →' : 'Próxima Atividade →'}</span>
+                <span>${stepNumber === 7 ? 'Perfil de Aprendizagem (Opcional) →' : 'Próxima Atividade →'}</span>
               </button>
             </div>
           </div>
@@ -1509,7 +1769,300 @@
     },
 
     /**
-     * ETAPA 8: Síntese Qualitativa com 7 Seções e Opção de Edição
+     * ETAPA 8: Conhecendo como meu filho aprende (Perfil Observacional & Bem-estar Opcionais)
+     */
+    renderWizardStepProfileHTML: function() {
+      const storage = window.ActaStorage;
+      const person = storage ? storage.getPersonById(this.wizard.childId) : null;
+      const childName = person ? person.name : 'seu filho';
+      const profile = this.wizard.learningProfile || {
+        strengths: [],
+        strengthsExample: '',
+        supports: [],
+        supportsNote: '',
+        challenges: [],
+        challengeContexts: [],
+        challengesNote: ''
+      };
+      const wellness = this.wizard.wellnessContext || {
+        sleep: '',
+        appetite: '',
+        sensory: '',
+        energy: '',
+        notes: ''
+      };
+
+      let html = `
+        <div class="space-y-6">
+          <div class="border-b border-[#E8E2D5] pb-3">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-[#2F5233] block">Passo 2 de 3 • Perfil Observacional & Contexto (Opcional)</span>
+            <h3 class="font-editorial-title text-xl font-bold text-[#28302A] mt-0.5">Conhecendo como ${childName} aprende</h3>
+            <p class="text-xs text-[#667267] mt-1 leading-relaxed">
+              Esta seção é <strong>100% opcional</strong>. Serve para enriquecer o planejamento do lar registrando facilidades, iniciativas e apoios reais observados pela família — sem notas, percentuais ou rótulos clínicos.
+            </p>
+          </div>
+
+          <!-- 4.1 Facilidades, interesses e iniciativas -->
+          <div class="p-5 rounded-3xl bg-white border border-[#E8E2D5] shadow-xs space-y-3">
+            <div class="flex items-center gap-2 text-[#2F5233]">
+              <i class="fa-solid fa-star text-sm"></i>
+              <h4 class="text-xs font-bold uppercase tracking-wider">1. Facilidades, Interesses e Iniciativas</h4>
+            </div>
+            <p class="text-xs text-[#667267] leading-relaxed">
+              O que ele aprende ou faz por iniciativa própria? Em quais assuntos mergulha com prazer?
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${PROFILE_STRENGTHS_OPTIONS.map(opt => {
+                const isChecked = (profile.strengths || []).includes(opt.id);
+                return `
+                  <button 
+                    type="button" 
+                    onclick="ActaDiagnostic.toggleProfileStrength('${opt.id}')"
+                    class="text-left text-xs p-3 rounded-2xl border transition flex items-start gap-2.5 ${isChecked ? 'bg-[#EBF3ED] border-[#2F5233] text-[#2F5233] font-semibold ring-1 ring-[#2F5233]' : 'bg-[#FAF7F0]/60 border-[#E8E2D5] text-[#445045] hover:bg-white'}"
+                  >
+                    <i class="fa-${isChecked ? 'solid fa-circle-check text-[#2F5233]' : 'regular fa-circle text-[#CCD8CD]'} text-xs mt-0.5 shrink-0"></i>
+                    <span>${opt.label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+            <div class="pt-2">
+              <label for="profStrengthsEx" class="block text-xs font-bold text-[#28302A] mb-1">
+                Conte um exemplo concreto <span class="text-[#8E9A8F] font-normal">(Opcional)</span>
+              </label>
+              <textarea 
+                id="profStrengthsEx"
+                rows="2"
+                onchange="ActaDiagnostic.saveProfileStrengthExample(this.value)"
+                placeholder="Ex: Criou um jogo de tabuleiro com regras próprias; memorizou todos os países do globo por curiosidade..."
+                class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"
+              >${profile.strengthsExample || ''}</textarea>
+            </div>
+          </div>
+
+          <!-- 4.2 O que ajuda a mostrar o que sabe -->
+          <div class="p-5 rounded-3xl bg-white border border-[#E8E2D5] shadow-xs space-y-3">
+            <div class="flex items-center gap-2 text-[#1E3A5F]">
+              <i class="fa-solid fa-hand-holding-heart text-sm"></i>
+              <h4 class="text-xs font-bold uppercase tracking-wider">2. O que ajuda a mostrar o que sabe</h4>
+            </div>
+            <p class="text-xs text-[#667267] leading-relaxed">
+              Como ele costuma demonstrar melhor seu conhecimento? Quais formatos funcionam bem?
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${PROFILE_SUPPORTS_OPTIONS.map(opt => {
+                const isChecked = (profile.supports || []).includes(opt.id);
+                return `
+                  <button 
+                    type="button" 
+                    onclick="ActaDiagnostic.toggleProfileSupport('${opt.id}')"
+                    class="text-left text-xs p-3 rounded-2xl border transition flex items-start gap-2.5 ${isChecked ? 'bg-[#E9EFF6] border-[#1E3A5F] text-[#1E3A5F] font-semibold ring-1 ring-[#1E3A5F]' : 'bg-[#FAF7F0]/60 border-[#E8E2D5] text-[#445045] hover:bg-white'}"
+                  >
+                    <i class="fa-${isChecked ? 'solid fa-circle-check text-[#1E3A5F]' : 'regular fa-circle text-[#CCD8CD]'} text-xs mt-0.5 shrink-0"></i>
+                    <span>${opt.label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+            <div class="pt-2">
+              <label for="profSupportsNote" class="block text-xs font-bold text-[#28302A] mb-1">
+                Outro apoio que funciona bem no dia a dia <span class="text-[#8E9A8F] font-normal">(Opcional)</span>
+              </label>
+              <input 
+                type="text"
+                id="profSupportsNote"
+                value="${profile.supportsNote || ''}"
+                onchange="ActaDiagnostic.saveProfileSupportNote(this.value)"
+                placeholder="Ex: Roteiro visual desenhado na lousa; conversa prévia antes de iniciar..."
+                class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"
+              >
+            </div>
+          </div>
+
+          <!-- 4.3 Dificuldades observadas no cotidiano e situações -->
+          <div class="p-5 rounded-3xl bg-white border border-[#E8E2D5] shadow-xs space-y-3">
+            <div class="flex items-center gap-2 text-[#92400E]">
+              <i class="fa-solid fa-seedling text-sm"></i>
+              <h4 class="text-xs font-bold uppercase tracking-wider">3. Desafios Observados no Cotidiano</h4>
+            </div>
+            <p class="text-xs text-[#667267] leading-relaxed">
+              Aspectos que exigem paciência, modelo calmo ou estruturação (marque sem peso ou rótulos):
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${PROFILE_CHALLENGES_OPTIONS.map(opt => {
+                const isChecked = (profile.challenges || []).includes(opt.id);
+                return `
+                  <button 
+                    type="button" 
+                    onclick="ActaDiagnostic.toggleProfileChallenge('${opt.id}')"
+                    class="text-left text-xs p-3 rounded-2xl border transition flex items-start gap-2.5 ${isChecked ? 'bg-[#FEF3C7] border-[#D97706] text-[#92400E] font-semibold ring-1 ring-[#D97706]' : 'bg-[#FAF7F0]/60 border-[#E8E2D5] text-[#445045] hover:bg-white'}"
+                  >
+                    <i class="fa-${isChecked ? 'solid fa-circle-check text-[#D97706]' : 'regular fa-circle text-[#CCD8CD]'} text-xs mt-0.5 shrink-0"></i>
+                    <span>${opt.label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Situações em que acontecem -->
+            <div class="pt-2 space-y-1.5">
+              <span class="block text-xs font-bold text-[#28302A]">Em quais situações costuma acontecer?</span>
+              <div class="flex flex-wrap gap-1.5">
+                ${PROFILE_CHALLENGE_CONTEXTS.map(ctx => {
+                  const isChecked = (profile.challengeContexts || []).includes(ctx.id);
+                  return `
+                    <button 
+                      type="button" 
+                      onclick="ActaDiagnostic.toggleProfileChallengeContext('${ctx.id}')"
+                      class="text-[11px] px-3 py-1 rounded-full border transition flex items-center gap-1.5 ${isChecked ? 'bg-[#D97706] text-white border-[#D97706] font-semibold' : 'bg-white border-[#E8E2D5] text-[#445045] hover:bg-[#FAF7F0]'}"
+                    >
+                      <span>${ctx.label}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <label for="profChallengesNote" class="block text-xs font-bold text-[#28302A] mb-1">
+                Como a família costuma contornar ou acolher <span class="text-[#8E9A8F] font-normal">(Opcional)</span>
+              </label>
+              <input 
+                type="text"
+                id="profChallengesNote"
+                value="${profile.challengesNote || ''}"
+                onchange="ActaDiagnostic.saveProfileChallengesNote(this.value)"
+                placeholder="Ex: Fazer pausas para beber água; antecipar a troca de atividade avisando 5 minutos antes..."
+                class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:bg-white focus:outline-none"
+              >
+            </div>
+          </div>
+
+          <!-- 5. Contexto de bem-estar e rotina (Privado) -->
+          <div class="p-5 rounded-3xl bg-[#FAF7F0] border border-[#CCD8CD] space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2 text-[#28302A]">
+                <i class="fa-solid fa-shield-heart text-sm text-[#2F5233]"></i>
+                <h4 class="text-xs font-bold uppercase tracking-wider">4. Contexto de Rotina e Bem-estar (Privado)</h4>
+              </div>
+              <span class="text-[10px] bg-white border border-[#CCD8CD] text-[#2F5233] px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1">
+                <i class="fa-solid fa-lock text-[9px]"></i>
+                <span>Uso exclusivo da família</span>
+              </span>
+            </div>
+
+            <!-- Aviso Estrito de Privacidade -->
+            <div class="p-3 rounded-2xl bg-white border border-[#E8E2D5] text-xs text-[#667267] flex items-start gap-2.5">
+              <i class="fa-solid fa-circle-info text-[#2F5233] text-sm shrink-0 mt-0.5"></i>
+              <p class="leading-relaxed">
+                Estes apontamentos ficam salvos de forma confidencial no seu dispositivo e <strong>NÃO são incluídos por padrão em Dossiês compartilhados ou impressões externas</strong>.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label for="wellSleep" class="block text-xs font-bold text-[#28302A] mb-1">Sono</label>
+                <input 
+                  type="text" 
+                  id="wellSleep" 
+                  value="${wellness.sleep || ''}"
+                  onchange="ActaDiagnostic.saveWellnessField('sleep', this.value)"
+                  placeholder="Ex: Dorme bem / Acorda com frequência / Varia muito"
+                  class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-white focus:outline-none"
+                >
+              </div>
+              <div>
+                <label for="wellAppetite" class="block text-xs font-bold text-[#28302A] mb-1">Alimentação</label>
+                <input 
+                  type="text" 
+                  id="wellAppetite" 
+                  value="${wellness.appetite || ''}"
+                  onchange="ActaDiagnostic.saveWellnessField('appetite', this.value)"
+                  placeholder="Ex: Variada / Seletiva com texturas / Tranquila"
+                  class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-white focus:outline-none"
+                >
+              </div>
+              <div>
+                <label for="wellSensory" class="block text-xs font-bold text-[#28302A] mb-1">Sensibilidade Sensorial</label>
+                <input 
+                  type="text" 
+                  id="wellSensory" 
+                  value="${wellness.sensory || ''}"
+                  onchange="ActaDiagnostic.saveWellnessField('sensory', this.value)"
+                  placeholder="Ex: Sensível a ruídos altos / Etiquetas / Luz forte"
+                  class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-white focus:outline-none"
+                >
+              </div>
+              <div>
+                <label for="wellEnergy" class="block text-xs font-bold text-[#28302A] mb-1">Energia ao Longo do Dia</label>
+                <input 
+                  type="text" 
+                  id="wellEnergy" 
+                  value="${wellness.energy || ''}"
+                  onchange="ActaDiagnostic.saveWellnessField('energy', this.value)"
+                  placeholder="Ex: Mais focado pela manhã / Queda de energia à tarde"
+                  class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-white focus:outline-none"
+                >
+              </div>
+            </div>
+
+            <div class="pt-1">
+              <label for="wellNotes" class="block text-xs font-bold text-[#28302A] mb-1">
+                Outro aspecto de rotina que valha registrar <span class="text-[#8E9A8F] font-normal">(Opcional)</span>
+              </label>
+              <textarea 
+                id="wellNotes"
+                rows="2"
+                onchange="ActaDiagnostic.saveWellnessField('notes', this.value)"
+                placeholder="Ex: Semanas com mudanças na rotina costumam demandar mais acolhimento..."
+                class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-white focus:outline-none"
+              >${wellness.notes || ''}</textarea>
+            </div>
+          </div>
+
+          <!-- Rodapé de Navegação da Etapa 8 -->
+          <div class="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#E8E2D5]">
+            <button 
+              type="button" 
+              onclick="ActaDiagnostic.goToStep(7)"
+              class="text-xs font-semibold px-4 py-2 rounded-full border border-[#CCD8CD] bg-white text-[#28302A] hover:bg-[#FAF7F0] transition flex items-center gap-1"
+            >
+              <i class="fa-solid fa-arrow-left text-[10px]"></i>
+              <span>Voltar (Atividade 7)</span>
+            </button>
+
+            <div class="flex items-center gap-2">
+              <button 
+                type="button" 
+                onclick="ActaDiagnostic.saveDraft()"
+                class="text-xs font-semibold px-3.5 py-2 rounded-full border border-[#D97706]/40 bg-[#FFFBEB] text-[#92400E] hover:bg-[#FEF3C7] transition"
+              >
+                Salvar Rascunho
+              </button>
+              <button 
+                type="button" 
+                onclick="ActaDiagnostic.goToStep(9)"
+                class="text-xs font-medium px-3.5 py-2 rounded-full bg-white text-[#667267] hover:text-[#28302A] hover:bg-[#FAF7F0] transition"
+              >
+                Pular esta etapa...
+              </button>
+              <button 
+                type="button" 
+                onclick="ActaDiagnostic.goToStep(9)"
+                class="hero-btn-green text-xs font-bold px-6 py-2.5 rounded-full shadow-md flex items-center gap-2 transition"
+              >
+                <span>Revisar Síntese →</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      return html;
+    },
+
+    /**
+     * ETAPA 9: Síntese Qualitativa com 6 Blocos Formativos & Acolhimento Socrático
      */
     renderWizardStepSummaryHTML: function() {
       const storage = window.ActaStorage;
@@ -1542,11 +2095,11 @@
             As sugestões abaixo foram geradas automaticamente para orientar o planejamento do seu lar. Você tem total liberdade para editar os textos como preferir antes de arquivar!
           </p>
 
-          <!-- 1. O que já aparece com firmeza -->
+          <!-- 1. O que já está firme -->
           <div class="p-4 rounded-2xl bg-[#EBF3ED]/40 border border-[#2F5233]/30 space-y-2">
             <label for="sumStrengths" class="block text-xs font-bold uppercase tracking-wider text-[#2F5233] flex items-center gap-2">
               <i class="fa-solid fa-star"></i>
-              <span>1. O que já aparece com firmeza</span>
+              <span>1. O que já está firme</span>
             </label>
             <textarea 
               id="sumStrengths"
@@ -1556,11 +2109,25 @@
             >${sum.strengthsText}</textarea>
           </div>
 
-          <!-- 2. O que pode ser fortalecido agora -->
+          <!-- 2. Interesses e facilidades -->
+          <div class="p-4 rounded-2xl bg-[#EBF3ED]/25 border border-[#325B6C]/30 space-y-2">
+            <label for="sumInterests" class="block text-xs font-bold uppercase tracking-wider text-[#325B6C] flex items-center gap-2">
+              <i class="fa-solid fa-lightbulb text-[#325B6C]"></i>
+              <span>2. Interesses e facilidades</span>
+            </label>
+            <textarea 
+              id="sumInterests"
+              rows="3"
+              onchange="ActaDiagnostic.wizard.customSummary.interestsText = this.value"
+              class="w-full text-xs p-3 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none focus:ring-1 focus:ring-[#325B6C]"
+            >${sum.interestsText}</textarea>
+          </div>
+
+          <!-- 3. O que precisa de apoio agora -->
           <div class="p-4 rounded-2xl bg-[#FEF3C7]/40 border border-[#D97706]/40 space-y-2">
             <label for="sumStrengthen" class="block text-xs font-bold uppercase tracking-wider text-[#92400E] flex items-center gap-2">
               <i class="fa-solid fa-seedling text-[#D97706]"></i>
-              <span>2. O que pode ser fortalecido agora (Sem pressa)</span>
+              <span>3. O que precisa de apoio agora (Sem pressa)</span>
             </label>
             <textarea 
               id="sumStrengthen"
@@ -1570,25 +2137,25 @@
             >${sum.strengthenNowText}</textarea>
           </div>
 
-          <!-- 3. Base anterior a observar -->
-          <div class="p-4 rounded-2xl bg-[#FDFBF7] border border-[#CCD8CD] space-y-2">
-            <label for="sumFoundation" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F] flex items-center gap-2">
-              <i class="fa-solid fa-lightbulb text-[#1E3A5F]"></i>
-              <span>3. Uma base anterior que vale observar</span>
+          <!-- 4. Em quais condições rende melhor -->
+          <div class="p-4 rounded-2xl bg-[#FDFBF7] border border-[#1E3A5F]/30 space-y-2">
+            <label for="sumConditions" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F] flex items-center gap-2">
+              <i class="fa-solid fa-compass text-[#1E3A5F]"></i>
+              <span>4. Em quais condições rende melhor</span>
             </label>
             <textarea 
-              id="sumFoundation"
-              rows="2"
-              onchange="ActaDiagnostic.wizard.customSummary.earlierFoundationText = this.value"
+              id="sumConditions"
+              rows="3"
+              onchange="ActaDiagnostic.wizard.customSummary.conditionsText = this.value"
               class="w-full text-xs p-3 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]"
-            >${sum.earlierFoundationText}</textarea>
+            >${sum.conditionsText}</textarea>
           </div>
 
-          <!-- 4. Próximos passos para o planejamento -->
+          <!-- 5. Próximos passos para o planejamento -->
           <div class="p-4 rounded-2xl bg-[#F0F7F2] border border-[#2F5233]/40 space-y-2">
             <label for="sumNextSteps" class="block text-xs font-bold uppercase tracking-wider text-[#2F5233] flex items-center gap-2">
               <i class="fa-solid fa-route text-[#2F5233]"></i>
-              <span>4. Próximos passos para o planejamento da família</span>
+              <span>5. Próximos passos para o planejamento da família</span>
             </label>
             <textarea 
               id="sumNextSteps"
@@ -1598,25 +2165,24 @@
             >${sum.nextStepsText}</textarea>
           </div>
 
-          <!-- 5. Algo para explorar depois -->
+          <!-- 6. O que vale observar melhor -->
           <div class="p-4 rounded-2xl bg-[#FAF7F0] border border-[#CCD8CD] space-y-2">
             <label for="sumExploreLater" class="block text-xs font-bold uppercase tracking-wider text-[#667267] flex items-center gap-2">
-              <i class="fa-solid fa-compass text-[#667267]"></i>
-              <span>5. Algo que pode começar a explorar depois (Opcional)</span>
+              <i class="fa-solid fa-binoculars text-[#667267]"></i>
+              <span>6. O que vale observar melhor</span>
             </label>
-            <input 
-              type="text"
+            <textarea 
               id="sumExploreLater"
-              value="${sum.exploreLaterText}"
+              rows="2"
               onchange="ActaDiagnostic.wizard.customSummary.exploreLaterText = this.value"
               class="w-full text-xs p-2.5 border border-[#CCD8CD] rounded-xl bg-white focus:outline-none"
-            >
+            >${sum.exploreLaterText}</textarea>
           </div>
 
-          <!-- 6. Observações livres da Família -->
+          <!-- 7. Observações livres da Família -->
           <div class="space-y-1.5">
             <label for="wizFamilyNotes" class="block text-xs font-bold text-[#28302A]">
-              6. Observações Livres da Família
+              7. Observações Livres da Família
             </label>
             <textarea 
               id="wizFamilyNotes"
@@ -1627,15 +2193,26 @@
             >${this.wizard.familyNotes || ''}</textarea>
           </div>
 
-          <!-- Rodapé de Salvamento -->
+          <!-- Nota Acolhedora e Pedagógica Socrática (Seção 8 da Especificação) -->
+          <div class="p-4 rounded-2xl bg-[#EBF3ED]/60 border border-[#2F5233]/30 text-xs text-[#28302A] space-y-1.5">
+            <span class="font-bold text-[#2F5233] flex items-center gap-2">
+              <i class="fa-solid fa-book-bookmark text-sm"></i>
+              <span>Acompanhamento Pedagógico Formativo do Lar</span>
+            </span>
+            <p class="text-[#445045] leading-relaxed">
+              Esta observação é puramente pedagógica e tem como único objetivo orientar o plano de estudos no lar com serenidade. O Planner ACTA não emite diagnósticos clínicos, testes psicométricos nem laudos de saúde. Se houver preocupações persistentes com bem-estar, atenção ou desenvolvimento, a família pode compartilhar exemplos concretos com o pediatra ou profissional de confiança.
+            </p>
+          </div>
+
+          <!-- Rodapé de Salvamento da Etapa 9 -->
           <div class="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#E8E2D5]">
             <button 
               type="button" 
-              onclick="ActaDiagnostic.goToStep(7)"
+              onclick="ActaDiagnostic.goToStep(8)"
               class="text-xs font-semibold px-4 py-2 rounded-full border border-[#CCD8CD] bg-white text-[#28302A] hover:bg-[#FAF7F0] transition flex items-center gap-1"
             >
               <i class="fa-solid fa-arrow-left text-[10px]"></i>
-              <span>Rever Atividades</span>
+              <span>Rever Perfil / Atividades</span>
             </button>
 
             <div class="flex items-center gap-2">
@@ -1663,74 +2240,148 @@
     },
 
     // =======================================================================
-    // 7. MOTOR DE SÍNTESE QUALITATIVA (Base Pedagógica e Heurísticas)
+    // 7. MOTOR DE SÍNTESE QUALITATIVA (Base Pedagógica e Heurísticas Sem Rótulos)
     // =======================================================================
     generateSynthesis: function() {
       const phase = PHASES[this.wizard.phaseId] || PHASES.fase_1;
       const obs = this.wizard.observations;
       const firmItems = [];
-      const helpItems = [];
+      const variaItems = [];
+      const supportItems = [];
       const notAppearedItems = [];
+      const unobservedItems = [];
 
       phase.activities.forEach(act => {
         act.signals.forEach(sig => {
           const val = obs[sig.id];
           if (val === 'sozinho') firmItems.push({ text: sig.text, axes: sig.axes });
-          else if (val === 'com_ajuda') helpItems.push({ text: sig.text, axes: sig.axes });
+          else if (val === 'sozinho_varia') variaItems.push({ text: sig.text, axes: sig.axes });
+          else if (val === 'com_ajuda') supportItems.push({ text: sig.text, axes: sig.axes });
+          else if (val === 'comecando_parcial') supportItems.push({ text: sig.text, axes: sig.axes });
           else if (val === 'nao_apareceu') notAppearedItems.push({ text: sig.text, axes: sig.axes });
+          else if (val === 'nao_observei') unobservedItems.push({ text: sig.text, axes: sig.axes });
         });
       });
 
-      // 1. Pontos Firmes
+      const profile = this.wizard.learningProfile || {};
+      const selStrengths = (profile.strengths || []).map(id => {
+        const opt = PROFILE_STRENGTHS_OPTIONS.find(o => o.id === id);
+        return opt ? opt.label : id;
+      });
+      const selSupports = (profile.supports || []).map(id => {
+        const opt = PROFILE_SUPPORTS_OPTIONS.find(o => o.id === id);
+        return opt ? opt.label : id;
+      });
+      const selChallenges = (profile.challenges || []).map(id => {
+        const opt = PROFILE_CHALLENGES_OPTIONS.find(o => o.id === id);
+        return opt ? opt.label : id;
+      });
+
+      // Marcadores de contexto reunidos das atividades
+      const actContexts = this.wizard.activityContext || {};
+      const gatheredMarkers = new Set();
+      Object.values(actContexts).forEach(c => {
+        (c.markers || []).forEach(m => gatheredMarkers.add(m));
+      });
+
+      // 1. O que já está firme
       let strengthsText = '';
       if (firmItems.length > 0) {
         const topFirm = firmItems.slice(0, 3).map(i => `• ${i.text}`).join('\n');
         strengthsText = `Demonstra firmeza e boa autonomia nos seguintes pontos observados:\n${topFirm}`;
+        if (variaItems.length > 0) {
+          const topVaria = variaItems.slice(0, 2).map(i => `• ${i.text}`).join('\n');
+          strengthsText += `\n\nOutras habilidades já aparecem com autonomia em alguns momentos, mas variam conforme interesse ou energia:\n${topVaria}`;
+        }
+      } else if (variaItems.length > 0) {
+        const topVaria = variaItems.slice(0, 3).map(i => `• ${i.text}`).join('\n');
+        strengthsText = `Habilidades que já aparecem com autonomia em momentos favoráveis, mas dependem de energia ou contexto:\n${topVaria}`;
       } else {
         strengthsText = 'A criança demonstrou receptividade e interesse durante a conversa e nas atividades propostas com apoio do educador.';
       }
 
-      // 2. O que pode ser fortalecido agora
+      // 2. Interesses e facilidades (separado de dificuldades)
+      let interestsText = '';
+      const interestPoints = [];
+      if (selStrengths.length > 0) {
+        interestPoints.push(...selStrengths.slice(0, 3).map(s => `• ${s}`));
+      }
+      if (profile.strengthsExample && profile.strengthsExample.trim()) {
+        interestPoints.push(`• Exemplo observado: “${profile.strengthsExample.trim()}”`);
+      }
+      if (interestPoints.length > 0) {
+        interestsText = `Facilidades e iniciativas que despertam entusiasmo:\n${interestPoints.join('\n')}`;
+      } else {
+        interestsText = 'Observar no cotidiano quais assuntos prendem a atenção por mais tempo para usá-los como pontes de aprendizagem.';
+      }
+
+      // 3. O que precisa de apoio agora (sem linguagem de falha; NUNCA colocar nao_observei aqui!)
       let strengthenNowText = '';
-      const needSupport = [...helpItems, ...notAppearedItems];
+      const needSupport = [...supportItems, ...notAppearedItems];
       if (needSupport.length > 0) {
         const topNeed = needSupport.slice(0, 3).map(i => `• ${i.text}`).join('\n');
-        strengthenNowText = `Pontos para fortalecer com carinho, paciência e pequenos passos diários:\n${topNeed}`;
+        strengthenNowText = `Habilidades para acompanhar com modelo calmo, pistas e pequenos passos diários:\n${topNeed}`;
+        if (selChallenges.length > 0) {
+          const topChal = selChallenges.slice(0, 2).map(c => `• ${c}`).join('\n');
+          strengthenNowText += `\n\nDesafios de rotina para apoiar sem pressão:\n${topChal}`;
+        }
+      } else if (selChallenges.length > 0) {
+        const topChal = selChallenges.slice(0, 3).map(c => `• ${c}`).join('\n');
+        strengthenNowText = `Aspectos cotidianos que se beneficiam de acolhimento e rotina previsível:\n${topChal}`;
       } else {
-        strengthenNowText = 'Manter a constância das leituras em voz alta, conversas ricas e pequenos desafios adequados ao ritmo da família.';
+        strengthenNowText = 'Manter a constância de leituras em voz alta, conversas ricas e desafios graduais no ritmo do lar.';
       }
 
-      // 3. Uma base anterior que vale observar
-      let earlierFoundationText = '';
-      if (this.wizard.phaseId === 'fase_1') {
-        earlierFoundationText = 'Garantir bastante conversa sobre objetos reais, histórias em voz alta e brincadeiras motoras ao ar livre antes de exigir respostas abstratas.';
-      } else if (this.wizard.phaseId === 'fase_2') {
-        earlierFoundationText = 'Vale verificar se os sons das letras e rimas orais já estão naturais e divertidos antes de exigir fluência na leitura de textos longos.';
-      } else if (this.wizard.phaseId === 'fase_3') {
-        earlierFoundationText = 'Vale certificar-se de que a leitura em voz alta e a contagem concreta com objetos estão firmes antes de cobrar cálculos abstratos ou parágrafos extensos.';
+      // 4. Em quais condições rende melhor
+      let conditionsText = '';
+      const conditionPoints = [];
+      if (selSupports.length > 0) {
+        conditionPoints.push(...selSupports.slice(0, 3).map(s => `• ${s}`));
+      }
+      if (gatheredMarkers.has('etapas_pequenas')) {
+        conditionPoints.push('• Responde muito melhor quando as instruções são apresentadas uma de cada vez.');
+      }
+      if (gatheredMarkers.has('ambiente_distracao')) {
+        conditionPoints.push('• Ambientes com menos ruído e menos estímulos concorrentes favorecem o foco.');
+      }
+      if (gatheredMarkers.has('cansado_sono')) {
+        conditionPoints.push('• O rendimento varia visivelmente conforme o nível de descanso do dia.');
+      }
+      if (profile.supportsNote && profile.supportsNote.trim()) {
+        conditionPoints.push(`• Estratégia anotada: “${profile.supportsNote.trim()}”`);
+      }
+      if (conditionPoints.length > 0) {
+        conditionsText = `Condições observadas que favorecem o engajamento e a tranquilidade:\n${conditionPoints.join('\n')}`;
       } else {
-        earlierFoundationText = 'Verificar se o hábito de leitura regular e a organização pessoal de pequenas etapas cotidianas estão estabelecidos antes de cobrar autonomia completa em projetos longos.';
+        conditionsText = 'Ambiente calmo, presença acolhedora do educador e divisão das atividades em momentos breves e prazerosos.';
       }
 
-      // 4. Próximos passos para o planejamento
+      // 5. Próximos passos para o planejamento
       let nextStepsText = '';
       if (this.wizard.phaseId === 'fase_1') {
-        nextStepsText = '1. Dedicar 15 minutos diários de leitura de histórias vivas em voz alta e conversa acolhedora.\n2. Convidar a criança para participar de pequenas rotinas do lar (guardar brinquedos, organizar sapatos).';
+        nextStepsText = '1. Dedicar 15 minutos diários de leitura de histórias vivas em voz alta e conversa acolhedora.\n2. Convidar a criança para participar de pequenas rotinas do lar (guardar brinquedos, organizar sapatos).\n3. Usar brincadeiras concretas e cantigas para cultivar os sons da língua e a contagem natural.';
       } else if (this.wizard.phaseId === 'fase_2') {
-        nextStepsText = '1. Praticar diariamente a relação som-letra e pequenas frases com sentido em Língua Portuguesa.\n2. Resolver desafios numéricos práticos (repartir frutas, contar talheres) no cotidiano familiar.';
+        nextStepsText = '1. Praticar diariamente a relação som-letra e pequenas frases com sentido em Língua Portuguesa.\n2. Resolver desafios numéricos práticos (repartir frutas, contar talheres) no cotidiano familiar.\n3. Apoiar o início das tarefas estruturadas dividindo o primeiro passo em algo simples e visível.';
       } else if (this.wizard.phaseId === 'fase_3') {
-        nextStepsText = '1. Trabalhar a compreensão de texto com paráfrase (pedir que reconte a ideia principal com suas palavras).\n2. Estimular a autonomia na rotina de estudos, conferindo o próprio material antes e depois das aulas.';
+        nextStepsText = '1. Trabalhar a compreensão de texto com paráfrase (pedir que reconte a ideia principal com suas palavras).\n2. Estimular a autonomia na rotina de estudos, conferindo o próprio material antes e depois das aulas.\n3. Aproveitar temas de forte interesse para introduzir redações curtas e projetos de pesquisa.';
       } else {
-        nextStepsText = '1. Fortalecer a defesa de ideias por escrito e a leitura atenta de textos expositivos e literários.\n2. Encorajar o planejamento semanal de estudos e a reflexão serena sobre escolhas e consequências.';
+        nextStepsText = '1. Fortalecer a defesa de ideias por escrito e a leitura atenta de textos expositivos e literários.\n2. Encorajar o planejamento semanal de estudos com blocos de tempo realistas e pausas programadas.\n3. Promover a reflexão serena sobre causas, efeitos e consequências em conversas cotidianas.';
       }
 
-      // 5. Algo que pode começar a explorar depois
-      let exploreLaterText = 'Introduzir novos livros com vocabulário mais rico e pequenos experimentos práticos na natureza.';
+      // 6. O que vale observar melhor (nao_observei entra aqui, NUNCA como falha ou apoio!)
+      let exploreLaterText = '';
+      if (unobservedItems.length > 0) {
+        const topUnobs = unobservedItems.slice(0, 3).map(u => `• ${u.text}`).join('\n');
+        exploreLaterText = `Habilidades que não puderam ser vistas nesta ocasião (para observar sem pressa em outro momento):\n${topUnobs}`;
+      } else {
+        exploreLaterText = 'Acompanhar a consolidação do ritmo semanal e introduzir aos poucos novos livros e experiências no mundo real.';
+      }
 
       return {
         strengthsText,
+        interestsText,
         strengthenNowText,
-        earlierFoundationText,
+        conditionsText,
         nextStepsText,
         exploreLaterText,
         familyNotes: ''
@@ -1758,7 +2409,7 @@
 
     goToStep: function(stepNumber) {
       if (stepNumber < 0) stepNumber = 0;
-      if (stepNumber > 8) stepNumber = 8;
+      if (stepNumber > 9) stepNumber = 9;
       this.wizard.currentStep = stepNumber;
       this.renderWizardModal();
       // Rola o modal até o topo suavemente
@@ -1786,6 +2437,101 @@
       this.wizard.activityNotes[activityId] = text.trim();
     },
 
+    toggleActivityMarker: function(actId, markerId) {
+      if (!this.wizard.activityContext[actId]) {
+        this.wizard.activityContext[actId] = { markers: [], note: '' };
+      }
+      const markers = this.wizard.activityContext[actId].markers || [];
+      const idx = markers.indexOf(markerId);
+      if (idx >= 0) markers.splice(idx, 1);
+      else markers.push(markerId);
+      this.wizard.activityContext[actId].markers = markers;
+      this.renderWizardModal();
+    },
+
+    saveActivityContextNote: function(actId, text) {
+      if (!this.wizard.activityContext[actId]) {
+        this.wizard.activityContext[actId] = { markers: [], note: '' };
+      }
+      this.wizard.activityContext[actId].note = text.trim();
+    },
+
+    toggleProfileStrength: function(optId) {
+      if (!this.wizard.learningProfile) {
+        this.wizard.learningProfile = { strengths: [], strengthsExample: '', supports: [], supportsNote: '', challenges: [], challengeContexts: [], challengesNote: '' };
+      }
+      const list = this.wizard.learningProfile.strengths || [];
+      const idx = list.indexOf(optId);
+      if (idx >= 0) list.splice(idx, 1);
+      else list.push(optId);
+      this.wizard.learningProfile.strengths = list;
+      this.renderWizardModal();
+    },
+
+    saveProfileStrengthExample: function(text) {
+      if (!this.wizard.learningProfile) {
+        this.wizard.learningProfile = { strengths: [], strengthsExample: '', supports: [], supportsNote: '', challenges: [], challengeContexts: [], challengesNote: '' };
+      }
+      this.wizard.learningProfile.strengthsExample = text.trim();
+    },
+
+    toggleProfileSupport: function(optId) {
+      if (!this.wizard.learningProfile) {
+        this.wizard.learningProfile = { strengths: [], strengthsExample: '', supports: [], supportsNote: '', challenges: [], challengeContexts: [], challengesNote: '' };
+      }
+      const list = this.wizard.learningProfile.supports || [];
+      const idx = list.indexOf(optId);
+      if (idx >= 0) list.splice(idx, 1);
+      else list.push(optId);
+      this.wizard.learningProfile.supports = list;
+      this.renderWizardModal();
+    },
+
+    saveProfileSupportNote: function(text) {
+      if (!this.wizard.learningProfile) {
+        this.wizard.learningProfile = { strengths: [], strengthsExample: '', supports: [], supportsNote: '', challenges: [], challengeContexts: [], challengesNote: '' };
+      }
+      this.wizard.learningProfile.supportsNote = text.trim();
+    },
+
+    toggleProfileChallenge: function(optId) {
+      if (!this.wizard.learningProfile) {
+        this.wizard.learningProfile = { strengths: [], strengthsExample: '', supports: [], supportsNote: '', challenges: [], challengeContexts: [], challengesNote: '' };
+      }
+      const list = this.wizard.learningProfile.challenges || [];
+      const idx = list.indexOf(optId);
+      if (idx >= 0) list.splice(idx, 1);
+      else list.push(optId);
+      this.wizard.learningProfile.challenges = list;
+      this.renderWizardModal();
+    },
+
+    toggleProfileChallengeContext: function(ctxId) {
+      if (!this.wizard.learningProfile) {
+        this.wizard.learningProfile = { strengths: [], strengthsExample: '', supports: [], supportsNote: '', challenges: [], challengeContexts: [], challengesNote: '' };
+      }
+      const list = this.wizard.learningProfile.challengeContexts || [];
+      const idx = list.indexOf(ctxId);
+      if (idx >= 0) list.splice(idx, 1);
+      else list.push(ctxId);
+      this.wizard.learningProfile.challengeContexts = list;
+      this.renderWizardModal();
+    },
+
+    saveProfileChallengesNote: function(text) {
+      if (!this.wizard.learningProfile) {
+        this.wizard.learningProfile = { strengths: [], strengthsExample: '', supports: [], supportsNote: '', challenges: [], challengeContexts: [], challengesNote: '' };
+      }
+      this.wizard.learningProfile.challengesNote = text.trim();
+    },
+
+    saveWellnessField: function(field, text) {
+      if (!this.wizard.wellnessContext) {
+        this.wizard.wellnessContext = { sleep: '', appetite: '', sensory: '', energy: '', notes: '' };
+      }
+      this.wizard.wellnessContext[field] = text.trim();
+    },
+
     // =======================================================================
     // 9. SALVAMENTO (RASCUNHO vs CONCLUÍDO)
     // =======================================================================
@@ -1797,7 +2543,7 @@
       const childName = person ? person.name : 'Estudante';
       const phase = PHASES[this.wizard.phaseId] || PHASES.fase_1;
 
-      // Salva rascunho com todos os estados atuais preservados
+      // Salva rascunho com todos os estados e perfil preservados
       const evalData = {
         id: this.wizard.evalId || ('eval_' + Date.now()),
         schemaVersion: 2,
@@ -1811,6 +2557,9 @@
         currentStep: this.wizard.currentStep || 1,
         observations: Object.assign({}, this.wizard.observations),
         activityNotes: Object.assign({}, this.wizard.activityNotes),
+        activityContext: Object.assign({}, this.wizard.activityContext),
+        learningProfile: JSON.parse(JSON.stringify(this.wizard.learningProfile || {})),
+        wellnessContext: Object.assign({}, this.wizard.wellnessContext || {}),
         summary: this.wizard.customSummary ? Object.assign({}, this.wizard.customSummary) : null,
         title: `Observação Diagnóstica (${phase.shortTitle})`,
         pontosFortes: 'Rascunho em andamento.',
@@ -1834,7 +2583,15 @@
       const obs = observations || {};
       const summary = {};
       Object.keys(AXES).forEach(axisKey => {
-        summary[axisKey] = { sozinho: 0, com_ajuda: 0, nao_apareceu: 0, nao_observei: 0, total: 0 };
+        summary[axisKey] = { 
+          sozinho: 0, 
+          sozinho_varia: 0, 
+          com_ajuda: 0, 
+          comecando_parcial: 0, 
+          nao_apareceu: 0, 
+          nao_observei: 0, 
+          total: 0 
+        };
       });
       phase.activities.forEach(act => {
         act.signals.forEach(sig => {
@@ -1863,15 +2620,18 @@
         this.wizard.customSummary = this.generateSynthesis();
       }
 
-      // Lê valores atualizados dos textareas se estiver no step 8
+      // Lê valores atualizados dos textareas se estiver no step 9
       const sumStrengths = document.getElementById('sumStrengths');
       if (sumStrengths && sumStrengths.value.trim()) this.wizard.customSummary.strengthsText = sumStrengths.value.trim();
+
+      const sumInterests = document.getElementById('sumInterests');
+      if (sumInterests && sumInterests.value.trim()) this.wizard.customSummary.interestsText = sumInterests.value.trim();
 
       const sumStrengthen = document.getElementById('sumStrengthen');
       if (sumStrengthen && sumStrengthen.value.trim()) this.wizard.customSummary.strengthenNowText = sumStrengthen.value.trim();
 
-      const sumFoundation = document.getElementById('sumFoundation');
-      if (sumFoundation && sumFoundation.value.trim()) this.wizard.customSummary.earlierFoundationText = sumFoundation.value.trim();
+      const sumConditions = document.getElementById('sumConditions');
+      if (sumConditions && sumConditions.value.trim()) this.wizard.customSummary.conditionsText = sumConditions.value.trim();
 
       const sumNextSteps = document.getElementById('sumNextSteps');
       if (sumNextSteps && sumNextSteps.value.trim()) this.wizard.customSummary.nextStepsText = sumNextSteps.value.trim();
@@ -1900,16 +2660,24 @@
         phaseTitle: phase.title,
         status: 'completed',
         isPartial: isPartial,
-        currentStep: 8,
+        currentStep: 9,
         observations: Object.assign({}, this.wizard.observations),
         activityNotes: Object.assign({}, this.wizard.activityNotes),
+        activityContext: Object.assign({}, this.wizard.activityContext),
+        learningProfile: JSON.parse(JSON.stringify(this.wizard.learningProfile || {})),
+        wellnessContext: Object.assign({}, this.wizard.wellnessContext || {}),
         summary: Object.assign({}, this.wizard.customSummary),
         qualitativeSynthesis: {
           firm: this.wizard.customSummary.strengthsText,
-          strengthen: this.wizard.customSummary.strengthenNowText,
-          nextStep: this.wizard.customSummary.nextStepsText,
-          foundation: this.wizard.customSummary.earlierFoundationText,
-          priorities: this.wizard.customSummary.exploreLaterText
+          interests: this.wizard.customSummary.interestsText,
+          support: this.wizard.customSummary.strengthenNowText,
+          strengthen: this.wizard.customSummary.strengthenNowText, // retrocompatibilidade
+          conditions: this.wizard.customSummary.conditionsText,
+          nextSteps: this.wizard.customSummary.nextStepsText,
+          nextStep: this.wizard.customSummary.nextStepsText, // retrocompatibilidade
+          exploreLater: this.wizard.customSummary.exploreLaterText,
+          foundation: this.wizard.customSummary.exploreLaterText, // retrocompatibilidade
+          priorities: this.wizard.customSummary.nextStepsText // retrocompatibilidade
         },
         familyNotes: this.wizard.familyNotes || '',
         axesSummary: this.computeAxesSummary(this.wizard.phaseId, this.wizard.observations),
@@ -1920,7 +2688,7 @@
         summaryNotes: this.wizard.familyNotes,
         pontosFortes: this.wizard.customSummary.strengthsText,
         pontosAtencao: this.wizard.customSummary.strengthenNowText,
-        conteudosRetomar: this.wizard.customSummary.earlierFoundationText,
+        conteudosRetomar: this.wizard.customSummary.exploreLaterText,
         observacoes: this.wizard.familyNotes,
         portugues: {
           leitura: 'Consolidado',

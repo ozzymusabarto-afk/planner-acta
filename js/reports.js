@@ -141,34 +141,57 @@
 
             ${latestEval ? `
               ${latestEval.schemaVersion === 2 ? `
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#CCD8CD] space-y-1.5">
-                    <h4 class="text-xs font-bold text-[#2F5233] flex items-center justify-between">
-                      <span class="flex items-center gap-1.5"><i class="fa-solid fa-seedling text-[10px]"></i> O que já está firme</span>
-                      <span class="text-[10px] font-normal text-[#667267]">Ref: ${latestEval.date ? new Date(latestEval.date + 'T12:00:00').toLocaleDateString('pt-BR') : 'Recente'}</span>
-                    </h4>
-                    <p class="text-xs text-[#28302A] leading-relaxed">
-                      ${latestEval.qualitativeSynthesis?.firm || latestEval.summaryStrengths || 'Demonstra excelente prontidão e interesse vivo.'}
-                    </p>
+                <div class="space-y-3">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#CCD8CD] space-y-1.5">
+                      <h4 class="text-xs font-bold text-[#2F5233] flex items-center justify-between">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-seedling text-[10px]"></i> O que já está firme</span>
+                        <span class="text-[10px] font-normal text-[#667267]">Ref: ${latestEval.date ? new Date(latestEval.date + 'T12:00:00').toLocaleDateString('pt-BR') : 'Recente'}</span>
+                      </h4>
+                      <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">
+                        ${latestEval.qualitativeSynthesis?.firm || latestEval.summaryStrengths || 'Demonstra excelente prontidão e interesse vivo.'}
+                      </p>
+                    </div>
+                    <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#E8C4B8] space-y-1.5">
+                      <h4 class="text-xs font-bold text-[#A95337] flex items-center justify-between">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-water text-[10px]"></i> A fortalecer agora</span>
+                        <span class="text-[10px] font-normal text-[#667267]">Foco</span>
+                      </h4>
+                      <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">
+                        ${latestEval.qualitativeSynthesis?.support || latestEval.qualitativeSynthesis?.strengthen || latestEval.summaryRetomar || 'Constância e apoio próximo nas novas descobertas.'}
+                      </p>
+                    </div>
+                    <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#B8D3DD] space-y-1.5">
+                      <h4 class="text-xs font-bold text-[#3D6B78] flex items-center justify-between">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-compass text-[10px]"></i> Próximo passo</span>
+                        <span class="text-[10px] font-normal text-[#667267]">Sem pressa</span>
+                      </h4>
+                      <p class="text-xs text-[#28302A] leading-relaxed whitespace-pre-line">
+                        ${latestEval.qualitativeSynthesis?.nextSteps || latestEval.qualitativeSynthesis?.nextStep || latestEval.summaryNotes || 'Seguir com ritmo constante e leitura compartilhada.'}
+                      </p>
+                    </div>
                   </div>
-                  <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#E8C4B8] space-y-1.5">
-                    <h4 class="text-xs font-bold text-[#A95337] flex items-center justify-between">
-                      <span class="flex items-center gap-1.5"><i class="fa-solid fa-water text-[10px]"></i> A fortalecer agora</span>
-                      <span class="text-[10px] font-normal text-[#667267]">Foco</span>
-                    </h4>
-                    <p class="text-xs text-[#28302A] leading-relaxed">
-                      ${latestEval.qualitativeSynthesis?.strengthen || latestEval.summaryRetomar || 'Constância e apoio próximo nas novas descobertas.'}
-                    </p>
-                  </div>
-                  <div class="p-3.5 bg-[#FDFBF7] rounded-xl border border-[#B8D3DD] space-y-1.5">
-                    <h4 class="text-xs font-bold text-[#3D6B78] flex items-center justify-between">
-                      <span class="flex items-center gap-1.5"><i class="fa-solid fa-compass text-[10px]"></i> Próximo passo</span>
-                      <span class="text-[10px] font-normal text-[#667267]">Sem pressa</span>
-                    </h4>
-                    <p class="text-xs text-[#28302A] leading-relaxed">
-                      ${latestEval.qualitativeSynthesis?.nextStep || latestEval.summaryNotes || 'Seguir com ritmo constante e leitura compartilhada.'}
-                    </p>
-                  </div>
+
+                  ${(latestEval.qualitativeSynthesis?.interests || latestEval.qualitativeSynthesis?.conditions) ? `
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+                      ${latestEval.qualitativeSynthesis?.interests ? `
+                        <div class="p-3 bg-[#FDFBF7] rounded-xl border border-[#CCD8CD] space-y-1">
+                          <strong class="text-[#325B6C] flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-[10px]"></i> Interesses & Facilidades Observadas:
+                          </strong>
+                          <p class="text-[#445045] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis.interests}</p>
+                        </div>
+                      ` : ''}
+                      ${latestEval.qualitativeSynthesis?.conditions ? `
+                        <div class="p-3 bg-[#FDFBF7] rounded-xl border border-[#CCD8CD] space-y-1">
+                          <strong class="text-[#1E3A5F] flex items-center gap-1.5">
+                            <i class="fa-solid fa-compass text-[10px]"></i> Condições em que rende melhor:
+                          </strong>
+                          <p class="text-[#445045] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis.conditions}</p>
+                        </div>
+                      ` : ''}
+                    </div>
+                  ` : ''}
                 </div>
               ` : `
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -513,7 +536,7 @@
                       </div>
                     </div>
 
-                    <!-- 3 Perguntas Norteadoras da Pedagogia Clássica -->
+                    <!-- Perguntas Norteadoras da Pedagogia Clássica & Síntese Formativa -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                       <div class="p-3.5 bg-white rounded-xl border border-[#CCD8CD] space-y-1.5 shadow-2xs">
                         <span class="font-bold text-[#2F5233] flex items-center gap-1.5">
@@ -528,7 +551,7 @@
                           <i class="fa-solid fa-water text-[11px]"></i>
                           <span>A fortalecer agora</span>
                         </span>
-                        <p class="text-[#28302A] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis?.strengthen || latestEval.summaryRetomar || 'Habilidades que se beneficiam de mediação e modelo calmo.'}</p>
+                        <p class="text-[#28302A] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis?.support || latestEval.qualitativeSynthesis?.strengthen || latestEval.summaryRetomar || 'Habilidades que se beneficiam de mediação e modelo calmo.'}</p>
                       </div>
 
                       <div class="p-3.5 bg-white rounded-xl border border-[#B8D3DD] space-y-1.5 shadow-2xs">
@@ -536,16 +559,46 @@
                           <i class="fa-solid fa-compass text-[11px]"></i>
                           <span>Próximo passo sem pressa</span>
                         </span>
-                        <p class="text-[#28302A] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis?.nextStep || latestEval.summaryNotes || 'Direcionamento sereno para a rotina diária.'}</p>
+                        <p class="text-[#28302A] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis?.nextSteps || latestEval.qualitativeSynthesis?.nextStep || latestEval.summaryNotes || 'Direcionamento sereno para a rotina diária.'}</p>
                       </div>
                     </div>
 
-                    ${latestEval.qualitativeSynthesis?.priorities ? `
+                    ${(latestEval.qualitativeSynthesis?.interests || latestEval.qualitativeSynthesis?.conditions) ? `
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        ${latestEval.qualitativeSynthesis?.interests ? `
+                          <div class="p-3.5 bg-white rounded-xl border border-[#CCD8CD] space-y-1 shadow-2xs">
+                            <span class="font-bold text-[#325B6C] flex items-center gap-1.5">
+                              <i class="fa-solid fa-lightbulb text-[11px]"></i>
+                              <span>Interesses e Facilidades</span>
+                            </span>
+                            <p class="text-[#445045] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis.interests}</p>
+                          </div>
+                        ` : ''}
+                        ${latestEval.qualitativeSynthesis?.conditions ? `
+                          <div class="p-3.5 bg-white rounded-xl border border-[#CCD8CD] space-y-1 shadow-2xs">
+                            <span class="font-bold text-[#1E3A5F] flex items-center gap-1.5">
+                              <i class="fa-solid fa-compass text-[11px]"></i>
+                              <span>Condições em que rende melhor</span>
+                            </span>
+                            <p class="text-[#445045] leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis.conditions}</p>
+                          </div>
+                        ` : ''}
+                      </div>
+                    ` : ''}
+
+                    ${latestEval.qualitativeSynthesis?.exploreLater ? `
+                      <div class="p-3 bg-white rounded-xl border border-[#E8E2D5] text-xs">
+                        <strong class="text-[#28302A] flex items-center gap-1.5">
+                          <i class="fa-solid fa-binoculars text-[10px] text-[#667267]"></i> O que vale observar melhor:
+                        </strong>
+                        <p class="text-[#445045] mt-0.5 leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis.exploreLater}</p>
+                      </div>
+                    ` : (latestEval.qualitativeSynthesis?.priorities ? `
                       <div class="p-3 bg-white rounded-xl border border-[#E8E2D5] text-xs">
                         <strong class="text-[#28302A]">Prioridades formativas do período:</strong>
                         <p class="text-[#445045] mt-0.5 leading-relaxed whitespace-pre-line">${latestEval.qualitativeSynthesis.priorities}</p>
                       </div>
-                    ` : ''}
+                    ` : '')}
 
                     ${latestEval.familyNotes ? `
                       <div class="p-3 bg-[#FDFBF7] rounded-xl border border-[#E8E2D5] text-xs">
