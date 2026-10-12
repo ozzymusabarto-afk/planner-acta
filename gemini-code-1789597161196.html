@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Estilos e Temas do Planner ACTA -->
-  <link rel="stylesheet" href="css/style.css?v=20261012_nitido">
+  <link rel="stylesheet" href="css/style.css?v=20261012_delicado">
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col md:flex-row">
 
@@ -304,23 +304,23 @@
         </div>
       </div>
 
-      <!-- 2. AS 3 GRANDES AÇÕES PRINCIPAIS (PLANEJAR, REGISTRAR, ACOMPANHAR) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+      <!-- 2. AS 3 GRANDES AÇÕES PRINCIPAIS (PLANEJAR, REGISTRAR, ACOMPANHAR — DELICADAS E SERENAS) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
         
         <!-- Cartão 1: PLANEJAR -->
-        <div class="hero-card-planejar relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between items-center text-center space-y-4 hover:shadow-md transition">
+        <div class="hero-card-planejar relative overflow-hidden rounded-3xl p-4 sm:p-5 flex flex-col justify-between items-center text-center space-y-2.5 hover:shadow-xs transition">
           <div class="theme-card-corner-motif"></div>
-          <div class="w-24 h-24 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
-            <img id="illusPlanejarImg" src="assets/illus-planejar-natureza.png" alt="Planejar" class="w-full h-full object-contain drop-shadow-xs transition-all duration-500">
+          <div class="w-16 h-16 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
+            <img id="illusPlanejarImg" src="assets/illus-planejar-natureza-clean.png" alt="Planejar" class="w-full h-full object-contain transition-all duration-500">
           </div>
           <div class="relative z-10">
-            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wider uppercase">PLANEJAR</h3>
-            <p class="text-xs text-[#667267] mt-1">Organize os próximos dias.</p>
+            <h3 class="font-editorial-title text-sm sm:text-base font-bold text-[#28302A] tracking-wider uppercase">PLANEJAR</h3>
+            <p class="text-[11px] sm:text-xs text-[#667267] mt-0.5">Organize os próximos dias.</p>
           </div>
           <button 
             type="button" 
             onclick="ActaApp.switchTab('semana')"
-            class="hero-btn-green w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center justify-center gap-1.5 relative z-10"
+            class="hero-btn-green w-full max-w-[180px] py-2 px-4 rounded-full text-xs font-semibold shadow-2xs flex items-center justify-center gap-1.5 relative z-10"
           >
             <span>Ver semana</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -328,19 +328,19 @@
         </div>
 
         <!-- Cartão 2: REGISTRAR -->
-        <div class="hero-card-registrar relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between items-center text-center space-y-4 hover:shadow-md transition">
+        <div class="hero-card-registrar relative overflow-hidden rounded-3xl p-4 sm:p-5 flex flex-col justify-between items-center text-center space-y-2.5 hover:shadow-xs transition">
           <div class="theme-card-corner-motif"></div>
-          <div class="w-24 h-24 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
-            <img id="illusRegistrarImg" src="assets/illus-registrar-natureza.png" alt="Registrar" class="w-full h-full object-contain drop-shadow-xs transition-all duration-500">
+          <div class="w-16 h-16 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
+            <img id="illusRegistrarImg" src="assets/illus-registrar-natureza-clean.png" alt="Registrar" class="w-full h-full object-contain transition-all duration-500">
           </div>
           <div class="relative z-10">
-            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wider uppercase">REGISTRAR</h3>
-            <p class="text-xs text-[#667267] mt-1">Conte o que aconteceu.</p>
+            <h3 class="font-editorial-title text-sm sm:text-base font-bold text-[#28302A] tracking-wider uppercase">REGISTRAR</h3>
+            <p class="text-[11px] sm:text-xs text-[#667267] mt-0.5">Conte o que aconteceu.</p>
           </div>
           <button 
             type="button" 
             onclick="ActaApp.switchTab('registros')"
-            class="hero-btn-terracotta w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center justify-center gap-1.5 relative z-10"
+            class="hero-btn-terracotta w-full max-w-[180px] py-2 px-4 rounded-full text-xs font-semibold shadow-2xs flex items-center justify-center gap-1.5 relative z-10"
           >
             <span>Novo registro</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -348,19 +348,19 @@
         </div>
 
         <!-- Cartão 3: ACOMPANHAR -->
-        <div class="hero-card-acompanhar relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between items-center text-center space-y-4 hover:shadow-md transition">
+        <div class="hero-card-acompanhar relative overflow-hidden rounded-3xl p-4 sm:p-5 flex flex-col justify-between items-center text-center space-y-2.5 hover:shadow-xs transition">
           <div class="theme-card-corner-motif"></div>
-          <div class="w-24 h-24 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
-            <img id="illusAcompanharImg" src="assets/illus-acompanhar-natureza.png" alt="Acompanhar" class="w-full h-full object-contain drop-shadow-xs transition-all duration-500">
+          <div class="w-16 h-16 flex items-center justify-center relative z-10 overflow-hidden rounded-2xl">
+            <img id="illusAcompanharImg" src="assets/illus-acompanhar-natureza-clean.png" alt="Acompanhar" class="w-full h-full object-contain transition-all duration-500">
           </div>
           <div class="relative z-10">
-            <h3 class="font-editorial-title text-base font-bold text-[#28302A] tracking-wider uppercase">ACOMPANHAR</h3>
-            <p class="text-xs text-[#667267] mt-1">Veja a caminhada.</p>
+            <h3 class="font-editorial-title text-sm sm:text-base font-bold text-[#28302A] tracking-wider uppercase">ACOMPANHAR</h3>
+            <p class="text-[11px] sm:text-xs text-[#667267] mt-0.5">Veja a caminhada.</p>
           </div>
           <button 
             type="button" 
             onclick="ActaApp.switchTab('caminhada')"
-            class="hero-btn-slate w-full py-2.5 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center justify-center gap-1.5 relative z-10"
+            class="hero-btn-slate w-full max-w-[180px] py-2 px-4 rounded-full text-xs font-semibold shadow-2xs flex items-center justify-center gap-1.5 relative z-10"
           >
             <span>Ver progresso</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -534,12 +534,12 @@
         <div class="space-y-4">
           <!-- Cartão 1: Pequenos registros, grandes histórias -->
           <div class="rounded-3xl overflow-hidden border border-[#E8E2D5] shadow-xs bg-white hover:shadow-sm transition">
-            <img id="homeMotivationalCardImg" src="assets/card-pequenos-natureza.jpg" alt="Pequenos registros, grandes histórias" class="w-full h-auto object-cover transition-all duration-500">
+            <img id="homeMotivationalCardImg" src="assets/card-pequenos-natureza.jpg?v=20261012_4" alt="Pequenos registros, grandes histórias" class="w-full h-auto object-cover transition-all duration-500">
           </div>
 
           <!-- Cartão 2: Sonhe / Planeje / Conquiste -->
           <div class="rounded-3xl overflow-hidden border border-[#E8E2D5] shadow-xs bg-white hover:shadow-sm transition">
-            <img src="assets/card-sonhe.jpg" alt="Sonhe Planeje Conquiste" class="w-full h-auto object-cover">
+            <img id="homeSonheCardImg" src="assets/card-sonhe-natureza.jpg?v=20261012_4" alt="Sonhe Planeje Conquiste" class="w-full h-auto object-cover transition-all duration-500">
           </div>
         </div>
 
@@ -3086,6 +3086,6 @@
   <script src="js/reports.js?v=20261008_4"></script>
   <script src="js/quotes.js?v=20260929_16"></script>
   <script src="js/tutorial.js?v=20260929_16"></script>
-  <script src="js/app.js?v=20261012_nitido"></script>
+  <script src="js/app.js?v=20261012_delicado"></script>
 </body>
 </html>

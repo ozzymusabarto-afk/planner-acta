@@ -636,13 +636,12 @@ aside.bg-\[\#FAF7F0\] {
   font-weight: 700 !important;
 }
 
-/* Ilustrações das 3 ações da Home: efeito aquarela suave (clareadas, luminosas, sem peso) */
+/* Ilustrações das 3 ações da Home: efeito aquarela suave, reduzidas e delicadas, sem texto cortado */
 #illusPlanejarImg,
 #illusRegistrarImg,
 #illusAcompanharImg {
-  opacity: 0.88;
-  filter: contrast(0.92) brightness(1.05) saturate(0.85);
-  mix-blend-mode: multiply;
+  opacity: 0.92;
+  filter: contrast(0.95) brightness(1.02) saturate(0.90);
   transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
 }
 
@@ -650,18 +649,17 @@ aside.bg-\[\#FAF7F0\] {
 .hero-card-registrar:hover #illusRegistrarImg,
 .hero-card-acompanhar:hover #illusAcompanharImg {
   opacity: 1;
-  filter: contrast(0.96) brightness(1.03) saturate(0.95);
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
-/* Cartão motivacional lateral: aquarela serena sem peso */
-#homeMotivationalCardImg {
-  opacity: 0.92;
-  filter: contrast(0.94) brightness(1.04) saturate(0.88);
+/* Cartões motivacionais laterais: aquarela serena sem peso */
+#homeMotivationalCardImg,
+#homeSonheCardImg {
+  opacity: 0.96;
   transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-/* As 3 Ações Hero da Home */
+/* As 3 Ações Hero da Home (Delicadas e Serenas) */
 .hero-card-planejar {
   background-color: var(--card-planejar-bg, #F2F8F4) !important;
   border: 1px solid var(--card-planejar-border, #DFECE2) !important;
@@ -678,6 +676,40 @@ aside.bg-\[\#FAF7F0\] {
   background-color: var(--card-acompanhar-bg, #F0F6FA) !important;
   border: 1px solid var(--card-acompanhar-border, #DCE8F2) !important;
   transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Botões delicados e serenos dentro dos 3 cartões de ação da Home */
+.hero-card-planejar .hero-btn-green {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  color: var(--primary) !important;
+  border: 1px solid var(--card-planejar-border, var(--border-color)) !important;
+  box-shadow: none !important;
+}
+.hero-card-planejar .hero-btn-green:hover {
+  background-color: var(--primary) !important;
+  color: #FFFFFF !important;
+}
+
+.hero-card-registrar .hero-btn-terracotta {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  color: var(--terracotta) !important;
+  border: 1px solid var(--card-registrar-border, var(--border-color)) !important;
+  box-shadow: none !important;
+}
+.hero-card-registrar .hero-btn-terracotta:hover {
+  background-color: var(--terracotta) !important;
+  color: #FFFFFF !important;
+}
+
+.hero-card-acompanhar .hero-btn-slate {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  color: var(--slate-blue) !important;
+  border: 1px solid var(--card-acompanhar-border, var(--border-color)) !important;
+  box-shadow: none !important;
+}
+.hero-card-acompanhar .hero-btn-slate:hover {
+  background-color: var(--slate-blue) !important;
+  color: #FFFFFF !important;
 }
 
 .hero-btn-green {

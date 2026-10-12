@@ -9,11 +9,12 @@
   const THEME_VISUALS = {
     natureza: {
       name: 'Natureza',
-      banner: 'assets/banner-natureza.jpg?v=20261012_3',
-      planejar: 'assets/illus-planejar-natureza.png',
-      registrar: 'assets/illus-registrar-natureza.png',
-      acompanhar: 'assets/illus-acompanhar-natureza.png',
-      sideCard: 'assets/card-pequenos-natureza.jpg',
+      banner: 'assets/banner-natureza.jpg?v=20261012_4',
+      planejar: 'assets/illus-planejar-natureza-clean.png?v=20261012_4',
+      registrar: 'assets/illus-registrar-natureza-clean.png?v=20261012_4',
+      acompanhar: 'assets/illus-acompanhar-natureza-clean.png?v=20261012_4',
+      sideCard: 'assets/card-pequenos-natureza.jpg?v=20261012_4',
+      sonheCard: 'assets/card-sonhe-natureza.jpg?v=20261012_4',
       sidebarDecor: '',
       titleColor: '#163D1C',
       subtitleColor: '#1F4B26',
@@ -23,11 +24,12 @@
     },
     classico: {
       name: 'Clássico',
-      banner: 'assets/banner-classico.jpg?v=20261012_3',
-      planejar: 'assets/illus-planejar-classico.jpg',
-      registrar: 'assets/illus-registrar-classico.jpg',
-      acompanhar: 'assets/illus-acompanhar-classico.jpg',
-      sideCard: 'assets/card-pequenos-classico.jpg',
+      banner: 'assets/banner-classico.jpg?v=20261012_4',
+      planejar: 'assets/illus-planejar-classico-clean.png?v=20261012_4',
+      registrar: 'assets/illus-registrar-classico-clean.png?v=20261012_4',
+      acompanhar: 'assets/illus-acompanhar-classico-clean.png?v=20261012_4',
+      sideCard: 'assets/card-pequenos-classico.jpg?v=20261012_4',
+      sonheCard: 'assets/card-sonhe-classico.jpg?v=20261012_4',
       sidebarDecor: '',
       titleColor: '#0F2947',
       subtitleColor: '#17375E',
@@ -37,11 +39,12 @@
     },
     alegre: {
       name: 'Alegre',
-      banner: 'assets/banner-alegre.jpg?v=20261012_3',
-      planejar: 'assets/illus-planejar-alegre.jpg',
-      registrar: 'assets/illus-registrar-alegre.jpg',
-      acompanhar: 'assets/illus-acompanhar-alegre.jpg',
-      sideCard: 'assets/card-pequenos-alegre.jpg',
+      banner: 'assets/banner-alegre.jpg?v=20261012_4',
+      planejar: 'assets/illus-planejar-alegre-clean.png?v=20261012_4',
+      registrar: 'assets/illus-registrar-alegre-clean.png?v=20261012_4',
+      acompanhar: 'assets/illus-acompanhar-alegre-clean.png?v=20261012_4',
+      sideCard: 'assets/card-pequenos-alegre.jpg?v=20261012_4',
+      sonheCard: 'assets/card-sonhe-alegre.jpg?v=20261012_4',
       sidebarDecor: '',
       titleColor: '#123554',
       subtitleColor: '#1A4369',
@@ -51,11 +54,12 @@
     },
     elegante: {
       name: 'Elegante',
-      banner: 'assets/banner-elegante.jpg?v=20261012_3',
-      planejar: 'assets/illus-planejar-elegante.jpg',
-      registrar: 'assets/illus-registrar-elegante.jpg',
-      acompanhar: 'assets/illus-acompanhar-elegante.jpg',
-      sideCard: 'assets/card-pequenos-elegante.jpg',
+      banner: 'assets/banner-elegante.jpg?v=20261012_4',
+      planejar: 'assets/illus-planejar-elegante-clean.png?v=20261012_4',
+      registrar: 'assets/illus-registrar-elegante-clean.png?v=20261012_4',
+      acompanhar: 'assets/illus-acompanhar-elegante-clean.png?v=20261012_4',
+      sideCard: 'assets/card-pequenos-elegante.jpg?v=20261012_4',
+      sonheCard: 'assets/card-sonhe-elegante.jpg?v=20261012_4',
       sidebarDecor: '',
       titleColor: '#1C2024',
       subtitleColor: '#2B3036',
@@ -65,11 +69,12 @@
     },
     criativo: {
       name: 'Criativo',
-      banner: 'assets/banner-criativo.jpg?v=20261012_3',
-      planejar: 'assets/illus-planejar-criativo.jpg',
-      registrar: 'assets/illus-registrar-criativo.jpg',
-      acompanhar: 'assets/illus-acompanhar-criativo.jpg',
-      sideCard: 'assets/card-pequenos-criativo.jpg',
+      banner: 'assets/banner-criativo.jpg?v=20261012_4',
+      planejar: 'assets/illus-planejar-criativo-clean.png?v=20261012_4',
+      registrar: 'assets/illus-registrar-criativo-clean.png?v=20261012_4',
+      acompanhar: 'assets/illus-acompanhar-criativo-clean.png?v=20261012_4',
+      sideCard: 'assets/card-pequenos-criativo.jpg?v=20261012_4',
+      sonheCard: 'assets/card-sonhe-criativo.jpg?v=20261012_4',
       sidebarDecor: '',
       titleColor: '#341948',
       subtitleColor: '#45235E',
@@ -79,11 +84,12 @@
     },
     romantico: {
       name: 'Romântico',
-      banner: 'assets/banner-romantico.jpg?v=20261012_3',
-      planejar: 'assets/illus-planejar-natureza.png',
-      registrar: 'assets/illus-registrar-natureza.png',
-      acompanhar: 'assets/illus-acompanhar-natureza.png',
-      sideCard: 'assets/card-pequenos-natureza.jpg',
+      banner: 'assets/banner-romantico.jpg?v=20261012_4',
+      planejar: 'assets/illus-planejar-romantico-clean.png?v=20261012_4',
+      registrar: 'assets/illus-registrar-romantico-clean.png?v=20261012_4',
+      acompanhar: 'assets/illus-acompanhar-romantico-clean.png?v=20261012_4',
+      sideCard: 'assets/card-pequenos-romantico.jpg?v=20261012_4',
+      sonheCard: 'assets/card-sonhe-romantico.jpg?v=20261012_4',
       sidebarDecor: '',
       titleColor: '#631830',
       subtitleColor: '#75213B',
@@ -445,9 +451,11 @@
       if (rImg) rImg.src = visuals.registrar;
       if (aImg) aImg.src = visuals.acompanhar;
 
-      // 3. Atualizar Cartão Motivacional Lateral da Home
+      // 3. Atualizar Cartões Motivacionais Laterais da Home
       const sideCardImg = document.getElementById('homeMotivationalCardImg');
       if (sideCardImg) sideCardImg.src = visuals.sideCard;
+      const sonheCardImg = document.getElementById('homeSonheCardImg');
+      if (sonheCardImg && visuals.sonheCard) sonheCardImg.src = visuals.sonheCard;
 
       // 4. Atualizar Decoração Temática da Base da Sidebar
       const sidebarDecorImg = document.getElementById('sidebarDecorImg');
