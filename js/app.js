@@ -9,63 +9,87 @@
   const THEME_VISUALS = {
     natureza: {
       name: 'Natureza',
-      banner: 'assets/banner-natureza.jpg',
+      banner: 'assets/banner-natureza.jpg?v=20261012_3',
       planejar: 'assets/illus-planejar-natureza.png',
       registrar: 'assets/illus-registrar-natureza.png',
       acompanhar: 'assets/illus-acompanhar-natureza.png',
       sideCard: 'assets/card-pequenos-natureza.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'transparent'
+      titleColor: '#163D1C',
+      subtitleColor: '#1F4B26',
+      quoteColor: '#264A2B',
+      textShadow: '0 1px 14px rgba(255, 255, 255, 1), 0 0 6px rgba(255, 255, 255, 0.98)',
+      bannerOverlay: 'radial-gradient(ellipse 62% 50% at 50% 22%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.52) 55%, rgba(255, 255, 255, 0) 100%)'
     },
     classico: {
       name: 'Clássico',
-      banner: 'assets/banner-classico.jpg',
+      banner: 'assets/banner-classico.jpg?v=20261012_3',
       planejar: 'assets/illus-planejar-classico.jpg',
       registrar: 'assets/illus-registrar-classico.jpg',
       acompanhar: 'assets/illus-acompanhar-classico.jpg',
       sideCard: 'assets/card-pequenos-classico.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'transparent'
+      titleColor: '#0F2947',
+      subtitleColor: '#17375E',
+      quoteColor: '#1E3F66',
+      textShadow: '0 1px 16px rgba(255, 253, 248, 1), 0 0 8px rgba(255, 253, 248, 1)',
+      bannerOverlay: 'radial-gradient(ellipse 68% 54% at 52% 23%, rgba(255, 252, 245, 0.94) 0%, rgba(255, 250, 240, 0.72) 58%, rgba(255, 250, 240, 0) 100%)'
     },
     alegre: {
       name: 'Alegre',
-      banner: 'assets/banner-alegre.jpg',
+      banner: 'assets/banner-alegre.jpg?v=20261012_3',
       planejar: 'assets/illus-planejar-alegre.jpg',
       registrar: 'assets/illus-registrar-alegre.jpg',
       acompanhar: 'assets/illus-acompanhar-alegre.jpg',
       sideCard: 'assets/card-pequenos-alegre.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'transparent'
+      titleColor: '#123554',
+      subtitleColor: '#1A4369',
+      quoteColor: '#224B70',
+      textShadow: '0 1px 14px rgba(255, 255, 255, 1), 0 0 6px rgba(255, 255, 255, 0.98)',
+      bannerOverlay: 'radial-gradient(ellipse 64% 50% at 50% 22%, rgba(255, 254, 248, 0.90) 0%, rgba(255, 254, 248, 0.58) 55%, rgba(255, 254, 248, 0) 100%)'
     },
     elegante: {
       name: 'Elegante',
-      banner: 'assets/banner-elegante.jpg',
+      banner: 'assets/banner-elegante.jpg?v=20261012_3',
       planejar: 'assets/illus-planejar-elegante.jpg',
       registrar: 'assets/illus-registrar-elegante.jpg',
       acompanhar: 'assets/illus-acompanhar-elegante.jpg',
       sideCard: 'assets/card-pequenos-elegante.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'transparent'
+      titleColor: '#1C2024',
+      subtitleColor: '#2B3036',
+      quoteColor: '#363C42',
+      textShadow: '0 1px 14px rgba(255, 255, 255, 1), 0 0 6px rgba(255, 255, 255, 0.98)',
+      bannerOverlay: 'radial-gradient(ellipse 62% 50% at 50% 22%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.62) 55%, rgba(255, 255, 255, 0) 100%)'
     },
     criativo: {
       name: 'Criativo',
-      banner: 'assets/banner-criativo.jpg',
+      banner: 'assets/banner-criativo.jpg?v=20261012_3',
       planejar: 'assets/illus-planejar-criativo.jpg',
       registrar: 'assets/illus-registrar-criativo.jpg',
       acompanhar: 'assets/illus-acompanhar-criativo.jpg',
       sideCard: 'assets/card-pequenos-criativo.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'transparent'
+      titleColor: '#341948',
+      subtitleColor: '#45235E',
+      quoteColor: '#4F2B6B',
+      textShadow: '0 1px 14px rgba(255, 255, 255, 1), 0 0 6px rgba(255, 255, 255, 0.98)',
+      bannerOverlay: 'radial-gradient(ellipse 64% 50% at 52% 22%, rgba(254, 251, 255, 0.92) 0%, rgba(254, 251, 255, 0.62) 55%, rgba(254, 251, 255, 0) 100%)'
     },
     romantico: {
       name: 'Romântico',
-      banner: 'assets/banner-romantico.jpg',
+      banner: 'assets/banner-romantico.jpg?v=20261012_3',
       planejar: 'assets/illus-planejar-natureza.png',
       registrar: 'assets/illus-registrar-natureza.png',
       acompanhar: 'assets/illus-acompanhar-natureza.png',
       sideCard: 'assets/card-pequenos-natureza.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'transparent'
+      titleColor: '#631830',
+      subtitleColor: '#75213B',
+      quoteColor: '#69243A',
+      textShadow: '0 1px 14px rgba(255, 252, 253, 1), 0 0 6px rgba(255, 252, 253, 0.98)',
+      bannerOverlay: 'radial-gradient(ellipse 66% 52% at 53% 22%, rgba(255, 250, 251, 0.92) 0%, rgba(255, 248, 250, 0.66) 56%, rgba(255, 248, 250, 0) 100%)'
     }
   };
 
@@ -381,11 +405,33 @@
       // Obter configuração visual completa do tema
       const visuals = THEME_VISUALS[themeName];
 
-      // 1. Atualizar Banner Superior da Página Inicial
+      // 1. Atualizar Banner Superior da Página Inicial (Imagem, Halo e Cores Nítidas de Contraste)
       const bannerEl = document.getElementById('heroBannerContainer');
       const overlayEl = document.getElementById('heroBannerOverlay');
       if (bannerEl) {
         bannerEl.style.backgroundImage = `url('${visuals.banner}')`;
+        const h1El = bannerEl.querySelector('h1');
+        const subEl = bannerEl.querySelector('p.uppercase');
+        const scriptEl = bannerEl.querySelector('p.font-script');
+        const quoteEls = bannerEl.querySelectorAll('.pt-1 p, .pt-0\\.5 p, p.font-editorial-title');
+        if (h1El && visuals.titleColor) {
+          h1El.style.setProperty('color', visuals.titleColor, 'important');
+          h1El.style.setProperty('text-shadow', visuals.textShadow, 'important');
+        }
+        if (subEl && visuals.subtitleColor) {
+          subEl.style.setProperty('color', visuals.subtitleColor, 'important');
+          subEl.style.setProperty('text-shadow', visuals.textShadow, 'important');
+        }
+        if (scriptEl && visuals.titleColor) {
+          scriptEl.style.setProperty('color', visuals.titleColor, 'important');
+          scriptEl.style.setProperty('text-shadow', visuals.textShadow, 'important');
+        }
+        if (quoteEls && quoteEls.length) {
+          quoteEls.forEach(qEl => {
+            qEl.style.setProperty('color', visuals.quoteColor, 'important');
+            qEl.style.setProperty('text-shadow', visuals.textShadow, 'important');
+          });
+        }
       }
       if (overlayEl) {
         overlayEl.style.background = visuals.bannerOverlay;
