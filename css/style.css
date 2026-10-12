@@ -1,4 +1,5 @@
 /* PLANNER ACTA — Revolução Visual Editorial "Caderno Ilustrado da Família" */
+/* Edição Suavizada em Aquarela Clássica Serena */
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap');
 
@@ -9,310 +10,300 @@
   --font-title: 'Playfair Display', Georgia, serif;
   --font-script: 'Caveat', cursive, handwriting;
 
-  /* 🌿 Tema 1: Natureza (Tons floresta, marfim orgânico e folhas botânicas) */
-  --bg-page: #F7F5EE;
-  --bg-sidebar: #F4F1E8;
+  /* 🌿 Tema 1: Natureza (Aquarela verde-sálvia suave, marfim acolhedor) */
+  --bg-page: #FAF8F3;
+  --bg-sidebar: #F5F3EC;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #EDE9DD;
-  --bg-card-hover: #F2EFE6;
-  --text-main: #242E25;
-  --text-muted: #576558;
-  --text-light: #7E8D7F;
-  --border-color: #DCD6C8;
-  --border-light: #E7E2D6;
+  --bg-surface-soft: #F0EEE5;
+  --bg-card-hover: #F6F4EC;
+  --text-main: #2C362D;
+  --text-muted: #616E62;
+  --text-light: #859186;
+  --border-color: #DFDDD4;
+  --border-light: #EBE9E2;
 
-  --primary: #2F5233;
-  --primary-hover: #223D26;
-  --primary-light: #DDE8DC;
+  --primary: #526E55; /* Verde-sálvia nobre, calmo e suave */
+  --primary-hover: #435A46;
+  --primary-light: #E6EDE7;
   --primary-text: #FFFFFF;
 
-  --terracotta: #C26B38;
-  --terracotta-hover: #A65628;
-  --terracotta-light: #FDF1E2;
+  --terracotta: #A37053;
+  --terracotta-hover: #8D5E43;
+  --terracotta-light: #F9EFE9;
 
-  --slate-blue: #36728B;
-  --slate-blue-hover: #2A596D;
-  --slate-blue-light: #E2EFF5;
+  --slate-blue: #537482;
+  --slate-blue-hover: #43606C;
+  --slate-blue-light: #E7EFF3;
 
-  --sidebar-active-bg: #DDE8DC;
-  --sidebar-active-text: #2F5233;
-  --banner-bg: linear-gradient(135deg, #EBF3EB 0%, #F6F1E6 100%);
-  --card-planejar-bg: #EDF4EC;
-  --card-planejar-border: #D5E5D4;
-  --card-registrar-bg: #FDF1E2;
-  --card-registrar-border: #F8E2CE;
-  --card-acompanhar-bg: #E2EFF5;
-  --card-acompanhar-border: #D0E4EE;
+  --sidebar-active-bg: #E6EDE7;
+  --sidebar-active-text: #526E55;
+  --banner-bg: linear-gradient(135deg, #EFF4EF 0%, #FAF8F3 100%);
+  --card-planejar-bg: #F2F6F2;
+  --card-planejar-border: #DFE8E0;
+  --card-registrar-bg: #FAF5F0;
+  --card-registrar-border: #EDE2D8;
+  --card-acompanhar-bg: #F0F5F8;
+  --card-acompanhar-border: #DCE7ED;
 
-  /* Marca d'água: folhas botânicas e ramos delicados */
-  --theme-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cpath fill='%232F5233' fill-opacity='0.045' d='M35 15c-5 12-18 20-30 20 12 5 20 18 20 30 5-12 18-20 30-20-12-5-20-18-20-30zm70 70c-5 12-18 20-30 20 12 5 20 18 20 30 5-12 18-20 30-20-12-5-20-18-20-30zM85 20c-3 8-10 14-20 14 10 3 14 10 14 20 3-8 10-14 20-14-10-3-14-10-14-20zm-50 70c-3 8-10 14-20 14 10 3 14 10 14 20 3-8 10-14 20-14-10-3-14-10-14-20z'/%3E%3Cpath fill='%232F5233' fill-opacity='0.035' d='M10 100c15-5 25 5 35-10-5 15 5 25-10 35-10-5-20-15-25-25zm70-70c15-5 25 5 35-10-5 15 5 25-10 35-10-5-20-15-25-25z'/%3E%3C/svg%3E");
-  --theme-watermark-size: 140px 140px;
+  --theme-watermark: none;
+  --theme-watermark-size: 0 0;
 
-  /* 🌿 Ilustrações Temáticas Exclusivas: Folhas, flores e ramos botânicos */
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%232F5233' d='M20 5C14 10 12 18 16 26c1-4 4-8 8-11 5-4 9-6 9-6s-1 5-4 9c-3 4-7 7-11 8 8 4 16 2 21-4 1 5-1 11-5 15-4 4-10 6-16 4-6-2-10-7-11-13-1-7 2-15 7-20 4-4 9-7 16-8-3 1-6 3-8 5z'/%3E%3Ccircle cx='27' cy='15' r='3.5' fill='%23C26B38'/%3E%3Ccircle cx='27' cy='15' r='1.5' fill='%23FFF'/%3E%3C/svg%3E");
-  --theme-banner-ornament-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='%232F5233'%3E%3Cpath d='M30 180c20-60 60-100 130-130-40 40-60 80-70 130-10-40-30-70-60-90 10 30 10 60 0 90z' fill-opacity='0.22'/%3E%3Cpath d='M70 140c-20-10-35-5-45 10 5-15 20-25 45-10zm30-40c-15-15-30-15-45-5 10-15 25-15 45 5zm35-35c-15-15-30-15-45-5 10-15 25-15 45 5z' fill-opacity='0.28'/%3E%3Ccircle cx='155' cy='55' r='12' fill='%23C26B38' fill-opacity='0.35'/%3E%3Ccircle cx='155' cy='55' r='6' fill='%23FDF1E2' fill-opacity='0.9'/%3E%3Ccircle cx='130' cy='30' r='8' fill='%23C26B38' fill-opacity='0.28'/%3E%3Ccircle cx='175' cy='80' r='7' fill='%232F5233' fill-opacity='0.3'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-card-corner-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cpath d='M60 0C50 25 35 45 0 60c20-10 35-25 45-45 5-7 10-12 15-15z' fill='%232F5233' fill-opacity='0.25'/%3E%3Cpath d='M48 10c-5 8-12 12-20 12 6-8 12-12 20-12zm-12 15c-5 6-10 10-18 10 5-6 10-10 18-10z' fill='%232F5233' fill-opacity='0.32'/%3E%3Ccircle cx='50' cy='10' r='3.5' fill='%23C26B38' fill-opacity='0.45'/%3E%3C/svg%3E");
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16c45-4 75-8 110 0 35 8 65 4 110 0' stroke='%232F5233' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-opacity='0.55'/%3E%3Cpath d='M40 14c-8-6-15-5-20 2 6 5 15 3 20-2zm30-2c-6-8-14-7-18 2 7 6 14 3 18-2zm35 4c0-10-8-12-14-2 7 8 13 6 14 0zm30-4c6-8 14-7 18 2-7 6-14 3-18-2zm35 2c8-6 15-5 20 2-6 5-15 3-20-2z' fill='%232F5233' fill-opacity='0.6'/%3E%3Ccircle cx='120' cy='16' r='4' fill='%23C26B38' fill-opacity='0.85'/%3E%3Ccircle cx='110' cy='13' r='2.5' fill='%23C26B38' fill-opacity='0.7'/%3E%3Ccircle cx='130' cy='19' r='2.5' fill='%23C26B38' fill-opacity='0.7'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h120m60 0h120' stroke='%232F5233' stroke-width='1' stroke-opacity='0.3' stroke-dasharray='4,4'/%3E%3Cpath d='M140 12c-6-7-14-6-18 0 5 6 14 5 18 0zm40 0c6-7 14-6 18 0-5 6-14 5-18 0z' fill='%232F5233' fill-opacity='0.6'/%3E%3Ccircle cx='160' cy='12' r='4.5' fill='%23C26B38' fill-opacity='0.85'/%3E%3Ccircle cx='160' cy='12' r='2' fill='%23FFF'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 9c2-5 7-7 11-6-1 4-4 9-8 10-2-1-3-2-3-4z' fill='%232F5233' fill-opacity='0.85'/%3E%3Cpath d='M4 8c3-1 6-2 9-5' stroke='%23FFF' stroke-width='0.8' stroke-linecap='round' fill='none' stroke-opacity='0.6'/%3E%3C/svg%3E");
+  /* Ícone de cabeçalho sutil em sálvia */
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23526E55' d='M20 6c-5 4-7 10-4 16 1-3 3-5 6-7 4-3 7-4 7-4s-1 3-3 6c-2 3-5 5-7 6 5 2 11 1 14-2 1 3-1 7-3 10-3 3-6 4-11 3-4-1-6-4-7-8-1-5 1-10 4-13 3-3 6-5 11-5-2 1-5 1-7 2z'/%3E%3Ccircle cx='24' cy='13' r='2' fill='%23A37053'/%3E%3C/svg%3E");
+  --theme-banner-ornament-svg: none;
+  --theme-card-corner-svg: none;
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23526E55' stroke-width='1' stroke-opacity='0.4'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23526E55' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23526E55' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23526E55' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23526E55' fill-opacity='0.7'/%3E%3C/svg%3E");
 
   --card-radius: 1.25rem;
-  --shadow-soft: 0 2px 10px rgba(40, 48, 42, 0.04), 0 1px 3px rgba(40, 48, 42, 0.02);
-  --shadow-md: 0 6px 18px rgba(40, 48, 42, 0.06), 0 2px 6px rgba(40, 48, 42, 0.03);
+  --shadow-soft: 0 2px 8px rgba(44, 54, 45, 0.03), 0 1px 3px rgba(44, 54, 45, 0.02);
+  --shadow-md: 0 4px 14px rgba(44, 54, 45, 0.05), 0 2px 4px rgba(44, 54, 45, 0.02);
 }
 
-/* 📜 Tema 2: Clássico (Pergaminho nobre, lacre bordô e arabescos de livro antigo) */
+/* 📜 Tema 2: Clássico (Pergaminho suave, azul ardósia biblioteca) */
 [data-theme="classico"] {
-  --bg-page: #F5EFEB;
-  --bg-sidebar: #ECE3DB;
-  --bg-surface: #FFFDF9;
-  --bg-surface-soft: #E6DCD2;
-  --bg-card-hover: #EFE6DC;
-  --text-main: #2C2219;
-  --text-muted: #645648;
-  --text-light: #8B7A6A;
-  --border-color: #D6C7B7;
-  --border-light: #E2D7CB;
+  --bg-page: #FAF6EE;
+  --bg-sidebar: #F3EFE6;
+  --bg-surface: #FFFFFF;
+  --bg-surface-soft: #EDE7DC;
+  --bg-card-hover: #F5F0E6;
+  --text-main: #2E363E;
+  --text-muted: #626D77;
+  --text-light: #87929C;
+  --border-color: #DED7CB;
+  --border-light: #EBE5DB;
 
-  --primary: #853723; /* Lacre bordô editorial */
-  --primary-hover: #692918;
-  --primary-light: #F4E2DE;
+  --primary: #4B667A; /* Azul ardósia biblioteca clássico suave */
+  --primary-hover: #3C5466;
+  --primary-light: #E4ECF2;
   --primary-text: #FFFFFF;
 
-  --terracotta: #A0522D;
-  --terracotta-hover: #844122;
+  --terracotta: #A16B55;
+  --terracotta-hover: #8A5743;
   --terracotta-light: #F8EFEA;
 
-  --slate-blue: #1E3A5F;
-  --slate-blue-hover: #142842;
-  --slate-blue-light: #E4ECF4;
+  --slate-blue: #4B667A;
+  --slate-blue-hover: #3C5466;
+  --slate-blue-light: #E4ECF2;
 
-  --sidebar-active-bg: #F4E2DE;
-  --sidebar-active-text: #853723;
-  --banner-bg: linear-gradient(135deg, #EFE3D8 0%, #F8F3EC 100%);
-  --card-planejar-bg: #F1E9E0;
-  --card-planejar-border: #DFD0C2;
+  --sidebar-active-bg: #E4ECF2;
+  --sidebar-active-text: #4B667A;
+  --banner-bg: linear-gradient(135deg, #EBF1F6 0%, #FAF6EE 100%);
+  --card-planejar-bg: #EEF3F7;
+  --card-planejar-border: #DCE5ED;
   --card-registrar-bg: #F8EFEA;
-  --card-registrar-border: #E8D7CA;
-  --card-acompanhar-bg: #E7EEF5;
-  --card-acompanhar-border: #D1DFEC;
+  --card-registrar-border: #EADBCE;
+  --card-acompanhar-bg: #EEF3F7;
+  --card-acompanhar-border: #DCE5ED;
 
-  /* Marca d'água: arabescos e florões tipográficos de livros clássicos */
-  --theme-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cpath fill='%23853723' fill-opacity='0.05' d='M80 20c-10 20-30 30-50 30 20 10 30 30 30 50 10-20 30-30 50-30-20-10-30-30-30-50zm0 120c-5-10-15-15-25-15 10-5 15-15 15-25 5 10 15 15 25 15-10 5-15 15-15 25zM20 80c-5-10-15-15-25-15 10-5 15-15 15-25 5 10 15 15 25 15-10 5-15 15-15 25zm120 0c-5-10-15-15-25-15 10-5 15-15 15-25 5 10 15 15 25 15-10 5-15 15-15 25z'/%3E%3Ccircle cx='80' cy='80' r='5' fill='%23853723' fill-opacity='0.04'/%3E%3C/svg%3E");
-  --theme-watermark-size: 160px 160px;
+  --theme-watermark: none;
+  --theme-watermark-size: 0 0;
 
-  /* 📜 Ilustrações Temáticas Exclusivas: Lacre, arabescos, livro antigo e pena */
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='17' fill='%23853723'/%3E%3Ccircle cx='20' cy='20' r='14' fill='none' stroke='%23FFF' stroke-width='1.5' stroke-dasharray='3 2'/%3E%3Cpath fill='%23FFF' d='M13 16h6v10h-6zm8 0h6v10h-6zm-1-2l4-4 2 2-4 4z'/%3E%3C/svg%3E");
-  --theme-banner-ornament-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='%23853723'%3E%3Cpath d='M30 150c40-10 70-30 90-70-15 35-40 55-90 70zm130-110c-35 15-55 40-70 90 10-40 30-70 70-90z' fill-opacity='0.25'/%3E%3Cpath d='M50 160c30-5 60-20 80-50-5 25-25 45-60 55zm70-90c-25 5-45 25-55 60 5-30 20-60 50-80z' fill-opacity='0.2'/%3E%3Cpath d='M100 80c-20-15-40-10-60 5 15-20 35-25 60-5zm5 0c20-15 40-10 60 5-15-20-35-25-60-5z' fill-opacity='0.3'/%3E%3Ccircle cx='100' cy='85' r='5' fill='%23853723' fill-opacity='0.35'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-card-corner-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cpath d='M60 0v20c-5-10-15-15-25-15H0v-5h60zM40 5c5 5 10 15 10 25-3-8-8-12-15-15 2-4 4-7 5-10zm-15 5c4 4 8 10 8 18-3-6-6-10-12-12 1-3 3-5 4-6z' fill='%23853723' fill-opacity='0.28'/%3E%3C/svg%3E");
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23853723' stroke-width='1.2' stroke-opacity='0.4'/%3E%3Cpath d='M100 16c-8-6-15-5-20 0 6 5 15 4 20 0zm40 0c8-6 15-5 20 0-6 5-15 4-20 0z' fill='%23853723' fill-opacity='0.5'/%3E%3Cpath d='M110 12h8v10h-8zm12 0h8v10h-8z' fill='%23853723' fill-opacity='0.75'/%3E%3Ccircle cx='120' cy='8' r='2' fill='%23C89B3C'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h120m60 0h120' stroke='%23853723' stroke-width='1.2' stroke-opacity='0.35'/%3E%3Cpath d='M140 12c-5-5-12-4-16 0 4 4 11 4 16 0zm40 0c5-5 12-4 16 0-4 4-11 4-16 0z' fill='%23853723' fill-opacity='0.6'/%3E%3Cpath d='M152 12l8-8 8 8-8 8z' fill='%23853723' fill-opacity='0.85'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23C89B3C'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 2l6 6-6 6-6-6z' fill='%23853723' fill-opacity='0.85'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%23FFF'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='none' stroke='%234B667A' stroke-width='1.5'/%3E%3Cpath fill='%234B667A' d='M14 16h5v9h-5zm7 0h5v9h-5zm-1-2l3-3 2 2-3 3z'/%3E%3C/svg%3E");
+  --theme-banner-ornament-svg: none;
+  --theme-card-corner-svg: none;
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%234B667A' stroke-width='1' stroke-opacity='0.4'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%234B667A' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%234B667A' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%234B667A' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%234B667A' fill-opacity='0.7'/%3E%3C/svg%3E");
 }
 
-/* ☀️ Tema 3: Alegre (Manhã ensolarada, dourado caloroso e poás radiantes) */
+/* ☀️ Tema 3: Alegre (Manhã suave, ocre e dourado amanteigado em aquarela) */
 [data-theme="alegre"] {
-  --bg-page: #FFFBEB;
-  --bg-sidebar: #FEF3C7;
+  --bg-page: #FFFDF5;
+  --bg-sidebar: #FBF7EC;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #FDE68A;
-  --bg-card-hover: #FEF9C3;
-  --text-main: #362912;
-  --text-muted: #6B552B;
-  --text-light: #947942;
-  --border-color: #F8D882;
-  --border-light: #FDE8AA;
+  --bg-surface-soft: #F7EED8;
+  --bg-card-hover: #FAF4E6;
+  --text-main: #363228;
+  --text-muted: #6D675A;
+  --text-light: #948C7D;
+  --border-color: #E6DFCE;
+  --border-light: #F0EADF;
 
-  --primary: #D97706; /* Âmbar solar vibrante */
-  --primary-hover: #B45309;
-  --primary-light: #FEF3C7;
+  --primary: #B88A3B; /* Dourado âmbar suave e aquarelado */
+  --primary-hover: #9E742E;
+  --primary-light: #F8F0DD;
   --primary-text: #FFFFFF;
 
-  --terracotta: #EA580C;
-  --terracotta-hover: #C2410C;
-  --terracotta-light: #FFEDD5;
+  --terracotta: #B86E4B;
+  --terracotta-hover: #9E5B3B;
+  --terracotta-light: #FDF1EA;
 
-  --slate-blue: #0284C7;
-  --slate-blue-hover: #0369A1;
-  --slate-blue-light: #E0F2FE;
+  --slate-blue: #51758C;
+  --slate-blue-hover: #416074;
+  --slate-blue-light: #E8F0F5;
 
-  --sidebar-active-bg: #FDE68A;
-  --sidebar-active-text: #92400E;
-  --banner-bg: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
-  --card-planejar-bg: #FEF9C3;
-  --card-planejar-border: #FDE047;
-  --card-registrar-bg: #FFEDD5;
-  --card-registrar-border: #FDBA74;
-  --card-acompanhar-bg: #E0F2FE;
-  --card-acompanhar-border: #BAE6FD;
+  --sidebar-active-bg: #F8F0DD;
+  --sidebar-active-text: #B88A3B;
+  --banner-bg: linear-gradient(135deg, #FAF3E3 0%, #FFFDF5 100%);
+  --card-planejar-bg: #F9F4E8;
+  --card-planejar-border: #EFE4CC;
+  --card-registrar-bg: #FDF4ED;
+  --card-registrar-border: #F3E0D4;
+  --card-acompanhar-bg: #EDF3F7;
+  --card-acompanhar-border: #D8E5ED;
 
-  /* Marca d'água: pequenos sois, estrelas e poás radiantes */
-  --theme-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Cg fill='%23D97706' fill-opacity='0.055'%3E%3Ccircle cx='75' cy='75' r='14'/%3E%3Cpath d='M75 42l4 15h-8zm0 66l4-15h-8zm33-33l-15 4v-8zm-66 0l15 4v-8zm54-21l-9 12-6-6zm-42 42l9-12 6 6zm0-42l12 9-6 6zm42 42l-12-9 6-6z'/%3E%3Ccircle cx='20' cy='20' r='5'/%3E%3Ccircle cx='130' cy='20' r='4'/%3E%3Ccircle cx='20' cy='130' r='4'/%3E%3Ccircle cx='130' cy='130' r='5'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-watermark-size: 150px 150px;
+  --theme-watermark: none;
+  --theme-watermark-size: 0 0;
 
-  /* ☀️ Ilustrações Temáticas Exclusivas: Sol radiante e margaridas douradas */
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='9' fill='%23D97706'/%3E%3Cg fill='%23D97706'%3E%3Ccircle cx='20' cy='6' r='2.5'/%3E%3Ccircle cx='20' cy='34' r='2.5'/%3E%3Ccircle cx='6' cy='20' r='2.5'/%3E%3Ccircle cx='34' cy='20' r='2.5'/%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3Ccircle cx='10' cy='30' r='2'/%3E%3Ccircle cx='30' cy='10' r='2'/%3E%3C/g%3E%3Ccircle cx='17' cy='18' r='1.5' fill='%23FFF'/%3E%3Ccircle cx='23' cy='18' r='1.5' fill='%23FFF'/%3E%3Cpath d='M17 22q3 3 6 0' stroke='%23FFF' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  --theme-banner-ornament-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='%23D97706'%3E%3Ccircle cx='140' cy='60' r='28' fill-opacity='0.25'/%3E%3Cpath d='M140 18l5 16h-10zm0 68l5 16h-10zm42-42l-16 5v-10zm-68 0l-16 5v-10zm60-22l-12 11-7-7zm-44 44l-12 11-7-7zm0-44l11 12-7 7zm44 44l11 12-7 7z' fill-opacity='0.3'/%3E%3Ccircle cx='70' cy='140' r='14' fill='%23F59E0B' fill-opacity='0.35'/%3E%3Ccircle cx='70' cy='140' r='6' fill='%23FFFBEB'/%3E%3Ccircle cx='40' cy='120' r='8' fill='%23EA580C' fill-opacity='0.28'/%3E%3Cpath d='M100 130c10-10 25-10 35 0-5-15-20-15-35 0z' fill-opacity='0.3'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-card-corner-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cpath d='M60 0A60 60 0 0 0 0 60' stroke='%23D97706' stroke-opacity='0.22' stroke-width='3' fill='none'/%3E%3Ccircle cx='50' cy='10' r='8' fill='%23D97706' fill-opacity='0.35'/%3E%3Ccircle cx='50' cy='10' r='4' fill='%23FFF' fill-opacity='0.8'/%3E%3Ccircle cx='32' cy='14' r='2' fill='%23D97706' fill-opacity='0.4'/%3E%3Ccircle cx='46' cy='28' r='2.5' fill='%23D97706' fill-opacity='0.4'/%3E%3Ccircle cx='20' cy='25' r='1.5' fill='%23D97706' fill-opacity='0.3'/%3E%3C/svg%3E");
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16c40 3 70 3 100 0 30-3 60-3 120 0' stroke='%23D97706' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-opacity='0.4' stroke-dasharray='5,3'/%3E%3Ccircle cx='120' cy='16' r='8' fill='%23D97706' fill-opacity='0.85'/%3E%3Cg fill='%23D97706' fill-opacity='0.8'%3E%3Ccircle cx='120' cy='5' r='2'/%3E%3Ccircle cx='120' cy='27' r='2'/%3E%3Ccircle cx='109' cy='16' r='2'/%3E%3Ccircle cx='131' cy='16' r='2'/%3E%3Ccircle cx='112' cy='8' r='1.5'/%3E%3Ccircle cx='128' cy='24' r='1.5'/%3E%3Ccircle cx='112' cy='24' r='1.5'/%3E%3Ccircle cx='128' cy='8' r='1.5'/%3E%3C/g%3E%3Ccircle cx='117' cy='14' r='1.2' fill='%23FFF'/%3E%3Ccircle cx='123' cy='14' r='1.2' fill='%23FFF'/%3E%3Cpath d='M118 18q2 2 4 0' stroke='%23FFF' stroke-width='1' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='80' cy='16' r='4' fill='%23F59E0B' fill-opacity='0.6'/%3E%3Ccircle cx='160' cy='16' r='4' fill='%23F59E0B' fill-opacity='0.6'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12q35-6 70 0t70 0 70 0 80 0' stroke='%23D97706' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-opacity='0.35'/%3E%3Ccircle cx='160' cy='12' r='6' fill='%23D97706' fill-opacity='0.85'/%3E%3Ccircle cx='160' cy='12' r='3' fill='%23FFF'/%3E%3Ccircle cx='80' cy='12' r='3.5' fill='%23F59E0B' fill-opacity='0.7'/%3E%3Ccircle cx='240' cy='12' r='3.5' fill='%23F59E0B' fill-opacity='0.7'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='4' fill='%23D97706'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%23FFF'/%3E%3Cg fill='%23F59E0B'%3E%3Ccircle cx='8' cy='2' r='1.5'/%3E%3Ccircle cx='8' cy='14' r='1.5'/%3E%3Ccircle cx='2' cy='8' r='1.5'/%3E%3Ccircle cx='14' cy='8' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='7' fill='%23B88A3B'/%3E%3Ccircle cx='20' cy='8' r='2' fill='%23B88A3B'/%3E%3Ccircle cx='20' cy='32' r='2' fill='%23B88A3B'/%3E%3Ccircle cx='8' cy='20' r='2' fill='%23B88A3B'/%3E%3Ccircle cx='32' cy='20' r='2' fill='%23B88A3B'/%3E%3C/svg%3E");
+  --theme-banner-ornament-svg: none;
+  --theme-card-corner-svg: none;
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23B88A3B' stroke-width='1' stroke-opacity='0.4'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23B88A3B' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23B88A3B' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23B88A3B' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23B88A3B' fill-opacity='0.7'/%3E%3C/svg%3E");
 }
 
-/* ✨ Tema 4: Elegante (Bruma prateada, slate nobre e constelações geométricas) */
+/* ✨ Tema 4: Elegante (Ardósia mineral clássica, neutro e refinado) */
 [data-theme="elegante"] {
-  --bg-page: #F1F5F9;
-  --bg-sidebar: #E2E8F0;
+  --bg-page: #F8F9FA;
+  --bg-sidebar: #F0F2F4;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #E2E8F0;
-  --bg-card-hover: #F8FAFC;
-  --text-main: #0F172A;
-  --text-muted: #475569;
-  --text-light: #64748B;
-  --border-color: #CBD5E1;
-  --border-light: #E2E8F0;
+  --bg-surface-soft: #E5E8EC;
+  --bg-card-hover: #EFF2F5;
+  --text-main: #262B30;
+  --text-muted: #59626C;
+  --text-light: #7E8894;
+  --border-color: #D6DCE2;
+  --border-light: #E5EAEE;
 
-  --primary: #1E293B; /* Midnight slate refinado */
-  --primary-hover: #0F172A;
-  --primary-light: #E2E8F0;
+  --primary: #556677; /* Ardósia clássica suave */
+  --primary-hover: #455463;
+  --primary-light: #E5EAF0;
   --primary-text: #FFFFFF;
 
-  --terracotta: #943A1E;
-  --terracotta-hover: #782E16;
-  --terracotta-light: #FBECE8;
+  --terracotta: #8C6464;
+  --terracotta-hover: #755151;
+  --terracotta-light: #F6EEEE;
 
-  --slate-blue: #334155;
-  --slate-blue-hover: #1E293B;
-  --slate-blue-light: #E2E8F0;
+  --slate-blue: #556677;
+  --slate-blue-hover: #455463;
+  --slate-blue-light: #E5EAF0;
 
-  --sidebar-active-bg: #CBD5E1;
-  --sidebar-active-text: #0F172A;
-  --banner-bg: linear-gradient(135deg, #E2E8F0 0%, #F8FAFC 100%);
-  --card-planejar-bg: #E2E8F0;
-  --card-planejar-border: #CBD5E1;
-  --card-registrar-bg: #F1F5F9;
-  --card-registrar-border: #E2E8F0;
-  --card-acompanhar-bg: #E0E7FF;
-  --card-acompanhar-border: #C7D2FE;
+  --sidebar-active-bg: #E5EAF0;
+  --sidebar-active-text: #556677;
+  --banner-bg: linear-gradient(135deg, #ECF0F4 0%, #F8F9FA 100%);
+  --card-planejar-bg: #EEF2F6;
+  --card-planejar-border: #D9E1E8;
+  --card-registrar-bg: #F5EFEF;
+  --card-registrar-border: #E8DEDE;
+  --card-acompanhar-bg: #EEF2F6;
+  --card-acompanhar-border: #D9E1E8;
 
-  /* Marca d'água: estrelas e losangos geométricos refinados */
-  --theme-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%231E293B' fill-opacity='0.045'%3E%3Cpath d='M80 35l10 35 35 10-35 10-10 35-10-35-35-10 35-10z'/%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3Ccircle cx='140' cy='30' r='4'/%3E%3Ccircle cx='30' cy='130' r='4'/%3E%3Ccircle cx='135' cy='135' r='3'/%3E%3Cpath d='M20 20l120 10M30 130l105 5' stroke='%231E293B' stroke-opacity='0.02' stroke-dasharray='4,4'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-watermark-size: 160px 160px;
+  --theme-watermark: none;
+  --theme-watermark-size: 0 0;
 
-  /* ✨ Ilustrações Temáticas Exclusivas: Constelações, estrelas de diamante e louros */
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%231E293B' d='M20 3l3.5 11.5L35 18l-11.5 3.5L20 33l-3.5-11.5L5 18l11.5-3.5z'/%3E%3Ccircle cx='20' cy='18' r='2.5' fill='%23FFF'/%3E%3C/svg%3E");
-  --theme-banner-ornament-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='%231E293B'%3E%3Cpath d='M140 30l6 22 22 6-22 6-6 22-6-22-22-6 22-6z' fill-opacity='0.3'/%3E%3Cpath d='M60 110l4 15 15 4-15 4-4 15-4-15-15-4 15-4z' fill-opacity='0.25'/%3E%3Ccircle cx='170' cy='110' r='5' fill-opacity='0.25'/%3E%3Ccircle cx='100' cy='140' r='4' fill-opacity='0.22'/%3E%3Ccircle cx='40' cy='50' r='3.5' fill-opacity='0.28'/%3E%3Cpath d='M40 50l100-20m-80 80l40 30' stroke='%231E293B' stroke-opacity='0.16' stroke-width='1.5' stroke-dasharray='4,4'/%3E%3Cpath d='M140 120c15 0 25 15 35 30-15-5-25-15-35-30z' fill-opacity='0.25'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-card-corner-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cpath d='M60 0L42 18M60 12L48 24M48 0L36 12' stroke='%231E293B' stroke-opacity='0.18' stroke-width='1.5'/%3E%3Cpath d='M48 12l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%231E293B' fill-opacity='0.32'/%3E%3C/svg%3E");
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23D4AF37' stroke-width='1' stroke-opacity='0.5'/%3E%3Cpath d='M120 4l3 9 9 3-9 3-3 9-3-9-9-3 9-3z' fill='%23D4AF37' fill-opacity='0.9'/%3E%3Ccircle cx='80' cy='16' r='2' fill='%23D4AF37' fill-opacity='0.7'/%3E%3Ccircle cx='160' cy='16' r='2' fill='%23D4AF37' fill-opacity='0.7'/%3E%3Ccircle cx='120' cy='16' r='1.5' fill='%23FFF'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h120m60 0h120' stroke='%23D4AF37' stroke-width='1' stroke-opacity='0.4'/%3E%3Cpath d='M160 3l2.5 6.5 6.5 2.5-6.5 2.5-2.5 6.5-2.5-6.5-6.5-2.5 6.5-2.5z' fill='%23D4AF37' fill-opacity='0.9'/%3E%3Ccircle cx='135' cy='12' r='2' fill='%23D4AF37' fill-opacity='0.6'/%3E%3Ccircle cx='185' cy='12' r='2' fill='%23D4AF37' fill-opacity='0.6'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1l2 5 5 2-5 2-2 5-2-5-5-2 5-2z' fill='%23D4AF37' fill-opacity='0.9'/%3E%3Ccircle cx='8' cy='8' r='1' fill='%23FFF'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23556677' d='M20 7l3 9 9 3-9 3-3 9-3-9-9-3 9-3z'/%3E%3C/svg%3E");
+  --theme-banner-ornament-svg: none;
+  --theme-card-corner-svg: none;
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23556677' stroke-width='1' stroke-opacity='0.4'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23556677' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23556677' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23556677' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23556677' fill-opacity='0.7'/%3E%3C/svg%3E");
 }
 
-/* 🎨 Tema 5: Criativo (Lavanda artística, lilás sonhador e respingos de aquarela) */
+/* 🎨 Tema 5: Criativo (Lavanda suave, ametista em aquarela campestre) */
 [data-theme="criativo"] {
-  --bg-page: #FAF5FF;
-  --bg-sidebar: #F3E8FF;
+  --bg-page: #FAF8FB;
+  --bg-sidebar: #F3EEF5;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #E9D5FF;
-  --bg-card-hover: #FDF4FF;
-  --text-main: #2E1065;
-  --text-muted: #5B21B6;
-  --text-light: #7E22CE;
-  --border-color: #DDD6FE;
-  --border-light: #EDE9FE;
+  --bg-surface-soft: #EDE5F0;
+  --bg-card-hover: #F5EFF7;
+  --text-main: #332B3A;
+  --text-muted: #6B5F75;
+  --text-light: #90849B;
+  --border-color: #DED6E4;
+  --border-light: #EBE5EE;
 
-  --primary: #7C3AED; /* Violeta criativo */
-  --primary-hover: #6D28D9;
-  --primary-light: #EDE9FE;
+  --primary: #7C6B92; /* Lavanda ametista em aquarela suave */
+  --primary-hover: #69597F;
+  --primary-light: #ECE5F2;
   --primary-text: #FFFFFF;
 
-  --terracotta: #D946EF; /* Fúcsia artístico */
-  --terracotta-hover: #C026D3;
-  --terracotta-light: #FAE8FF;
+  --terracotta: #A36A87;
+  --terracotta-hover: #8C5772;
+  --terracotta-light: #FAEBF2;
 
-  --slate-blue: #0284C7;
-  --slate-blue-hover: #0369A1;
-  --slate-blue-light: #E0F2FE;
+  --slate-blue: #5C7A86;
+  --slate-blue-hover: #4C6671;
+  --slate-blue-light: #E8F0F3;
 
-  --sidebar-active-bg: #E9D5FF;
-  --sidebar-active-text: #581C87;
-  --banner-bg: linear-gradient(135deg, #F3E8FF 0%, #FAF5FF 100%);
-  --card-planejar-bg: #F3E8FF;
-  --card-planejar-border: #E9D5FF;
-  --card-registrar-bg: #FCE7F3;
-  --card-registrar-border: #FBCFE8;
-  --card-acompanhar-bg: #CCFBF1;
-  --card-acompanhar-border: #99F6E4;
+  --sidebar-active-bg: #ECE5F2;
+  --sidebar-active-text: #7C6B92;
+  --banner-bg: linear-gradient(135deg, #F3ECF7 0%, #FAF8FB 100%);
+  --card-planejar-bg: #F3ECF7;
+  --card-planejar-border: #E4D8EB;
+  --card-registrar-bg: #FAEEF4;
+  --card-registrar-border: #EED6E3;
+  --card-acompanhar-bg: #EDF4F7;
+  --card-acompanhar-border: #D7E5EC;
 
-  /* Marca d'água: pinceladas criativas, espirais e respingos de aquarela */
-  --theme-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%237C3AED' fill-opacity='0.05'%3E%3Ccircle cx='40' cy='40' r='16'/%3E%3Ccircle cx='120' cy='110' r='20'/%3E%3Cpath d='M70 20c15 0 25 15 40 10 15-5 25 10 20 25s-15 25-10 40c5 15-10 25-25 20s-25-15-40-10-25-10-20-25 15-25 10-40c-5-15 10-25 25-20z'/%3E%3Ccircle cx='30' cy='110' r='6'/%3E%3Ccircle cx='130' cy='30' r='8'/%3E%3Ccircle cx='90' cy='140' r='7'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-watermark-size: 160px 160px;
+  --theme-watermark: none;
+  --theme-watermark-size: 0 0;
 
-  /* 🎨 Ilustrações Temáticas Exclusivas: Paleta de cores, pinceladas e respingos */
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%237C3AED' d='M20 5C11.7 5 5 11.7 5 20c0 4.1 1.7 7.9 4.4 10.6C12.1 33.3 16 35 20 35c2.8 0 5-2.2 5-5 0-1.2-.4-2.3-1.2-3.1-.7-.8-1.2-1.9-1.2-3.1 0-2.2 1.8-4 4-4h2.4c6.1 0 11-4.9 11-11C40 10.8 31 5 20 5z'/%3E%3Ccircle cx='12' cy='15' r='2.5' fill='%23EC4899'/%3E%3Ccircle cx='18' cy='11' r='2.5' fill='%23F59E0B'/%3E%3Ccircle cx='26' cy='12' r='2.5' fill='%2310B981'/%3E%3Ccircle cx='33' cy='18' r='2.5' fill='%233B82F6'/%3E%3Ccircle cx='15' cy='28' r='3.5' fill='%23FAF5FF'/%3E%3C/svg%3E");
-  --theme-banner-ornament-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg%3E%3Cpath d='M30 140c20-40 60-70 120-80-30 30-50 70-60 110-15-25-35-30-60-30z' fill='%237C3AED' fill-opacity='0.25'/%3E%3Ccircle cx='150' cy='50' r='22' fill='%23EC4899' fill-opacity='0.28'/%3E%3Ccircle cx='175' cy='75' r='10' fill='%2306B6D4' fill-opacity='0.32'/%3E%3Ccircle cx='130' cy='25' r='7' fill='%23F59E0B' fill-opacity='0.35'/%3E%3Ccircle cx='70' cy='70' r='14' fill='%237C3AED' fill-opacity='0.2'/%3E%3Ccircle cx='45' cy='105' r='8' fill='%23EC4899' fill-opacity='0.28'/%3E%3Cpath d='M80 150c15-5 30 10 40 5 10-5 15-20 25-25' stroke='%237C3AED' stroke-opacity='0.25' stroke-width='4' stroke-linecap='round' fill='none'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16c35-4 65 4 95-2m40 0c30 6 60-2 85 2' stroke='%237C3AED' stroke-width='1.5' stroke-opacity='0.4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='120' cy='16' r='9' fill='%237C3AED' fill-opacity='0.85'/%3E%3Ccircle cx='116' cy='13' r='2' fill='%23EC4899'/%3E%3Ccircle cx='124' cy='13' r='2' fill='%23F59E0B'/%3E%3Ccircle cx='120' cy='19' r='2' fill='%2310B981'/%3E%3Ccircle cx='95' cy='13' r='3.5' fill='%23EC4899' fill-opacity='0.6'/%3E%3Ccircle cx='145' cy='19' r='3.5' fill='%2306B6D4' fill-opacity='0.6'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12c30-5 60 5 90 0 25-4 50 4 70 0s40-4 70 0 50 4 70 0' stroke='%237C3AED' stroke-width='1.5' stroke-opacity='0.35' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='160' cy='12' r='6' fill='%237C3AED' fill-opacity='0.85'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23FFF'/%3E%3Ccircle cx='120' cy='10' r='3.5' fill='%23EC4899' fill-opacity='0.7'/%3E%3Ccircle cx='200' cy='14' r='3.5' fill='%2306B6D4' fill-opacity='0.7'/%3E%3Ccircle cx='80' cy='13' r='2.5' fill='%23F59E0B' fill-opacity='0.7'/%3E%3Ccircle cx='240' cy='11' r='2.5' fill='%2310B981' fill-opacity='0.7'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5' fill='%237C3AED' fill-opacity='0.85'/%3E%3Ccircle cx='6' cy='6' r='2' fill='%23EC4899'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23FFF'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='15' cy='18' r='4' fill='%237C6B92' fill-opacity='0.6'/%3E%3Ccircle cx='25' cy='18' r='4' fill='%235C7A86' fill-opacity='0.6'/%3E%3Ccircle cx='20' cy='25' r='4' fill='%23A36A87' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-banner-ornament-svg: none;
+  --theme-card-corner-svg: none;
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%237C6B92' stroke-width='1' stroke-opacity='0.4'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%237C6B92' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%237C6B92' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%237C6B92' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%237C6B92' fill-opacity='0.7'/%3E%3C/svg%3E");
 }
 
-/* 🌹 Tema 6: Romântico (Rosa nobre, pétalas de peônia, guirlandas florais vintage) */
+/* 🌹 Tema 6: Romântico (Rosa antigo vitoriano suave, marfim com leve rubor sereno) */
 [data-theme="romantico"] {
-  --bg-page: #FFF5F7;
-  --bg-sidebar: #FFE4E8;
+  --bg-page: #FCF8F8;
+  --bg-sidebar: #F7EFEF;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #FECDD6;
-  --bg-card-hover: #FFF0F3;
-  --text-main: #4C0519;
-  --text-muted: #881337;
-  --text-light: #9F1239;
-  --border-color: #FDA4AF;
-  --border-light: #FECDD6;
+  --bg-surface-soft: #F2E3E5;
+  --bg-card-hover: #F8F0F1;
+  --text-main: #3B2D31;
+  --text-muted: #725D63;
+  --text-light: #978087;
+  --border-color: #E3D6D8;
+  --border-light: #EDE3E5;
 
-  --primary: #BE123C; /* Rosa profundo refinado */
-  --primary-hover: #9F1239;
-  --primary-light: #FFE4E8;
+  --primary: #A66976; /* Rosa antigo vitoriano suave / pétala em aquarela */
+  --primary-hover: #8E5461;
+  --primary-light: #F6E6E9;
   --primary-text: #FFFFFF;
 
-  --terracotta: #E11D48;
-  --terracotta-hover: #BE123C;
-  --terracotta-light: #FFF1F2;
+  --terracotta: #A66B60;
+  --terracotta-hover: #90574D;
+  --terracotta-light: #FBEFE8;
 
-  --slate-blue: #DB2777;
-  --slate-blue-hover: #BE185D;
-  --slate-blue-light: #FCE7F3;
+  --slate-blue: #6A6075;
+  --slate-blue-hover: #584F62;
+  --slate-blue-light: #ECE8F1;
 
-  --sidebar-active-bg: #FECDD6;
-  --sidebar-active-text: #881337;
-  --banner-bg: linear-gradient(135deg, #FFE4E8 0%, #FFF5F7 100%);
-  --card-planejar-bg: #FFE4E8;
-  --card-planejar-border: #FECDD6;
-  --card-registrar-bg: #FFF1F2;
-  --card-registrar-border: #FDA4AF;
-  --card-acompanhar-bg: #FDF2F8;
-  --card-acompanhar-border: #FBCFE8;
+  --sidebar-active-bg: #F6E6E9;
+  --sidebar-active-text: #A66976;
+  --banner-bg: linear-gradient(135deg, #F8E9EB 0%, #FCF8F8 100%);
+  --card-planejar-bg: #F8ECEE;
+  --card-planejar-border: #EED7DC;
+  --card-registrar-bg: #FAF0EC;
+  --card-registrar-border: #EEDCD5;
+  --card-acompanhar-bg: #F2EDF7;
+  --card-acompanhar-border: #DFD7E8;
 
-  /* Marca d'água: pétalas e rosas delicadas vintage */
-  --theme-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23BE123C' fill-opacity='0.05'%3E%3Cpath d='M80 40c10-20 30-10 25 10-5 20-25 20-25 20s-20 0-25-20c-5-20 15-30 25-10z'/%3E%3Ccircle cx='80' cy='55' r='5'/%3E%3Ccircle cx='25' cy='25' r='4'/%3E%3Ccircle cx='135' cy='30' r='5'/%3E%3Ccircle cx='30' cy='130' r='5'/%3E%3Ccircle cx='130' cy='130' r='4'/%3E%3Cpath d='M25 25c15 5 15 20 5 25-5-10-15-5-10-25zm110 95c10 5 10 20 0 25-5-10-10-5-10-25z'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-watermark-size: 160px 160px;
+  --theme-watermark: none;
+  --theme-watermark-size: 0 0;
 
-  /* 🌹 Ilustrações Temáticas Exclusivas: Rosa desabrochando e guirlanda de folhas */
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='16' fill='%23BE123C' fill-opacity='0.15'/%3E%3Cpath d='M20 10c4 0 7 2 7 6 0 6-7 12-7 12s-7-6-7-12c0-4 3-6 7-6z' fill='%23BE123C'/%3E%3Ccircle cx='20' cy='16' r='4' fill='%23FFF' fill-opacity='0.85'/%3E%3Ccircle cx='20' cy='16' r='2' fill='%23BE123C'/%3E%3Cpath d='M14 26c-3 2-4 5-3 8 4 0 6-3 6-5zm12 0c3 2 4 5 3 8-4 0-6-3-6-5z' fill='%23059669' fill-opacity='0.6'/%3E%3C/svg%3E");
-  --theme-banner-ornament-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='%23BE123C'%3E%3Cpath d='M140 60c15-15 35 0 25 20-10 20-35 15-40 5 5-10 10-20 15-25z' fill-opacity='0.3'/%3E%3Ccircle cx='150' cy='70' r='10' fill-opacity='0.35'/%3E%3Cpath d='M80 120c-15 20-35 15-30-5 5-20 25-25 35-15-2 10-3 15-5 20z' fill-opacity='0.25'/%3E%3Cpath d='M120 85c20 20 40 50 30 85-15-25-30-50-40-70-5-10 0-15 10-15z' fill='%23059669' fill-opacity='0.2'/%3E%3Ccircle cx='40' cy='60' r='5' fill-opacity='0.3'/%3E%3Ccircle cx='165' cy='130' r='6' fill-opacity='0.28'/%3E%3C/g%3E%3C/svg%3E");
-  --theme-card-corner-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cpath d='M60 0c-12 5-22 15-25 30 5-8 15-15 25-15v-15z' fill='%23BE123C' fill-opacity='0.3'/%3E%3Ccircle cx='42' cy='18' r='7' fill='%23BE123C' fill-opacity='0.35'/%3E%3Ccircle cx='42' cy='18' r='3.5' fill='%23FFF' fill-opacity='0.7'/%3E%3Cpath d='M30 28c-5 8-4 15 2 20 4-6 2-14-2-20z' fill='%23059669' fill-opacity='0.25'/%3E%3C/svg%3E");
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16c35 0 60 2 95 0m40 0c35-2 60 0 85 0' stroke='%23BE123C' stroke-width='1.2' stroke-opacity='0.4' fill='none'/%3E%3Cpath d='M120 7c5 0 9 3 9 8 0 7-9 14-9 14s-9-7-9-14c0-5 4-8 9-8z' fill='%23BE123C' fill-opacity='0.85'/%3E%3Ccircle cx='120' cy='14' r='3.5' fill='%23FFF'/%3E%3Ccircle cx='120' cy='14' r='1.5' fill='%23BE123C'/%3E%3Cpath d='M106 18c-3 3-7 3-10 1 3-3 7-3 10-1zm28 0c3 3 7 3 10 1-3-3-7-3-10-1z' fill='%23059669' fill-opacity='0.7'/%3E%3Ccircle cx='80' cy='16' r='2.5' fill='%23BE123C' fill-opacity='0.5'/%3E%3Ccircle cx='160' cy='16' r='2.5' fill='%23BE123C' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h120m60 0h120' stroke='%23BE123C' stroke-width='1.2' stroke-opacity='0.35'/%3E%3Cpath d='M160 5c4 0 7 2 7 6 0 5-7 10-7 10s-7-5-7-10c0-4 3-6 7-6z' fill='%23BE123C' fill-opacity='0.85'/%3E%3Ccircle cx='160' cy='10' r='2.5' fill='%23FFF'/%3E%3Cpath d='M146 13c-3 2-6 2-8 1 2-2 5-2 8-1zm28 0c3 2 6 2 8 1-2-2-5-2-8-1z' fill='%23059669' fill-opacity='0.65'/%3E%3Ccircle cx='115' cy='12' r='2.5' fill='%23BE123C' fill-opacity='0.5'/%3E%3Ccircle cx='205' cy='12' r='2.5' fill='%23BE123C' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 2c2.5 0 4.5 1.5 4.5 4 0 3.5-4.5 7-4.5 7s-4.5-3.5-4.5-7c0-2.5 2-4 4.5-4z' fill='%23BE123C' fill-opacity='0.85'/%3E%3Ccircle cx='8' cy='6' r='1.5' fill='%23FFF'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='%23A66976' fill-opacity='0.12'/%3E%3Cpath fill='%23A66976' d='M20 12c3-3 7-3 9 0 3 2 2 6-1 9-3 3-8 8-8 8s-5-5-8-8c-3-3-4-7-1-9 2-3 6-3 9 0z'/%3E%3C/svg%3E");
+  --theme-banner-ornament-svg: none;
+  --theme-card-corner-svg: none;
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23A66976' stroke-width='1' stroke-opacity='0.4'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23A66976' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23A66976' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23A66976' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23A66976' fill-opacity='0.7'/%3E%3C/svg%3E");
 }
 
 /* ========================================================================== */
-/* ELEMENTOS ILUSTRADOS DINÂMICOS DO TEMA                                    */
+/* ELEMENTOS ILUSTRADOS DINÂMICOS DO TEMA (SUAVIZADOS)                        */
 /* ========================================================================== */
 
 .theme-title-badge {
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
+  width: 1.85rem;
+  height: 1.85rem;
   background-image: var(--theme-badge-svg);
   background-size: contain;
   background-repeat: no-repeat;
@@ -320,35 +311,17 @@
   transition: all 0.3s ease;
 }
 
-.theme-banner-ornament {
-  position: absolute;
-  pointer-events: none;
-  background-image: var(--theme-banner-ornament-svg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: all 0.4s ease;
-}
-
-.theme-card-corner-motif {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 3.5rem;
-  height: 3.5rem;
-  pointer-events: none;
-  background-image: var(--theme-card-corner-svg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: top right;
-  transition: all 0.3s ease;
-  z-index: 1;
+/* Removendo adesivos e ornamentos pesados que sobrecarregavam a interface */
+.theme-banner-ornament,
+.theme-card-corner-motif,
+.planner-card::after {
+  display: none !important;
 }
 
 .theme-script-icon {
   display: inline-block;
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.2rem;
+  height: 1.2rem;
   vertical-align: middle;
   background-image: var(--theme-badge-svg);
   background-size: contain;
@@ -361,18 +334,19 @@
 /* IDENTIDADE VISUAL EDITORIAL / PLANNER DIGITAL                              */
 /* ========================================================================== */
 
-/* Vinheta temática no cabeçalho das páginas */
+/* Vinheta temática suave no cabeçalho das páginas */
 .planner-title-vignette {
   display: block;
   width: 100%;
-  max-width: 280px;
-  height: 24px;
+  max-width: 220px;
+  height: 20px;
   margin: 0.25rem 0 0.75rem 0;
   background-image: var(--theme-header-vignette);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left center;
   pointer-events: none;
+  opacity: 0.45;
   transition: background-image 0.3s ease;
 }
 
@@ -382,36 +356,37 @@
   background-position: center;
 }
 
-/* Divisor temático decorativo entre seções */
+/* Divisor temático decorativo suave entre seções */
 .planner-divider {
   display: block;
   width: 100%;
-  height: 22px;
+  height: 18px;
   margin: 1.25rem 0;
   background-image: var(--theme-divider-svg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   border: none;
-  opacity: 0.85;
+  opacity: 0.45;
   transition: background-image 0.3s ease;
 }
 
 /* Marcador temático para listas e tags */
 .planner-bullet {
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 0.85rem;
+  height: 0.85rem;
   background-image: var(--theme-bullet-svg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   vertical-align: middle;
   flex-shrink: 0;
+  opacity: 0.75;
   transition: background-image 0.3s ease;
 }
 
-/* Cartões com acabamento de planner digital e cantoneiras */
+/* Cartões com acabamento límpido de planner digital */
 .planner-card {
   position: relative;
   background-color: var(--bg-surface) !important;
@@ -420,31 +395,11 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.planner-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 2.75rem;
-  height: 2.75rem;
-  pointer-events: none;
-  background-image: var(--theme-card-corner-svg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: top right;
-  opacity: 0.55;
-  transition: background-image 0.3s ease, opacity 0.2s ease;
-}
-
-.planner-card:hover::after {
-  opacity: 0.9;
-}
-
 /* Folha de dossiê estilo papel nobre/planner impresso */
 .planner-dossie-sheet {
   background-color: var(--bg-surface) !important;
   border: 1px solid var(--border-color) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
   border-radius: 1.25rem !important;
   position: relative;
   overflow: hidden;
@@ -456,9 +411,9 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 6px;
+  height: 4px;
   background: var(--primary);
-  opacity: 0.85;
+  opacity: 0.7;
 }
 
 /* ========================================================================== */
@@ -468,10 +423,7 @@
 body,
 body.bg-\[\#FAF7F0\] {
   background-color: var(--bg-page) !important;
-  background-image: var(--theme-watermark) !important;
-  background-repeat: repeat !important;
-  background-attachment: fixed !important;
-  background-size: var(--theme-watermark-size, 140px 140px) !important;
+  background-image: none !important; /* Sem marca d'água poluída repetida no fundo */
   color: var(--text-main) !important;
   font-family: var(--font-sans);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -611,26 +563,26 @@ aside.bg-\[\#FAF7F0\] {
   border-radius: 1.5rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(40, 48, 42, 0.05);
+  box-shadow: 0 4px 16px rgba(40, 48, 42, 0.04);
   transition: background-image 0.4s ease, border-color 0.3s ease;
 }
 
 /* As 3 Ações Hero da Home */
 .hero-card-planejar {
-  background-color: var(--card-planejar-bg, #EDF4EC) !important;
-  border: 1px solid var(--card-planejar-border, #DFEADE) !important;
+  background-color: var(--card-planejar-bg, #F2F6F2) !important;
+  border: 1px solid var(--card-planejar-border, #DFE8E0) !important;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .hero-card-registrar {
-  background-color: var(--card-registrar-bg, #FDF1E2) !important;
-  border: 1px solid var(--card-registrar-border, #F8E2CE) !important;
+  background-color: var(--card-registrar-bg, #FAF5F0) !important;
+  border: 1px solid var(--card-registrar-border, #EDE2D8) !important;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .hero-card-acompanhar {
-  background-color: var(--card-acompanhar-bg, #E2EFF5) !important;
-  border: 1px solid var(--card-acompanhar-border, #D0E4EE) !important;
+  background-color: var(--card-acompanhar-bg, #F0F5F8) !important;
+  border: 1px solid var(--card-acompanhar-border, #DCE7ED) !important;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -681,7 +633,7 @@ aside.bg-\[\#FAF7F0\] {
 }
 .card-child-add:hover {
   background-color: #FAF7F0;
-  border-color: #315738;
+  border-color: #526E55;
 }
 
 /* Capas de Livro Realistas para "Minha Biblioteca" */
@@ -689,14 +641,14 @@ aside.bg-\[\#FAF7F0\] {
   position: relative;
   border-radius: 0.625rem;
   overflow: hidden;
-  box-shadow: 0 8px 16px rgba(40, 48, 42, 0.12), 0 2px 5px rgba(40, 48, 42, 0.08);
+  box-shadow: 0 6px 14px rgba(40, 48, 42, 0.08), 0 2px 4px rgba(40, 48, 42, 0.04);
   aspect-ratio: 3/4;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .book-cover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(40, 48, 42, 0.18), 0 4px 8px rgba(40, 48, 42, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(40, 48, 42, 0.12), 0 3px 6px rgba(40, 48, 42, 0.06);
 }
 
 .book-cover::before {
@@ -706,35 +658,35 @@ aside.bg-\[\#FAF7F0\] {
   top: 0;
   bottom: 0;
   width: 14px;
-  background: linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(255,255,255,0.15) 50%, rgba(0,0,0,0.2) 100%);
+  background: linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.12) 50%, rgba(0,0,0,0.15) 100%);
   z-index: 2;
   pointer-events: none;
 }
 
 /* Status Pills */
 .status-pill-compreendeu {
-  background-color: #D9F0E1;
-  color: #1E5631;
-  border: 1px solid #C3E6CF;
+  background-color: #E2EFE5;
+  color: #355639;
+  border: 1px solid #CDE2D2;
 }
 
 .status-pill-desenvolvendo {
-  background-color: #FEF3C7;
-  color: #92400E;
-  border: 1px solid #FDE68A;
+  background-color: #F8EFE0;
+  color: #8C6228;
+  border: 1px solid #EFE0C2;
 }
 
 .status-pill-retomar {
-  background-color: #E0F2FE;
-  color: #0369A1;
-  border: 1px solid #BAE6FD;
+  background-color: #E4ECF2;
+  color: #3D5A6E;
+  border: 1px solid #CFDEE8;
 }
 
 /* Folha de Dossiê A4 Elegante */
 .dossie-paper {
   background-color: #FFFFFF;
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 20px rgba(40, 48, 42, 0.05);
+  box-shadow: 0 4px 16px rgba(40, 48, 42, 0.04);
   border-radius: 1.25rem;
   position: relative;
 }

@@ -14,8 +14,8 @@
       registrar: 'assets/illus-registrar-natureza.png',
       acompanhar: 'assets/illus-acompanhar-natureza.png',
       sideCard: 'assets/card-pequenos-natureza.jpg',
-      sidebarDecor: 'assets/sidebar-decor-natureza.png',
-      bannerOverlay: 'transparent'
+      sidebarDecor: '',
+      bannerOverlay: 'linear-gradient(to right, rgba(250, 248, 243, 0.45), rgba(250, 248, 243, 0.15))'
     },
     classico: {
       name: 'Clássico',
@@ -24,8 +24,8 @@
       registrar: 'assets/illus-registrar-classico.jpg',
       acompanhar: 'assets/illus-acompanhar-classico.jpg',
       sideCard: 'assets/card-pequenos-classico.jpg',
-      sidebarDecor: 'assets/sidebar-decor-classico.png',
-      bannerOverlay: 'transparent'
+      sidebarDecor: '',
+      bannerOverlay: 'linear-gradient(to right, rgba(250, 246, 238, 0.45), rgba(250, 246, 238, 0.15))'
     },
     alegre: {
       name: 'Alegre',
@@ -34,8 +34,8 @@
       registrar: 'assets/illus-registrar-alegre.jpg',
       acompanhar: 'assets/illus-acompanhar-alegre.jpg',
       sideCard: 'assets/card-pequenos-alegre.jpg',
-      sidebarDecor: 'assets/sidebar-decor-alegre.png',
-      bannerOverlay: 'transparent'
+      sidebarDecor: '',
+      bannerOverlay: 'linear-gradient(to right, rgba(255, 253, 245, 0.45), rgba(255, 253, 245, 0.15))'
     },
     elegante: {
       name: 'Elegante',
@@ -44,8 +44,8 @@
       registrar: 'assets/illus-registrar-elegante.jpg',
       acompanhar: 'assets/illus-acompanhar-elegante.jpg',
       sideCard: 'assets/card-pequenos-elegante.jpg',
-      sidebarDecor: 'assets/sidebar-decor-elegante.png',
-      bannerOverlay: 'transparent'
+      sidebarDecor: '',
+      bannerOverlay: 'linear-gradient(to right, rgba(248, 249, 250, 0.45), rgba(248, 249, 250, 0.15))'
     },
     criativo: {
       name: 'Criativo',
@@ -54,8 +54,8 @@
       registrar: 'assets/illus-registrar-criativo.jpg',
       acompanhar: 'assets/illus-acompanhar-criativo.jpg',
       sideCard: 'assets/card-pequenos-criativo.jpg',
-      sidebarDecor: 'assets/sidebar-decor-criativo.png',
-      bannerOverlay: 'transparent'
+      sidebarDecor: '',
+      bannerOverlay: 'linear-gradient(to right, rgba(250, 248, 251, 0.45), rgba(250, 248, 251, 0.15))'
     },
     romantico: {
       name: 'Romântico',
@@ -64,8 +64,8 @@
       registrar: 'assets/illus-registrar-natureza.png',
       acompanhar: 'assets/illus-acompanhar-natureza.png',
       sideCard: 'assets/card-pequenos-natureza.jpg',
-      sidebarDecor: 'assets/sidebar-decor-natureza.png',
-      bannerOverlay: 'transparent'
+      sidebarDecor: '',
+      bannerOverlay: 'linear-gradient(to right, rgba(252, 248, 248, 0.45), rgba(252, 248, 248, 0.15))'
     }
   };
 
@@ -405,7 +405,14 @@
 
       // 4. Atualizar Decoração Temática da Base da Sidebar
       const sidebarDecorImg = document.getElementById('sidebarDecorImg');
-      if (sidebarDecorImg) sidebarDecorImg.src = visuals.sidebarDecor;
+      if (sidebarDecorImg) {
+        if (visuals.sidebarDecor) {
+          sidebarDecorImg.src = visuals.sidebarDecor;
+          sidebarDecorImg.parentElement?.classList.remove('hidden');
+        } else {
+          sidebarDecorImg.parentElement?.classList.add('hidden');
+        }
+      }
 
       // 5. Atualizar os cartões de tema visual na Home com destaque instantâneo
       document.querySelectorAll('.theme-card-option').forEach(card => {
