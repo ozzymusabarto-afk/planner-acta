@@ -473,16 +473,18 @@
         const theme = card.getAttribute('data-theme-name');
         const checkIcon = card.querySelector('.theme-check-icon');
         if (theme === themeName) {
-          card.classList.add('shadow-md', 'scale-105');
+          card.classList.add('shadow-sm');
           card.style.borderColor = 'var(--primary)';
-          card.style.boxShadow = '0 0 0 3px var(--primary-light), 0 4px 14px rgba(0,0,0,0.08)';
+          card.style.borderWidth = '2px';
+          card.style.boxShadow = 'none';
           if (checkIcon) {
             checkIcon.classList.remove('hidden');
             checkIcon.style.backgroundColor = 'var(--primary)';
           }
         } else {
-          card.classList.remove('shadow-md', 'scale-105');
-          card.style.borderColor = 'var(--border-color)';
+          card.classList.remove('shadow-sm', 'scale-105');
+          card.style.borderColor = 'var(--border-strong)';
+          card.style.borderWidth = '1.5px';
           card.style.boxShadow = 'none';
           if (checkIcon) checkIcon.classList.add('hidden');
         }
@@ -655,49 +657,49 @@
 
       container.innerHTML = people.map((p, idx) => {
         const isActive = activePerson && activePerson.id === p.id;
-        let cardBgClass = 'bg-[#FAF7F0] border-[#E8E2D5]';
+        let cardBgClass = 'card-child-item';
         
         if (p.name.toLowerCase().includes('joão') || p.name.toLowerCase().includes('joao')) {
-          cardBgClass = 'card-child-joao';
+          cardBgClass = 'card-child-item card-child-joao';
         } else if (p.name.toLowerCase().includes('sofia')) {
-          cardBgClass = 'card-child-sofia';
+          cardBgClass = 'card-child-item card-child-sofia';
         } else if (idx % 2 === 0) {
-          cardBgClass = 'bg-[#F0F7F2] border-[#D9EADB]';
+          cardBgClass = 'card-child-item card-child-joao';
         } else {
-          cardBgClass = 'bg-[#FFF6ED] border-[#FCE6D2]';
+          cardBgClass = 'card-child-item card-child-sofia';
         }
 
         return `
           <div 
             onclick="ActaApp.selectChild('${p.id}')"
-            class="shrink-0 flex items-center justify-between p-3 sm:px-4 sm:py-3.5 rounded-2xl cursor-pointer transition border ${cardBgClass} ${isActive ? 'ring-2 ring-[#2F5233] shadow-sm' : 'hover:shadow-sm'} min-w-[220px] sm:min-w-[240px]"
+            class="shrink-0 flex items-center justify-between p-3 sm:px-4 sm:py-3.5 rounded-2xl cursor-pointer transition ${cardBgClass} ${isActive ? 'card-child-active shadow-xs' : 'card-child-inactive hover:shadow-xs'} min-w-[225px] sm:min-w-[245px]"
           >
             <div class="flex items-center gap-3 min-w-0">
-              <div class="w-12 h-12 rounded-full overflow-hidden border-2 ${isActive ? 'border-[#2F5233]' : 'border-white'} shadow-xs shrink-0 bg-white">
+              <div class="w-12 h-12 rounded-full overflow-hidden border-2 ${isActive ? 'border-[#2F5233]' : 'border-[#CCD8CD]'} shadow-2xs shrink-0 bg-white">
                 ${ActaStorage.renderAvatarHTML(p.avatar, 'w-full h-full object-cover', p.name)}
               </div>
               <div class="text-left min-w-0">
                 <div class="flex items-center gap-1.5 flex-wrap">
                   <span class="text-base font-bold text-[#28302A] leading-tight truncate">${p.name}</span>
-                  ${isActive ? '<span class="text-[10px] bg-[#2F5233] text-white font-bold px-2 py-0.5 rounded-full shrink-0">Ativo</span>' : ''}
+                  ${isActive ? '<span class="text-[10px] bg-[#2F5233] text-white font-bold px-2.5 py-0.5 rounded-full shrink-0">Ativo</span>' : ''}
                 </div>
                 <span class="text-[11px] text-[#667267] block mt-0.5 truncate">${p.schoolYearLabel ? p.schoolYearLabel.split('(')[0].trim() : 'Estudante'}</span>
               </div>
             </div>
-            ${isActive ? '<i class="fa-solid fa-circle-check text-sm text-[#2F5233] ml-3 shrink-0"></i>' : '<i class="fa-solid fa-chevron-right text-xs text-[#8E9A8F] ml-3 shrink-0"></i>'}
+            ${isActive ? '<i class="fa-solid fa-circle-check text-base text-[#2F5233] ml-3 shrink-0"></i>' : '<i class="fa-solid fa-chevron-right text-xs text-[#667267] ml-3 shrink-0"></i>'}
           </div>
         `;
       }).join('') + `
         <div 
           onclick="ActaApp.openModal('modalNewPerson')"
-          class="card-child-add shrink-0 flex items-center gap-3 p-3 sm:px-4 sm:py-3.5 rounded-2xl cursor-pointer transition text-[#667267] hover:text-[#28302A] min-w-[200px]"
+          class="card-child-add shrink-0 flex items-center gap-3 p-3 sm:px-4 sm:py-3.5 rounded-2xl cursor-pointer transition min-w-[220px] sm:min-w-[235px]"
         >
-          <div class="w-11 h-11 rounded-full border-2 border-dashed border-[#8E9A8F] flex items-center justify-center text-base text-[#8E9A8F] shrink-0">
+          <div class="card-child-add-circle w-12 h-12 rounded-full border-2 border-dashed flex items-center justify-center text-base shrink-0">
             <i class="fa-solid fa-plus"></i>
           </div>
           <div class="text-left">
-            <span class="text-xs font-bold text-[#28302A] block leading-tight">Adicionar criança</span>
-            <span class="text-[10px] text-[#8E9A8F] block mt-0.5">Novo membro da família</span>
+            <span class="text-xs sm:text-sm font-bold text-[#28302A] block leading-tight">Adicionar criança</span>
+            <span class="text-[11px] text-[#667267] block mt-0.5">Novo membro da família</span>
           </div>
         </div>
       `;

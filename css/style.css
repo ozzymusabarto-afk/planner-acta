@@ -21,6 +21,8 @@
   --text-light: #9BB09D;
   --border-color: #D3E2D4;
   --border-light: #E2ECE3;
+  --border-strong: #94B297;
+  --border-dashed-dark: #4E6B50;
 
   --primary: #5E7A60;
   --primary-hover: #4E6850;
@@ -44,11 +46,11 @@
   --banner-quote-color: #364D39;
   --banner-text-shadow: 0 1px 14px rgba(255, 255, 255, 0.98), 0 0 6px rgba(255, 255, 255, 0.95);
   --card-planejar-bg: #EAF3EA;
-  --card-planejar-border: #D6E4D7;
+  --card-planejar-border: #BDD3BF;
   --card-registrar-bg: #FAF3EE;
-  --card-registrar-border: #EFE1D8;
+  --card-registrar-border: #DEC8BC;
   --card-acompanhar-bg: #EBF2F6;
-  --card-acompanhar-border: #D6E3EA;
+  --card-acompanhar-border: #BDCDDA;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
@@ -78,6 +80,8 @@
   --text-light: #94A8BC;
   --border-color: #CADCEB;
   --border-light: #DEE9F3;
+  --border-strong: #8FAEC9;
+  --border-dashed-dark: #4A6680;
 
   --primary: #5B758E;
   --primary-hover: #4A637B;
@@ -101,11 +105,11 @@
   --banner-quote-color: #2B435E;
   --banner-text-shadow: 0 1px 16px rgba(255, 255, 255, 1), 0 0 8px rgba(255, 255, 255, 0.98);
   --card-planejar-bg: #E6EFF7;
-  --card-planejar-border: #D0DFEC;
+  --card-planejar-border: #B8CEE2;
   --card-registrar-bg: #F7EFEA;
-  --card-registrar-border: #EBDCD5;
+  --card-registrar-border: #DCC8BE;
   --card-acompanhar-bg: #E6EFF7;
-  --card-acompanhar-border: #D0DFEC;
+  --card-acompanhar-border: #B8CEE2;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
@@ -130,6 +134,8 @@
   --text-light: #BFAB7A;
   --border-color: #EFE0B8;
   --border-light: #F8ECD0;
+  --border-strong: #C7AE70;
+  --border-dashed-dark: #7E6835;
 
   --primary: #947D46;
   --primary-hover: #7F6A37;
@@ -153,11 +159,11 @@
   --banner-quote-color: #284E70;
   --banner-text-shadow: 0 1px 14px rgba(255, 255, 255, 0.98), 0 0 6px rgba(255, 255, 255, 0.95);
   --card-planejar-bg: #FFF5E0;
-  --card-planejar-border: #F3E4C1;
+  --card-planejar-border: #E0CE9E;
   --card-registrar-bg: #FCF4EB;
-  --card-registrar-border: #F1E2D4;
+  --card-registrar-border: #DECBB8;
   --card-acompanhar-bg: #EFF5F8;
-  --card-acompanhar-border: #D9E6ED;
+  --card-acompanhar-border: #BFD3DF;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
@@ -182,6 +188,8 @@
   --text-light: #9E9E9E;
   --border-color: #DCDCDC;
   --border-light: #EAEAEA;
+  --border-strong: #A3A3A3;
+  --border-dashed-dark: #555555;
 
   --primary: #666666;
   --primary-hover: #525252;
@@ -205,11 +213,11 @@
   --banner-quote-color: #3E464D;
   --banner-text-shadow: 0 1px 14px rgba(255, 255, 255, 0.98), 0 0 6px rgba(255, 255, 255, 0.95);
   --card-planejar-bg: #F0F0F0;
-  --card-planejar-border: #DCDCDC;
+  --card-planejar-border: #C4C4C4;
   --card-registrar-bg: #F6F1F1;
-  --card-registrar-border: #E8DDDD;
+  --card-registrar-border: #D2C2C2;
   --card-acompanhar-bg: #EFF2F5;
-  --card-acompanhar-border: #DAE0E5;
+  --card-acompanhar-border: #BFC9D1;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
@@ -234,6 +242,8 @@
   --text-light: #B09DBE;
   --border-color: #DBCDE3;
   --border-light: #ECE2F1;
+  --border-strong: #AE94BF;
+  --border-dashed-dark: #664D75;
 
   --primary: #7B628A;
   --primary-hover: #675075;
@@ -257,11 +267,11 @@
   --banner-quote-color: #56386B;
   --banner-text-shadow: 0 1px 14px rgba(255, 255, 255, 0.98), 0 0 6px rgba(255, 255, 255, 0.95);
   --card-planejar-bg: #EFE6F5;
-  --card-planejar-border: #DDCFE5;
+  --card-planejar-border: #C7B2D4;
   --card-registrar-bg: #FAF0F5;
-  --card-registrar-border: #EED7E4;
+  --card-registrar-border: #DFBFD0;
   --card-acompanhar-bg: #EEF4F7;
-  --card-acompanhar-border: #D7E4EB;
+  --card-acompanhar-border: #BBD0DC;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
@@ -286,6 +296,8 @@
   --text-light: #BF939D;
   --border-color: #EACCD2;
   --border-light: #F4DFE3;
+  --border-strong: #C996A2;
+  --border-dashed-dark: #754853;
 
   --primary: #8A5C67;
   --primary-hover: #744954;
@@ -309,11 +321,11 @@
   --banner-quote-color: #5C2838;
   --banner-text-shadow: 0 1px 14px rgba(255, 255, 255, 0.98), 0 0 6px rgba(255, 255, 255, 0.95);
   --card-planejar-bg: #F8E5E9;
-  --card-planejar-border: #E8CCD2;
+  --card-planejar-border: #DBB8C0;
   --card-registrar-bg: #FAF0EE;
-  --card-registrar-border: #EEDAD5;
+  --card-registrar-border: #E0C5BE;
   --card-acompanhar-bg: #F2EEF7;
-  --card-acompanhar-border: #DFD5E8;
+  --card-acompanhar-border: #CBBFD9;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
@@ -500,17 +512,67 @@ aside.bg-\[\#FAF7F0\] {
   border-color: var(--border-color) !important;
 }
 
-/* Cores de texto dinâmicas */
+.border-\[\#2F5233\],
+.border-\[\#2F5233\]\/20,
+.border-\[\#2F5233\]\/25,
+.border-\[\#2F5233\]\/30,
+.border-\[\#2F5233\]\/40,
+.hover\:border-\[\#2F5233\]:hover,
+.hover\:border-\[\#2F5233\]\/40:hover {
+  border-color: var(--primary) !important;
+}
+
+/* Todos os tracejados/pontilhados mais escuros e nítidos conforme o tema */
+.border-dashed,
+label.border-dashed,
+button.border-dashed,
+div.border-dashed {
+  border-color: var(--border-dashed-dark, var(--primary)) !important;
+}
+
+/* Todos os botões com borda: enquadramento exato (box-sizing) e borda visível harmoniosa */
+button,
+.hero-btn-green,
+.hero-btn-terracotta,
+.hero-btn-slate {
+  box-sizing: border-box !important;
+}
+
+button.border-\[\#E8E2D5\],
+button.border-\[\#CCD8CD\],
+button.border-\[\#2F5233\]\/20,
+button.border-\[\#2F5233\]\/30,
+label.border-\[\#CCD8CD\] {
+  border-width: 1.5px !important;
+  border-color: var(--border-strong, var(--border-color)) !important;
+}
+
+button.bg-\[\#2F5233\] {
+  border-color: var(--primary) !important;
+}
+
+/* Cores de texto e preenchimento dinâmicas (evitando verde escuro fixo em outros temas) */
 .text-\[\#28302A\] {
   color: var(--text-main) !important;
 }
 
-.text-\[\#667267\] {
+.text-\[\#667267\],
+.text-\[\#8E9A8F\] {
   color: var(--text-muted) !important;
 }
 
 .text-\[\#2F5233\] {
   color: var(--primary) !important;
+}
+
+.bg-\[\#2F5233\],
+.hover\:bg-\[\#2F5233\]:hover,
+.peer:checked ~ .peer-checked\:bg-\[\#2F5233\] {
+  background-color: var(--primary) !important;
+}
+
+.accent-\[\#2F5233\] {
+  accent-color: var(--primary) !important;
 }
 
 .bg-\[\#EBF3ED\] {
@@ -590,7 +652,7 @@ aside.bg-\[\#FAF7F0\] {
   background-position: center bottom !important;
   background-repeat: no-repeat !important;
   background-color: var(--bg-page) !important;
-  border: 1px solid var(--border-color) !important;
+  border: 1.5px solid var(--border-strong, var(--border-color)) !important;
   border-radius: 1.5rem;
   position: relative;
   overflow: hidden;
@@ -659,107 +721,147 @@ aside.bg-\[\#FAF7F0\] {
   transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-/* As 3 Ações Hero da Home (Delicadas e Serenas) */
+/* As 3 Ações Hero da Home (Delicadas e Serenas com bordas bem enquadradas) */
 .hero-card-planejar {
   background-color: var(--card-planejar-bg, #F2F8F4) !important;
-  border: 1px solid var(--card-planejar-border, #DFECE2) !important;
+  border: 1.5px solid var(--card-planejar-border, var(--border-strong)) !important;
+  box-sizing: border-box !important;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .hero-card-registrar {
   background-color: var(--card-registrar-bg, #FCF6F2) !important;
-  border: 1px solid var(--card-registrar-border, #F3E5DC) !important;
+  border: 1.5px solid var(--card-registrar-border, var(--border-strong)) !important;
+  box-sizing: border-box !important;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .hero-card-acompanhar {
   background-color: var(--card-acompanhar-bg, #F0F6FA) !important;
-  border: 1px solid var(--card-acompanhar-border, #DCE8F2) !important;
+  border: 1.5px solid var(--card-acompanhar-border, var(--border-strong)) !important;
+  box-sizing: border-box !important;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Botões delicados e serenos dentro dos 3 cartões de ação da Home */
+/* Botões delicados e serenos dentro dos 3 cartões de ação da Home (bordas bem definidas no contorno do botão) */
 .hero-card-planejar .hero-btn-green {
-  background-color: rgba(255, 255, 255, 0.85) !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
   color: var(--primary) !important;
-  border: 1px solid var(--card-planejar-border, var(--border-color)) !important;
+  border: 1.5px solid var(--border-strong, var(--primary)) !important;
   box-shadow: none !important;
 }
 .hero-card-planejar .hero-btn-green:hover {
   background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
   color: #FFFFFF !important;
 }
 
 .hero-card-registrar .hero-btn-terracotta {
-  background-color: rgba(255, 255, 255, 0.85) !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
   color: var(--terracotta) !important;
-  border: 1px solid var(--card-registrar-border, var(--border-color)) !important;
+  border: 1.5px solid var(--terracotta) !important;
   box-shadow: none !important;
 }
 .hero-card-registrar .hero-btn-terracotta:hover {
   background-color: var(--terracotta) !important;
+  border-color: var(--terracotta) !important;
   color: #FFFFFF !important;
 }
 
 .hero-card-acompanhar .hero-btn-slate {
-  background-color: rgba(255, 255, 255, 0.85) !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
   color: var(--slate-blue) !important;
-  border: 1px solid var(--card-acompanhar-border, var(--border-color)) !important;
+  border: 1.5px solid var(--slate-blue) !important;
   box-shadow: none !important;
 }
 .hero-card-acompanhar .hero-btn-slate:hover {
   background-color: var(--slate-blue) !important;
+  border-color: var(--slate-blue) !important;
   color: #FFFFFF !important;
 }
 
 .hero-btn-green {
   background-color: var(--primary) !important;
   color: var(--primary-text) !important;
+  border: 1.5px solid var(--primary) !important;
   transition: all 0.2s ease;
 }
 .hero-btn-green:hover {
   background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
   transform: translateY(-1px);
 }
 
 .hero-btn-terracotta {
   background-color: var(--terracotta) !important;
   color: #FFFFFF;
+  border: 1.5px solid var(--terracotta) !important;
   transition: all 0.2s ease;
 }
 .hero-btn-terracotta:hover {
   background-color: var(--terracotta-hover) !important;
+  border-color: var(--terracotta-hover) !important;
   transform: translateY(-1px);
 }
 
 .hero-btn-slate {
   background-color: var(--slate-blue) !important;
   color: #FFFFFF;
+  border: 1.5px solid var(--slate-blue) !important;
   transition: all 0.2s ease;
 }
 .hero-btn-slate:hover {
   background-color: var(--slate-blue-hover) !important;
+  border-color: var(--slate-blue-hover) !important;
   transform: translateY(-1px);
 }
 
-/* Cartões das Crianças no Mockup */
-.card-child-joao {
-  background-color: #EEF6FB;
-  border: 1px solid #D5E7F4;
+/* Cartões das Crianças ("Quem vamos acompanhar?") — Mesmo tamanho, sem corte e bordas harmoniosas */
+.card-child-item,
+.card-child-joao,
+.card-child-sofia {
+  box-sizing: border-box !important;
+  min-height: 78px;
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border: 1.5px solid var(--border-strong, var(--primary)) !important;
+  transition: all 0.22s ease;
 }
 
-.card-child-sofia {
-  background-color: #FDF0F3;
-  border: 1px solid #F7DDE3;
+.card-child-inactive:hover {
+  background-color: #FFFFFF !important;
+  border-color: var(--primary) !important;
+}
+
+.card-child-active {
+  background-color: #FFFFFF !important;
+  border: 2px solid var(--primary) !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05) !important;
 }
 
 .card-child-add {
-  background-color: #FFFFFF;
-  border: 2px dashed #CCD8CD;
+  box-sizing: border-box !important;
+  min-height: 78px;
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border: 2px dashed var(--border-dashed-dark, var(--primary)) !important;
+  transition: all 0.22s ease;
 }
+
 .card-child-add:hover {
-  background-color: #FAF7F0;
-  border-color: #526E55;
+  background-color: #FFFFFF !important;
+  border-color: var(--primary-hover) !important;
+}
+
+.card-child-add-circle {
+  border: 2px dashed var(--border-dashed-dark, var(--primary)) !important;
+  color: var(--border-dashed-dark, var(--primary)) !important;
+  background-color: var(--bg-page) !important;
+  transition: all 0.22s ease;
+}
+
+.card-child-add:hover .card-child-add-circle {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary-hover) !important;
+  color: var(--primary-hover) !important;
 }
 
 /* Capas de Livro Realistas para "Minha Biblioteca" */
