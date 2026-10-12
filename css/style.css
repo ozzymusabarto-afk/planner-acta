@@ -10,290 +10,290 @@
   --font-title: 'Playfair Display', Georgia, serif;
   --font-script: 'Caveat', cursive, handwriting;
 
-  /* 🌿 Tema 1: Natureza (Aquarela verde-menta bebê & sálvia clara) */
-  --bg-page: #FBFDFB;
-  --bg-sidebar: #F4F8F5;
+  /* 🌿 Tema 1: Natureza (Verde pastel suave) */
+  --bg-page: #F1F7F1;
+  --bg-sidebar: #E9F2E9;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #EDF5EE;
-  --bg-card-hover: #F6FAF7;
-  --text-main: #28382C;
-  --text-muted: #5E7363;
-  --text-light: #8E9F92;
-  --border-color: #DEE9E0;
-  --border-light: #EBF2ED;
+  --bg-surface-soft: #E3EDE3;
+  --bg-card-hover: #EEF6EE;
+  --text-main: #5E7A60;
+  --text-muted: #728D74;
+  --text-light: #9BB09D;
+  --border-color: #D3E2D4;
+  --border-light: #E2ECE3;
 
-  --primary: #5E8C68; /* Sálvia aquarelada suave */
-  --primary-hover: #4F7858;
-  --primary-light: #E8F3EA; /* Menta bebê claro */
+  --primary: #5E7A60;
+  --primary-hover: #4E6850;
+  --primary-light: #E3EDE3;
   --primary-text: #FFFFFF;
 
-  --terracotta: #A87B66; /* Argila/damasco bebê aquarelado */
-  --terracotta-hover: #936754;
-  --terracotta-light: #FBF2EC;
+  --terracotta: #A47D68;
+  --terracotta-hover: #8F6955;
+  --terracotta-light: #F7EFEA;
 
-  --slate-blue: #5F859C; /* Azul bebê suave */
-  --slate-blue-hover: #4E7085;
-  --slate-blue-light: #EAF2F8;
+  --slate-blue: #5C7B8F;
+  --slate-blue-hover: #4B6779;
+  --slate-blue-light: #E6EFF4;
 
-  --sidebar-active-bg: #E8F3EA;
-  --sidebar-active-text: #486E51;
-  --banner-bg: linear-gradient(135deg, #F0F7F2 0%, #FBFDFB 100%);
-  --card-planejar-bg: #F2F8F4;
-  --card-planejar-border: #DFECE2;
-  --card-registrar-bg: #FCF6F2;
-  --card-registrar-border: #F3E5DC;
-  --card-acompanhar-bg: #F0F6FA;
-  --card-acompanhar-border: #DCE8F2;
+  --sidebar-active-bg: #E3EDE3;
+  --sidebar-active-text: #4E6850;
+  --banner-bg: linear-gradient(135deg, #EBF3EB 0%, #F1F7F1 100%);
+  --card-planejar-bg: #EAF3EA;
+  --card-planejar-border: #D6E4D7;
+  --card-registrar-bg: #FAF3EE;
+  --card-registrar-border: #EFE1D8;
+  --card-acompanhar-bg: #EBF2F6;
+  --card-acompanhar-border: #D6E3EA;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
 
   /* Ícone de cabeçalho sutil em sálvia */
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%235E8C68' d='M20 6c-5 4-7 10-4 16 1-3 3-5 6-7 4-3 7-4 7-4s-1 3-3 6c-2 3-5 5-7 6 5 2 11 1 14-2 1 3-1 7-3 10-3 3-6 4-11 3-4-1-6-4-7-8-1-5 1-10 4-13 3-3 6-5 11-5-2 1-5 1-7 2z'/%3E%3Ccircle cx='24' cy='13' r='2' fill='%23A87B66'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%235E7A60' d='M20 6c-5 4-7 10-4 16 1-3 3-5 6-7 4-3 7-4 7-4s-1 3-3 6c-2 3-5 5-7 6 5 2 11 1 14-2 1 3-1 7-3 10-3 3-6 4-11 3-4-1-6-4-7-8-1-5 1-10 4-13 3-3 6-5 11-5-2 1-5 1-7 2z'/%3E%3Ccircle cx='24' cy='13' r='2' fill='%23A47D68'/%3E%3C/svg%3E");
   --theme-banner-ornament-svg: none;
   --theme-card-corner-svg: none;
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%235E8C68' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%235E8C68' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%235E8C68' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%235E8C68' fill-opacity='0.45'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%235E8C68' fill-opacity='0.65'/%3E%3C/svg%3E");
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%235E7A60' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%235E7A60' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%235E7A60' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%235E7A60' fill-opacity='0.45'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%235E7A60' fill-opacity='0.65'/%3E%3C/svg%3E");
 
   --card-radius: 1.25rem;
-  --shadow-soft: 0 2px 8px rgba(40, 56, 44, 0.025), 0 1px 3px rgba(40, 56, 44, 0.015);
-  --shadow-md: 0 4px 14px rgba(40, 56, 44, 0.04), 0 2px 4px rgba(40, 56, 44, 0.02);
+  --shadow-soft: 0 2px 8px rgba(94, 122, 96, 0.04), 0 1px 3px rgba(94, 122, 96, 0.02);
+  --shadow-md: 0 4px 14px rgba(94, 122, 96, 0.06), 0 2px 4px rgba(94, 122, 96, 0.03);
 }
 
-/* 📜 Tema 2: Clássico (Aquarela Azul Bebê / Céu calmo e nuvem clara) */
+/* 📜 Tema 2: Clássico (Azul bebê suave) */
 [data-theme="classico"] {
-  --bg-page: #F8FAFD;
-  --bg-sidebar: #EFF4F9;
+  --bg-page: #EEF4FA;
+  --bg-sidebar: #E3EDF6;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #E5EEF6;
-  --bg-card-hover: #F2F7FB;
-  --text-main: #243444;
-  --text-muted: #566C80;
-  --text-light: #849AB0;
-  --border-color: #D6E3EF;
-  --border-light: #E6EFF7;
+  --bg-surface-soft: #D9E6F2;
+  --bg-card-hover: #EAF1F8;
+  --text-main: #5B758E;
+  --text-muted: #6E87A0;
+  --text-light: #94A8BC;
+  --border-color: #CADCEB;
+  --border-light: #DEE9F3;
 
-  --primary: #4F7E9F; /* Azul bebê aquarelado sereno */
-  --primary-hover: #3E6987;
-  --primary-light: #E6F0F8; /* Fundo azul bebê claro */
+  --primary: #5B758E;
+  --primary-hover: #4A637B;
+  --primary-light: #DCE8F3;
   --primary-text: #FFFFFF;
 
-  --terracotta: #A87E68;
-  --terracotta-hover: #926A55;
-  --terracotta-light: #FAF2EC;
+  --terracotta: #A67C6B;
+  --terracotta-hover: #916858;
+  --terracotta-light: #F7EFEA;
 
-  --slate-blue: #4F7E9F;
-  --slate-blue-hover: #3E6987;
-  --slate-blue-light: #E6F0F8;
+  --slate-blue: #5B758E;
+  --slate-blue-hover: #4A637B;
+  --slate-blue-light: #DCE8F3;
 
-  --sidebar-active-bg: #E3EDF6;
-  --sidebar-active-text: #3D6A8A;
-  --banner-bg: linear-gradient(135deg, #ECF3F9 0%, #F8FAFD 100%);
-  --card-planejar-bg: #EEF5FA;
-  --card-planejar-border: #D8E6F2;
-  --card-registrar-bg: #FAF3EE;
-  --card-registrar-border: #EFE2D8;
-  --card-acompanhar-bg: #EEF5FA;
-  --card-acompanhar-border: #D8E6F2;
+  --sidebar-active-bg: #D7E5F1;
+  --sidebar-active-text: #435E77;
+  --banner-bg: linear-gradient(135deg, #E6EFF7 0%, #EEF4FA 100%);
+  --card-planejar-bg: #E6EFF7;
+  --card-planejar-border: #D0DFEC;
+  --card-registrar-bg: #F7EFEA;
+  --card-registrar-border: #EBDCD5;
+  --card-acompanhar-bg: #E6EFF7;
+  --card-acompanhar-border: #D0DFEC;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
 
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='none' stroke='%234F7E9F' stroke-width='1.5'/%3E%3Cpath fill='%234F7E9F' d='M14 16h5v9h-5zm7 0h5v9h-5zm-1-2l3-3 2 2-3 3z'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='none' stroke='%235B758E' stroke-width='1.5'/%3E%3Cpath fill='%235B758E' d='M14 16h5v9h-5zm7 0h5v9h-5zm-1-2l3-3 2 2-3 3z'/%3E%3C/svg%3E");
   --theme-banner-ornament-svg: none;
   --theme-card-corner-svg: none;
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%234F7E9F' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%234F7E9F' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%234F7E9F' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%234F7E9F' fill-opacity='0.45'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%234F7E9F' fill-opacity='0.65'/%3E%3C/svg%3E");
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%235B758E' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%235B758E' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%235B758E' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%235B758E' fill-opacity='0.45'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%235B758E' fill-opacity='0.65'/%3E%3C/svg%3E");
 }
 
-/* ☀️ Tema 3: Alegre (Aquarela Amarelo Bebê / Manteiga doce e luz suave) */
+/* ☀️ Tema 3: Alegre (Amarelo bebê brilhante e suave) */
 [data-theme="alegre"] {
-  --bg-page: #FFFDF7;
-  --bg-sidebar: #FAF6EB;
+  --bg-page: #FFFAED;
+  --bg-sidebar: #FFF4DC;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #F5EED8;
-  --bg-card-hover: #FBF7ED;
-  --text-main: #363022;
-  --text-muted: #6B624E;
-  --text-light: #968B73;
-  --border-color: #E8E0C8;
-  --border-light: #F2ECDC;
+  --bg-surface-soft: #FDF0D0;
+  --bg-card-hover: #FFF7E4;
+  --text-main: #947D46;
+  --text-muted: #A38C55;
+  --text-light: #BFAB7A;
+  --border-color: #EFE0B8;
+  --border-light: #F8ECD0;
 
-  --primary: #A67C2E; /* Dourado suave amanteigado em aquarela */
-  --primary-hover: #8F6923;
-  --primary-light: #FAF3DE; /* Amarelo bebê aquarelado */
+  --primary: #947D46;
+  --primary-hover: #7F6A37;
+  --primary-light: #FCF1D6;
   --primary-text: #FFFFFF;
 
-  --terracotta: #AD7150;
-  --terracotta-hover: #965E40;
+  --terracotta: #AD7A58;
+  --terracotta-hover: #976545;
   --terracotta-light: #FAF1EB;
 
-  --slate-blue: #5C8296;
-  --slate-blue-hover: #4B6E80;
-  --slate-blue-light: #ECF3F7;
+  --slate-blue: #5C8196;
+  --slate-blue-hover: #4B6E82;
+  --slate-blue-light: #EBF2F6;
 
-  --sidebar-active-bg: #F7EFCF;
-  --sidebar-active-text: #8A641E;
-  --banner-bg: linear-gradient(135deg, #FAF4E4 0%, #FFFDF7 100%);
-  --card-planejar-bg: #FBF6E9;
-  --card-planejar-border: #EDE4CC;
-  --card-registrar-bg: #FCF4ED;
-  --card-registrar-border: #F3E3D7;
-  --card-acompanhar-bg: #F2F7FA;
-  --card-acompanhar-border: #DEE9F0;
+  --sidebar-active-bg: #F9E8BF;
+  --sidebar-active-text: #786431;
+  --banner-bg: linear-gradient(135deg, #FFF5E0 0%, #FFFAED 100%);
+  --card-planejar-bg: #FFF5E0;
+  --card-planejar-border: #F3E4C1;
+  --card-registrar-bg: #FCF4EB;
+  --card-registrar-border: #F1E2D4;
+  --card-acompanhar-bg: #EFF5F8;
+  --card-acompanhar-border: #D9E6ED;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
 
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='7' fill='%23A67C2E'/%3E%3Ccircle cx='20' cy='8' r='2' fill='%23A67C2E'/%3E%3Ccircle cx='20' cy='32' r='2' fill='%23A67C2E'/%3E%3Ccircle cx='8' cy='20' r='2' fill='%23A67C2E'/%3E%3Ccircle cx='32' cy='20' r='2' fill='%23A67C2E'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='7' fill='%23947D46'/%3E%3Ccircle cx='20' cy='8' r='2' fill='%23947D46'/%3E%3Ccircle cx='20' cy='32' r='2' fill='%23947D46'/%3E%3Ccircle cx='8' cy='20' r='2' fill='%23947D46'/%3E%3Ccircle cx='32' cy='20' r='2' fill='%23947D46'/%3E%3C/svg%3E");
   --theme-banner-ornament-svg: none;
   --theme-card-corner-svg: none;
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23A67C2E' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23A67C2E' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23A67C2E' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23A67C2E' fill-opacity='0.45'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23A67C2E' fill-opacity='0.65'/%3E%3C/svg%3E");
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23947D46' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23947D46' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23947D46' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23947D46' fill-opacity='0.45'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23947D46' fill-opacity='0.65'/%3E%3C/svg%3E");
 }
 
-/* ✨ Tema 4: Elegante (Aquarela Cinza Nuvem & Marfim Minimalista) */
+/* ✨ Tema 4: Elegante (Tons neutros e cinza claro) */
 [data-theme="elegante"] {
-  --bg-page: #F9FAFB;
-  --bg-sidebar: #F2F4F6;
+  --bg-page: #F8F8F8;
+  --bg-sidebar: #F0F0F0;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #E8ECEF;
-  --bg-card-hover: #F4F6F8;
-  --text-main: #2A3036;
-  --text-muted: #5D6670;
-  --text-light: #88939E;
-  --border-color: #D8DFE5;
-  --border-light: #E8EEF3;
+  --bg-surface-soft: #E8E8E8;
+  --bg-card-hover: #F2F2F2;
+  --text-main: #666666;
+  --text-muted: #7A7A7A;
+  --text-light: #9E9E9E;
+  --border-color: #DCDCDC;
+  --border-light: #EAEAEA;
 
-  --primary: #586B7D; /* Ardósia/azul acinzentado aquarelado */
-  --primary-hover: #485868;
-  --primary-light: #E8EDF2;
+  --primary: #666666;
+  --primary-hover: #525252;
+  --primary-light: #ECECEC;
   --primary-text: #FFFFFF;
 
-  --terracotta: #8F6969;
-  --terracotta-hover: #795555;
+  --terracotta: #8C7070;
+  --terracotta-hover: #755B5B;
   --terracotta-light: #F7EFEF;
 
-  --slate-blue: #586B7D;
-  --slate-blue-hover: #485868;
-  --slate-blue-light: #E8EDF2;
+  --slate-blue: #647382;
+  --slate-blue-hover: #505F6E;
+  --slate-blue-light: #E7ECF0;
 
-  --sidebar-active-bg: #E5EBF1;
-  --sidebar-active-text: #485868;
-  --banner-bg: linear-gradient(135deg, #EFF2F5 0%, #F9FAFB 100%);
-  --card-planejar-bg: #EFF3F7;
-  --card-planejar-border: #DBE3EA;
-  --card-registrar-bg: #F7F1F1;
-  --card-registrar-border: #EAE1E1;
-  --card-acompanhar-bg: #EFF3F7;
-  --card-acompanhar-border: #DBE3EA;
+  --sidebar-active-bg: #E4E4E4;
+  --sidebar-active-text: #4F4F4F;
+  --banner-bg: linear-gradient(135deg, #F0F0F0 0%, #F8F8F8 100%);
+  --card-planejar-bg: #F0F0F0;
+  --card-planejar-border: #DCDCDC;
+  --card-registrar-bg: #F6F1F1;
+  --card-registrar-border: #E8DDDD;
+  --card-acompanhar-bg: #EFF2F5;
+  --card-acompanhar-border: #DAE0E5;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
 
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23586B7D' d='M20 7l3 9 9 3-9 3-3 9-3-9-9-3 9-3z'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23666666' d='M20 7l3 9 9 3-9 3-3 9-3-9-9-3 9-3z'/%3E%3C/svg%3E");
   --theme-banner-ornament-svg: none;
   --theme-card-corner-svg: none;
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23586B7D' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23586B7D' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23586B7D' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23586B7D' fill-opacity='0.45'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23586B7D' fill-opacity='0.65'/%3E%3C/svg%3E");
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23666666' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23666666' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23666666' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23666666' fill-opacity='0.45'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23666666' fill-opacity='0.65'/%3E%3C/svg%3E");
 }
 
-/* 🎨 Tema 5: Criativo (Aquarela Lavanda Bebê / Hortênsia doce) */
+/* 🎨 Tema 5: Criativo (Lilás / Lavanda bebê) */
 [data-theme="criativo"] {
-  --bg-page: #FCFAFD;
-  --bg-sidebar: #F5EFF8;
+  --bg-page: #F6F0FA;
+  --bg-sidebar: #EFE7F5;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #EFE4F4;
-  --bg-card-hover: #F8F3FA;
-  --text-main: #33283B;
-  --text-muted: #6C5A78;
-  --text-light: #9583A0;
-  --border-color: #E0D3E7;
-  --border-light: #EFE4F4;
+  --bg-surface-soft: #E6DAEF;
+  --bg-card-hover: #F2EBF7;
+  --text-main: #7B628A;
+  --text-muted: #8E769D;
+  --text-light: #B09DBE;
+  --border-color: #DBCDE3;
+  --border-light: #ECE2F1;
 
-  --primary: #7F6A97; /* Lavanda aquarelada serena */
-  --primary-hover: #6C5784;
-  --primary-light: #EFE8F5; /* Lavanda bebê suave */
+  --primary: #7B628A;
+  --primary-hover: #675075;
+  --primary-light: #ECE1F3;
   --primary-text: #FFFFFF;
 
-  --terracotta: #A66D8C;
-  --terracotta-hover: #905877;
+  --terracotta: #A86D8B;
+  --terracotta-hover: #925775;
   --terracotta-light: #FBEBF3;
 
-  --slate-blue: #61808F;
-  --slate-blue-hover: #506C7A;
-  --slate-blue-light: #EDF3F6;
+  --slate-blue: #607F94;
+  --slate-blue-hover: #4F6B7E;
+  --slate-blue-light: #ECF2F6;
 
-  --sidebar-active-bg: #EAE0F2;
-  --sidebar-active-text: #695281;
-  --banner-bg: linear-gradient(135deg, #F5EDF9 0%, #FCFAFD 100%);
-  --card-planejar-bg: #F5EDF9;
-  --card-planejar-border: #E5D5EB;
+  --sidebar-active-bg: #E3D3EB;
+  --sidebar-active-text: #5D466B;
+  --banner-bg: linear-gradient(135deg, #EFE6F5 0%, #F6F0FA 100%);
+  --card-planejar-bg: #EFE6F5;
+  --card-planejar-border: #DDCFE5;
   --card-registrar-bg: #FAF0F5;
   --card-registrar-border: #EED7E4;
-  --card-acompanhar-bg: #F0F6F9;
-  --card-acompanhar-border: #DCE8EE;
+  --card-acompanhar-bg: #EEF4F7;
+  --card-acompanhar-border: #D7E4EB;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
 
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='15' cy='18' r='4' fill='%237F6A97' fill-opacity='0.6'/%3E%3Ccircle cx='25' cy='18' r='4' fill='%2361808F' fill-opacity='0.6'/%3E%3Ccircle cx='20' cy='25' r='4' fill='%23A66D8C' fill-opacity='0.6'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='15' cy='18' r='4' fill='%237B628A' fill-opacity='0.6'/%3E%3Ccircle cx='25' cy='18' r='4' fill='%23607F94' fill-opacity='0.6'/%3E%3Ccircle cx='20' cy='25' r='4' fill='%23A86D8B' fill-opacity='0.6'/%3E%3C/svg%3E");
   --theme-banner-ornament-svg: none;
   --theme-card-corner-svg: none;
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%237F6A97' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%237F6A97' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%237F6A97' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%237F6A97' fill-opacity='0.45'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%237F6A97' fill-opacity='0.65'/%3E%3C/svg%3E");
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%237B628A' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%237B628A' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%237B628A' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%237B628A' fill-opacity='0.45'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%237B628A' fill-opacity='0.65'/%3E%3C/svg%3E");
 }
 
-/* 🌹 Tema 6: Romântico (Aquarela Rosa Bebê / Pétala suave de peônia) */
+/* 🌹 Tema 6: Romântico (Rosa bebê delicado) */
 [data-theme="romantico"] {
-  --bg-page: #FCF9FA;
-  --bg-sidebar: #F8F0F3;
+  --bg-page: #FDF2F4;
+  --bg-sidebar: #F9E7EA;
   --bg-surface: #FFFFFF;
-  --bg-surface-soft: #F4E4EB;
-  --bg-card-hover: #FBF3F6;
-  --text-main: #38272C;
-  --text-muted: #725760;
-  --text-light: #9A7E87;
-  --border-color: #E6D4DC;
-  --border-light: #F2E4EB;
+  --bg-surface-soft: #F4DBE0;
+  --bg-card-hover: #FBECF0;
+  --text-main: #8A5C67;
+  --text-muted: #9E707B;
+  --text-light: #BF939D;
+  --border-color: #EACCD2;
+  --border-light: #F4DFE3;
 
-  --primary: #A46977; /* Rosa aquarelado suave de pétala */
-  --primary-hover: #8D5361;
-  --primary-light: #F7E9EE; /* Rosa bebê aquarelado delicado */
+  --primary: #8A5C67;
+  --primary-hover: #744954;
+  --primary-light: #F6E2E6;
   --primary-text: #FFFFFF;
 
-  --terracotta: #AB6F68;
-  --terracotta-hover: #965B54;
+  --terracotta: #A86E64;
+  --terracotta-hover: #935950;
   --terracotta-light: #FAF0EE;
 
   --slate-blue: #6A677B;
   --slate-blue-hover: #585568;
   --slate-blue-light: #EDEAF3;
 
-  --sidebar-active-bg: #F4E2E8;
-  --sidebar-active-text: #8C5361;
-  --banner-bg: linear-gradient(135deg, #F9ECF1 0%, #FCF9FA 100%);
-  --card-planejar-bg: #F8EDF1;
-  --card-planejar-border: #ECCFD9;
-  --card-registrar-bg: #FAF1EE;
-  --card-registrar-border: #EFDCD7;
-  --card-acompanhar-bg: #F3EEF7;
-  --card-acompanhar-border: #E1D8E8;
+  --sidebar-active-bg: #F0D3D9;
+  --sidebar-active-text: #693F49;
+  --banner-bg: linear-gradient(135deg, #F8E5E9 0%, #FDF2F4 100%);
+  --card-planejar-bg: #F8E5E9;
+  --card-planejar-border: #E8CCD2;
+  --card-registrar-bg: #FAF0EE;
+  --card-registrar-border: #EEDAD5;
+  --card-acompanhar-bg: #F2EEF7;
+  --card-acompanhar-border: #DFD5E8;
 
   --theme-watermark: none;
   --theme-watermark-size: 0 0;
 
-  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='%23A46977' fill-opacity='0.12'/%3E%3Cpath fill='%23A46977' d='M20 12c3-3 7-3 9 0 3 2 2 6-1 9-3 3-8 8-8 8s-5-5-8-8c-3-3-4-7-1-9 2-3 6-3 9 0z'/%3E%3C/svg%3E");
+  --theme-badge-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='%238A5C67' fill-opacity='0.12'/%3E%3Cpath fill='%238A5C67' d='M20 12c3-3 7-3 9 0 3 2 2 6-1 9-3 3-8 8-8 8s-5-5-8-8c-3-3-4-7-1-9 2-3 6-3 9 0z'/%3E%3C/svg%3E");
   --theme-banner-ornament-svg: none;
   --theme-card-corner-svg: none;
-  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%23A46977' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%23A46977' fill-opacity='0.5'/%3E%3C/svg%3E");
-  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%23A46977' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%23A46977' fill-opacity='0.45'/%3E%3C/svg%3E");
-  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23A46977' fill-opacity='0.65'/%3E%3C/svg%3E");
+  --theme-header-vignette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M10 16h85m50 0h85' stroke='%238A5C67' stroke-width='1' stroke-opacity='0.35'/%3E%3Ccircle cx='120' cy='16' r='3' fill='%238A5C67' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --theme-divider-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 24'%3E%3Cpath d='M10 12h135m30 0h135' stroke='%238A5C67' stroke-width='1' stroke-opacity='0.25'/%3E%3Ccircle cx='160' cy='12' r='2.5' fill='%238A5C67' fill-opacity='0.45'/%3E%3C/svg%3E");
+  --theme-bullet-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%238A5C67' fill-opacity='0.65'/%3E%3C/svg%3E");
 }
 
 /* ========================================================================== */
@@ -559,12 +559,13 @@ aside.bg-\[\#FAF7F0\] {
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
+  background-color: var(--bg-page) !important;
   border: 1px solid var(--border-color) !important;
   border-radius: 1.5rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(40, 48, 42, 0.03);
-  transition: background-image 0.4s ease, border-color 0.3s ease;
+  box-shadow: 0 4px 16px rgba(40, 48, 42, 0.02);
+  transition: background-image 0.4s ease, border-color 0.3s ease, background-color 0.3s ease;
 }
 
 /* Ilustrações das 3 ações da Home: efeito aquarela suave (clareadas, luminosas, sem peso) */

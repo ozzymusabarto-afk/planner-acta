@@ -9,53 +9,53 @@
   const THEME_VISUALS = {
     natureza: {
       name: 'Natureza',
-      banner: 'assets/banner-natureza.jpg',
+      banner: 'assets/banner-natureza.png',
       planejar: 'assets/illus-planejar-natureza.png',
       registrar: 'assets/illus-registrar-natureza.png',
       acompanhar: 'assets/illus-acompanhar-natureza.png',
       sideCard: 'assets/card-pequenos-natureza.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'linear-gradient(135deg, rgba(251, 253, 251, 0.72) 0%, rgba(244, 248, 245, 0.62) 50%, rgba(251, 253, 251, 0.78) 100%)'
+      bannerOverlay: 'transparent'
     },
     classico: {
       name: 'Clássico',
-      banner: 'assets/banner-classico.jpg',
+      banner: 'assets/banner-classico.png',
       planejar: 'assets/illus-planejar-classico.jpg',
       registrar: 'assets/illus-registrar-classico.jpg',
       acompanhar: 'assets/illus-acompanhar-classico.jpg',
       sideCard: 'assets/card-pequenos-classico.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'linear-gradient(135deg, rgba(248, 250, 253, 0.72) 0%, rgba(239, 244, 249, 0.62) 50%, rgba(248, 250, 253, 0.78) 100%)'
+      bannerOverlay: 'transparent'
     },
     alegre: {
       name: 'Alegre',
-      banner: 'assets/banner-alegre.jpg',
+      banner: 'assets/banner-alegre.png',
       planejar: 'assets/illus-planejar-alegre.jpg',
       registrar: 'assets/illus-registrar-alegre.jpg',
       acompanhar: 'assets/illus-acompanhar-alegre.jpg',
       sideCard: 'assets/card-pequenos-alegre.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'linear-gradient(135deg, rgba(255, 253, 247, 0.72) 0%, rgba(250, 246, 235, 0.62) 50%, rgba(255, 253, 247, 0.78) 100%)'
+      bannerOverlay: 'transparent'
     },
     elegante: {
       name: 'Elegante',
-      banner: 'assets/banner-elegante.jpg',
+      banner: 'assets/banner-elegante.png',
       planejar: 'assets/illus-planejar-elegante.jpg',
       registrar: 'assets/illus-registrar-elegante.jpg',
       acompanhar: 'assets/illus-acompanhar-elegante.jpg',
       sideCard: 'assets/card-pequenos-elegante.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'linear-gradient(135deg, rgba(249, 250, 251, 0.72) 0%, rgba(242, 244, 246, 0.62) 50%, rgba(249, 250, 251, 0.78) 100%)'
+      bannerOverlay: 'transparent'
     },
     criativo: {
       name: 'Criativo',
-      banner: 'assets/banner-criativo.jpg',
+      banner: 'assets/banner-criativo.png',
       planejar: 'assets/illus-planejar-criativo.jpg',
       registrar: 'assets/illus-registrar-criativo.jpg',
       acompanhar: 'assets/illus-acompanhar-criativo.jpg',
       sideCard: 'assets/card-pequenos-criativo.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'linear-gradient(135deg, rgba(252, 250, 253, 0.72) 0%, rgba(245, 239, 248, 0.62) 50%, rgba(252, 250, 253, 0.78) 100%)'
+      bannerOverlay: 'transparent'
     },
     romantico: {
       name: 'Romântico',
@@ -65,7 +65,7 @@
       acompanhar: 'assets/illus-acompanhar-natureza.png',
       sideCard: 'assets/card-pequenos-natureza.jpg',
       sidebarDecor: '',
-      bannerOverlay: 'linear-gradient(135deg, rgba(252, 249, 250, 0.72) 0%, rgba(248, 240, 243, 0.62) 50%, rgba(252, 249, 250, 0.78) 100%)'
+      bannerOverlay: 'linear-gradient(135deg, rgba(253, 242, 244, 0.65) 0%, rgba(253, 242, 244, 0.45) 100%)'
     }
   };
 
