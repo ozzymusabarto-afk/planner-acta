@@ -156,7 +156,7 @@
               class="hero-btn-green text-xs font-semibold px-5 py-2.5 rounded-full shadow-xs inline-flex items-center gap-2 mt-4"
             >
               <i class="fa-solid fa-plus text-[10px]"></i>
-              <span>+ Registrar nova leitura</span>
+              <span>Registrar nova leitura</span>
             </button>
           </div>
         `;
@@ -182,7 +182,7 @@
             <div class="relative bg-gradient-to-b from-[#F9F5EC] to-[#EFE7D8] p-4 sm:p-5 pt-8 rounded-2xl border border-[#D8CEBC] shadow-inner">
               
               <!-- Fundo de Madeira Sutil da Estante -->
-              <div class="flex flex-wrap items-end gap-3 sm:gap-4 min-h-[160px] pb-1 z-10 relative">
+              <div class="flex flex-wrap items-end gap-3 sm:gap-4 min-h-[220px] pb-1 z-10 relative">
                 ${books.map((b, idx) => this.renderSpineHTML(b, idx)).join('')}
               </div>
 
@@ -223,7 +223,7 @@
               class="hero-btn-green text-xs font-semibold px-5 py-2.5 rounded-full shadow-sm flex items-center justify-center gap-2 transition transform active:scale-95"
             >
               <i class="fa-solid fa-plus text-[11px]"></i>
-              <span>+ Registrar nova leitura</span>
+              <span>Registrar nova leitura</span>
             </button>
           </div>
 
@@ -293,6 +293,7 @@
                 <option value="all">Todos os status</option>
                 <option value="concluido" ${this.readingFilters.status === 'concluido' ? 'selected' : ''}>Concluídos</option>
                 <option value="em_andamento" ${this.readingFilters.status === 'em_andamento' ? 'selected' : ''}>Em andamento</option>
+                <option value="quero_ler" ${this.readingFilters.status === 'quero_ler' ? 'selected' : ''}>Quero ler</option>
               </select>
             </div>
           </div>
@@ -308,37 +309,73 @@
     // Renderiza uma lombada de livro individual em pé na estante
     renderSpineHTML: function(book, idx) {
       const palette = ['#2F5233', '#1E3A5F', '#A95337', '#8C472E', '#4A2E65', '#3D6B78', '#5C4033', '#2B3A42'];
-      const spineColor = book.coverColor || palette[idx % palette.length];
+      // Hash determinístico pelo ID ou título do livro para manter cor e altura estáveis
+      const seedStr = String(book.id || book.title || idx);
+      let hash = 0;
+      for (let i = 0; i < seedStr.length; i++) {
+        hash = ((hash << 5) - hash) + seedStr.charCodeAt(i);
+        hash |= 0;
+      }
+      const absHash = Math.abs(hash);
+
+      const spineColor = book.coverColor || palette[absHash % palette.length];
       const isConcluido = (book.status || 'concluido') === 'concluido';
 
-      // Alturas e espessuras ligeiramente variáveis para aspecto natural e imersivo
-      const heights = ['h-44 sm:h-52', 'h-48 sm:h-56', 'h-46 sm:h-54', 'h-42 sm:h-50'];
-      const widths = ['w-11 sm:w-14', 'w-12 sm:w-15', 'w-13 sm:w-16'];
-      const hClass = heights[idx % heights.length];
-      const wClass = widths[idx % widths.length];
+      const cleanTitle = String(book.title || 'Livro').trim();
+      const titleLen = cleanTitle.length;
+
+      // Alturas e larguras explícitas em pixels para que NENHUM livro fique encolhido/achatado
+      // e títulos maiores tenham espaço confortável na lombada sem cortar
+      const heightOptions = [212, 224, 216, 228];
+      let spineHeightPx = heightOptions[absHash % heightOptions.length];
+      let spineWidthPx = 52;
+      let titleFontSize = '11px';
+      let titleLetterSpacing = '0.05em';
+      let allowWrap = false;
+
+      if (titleLen > 42) {
+        spineHeightPx = 232;
+        spineWidthPx = 66;
+        titleFontSize = '8.5px';
+        titleLetterSpacing = '0.01em';
+        allowWrap = true;
+      } else if (titleLen > 25) {
+        spineHeightPx = 228;
+        spineWidthPx = 60;
+        titleFontSize = '9.5px';
+        titleLetterSpacing = '0.02em';
+        allowWrap = true;
+      } else if (titleLen > 17) {
+        spineHeightPx = 224;
+        spineWidthPx = 54;
+        titleFontSize = '9.8px';
+        titleLetterSpacing = '0.03em';
+        allowWrap = false;
+      }
 
       return `
         <div 
           onclick="ActaCulture.openReadingDetails('${book.id}')"
-          class="group relative ${wClass} ${hClass} rounded-t-sm shadow-md hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:scale-105 cursor-pointer flex flex-col justify-between items-center py-2 px-1 text-white select-none border-l border-t border-white/20 border-r border-black/30"
-          style="background: linear-gradient(90deg, rgba(255,255,255,0.18) 0%, ${spineColor} 18%, ${spineColor} 82%, rgba(0,0,0,0.35) 100%);"
-          title="${book.title} — ${book.author || 'Autor desconhecido'} (${book.personName})"
+          class="group relative rounded-t-sm shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 cursor-pointer flex flex-col justify-between items-center py-2 px-1.5 text-white select-none border-l border-t border-white/20 border-r border-black/30 shrink-0"
+          style="height: ${spineHeightPx}px; width: ${spineWidthPx}px; min-height: ${spineHeightPx}px; background: linear-gradient(90deg, rgba(255,255,255,0.18) 0%, ${spineColor} 18%, ${spineColor} 82%, rgba(0,0,0,0.35) 100%);"
+          title="${cleanTitle} — ${book.author || 'Autor desconhecido'} (${book.personName || ''})"
         >
           <!-- Nervuras Douradas Decorativas da Lombada -->
-          <div class="w-full h-0.5 bg-yellow-200/50 shadow-xs mb-1"></div>
+          <div class="w-full h-0.5 bg-yellow-200/50 shadow-xs mb-1 shrink-0"></div>
 
-          <!-- Título Vertical da Lombada Autêntica -->
-          <div class="flex-1 flex items-center justify-center overflow-hidden my-1 w-full" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+          <!-- Título Vertical da Lombada Autêntica (auto-ajustável para caber legível) -->
+          <div class="flex-1 flex items-center justify-center overflow-hidden my-1 w-full px-0.5" style="writing-mode: vertical-rl; transform: rotate(180deg); max-height: ${spineHeightPx - 36}px;">
             <span 
-              class="text-[10px] sm:text-[11px] font-editorial-serif font-bold tracking-wider uppercase text-yellow-100/95 whitespace-nowrap overflow-hidden text-ellipsis drop-shadow-xs max-h-[145px]" 
-              title="${book.title}"
+              class="font-editorial-serif font-bold uppercase text-yellow-100/95 drop-shadow-xs text-center"
+              style="font-size: ${titleFontSize}; letter-spacing: ${titleLetterSpacing}; line-height: 1.15; ${allowWrap ? 'white-space: normal; word-break: break-word;' : 'white-space: nowrap;'}"
+              title="${cleanTitle}"
             >
-              ${book.title}
+              ${cleanTitle}
             </span>
           </div>
 
           <!-- Detalhes da Base da Lombada -->
-          <div class="w-full space-y-1 text-center">
+          <div class="w-full space-y-1 text-center shrink-0">
             <div class="w-full h-0.5 bg-yellow-200/50 shadow-xs"></div>
             <!-- Marcador de Leitor ou Status -->
             <div class="flex items-center justify-center">
@@ -357,8 +394,8 @@
           <!-- Balão com Miniatura ao Passar o Mouse (Tooltip Acolhedor) -->
           <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col items-center z-50 pointer-events-none">
             <div class="bg-[#28302A] text-white text-[11px] py-1.5 px-3 rounded-xl shadow-xl whitespace-nowrap space-y-0.5 border border-white/20">
-              <div class="font-bold text-yellow-200">${book.title}</div>
-              <div class="text-[10px] text-[#C2C9C3]">${book.author ? `Por ${book.author}` : 'Autor não informado'} • Leitor(a): <strong class="text-white">${book.personName}</strong></div>
+              <div class="font-bold text-yellow-200">${cleanTitle}</div>
+              <div class="text-[10px] text-[#C2C9C3]">${book.author ? `Por ${book.author}` : 'Autor não informado'} • Leitor(a): <strong class="text-white">${book.personName || ''}</strong></div>
               ${book.rating ? `<div class="text-rose-400 text-[9px]">${'❤️'.repeat(book.rating)}</div>` : ''}
               <div class="text-[9px] text-yellow-300/80 pt-0.5">Clique para ver ficha completa e editar</div>
             </div>
@@ -402,7 +439,7 @@
               class="hero-btn-terracotta text-xs font-semibold px-5 py-2.5 rounded-full shadow-xs inline-flex items-center gap-2 mt-4"
             >
               <i class="fa-solid fa-plus text-[10px]"></i>
-              <span>+ Registrar filme</span>
+              <span>Registrar filme</span>
             </button>
           </div>
         `;
@@ -435,7 +472,7 @@
               class="hero-btn-terracotta text-xs font-semibold px-5 py-2.5 rounded-full shadow-sm flex items-center justify-center gap-2 transition transform active:scale-95"
             >
               <i class="fa-solid fa-plus text-[11px]"></i>
-              <span>+ Registrar filme</span>
+              <span>Registrar filme</span>
             </button>
           </div>
 
@@ -931,6 +968,10 @@
         }
       }
 
+      const palette = ['#2F5233', '#1E3A5F', '#A95337', '#8C472E', '#4A2E65', '#3D6B78', '#5C4033', '#2B3A42'];
+      const currentCount = (storage.getReadings() || []).length;
+      const coverColor = palette[currentCount % palette.length];
+
       const newReading = {
         personId,
         personName,
@@ -945,7 +986,8 @@
         virtues,
         reflection,
         readingExperience,
-        rating
+        rating,
+        coverColor
       };
 
       storage.addReading(newReading);

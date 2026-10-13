@@ -1037,7 +1037,7 @@
       const data = this.getData();
       if (!data.readings) data.readings = [];
       if (!reading.id) reading.id = 'read_' + Date.now();
-      data.readings.unshift(reading);
+      data.readings.push(reading);
       this.saveData(data);
       return reading;
     },
