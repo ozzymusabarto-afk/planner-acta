@@ -43,13 +43,26 @@
      * Constrói parágrafos fluidos, objetivos e naturais a partir das escolhas simples do usuário.
      */
     generateNarrative: function(childName, subject, contentTitle, activityType, performanceArray, notes) {
-      const name = childName || 'A criança';
-      const cleanContent = (contentTitle || 'o conteúdo proposto').trim();
-      const cleanSubject = subject || 'estudo';
+      // Compatibilidade caso chamado com 4 argumentos: (subject, contentTitle, selectedActivitiesArray, selectedResultString)
+      if (Array.isArray(contentTitle) && arguments.length <= 4) {
+        const res = activityType;
+        const acts = contentTitle;
+        contentTitle = subject;
+        subject = childName;
+        const activePerson = window.ActaStorage && window.ActaStorage.getActivePerson ? window.ActaStorage.getActivePerson() : null;
+        childName = activePerson ? activePerson.name : 'A criança';
+        activityType = acts.join(' + ');
+        performanceArray = res === 'compreendeu' ? ['sozinho', 'avancou'] : (res === 'revisar' ? ['ajuda', 'retomar'] : ['interesse']);
+        notes = '';
+      }
+
+      const name = String(childName || 'A criança');
+      const cleanContent = String(contentTitle || 'o conteúdo proposto').trim() || 'o conteúdo proposto';
+      const cleanSubject = String(subject || 'estudo');
 
       // 1. Abertura baseada no tipo de atividade
       let opening = '';
-      const act = (activityType || '').toLowerCase();
+      const act = String(Array.isArray(activityType) ? activityType.join(' + ') : (activityType || '')).toLowerCase();
       if (act.includes('leitura')) {
         opening = `Em atividade de leitura de ${cleanSubject}, ${name} trabalhou "${cleanContent}"`;
       } else if (act.includes('exercício') || act.includes('exercicios')) {
@@ -95,8 +108,8 @@
       let narrative = `${opening}${middle}${closing}`;
 
       // 4. Integração fluida das notas adicionais do responsável (se houver)
-      if (notes && notes.trim().length > 0 && !narrative.includes(notes.trim())) {
-        const cleanNotes = notes.trim();
+      if (notes && String(notes).trim().length > 0 && !narrative.includes(String(notes).trim())) {
+        const cleanNotes = String(notes).trim();
         narrative += ` Observação: ${cleanNotes.charAt(0).toUpperCase() + cleanNotes.slice(1)}`;
         if (!narrative.endsWith('.')) narrative += '.';
       }
@@ -257,10 +270,10 @@
           date: x.date || '2025-09-01',
           formattedDate: x.formattedDate,
           title: x.title,
-          subtitle: x.category === 'passeio' ? 'Passeio Cultural' : 'Atividade Prática',
+          subtitle: x.category === 'passeio' || x.type === 'passeio' ? 'Passeio Cultural' : 'Atividade Prática',
           type: x.type || 'Passeio',
           narrative: x.description || x.highlights,
-          evidenceImg: x.evidenceImg,
+          evidenceImg: x.photo || x.evidenceImg,
           isExtra: true,
           location: x.location
         });

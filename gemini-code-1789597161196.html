@@ -706,127 +706,20 @@
     <!-- TELA 5: LEITURAS & LITERATURA (BIBLIOTECA DIGITAL)           -->
     <!-- ------------------------------------------------------------- -->
     <div id="tab-leituras" class="tab-pane hidden space-y-6">
-      
-      <!-- Cabeçalho -->
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
-            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
-            <span>Leituras & Literatura</span>
-          </h2>
-          <div class="planner-title-vignette"></div>
-          <p class="text-xs text-[#667267]">Estante viva de literatura, contos, aventuras e biografias. O cultivo do imaginário e das virtudes.</p>
-        </div>
-
-        <div class="flex items-center gap-2 flex-wrap">
-          <button type="button" onclick="ActaCulture.openNewReadingModal()" class="hero-btn-green py-2 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-plus text-[10px]"></i>
-            <span>Nova Leitura</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Barra de Filtros e Busca de Leituras -->
-      <div class="p-4 bg-white rounded-2xl border border-[#E8E2D5] shadow-xs flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="text-xs font-semibold text-[#667267]">Filtrar por:</span>
-          <select id="readingFilterChildSelect" onchange="ActaApp.onReadingFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
-            <!-- Crianças dinamicamente -->
-          </select>
-          <select id="readingFilterCatSelect" onchange="ActaApp.onReadingFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
-            <option value="all">Todas as categorias</option>
-            <option value="Ficção">Ficção</option>
-            <option value="Aventura">Aventura</option>
-            <option value="Fantasia">Fantasia</option>
-            <option value="Fábulas">Fábulas</option>
-            <option value="Contos">Contos</option>
-            <option value="Romance">Romance</option>
-            <option value="Clássicos">Clássicos</option>
-            <option value="Poesia">Poesia</option>
-            <option value="Biografia">Biografia</option>
-            <option value="História">História</option>
-            <option value="Mistério">Mistério</option>
-            <option value="Viagem/Exploração">Viagem / Exploração</option>
-            <option value="Natureza">Natureza</option>
-            <option value="Outros">Outros</option>
-          </select>
-          <select id="readingFilterStatusSelect" onchange="ActaApp.onReadingFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
-            <option value="all">Todos os status</option>
-            <option value="em_andamento">Lendo agora</option>
-            <option value="concluido">Concluídos</option>
-            <option value="quero_ler">Quero ler</option>
-          </select>
-        </div>
-
-        <div class="text-xs text-[#667267]">
-          <span class="text-[#2F5233] font-bold"><i class="fa-solid fa-book-open text-xs"></i> Biblioteca Viva</span>
-        </div>
-      </div>
-
       <!-- Container Dinâmico da Estante -->
-      <div id="readingsShelfContainer">
+      <div id="readingsShelfContainer" class="space-y-6">
         <!-- Renderizado dinamicamente via ActaCulture.renderBookshelfHTML -->
       </div>
-
     </div>
 
     <!-- ------------------------------------------------------------- -->
     <!-- TELA 6: FILMES & CULTURA (CINEMATECA EM FAMÍLIA)              -->
     <!-- ------------------------------------------------------------- -->
     <div id="tab-filmes" class="tab-pane hidden space-y-6">
-      
-      <!-- Cabeçalho -->
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h2 class="font-editorial-serif text-2xl font-bold text-[#28302A] flex items-center gap-2.5">
-            <span class="theme-title-badge w-6 h-6 shrink-0"></span>
-            <span>Filmes & Cultura</span>
-          </h2>
-          <div class="planner-title-vignette"></div>
-          <p class="text-xs text-[#667267]">Cinemateca familiar de clássicos, animações marcantes e documentários para reflexão e conversa.</p>
-        </div>
-
-        <div class="flex items-center gap-2 flex-wrap">
-          <button type="button" onclick="ActaCulture.openNewMovieModal()" class="hero-btn-slate py-2 px-4 rounded-full text-xs font-semibold shadow-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-plus text-[10px]"></i>
-            <span>Novo Filme</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Barra de Filtros e Busca de Filmes -->
-      <div class="p-4 bg-white rounded-2xl border border-[#E8E2D5] shadow-xs flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="text-xs font-semibold text-[#667267]">Filtrar por:</span>
-          <select id="movieFilterChildSelect" onchange="ActaApp.onMovieFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
-            <!-- Crianças dinamicamente -->
-          </select>
-          <select id="movieFilterCatSelect" onchange="ActaApp.onMovieFilterChange()" class="text-xs p-2 border border-[#E8E2D5] rounded-xl bg-[#FAF7F0] focus:outline-none">
-            <option value="all">Todas as categorias</option>
-            <option value="Animação">Animação</option>
-            <option value="Aventura">Aventura</option>
-            <option value="Fantasia">Fantasia</option>
-            <option value="História">História</option>
-            <option value="Biografia">Biografia</option>
-            <option value="Natureza">Natureza / Documentário</option>
-            <option value="Ficção">Ficção</option>
-            <option value="Comédia">Comédia</option>
-            <option value="Drama">Drama</option>
-            <option value="Clássico">Clássico</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-
-        <div class="text-xs text-[#667267]">
-          <span id="moviesCountBadge" class="font-bold text-[#28302A]">0</span> filmes catalogados
-        </div>
-      </div>
-
       <!-- Container Dinâmico da Cinemateca -->
-      <div id="moviesCinematecaContainer">
+      <div id="moviesCinematecaContainer" class="space-y-6">
         <!-- Renderizado dinamicamente via ActaCulture.renderCinematecaHTML -->
       </div>
-
     </div>
 
     <!-- ------------------------------------------------------------- -->
@@ -888,13 +781,13 @@
         <!-- Seletor de Semana -->
         <div class="flex items-center gap-2 text-xs font-semibold text-[#28302A]">
           <div class="flex items-center bg-white border border-[#E8E2D5] rounded-full px-3 py-1.5 shadow-sm">
-            <button class="hover:text-[#2F5233] px-1"><i class="fa-solid fa-chevron-left text-[10px]"></i></button>
+            <button type="button" onclick="ActaApp.switchTab('calendario')" class="hover:text-[#2F5233] px-1" title="Ver no Calendário"><i class="fa-solid fa-chevron-left text-[10px]"></i></button>
             <span id="semanaWeekRangeLabel" class="px-2 font-semibold">Semana Atual</span>
-            <button class="hover:text-[#2F5233] px-1"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+            <button type="button" onclick="ActaApp.switchTab('calendario')" class="hover:text-[#2F5233] px-1" title="Ver no Calendário"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
           </div>
-          <div class="w-8 h-8 rounded-full bg-white border border-[#E8E2D5] flex items-center justify-center text-[#667267]">
+          <button type="button" onclick="ActaApp.switchTab('calendario')" title="Abrir Calendário da Família" class="w-8 h-8 rounded-full bg-white border border-[#E8E2D5] flex items-center justify-center text-[#667267] hover:text-[#2F5233] transition">
             <i class="fa-regular fa-calendar text-xs"></i>
-          </div>
+          </button>
         </div>
 
       </div>
@@ -1057,19 +950,6 @@
               placeholder="Ex: Atividade realizada com atenção e boa participação..." 
               class="w-full text-xs p-2.5 border border-[#E8E2D5] rounded-xl bg-[#FDFBF7] focus:bg-white focus:outline-none"
             ></textarea>
-          </div>
-
-          <!-- Virtudes e Bons Hábitos Cultivados na Aula -->
-          <div>
-            <div class="flex items-center justify-between mb-1.5">
-              <label class="block text-xs font-bold text-[#28302A]">
-                Virtudes e Bons Hábitos Observados (Opcional - selecione quantos quiser)
-              </label>
-              <span class="text-[10px] text-[#667267]">Multi-seleção</span>
-            </div>
-            <div id="regVirtuesPills" class="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-[#FAF7F0] border border-[#E8E2D5]">
-              <!-- Populado dinamicamente -->
-            </div>
           </div>
 
           <!-- Linha 6: Adicionar Foto (Evidência Opcional) -->
@@ -1414,7 +1294,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         <!-- Lista de Temas Selecionáveis -->
         <div class="space-y-3">
-          <div onclick="ActaApp.applyTheme('natureza')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#2F5233] transition shadow-xs">
+          <div onclick="ActaApp.applyTheme('natureza')" data-theme-name="natureza" class="theme-card-option planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#2F5233] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#EBF3ED] text-[#2F5233] flex items-center justify-center text-lg">
                 🌿
@@ -1424,10 +1304,10 @@
                 <span class="text-[11px] text-[#667267]">Tons de sálvia, marfim suave e verde floresta</span>
               </div>
             </div>
-            <i class="fa-solid fa-circle-check text-[#2F5233]"></i>
+            <i class="fa-solid fa-circle-check theme-check-icon text-[#2F5233]"></i>
           </div>
 
-          <div onclick="ActaApp.applyTheme('classico')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E3A5F] transition shadow-xs">
+          <div onclick="ActaApp.applyTheme('classico')" data-theme-name="classico" class="theme-card-option planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E3A5F] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#E9EFF6] text-[#1E3A5F] flex items-center justify-center text-lg">
                 📜
@@ -1437,9 +1317,10 @@
                 <span class="text-[11px] text-[#667267]">Pergaminho nobre e azul biblioteca</span>
               </div>
             </div>
+            <i class="fa-solid fa-circle-check theme-check-icon text-[#1E3A5F] hidden"></i>
           </div>
 
-          <div onclick="ActaApp.applyTheme('alegre')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#D97706] transition shadow-xs">
+          <div onclick="ActaApp.applyTheme('alegre')" data-theme-name="alegre" class="theme-card-option planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#D97706] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center text-lg">
                 ☀️
@@ -1449,9 +1330,10 @@
                 <span class="text-[11px] text-[#667267]">Luz solar, âmbar caloroso e azul céu</span>
               </div>
             </div>
+            <i class="fa-solid fa-circle-check theme-check-icon text-[#D97706] hidden"></i>
           </div>
 
-          <div onclick="ActaApp.applyTheme('elegante')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E293B] transition shadow-xs">
+          <div onclick="ActaApp.applyTheme('elegante')" data-theme-name="elegante" class="theme-card-option planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#1E293B] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#E2E8F0] text-[#1E293B] flex items-center justify-center text-lg">
                 ✨
@@ -1461,9 +1343,10 @@
                 <span class="text-[11px] text-[#667267]">Ardósia minimalista e detalhes discretos</span>
               </div>
             </div>
+            <i class="fa-solid fa-circle-check theme-check-icon text-[#1E293B] hidden"></i>
           </div>
 
-          <div onclick="ActaApp.applyTheme('criativo')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#6D28D9] transition shadow-xs">
+          <div onclick="ActaApp.applyTheme('criativo')" data-theme-name="criativo" class="theme-card-option planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#6D28D9] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-[#EDE9FE] text-[#6D28D9] flex items-center justify-center text-lg">
                 🎨
@@ -1473,9 +1356,10 @@
                 <span class="text-[11px] text-[#667267]">Violeta suave e toques menta</span>
               </div>
             </div>
+            <i class="fa-solid fa-circle-check theme-check-icon text-[#6D28D9] hidden"></i>
           </div>
 
-          <div onclick="ActaApp.applyTheme('romantico')" class="planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#BE123C] transition shadow-xs">
+          <div onclick="ActaApp.applyTheme('romantico')" data-theme-name="romantico" class="theme-card-option planner-card p-4 bg-white border border-[#E8E2D5] flex items-center justify-between cursor-pointer hover:border-[#BE123C] transition shadow-xs">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl overflow-hidden shadow-xs bg-white flex items-center justify-center shrink-0">
                 <img src="assets/theme-romantico.png" alt="Romântico" class="w-full h-full object-cover">
@@ -1485,6 +1369,7 @@
                 <span class="text-[11px] text-[#667267]">Rosa nobre, pétalas de peônia e guirlandas florais</span>
               </div>
             </div>
+            <i class="fa-solid fa-circle-check theme-check-icon text-[#BE123C] hidden"></i>
           </div>
         </div>
 

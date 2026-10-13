@@ -553,7 +553,7 @@
 
     setReadingViewMode: function(mode) {
       this.readingViewMode = mode;
-      const container = document.getElementById('tab-leituras');
+      const container = document.getElementById('readingsShelfContainer') || document.getElementById('tab-leituras');
       if (container) container.innerHTML = this.renderBookshelfHTML();
     },
 
@@ -652,13 +652,13 @@
     // =========================================================================
     setReadingFilter: function(key, val) {
       this.readingFilters[key] = val;
-      const container = document.getElementById('tab-leituras');
+      const container = document.getElementById('readingsShelfContainer') || document.getElementById('tab-leituras');
       if (container) container.innerHTML = this.renderBookshelfHTML();
     },
 
     setMovieFilter: function(key, val) {
       this.movieFilters[key] = val;
-      const container = document.getElementById('tab-filmes');
+      const container = document.getElementById('moviesCinematecaContainer') || document.getElementById('tab-filmes');
       if (container) container.innerHTML = this.renderCinematecaHTML();
     },
 
@@ -921,7 +921,7 @@
           });
           storage.updateReading(existing);
           window.ActaApp.closeModal('modalNewReading');
-          const container = document.getElementById('tab-leituras');
+          const container = document.getElementById('readingsShelfContainer') || document.getElementById('tab-leituras');
           if (container) container.innerHTML = this.renderBookshelfHTML();
           window.ActaApp.renderTimelineTab();
           window.ActaApp.renderCasaTab();
@@ -952,7 +952,7 @@
       window.ActaApp.closeModal('modalNewReading');
 
       // Atualizar telas
-      const container = document.getElementById('tab-leituras');
+      const container = document.getElementById('readingsShelfContainer') || document.getElementById('tab-leituras');
       if (container) container.innerHTML = this.renderBookshelfHTML();
       window.ActaApp.renderTimelineTab();
       window.ActaApp.renderCasaTab();
@@ -1096,7 +1096,7 @@
           if (confirm(`Deseja remover o registro de leitura "${reading.title}"?`)) {
             storage.deleteReading(reading.id);
             window.ActaApp.closeModal('modalViewReading');
-            const container = document.getElementById('tab-leituras');
+            const container = document.getElementById('readingsShelfContainer') || document.getElementById('tab-leituras');
             if (container) container.innerHTML = ActaCulture.renderBookshelfHTML();
             window.ActaApp.renderTimelineTab();
             window.ActaApp.renderCasaTab();
@@ -1240,7 +1240,7 @@
       storage.addMovie(newMovie);
       window.ActaApp.closeModal('modalNewMovie');
 
-      const container = document.getElementById('tab-filmes');
+      const container = document.getElementById('moviesCinematecaContainer') || document.getElementById('tab-filmes');
       if (container) container.innerHTML = this.renderCinematecaHTML();
       window.ActaApp.renderTimelineTab();
       window.ActaApp.renderCasaTab();
@@ -1383,7 +1383,7 @@
           if (confirm(`Deseja remover o registro do filme "${movie.title}"?`)) {
             storage.deleteMovie(movie.id);
             window.ActaApp.closeModal('modalViewMovie');
-            const container = document.getElementById('tab-filmes');
+            const container = document.getElementById('moviesCinematecaContainer') || document.getElementById('tab-filmes');
             if (container) container.innerHTML = ActaCulture.renderCinematecaHTML();
             window.ActaApp.renderTimelineTab();
             window.ActaApp.renderCasaTab();

@@ -373,24 +373,14 @@
       this.renderMaterialsTab();
       this.renderSemanaTab();
       this.renderCaminhadaTab();
+      this.renderLinhaDoTempoTab();
       this.renderDossieTab();
       this.renderConfiguracoesTab();
-      if (window.ActaCulture) {
-        if (typeof window.ActaCulture.renderBookshelf === 'function') window.ActaCulture.renderBookshelf();
-        if (typeof window.ActaCulture.renderCinemateca === 'function') window.ActaCulture.renderCinemateca();
-      }
-      if (window.ActaCalendar && typeof window.ActaCalendar.render === 'function') {
-        window.ActaCalendar.render();
-      }
-      if (window.ActaDiagnostic && typeof window.ActaDiagnostic.render === 'function') {
-        window.ActaDiagnostic.render();
-      }
-      if (window.ActaExtras && typeof window.ActaExtras.render === 'function') {
-        window.ActaExtras.render();
-      }
-      if (window.ActaRecords && typeof window.ActaRecords.renderTimelineTab === 'function') {
-        window.ActaRecords.renderTimelineTab();
-      }
+      this.renderLeiturasTab();
+      this.renderFilmesTab();
+      this.renderCalendarioTab();
+      this.renderAvaliacoesTab();
+      this.renderPasseiosTab();
     },
 
     // ==========================================
@@ -1505,7 +1495,15 @@
       const notes = notesInput ? notesInput.value.trim() : '';
 
       this.onActivityCheckboxesChanged();
-      const narrative = ActaRecords.generateNarrative(subject, content, this.selectedActivities, this.selectedResult);
+      const perfArr = this.selectedResult === 'compreendeu' ? ['sozinho', 'avancou'] : (this.selectedResult === 'revisar' ? ['ajuda', 'retomar'] : ['interesse']);
+      const narrative = ActaRecords.generateNarrative(
+        person ? person.name : 'João',
+        subject,
+        content,
+        this.selectedActivities.join(' + '),
+        perfArr,
+        notes
+      );
 
       const selectedVirtues = Array.from(document.querySelectorAll('#regVirtuesPills .acta-pill-active')).map(b => b.dataset.value);
 
@@ -1535,6 +1533,7 @@
 
       // Atualizar visualizações
       this.renderCaminhadaTab();
+      this.renderLinhaDoTempoTab();
       this.renderDossieTab();
       this.renderCasaTab();
       this.renderMaterialsTab();
@@ -1849,6 +1848,11 @@
       if (container && window.ActaRecords) {
         container.innerHTML = ActaRecords.renderFullTimelineByMonthHTML(childId);
       }
+    },
+
+    renderTimelineTab: function() {
+      this.renderCaminhadaTab();
+      this.renderLinhaDoTempoTab();
     },
 
     // ==========================================
